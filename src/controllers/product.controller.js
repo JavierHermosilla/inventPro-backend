@@ -1,0 +1,5 @@
+export const products = (req, res) => res.send('Product list')
+export const productById = (req, res) => res.send(`Product ID: ${req.params.id}`)
+export const createProduct = (req, res) => res.send('Producto creado')
+export const updateProduct = (req, res) => res.send(`Product ${req.params.id} updated`)
+export const deleteProduct = (req, res) => res.send(`Product ${req.params.id} deleted`)

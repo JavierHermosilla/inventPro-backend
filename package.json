@@ -1,0 +1,56 @@
+{
+  "name": "inventpro",
+  "version": "1.0.0",
+  "description": "Sistema de gestión de inventarios y órdenes de compra con panel de administrador para pymes",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JavierHermosilla/inventpro.git"
+  },
+  "keywords": [
+    "inventario",
+    "ordenes",
+    "compra",
+    "sistema",
+    "express",
+    "nodejs",
+    "mongodb",
+    "api-rest",
+    "gestión",
+    "pymes",
+    "panel-administrativo",
+    "jwt",
+    "mongoose"
+  ],
+  "author": "Javier Hermosilla",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JavierHermosilla/inventpro/issues"
+  },
+  "homepage": "https://github.com/JavierHermosilla/inventpro#readme",
+  "dependencies": {
+    "bcryptjs": "3.0.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "2.8.5",
+    "dotenv": "17.2.0",
+    "express": "5.1.0",
+    "jsonwebtoken": "9.0.2",
+    "mongoose": "8.16.4",
+    "morgan": "1.10.1",
+    "zod": "4.0.8"
+  },
+  "devDependencies": {
+    "nodemon": "3.1.10",
+    "standard": "17.1.2"
+  },
+  "eslintConfig": {
+    "extends": "standard"
+  }
+}

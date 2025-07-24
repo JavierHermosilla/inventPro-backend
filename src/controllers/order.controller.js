@@ -1,0 +1,5 @@
+export const order = (req, res) => res.send('List all users')
+export const orderById = (req, res) => res.send(`View order with ID: ${req.params.id}`)
+export const createOrder = (req, res) => res.send(`View order with ID: ${req.params.id}`)
+export const updateOrder = (req, res) => res.send(`Update order with ID: ${req.params.id}`)
+export const deleteOrder = (req, res) => res.send(`Delete order with ID: ${req.params.id}`)

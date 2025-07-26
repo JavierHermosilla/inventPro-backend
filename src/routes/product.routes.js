@@ -14,8 +14,8 @@ import { validateSchema } from '../middleware/validator.middleware.js'
 const router = Router()
 
 // publico: se pueden ver todos los productos y detalles
-router.get('/', verifyToken, products) // listar productos
-router.get('/:id', verifyToken, productById) // producto por id
+router.get('/', products) // listar productos
+router.get('/:id', productById) // producto por id
 
 // solo ADMIN: crear, actualizar, eliminar
 router.post(

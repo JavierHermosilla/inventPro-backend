@@ -8,7 +8,7 @@ import {
 } from '../controllers/supplier.controller.js'
 
 import { verifyToken, requireRole } from '../middleware/auth.middleware.js'
-import { supplierSchema, updateSupplierSchema } from '../schemas/suppleir.schema.js'
+import { supplierSchema, updateSupplierSchema } from '../schemas/supplier.schema.js'
 import { validateSchema } from '../middleware/validator.middleware.js'
 
 const router = Router()

@@ -2,7 +2,7 @@ import { ZodError } from 'zod'
 
 export const validateSchema = (schema) => (req, res, next) => {
   try {
-    schema.parse(req.body)
+    req.body = schema.parse(req.body)
     next()
   } catch (err) {
     console.log('error: ', err)
@@ -14,7 +14,7 @@ export const validateSchema = (schema) => (req, res, next) => {
     }
 
     return res.status(500).json({
-      messaje: 'Error de validacion inesperada',
+      messaje: 'Unexpected validation error.',
       detail: err.message
     })
   }

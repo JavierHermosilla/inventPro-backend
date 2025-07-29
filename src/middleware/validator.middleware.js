@@ -2,19 +2,36 @@ import { ZodError } from 'zod'
 
 export const validateSchema = (schema) => (req, res, next) => {
   try {
+    console.log('req.body:', req.body)
     req.body = schema.parse(req.body)
     next()
   } catch (err) {
     console.log('error: ', err)
 
-    if (err instanceof ZodError) {
+    if (err instanceof ZodError && Array.isArray(err.errors)) {
       return res.status(400).json({
-        message: err.errors?.map(e => e.message)
+        errors: err.errors.map(e => ({
+          path: e.path.join('.'),
+          message: e.message
+        }))
       })
     }
 
+    try {
+      const parsed = JSON.parse(err.message)
+      if (Array.isArray(parsed)) {
+        return res.status(400).json({
+          errors: parsed.map(e => ({
+            path: e.path.join('.'),
+            message: e.message
+          }))
+        })
+      }
+    } catch {
+
+    }
     return res.status(500).json({
-      messaje: 'Unexpected validation error.',
+      message: 'Unexpected validation error.',
       detail: err.message
     })
   }

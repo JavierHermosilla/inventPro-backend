@@ -46,7 +46,7 @@ export const deleteSupplier = async (req, res) => {
   try {
     const deletedSupplier = await Supplier.findByIdAndDelete(req.params.id)
     if (!deletedSupplier) return res.status(404).json({ message: 'Supplier not found' })
-    res.json({ message: 'Su´´ñier deleted.', supplier: deletedSupplier })
+    res.json({ message: 'Supplier deleted.', supplier: deletedSupplier })
   } catch (err) {
     res.status(500).json({ message: 'Error deleting supplier.', error: err.message })
   }

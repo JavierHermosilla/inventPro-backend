@@ -1,11 +1,16 @@
+import mongoose from 'mongoose'
 import Product from '../models/product.model.js'
+import pkg from 'lodash'
 
+const { pick } = pkg
 // creacion de productos
 export const createProduct = async (req, res) => {
   try {
-    const { name, description, price, stock, category } = req.body
-    const newProduct = new Product({ name, description, price, stock, category })
-    await newProduct.save()
+    const allowedFields = ['name', 'description', 'price', 'stock', 'category']
+    const newProduct = new Product(pick(req.body, allowedFields))
+
+    // auditoria desarrollo
+    console.log(`[AUDIT] user ${req.user.id} created product ${newProduct._id} (${newProduct.name})`)
 
     res.status(201).json({
       message: 'Product created successfully.',
@@ -13,7 +18,10 @@ export const createProduct = async (req, res) => {
     })
   } catch (err) {
     console.log(err)
-    res.status(500).json({ message: 'Error creating the product.', error: err.message })
+    res.status(500).json({
+      message: 'An error occurred while creating the product.',
+      error: err.message
+    })
   }
 }
 
@@ -42,45 +50,75 @@ export const products = async (req, res) => {
     })
   } catch (err) {
     console.error('Error fetching products:', err)
-    res.status(500).json({ message: 'Error fetching products.' })
+    res.status(500).json({ message: 'An error occurred while fetching the products.' })
   }
 }
 // obtencion de productos por id
 export const productById = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid product ID.' })
+  }
   try {
     const product = await Product.findById(req.params.id)
     if (!product) return res.status(404).json({ message: 'Product not found.' })
 
     res.json(product)
   } catch (err) {
-    res.status(500).json({ message: 'Error searching for product.', error: err.message })
+    res.status(500).json({
+      message: 'An error occurred while searching for the product.',
+      error: err.message
+    })
   }
 }
 
 // actualizacion de productos (solo admin)
 export const updateProduct = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid product ID.' })
+  }
   try {
-    const updateProduct = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true
-    })
-    if (!updateProduct) return res.status(404).json({ message: 'Product not found.' })
+    const allowedFields = ['name', 'description', 'price', 'stock', 'category']
 
-    res.json({ message: 'Product updated.', product: updateProduct })
+    const updateProduct = await Product.findByIdAndUpdate(
+      req.params.id,
+      pick(req.body, allowedFields),
+      {
+        new: true,
+        runValidators: true
+      }
+    )
+    if (!updateProduct) {
+      return res.status(404).json({ message: 'Product not found.' })
+    }
+
+    // auditoria simple de desarrollo
+    console.log(`[AUDIT] user ${req.user.id} updated product ${updateProduct._id} (${updateProduct.name})`)
+    res.json({ message: 'Product updated successfully.', product: updateProduct })
   } catch (err) {
-    res.status(500).json({ message: 'Product  Error updating product.', error: err.message })
+    res.status(500).json({
+      message: 'An error occurred while updating the product.',
+      error: err.message
+    })
   }
 }
-
 // eliminacion de prodcto (solo admin)
 export const deleteProduct = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid product ID.' })
+  }
   try {
     const deleteProduct = await Product.findByIdAndDelete(req.params.id)
     if (!deleteProduct) return res.status(404).json({ message: 'Product not found.' })
 
-    res.json({ message: 'Product deleted.', product: deleteProduct })
+    // auditoria simple de desarrollo
+    console.log(`[AUDIT] user ${req.user.id} deleted product ${deleteProduct._id} (${deleteProduct.name})`)
+
+    res.json({ message: 'Product deleted successfully.', product: deleteProduct })
   } catch (err) {
     console.error('Error deleting product:', err)
-    res.status(500).json({ message: 'Error deleting product.', error: err.message })
+    res.status(500).json({
+      message: 'Error deleting product.',
+      error: err.message
+    })
   }
 }

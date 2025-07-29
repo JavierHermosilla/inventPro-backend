@@ -5,14 +5,23 @@ import { TOKEN_SECRET } from '../config/config.js'
 // middleware para verificar token y cargar usuario en la req
 export const verifyToken = async (req, res, next) => {
   try {
-    const token = req.cookies.token
+    const authHeader = req.headers.authorization
+    const token = authHeader && authHeader.startsWith('Bearer ')
+      ? authHeader.split(' ')[1]
+      : req.cookies.token
 
     if (!token) {
       return res.status(401).json({ message: 'no token, authorization denied' })
     }
 
     const decoded = jwt.verify(token, TOKEN_SECRET)
-
+    // let decoded
+    // try {
+    //   decoded = jwt.verify(token, TOKEN_SECRET)
+    // } catch (verifyError) {
+    //   console.log('JWT verify error:', verifyError)
+    //   return res.status(401).json({ message: 'Invalid or expired token' })
+    // }
     const user = await User.findById(decoded.id)
 
     if (!user) return res.status(404).json({ message: ' User not found' })
@@ -21,6 +30,7 @@ export const verifyToken = async (req, res, next) => {
       id: user._id.toString(),
       role: user.role
     }
+    req.userId = user._id.toString()
 
     next()
   } catch (err) {

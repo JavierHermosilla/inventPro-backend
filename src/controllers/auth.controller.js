@@ -1,9 +1,10 @@
 import bcrypt from 'bcryptjs'
 import User from '../models/user.model.js'
+import logger from '../utils/logger.js'
+import pick from 'lodash/pick.js'
 import { createAccessToken } from '../libs/jwt.js'
 import { registerSchema, loginSchema } from '../schemas/auth.schema.js'
 import { ZodError } from 'zod'
-import logger from '../utils/logger.js'
 
 export const register = async (req, res) => {
   try {
@@ -11,7 +12,7 @@ export const register = async (req, res) => {
     registerSchema.parse(req.body)
 
     const { username, name, email, password, phone, address, avatar, role } = req.body
-    const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
 
     // restriccion de creacion de rol admin
     const allowedRoles = ['user', 'manager']
@@ -50,19 +51,22 @@ export const register = async (req, res) => {
     logger.info(`User registered successfully: ${email} from IP ${userIP}`)
 
     res.status(201).json({
-      id: userSaved._id,
-      username: userSaved.username,
-      name: userSaved.name,
-      email: userSaved.email,
-      role: userSaved.role,
-      phone: userSaved.phone,
-      address: userSaved.address,
-      avatar: userSaved.avatar,
-      createdAt: userSaved.createdAt,
-      updatedAt: userSaved.updatedAt
+      ...pick(userSaved, [
+        '_id',
+        'username',
+        'name',
+        'email',
+        'role',
+        'phone',
+        'address',
+        'avatar',
+        'createdAt',
+        'updatedAt'
+
+      ])
     })
   } catch (err) {
-    const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
     logger.error(`Registration error from IP ${userIP}: ${err.message} `)
 
     if (err instanceof ZodError) {
@@ -77,7 +81,7 @@ export const login = async (req, res) => {
     loginSchema.parse(req.body)
 
     const { email, password } = req.body
-    const userIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
+    const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
 
     const userFound = await User.findOne({ email })
 
@@ -94,6 +98,8 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: 'Username or password is incorrect.' })
     }
 
+    logger.info(`Successful login for: ${email} from IP: ${userIP}`)
+
     const token = await createAccessToken({ id: userFound._id })
 
     res.cookie('token', token, {
@@ -104,19 +110,22 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       token,
-      id: userFound._id,
-      username: userFound.username,
-      name: userFound.name,
-      email: userFound.email,
-      role: userFound.role,
-      phone: userFound.phone,
-      address: userFound.address,
-      avatar: userFound.avatar,
-      createdAt: userFound.createdAt,
-      updatedAt: userFound.updatedAt
+      ...pick(userFound, [
+        '_id',
+        'username',
+        'name',
+        'email',
+        'role',
+        'phone',
+        'address',
+        'avatar',
+        'createdAt',
+        'updatedAt'
+      ])
     })
   } catch (err) {
-    logger.error(`Login error: ${err.message}`)
+    const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
+    logger.error(`Login error from IP ${userIP}: ${err.message}`)
     if (err instanceof ZodError) {
       return res.status(400).json({ message: err.errors.map(e => e.message) })
     }
@@ -142,6 +151,8 @@ export const profile = async (req, res) => {
   }
 }
 export const logout = (req, res) => {
+  const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
+  logger.info(`Logout from IP: ${userIP}`)
   res.cookie('token', '', {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -149,5 +160,5 @@ export const logout = (req, res) => {
     expires: new Date(0)
   })
 
-  return res.status(200).json({ message: 'sesión cerrada correctamente' })
+  return res.status(200).json({ message: 'Session closed successfully.' })
 }

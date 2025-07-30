@@ -1,4 +1,6 @@
+import mongoose from 'mongoose'
 import User from '../models/user.model.js'
+import pick from 'lodash/pick.js'
 
 export const listUsers = async (req, res) => {
   try {
@@ -9,6 +11,9 @@ export const listUsers = async (req, res) => {
   }
 }
 export const userById = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid user ID. ' })
+  }
   try {
     const user = await User.findById(req.params.id).select('-password')
     if (!user) return res.status(404).json({ message: 'User not found' })
@@ -18,37 +23,51 @@ export const userById = async (req, res) => {
   }
 }
 export const updateUser = async (req, res) => {
-  const { id } = req.params
-
-  const { password, role, ...rest } = req.body
-
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'invalid user ID' })
+  }
   try {
-    const user = await User.findById(id)
-    if (!user) return res.status(404).json({ message: 'User not found' })
+  // actualizan campos no password ni rol
+    const allowedFields = [
+      'username',
+      'name',
+      'email',
+      'phone',
+      'address',
+      'avatar',
+      'role'
+    ]
 
-    // actualizamos los campos permitidos
-    Object.assign(user, rest)
+    const dataToUpdate = pick(req.body, allowedFields)
 
-    await user.save()
-    res.json({ message: 'User updated successfully', user })
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      dataToUpdate,
+      { new: true, runValidators: true }
+    ).select('-password')
+
+    if (!updatedUser) return res.status(404).json({ message: 'User not found' })
+
+    res.json({ message: 'User updated successfully', user: updatedUser })
   } catch (err) {
     console.error(err)
-    res.status(500).json({ message: 'Error updating the user.' })
+    res.status(500).json({ message: 'Error updating the user.', error: err.message })
   }
 }
 export const deleteUser = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid user ID' })
+  }
   try {
-    const { id } = req.params
+    const deletedUser = await User.findByIdAndDelete(req.params.id)
 
-    const deleteUser = await User.findByIdAndDelete(id)
-
-    if (!deleteUser) {
+    if (!deletedUser) {
       return res.status(404).json({ message: 'User not found.' })
     }
 
-    res.json({ message: 'User deleted successfully', user: deleteUser })
+    res.json({ message: 'User deleted successfully', user: deletedUser })
   } catch (err) {
     console.log(err)
-    res.status(500).json({ message: 'Error deleting the user.' })
+    res.status(500).json({ message: 'Error deleting the user.', error: err.message })
   }
 }

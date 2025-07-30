@@ -1,8 +1,7 @@
 import mongoose from 'mongoose'
 import Product from '../models/product.model.js'
-import pkg from 'lodash'
+import pick from 'lodash/pick.js'
 
-const { pick } = pkg
 // creacion de productos
 export const createProduct = async (req, res) => {
   try {

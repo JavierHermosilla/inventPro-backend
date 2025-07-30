@@ -1,8 +1,10 @@
+import pick from 'lodash/pick.js'
 import Supplier from '../models/supplier.model.js'
+import { supplierAllowedFields } from '../config/allowedFields.js'
 
 export const createSupplier = async (req, res) => {
   try {
-    const newSupplier = new Supplier(req.body)
+    const newSupplier = new Supplier(pick(req.body, supplierAllowedFields))
     await newSupplier.save()
     res.status(201).json({ message: 'Supplier created successfully.', supplier: newSupplier })
   } catch (err) {
@@ -31,10 +33,12 @@ export const supplierById = async (req, res) => {
 
 export const updateSupplier = async (req, res) => {
   try {
-    const updatedSupplier = await Supplier.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runvalidators: true
-    })
+    const updatedSupplier = await Supplier.findByIdAndUpdate(
+      req.params.id,
+      pick(req.body, supplierAllowedFields), {
+        new: true,
+        runvalidators: true
+      })
     if (!updatedSupplier) return res.status(404).json({ message: 'Supplier not found.' })
     res.json({ message: 'Supplier update.', supplier: updatedSupplier })
   } catch (err) {

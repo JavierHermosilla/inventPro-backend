@@ -26,8 +26,9 @@ const orderSchema = new mongoose.Schema({
     }
   ],
   status: {
-    type: Number,
-    min: 0
+    type: String,
+    enum: ['pending', 'shipped', 'cancelled'],
+    default: 'pending'
   }
 }, {
   timestamps: true

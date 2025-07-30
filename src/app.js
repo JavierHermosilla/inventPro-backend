@@ -5,7 +5,6 @@ import morgan from 'morgan'
 import mongoSanitize from 'mongo-sanitize'
 import cors from 'cors'
 import setupSwagger from './config/swagger.js'
-import xssClean from 'xss-clean'
 
 import authRoutes from './routes/auth.routes.js'
 import dashboardRoutes from './routes/dashboard.routes.js'
@@ -13,6 +12,7 @@ import orderRoutes from './routes/order.routes.js'
 import productRoutes from './routes/product.routes.js'
 import supplierRoutes from './routes/supplier.routes.js'
 import userRoutes from './routes/user.routes.js'
+import { sanitizeInput } from './middleware/sanitizeInput.js'
 
 const app = express()
 
@@ -22,7 +22,7 @@ app.use(morgan('dev'))
 app.use(cookieParser())
 app.use(helmet())
 app.use(express.json())
-app.use(xssClean())
+app.use(sanitizeInput)
 
 const whitelist = [
   'http://localhost:3000',

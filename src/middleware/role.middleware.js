@@ -1,12 +1,11 @@
-import User from '../models/user.model.js'
-
 export const checkRole = (allowedRoles = []) => {
-  return async (req, res, next) => {
+  return (req, res, next) => {
     try {
-      const user = await User.findById(req.userId)
-      if (!user) return res.status(404).json({ message: 'User not found' })
+      if (!req.user) {
+        return res.status(401).json({ message: 'Unauthorized: user not found in request' })
+      }
 
-      if (!allowedRoles.includes(user.role)) {
+      if (!allowedRoles.includes(req.user.role)) {
         return res.status(403).json({ message: 'Access denied: insufficient permissions' })
       }
 

@@ -8,6 +8,8 @@ export const createProduct = async (req, res) => {
     const allowedFields = ['name', 'description', 'price', 'stock', 'category']
     const newProduct = new Product(pick(req.body, allowedFields))
 
+    await newProduct.save()
+
     // auditoria desarrollo
     console.log(`[AUDIT] user ${req.user.id} created product ${newProduct._id} (${newProduct.name})`)
 
@@ -38,7 +40,7 @@ export const products = async (req, res) => {
     const total = await Product.countDocuments()
 
     // obtiene los productos con su paginacion
-    const products = await Product.find().skip(skip).limit(limit)
+    const products = await Product.find().sort({ createdAt: -1 }).skip(skip).limit(limit)
 
     res.json({
       page,

@@ -1,7 +1,10 @@
 import mongoose from 'mongoose'
 import app from './app.js'
+import dotenv from 'dotenv'
 
 const MONGODB_URI = 'mongodb://127.0.0.1:27017/inventPro' // o el nombre de tu BD
+
+dotenv.config()
 
 mongoose.connect(MONGODB_URI)
   .then(() => {

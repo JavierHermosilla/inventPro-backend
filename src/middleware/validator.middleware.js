@@ -2,12 +2,9 @@ import { ZodError } from 'zod'
 
 export const validateSchema = (schema) => (req, res, next) => {
   try {
-    console.log('req.body:', req.body)
     req.body = schema.parse(req.body)
     next()
   } catch (err) {
-    console.log('error: ', err)
-
     if (err instanceof ZodError && Array.isArray(err.errors)) {
       return res.status(400).json({
         errors: err.errors.map(e => ({

@@ -3,7 +3,9 @@ import mongoose from 'mongoose'
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, 'product name is required']
+    required: [true, 'product name is required'],
+    trim: true,
+    unique: true
   },
   description: {
     type: String,
@@ -12,16 +14,24 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: [true, 'Product price is required'],
-    min: [0, 'Price cannot be megative']
+    min: [0, 'Price cannot be negative']
   },
   stock: {
     type: Number,
     required: [true, 'Stock quantity is required'],
-    min: [0, 'Stock cannot be negative']
+    min: [0, 'Stock cannot be negative'],
+    default: 0
   },
   category: {
     type: String,
-    trim: true
+    required: [true, 'Category is required'],
+    trim: true,
+    lowercase: true
+  },
+  supplier: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Supplier',
+    required: true
   }
 },
 {

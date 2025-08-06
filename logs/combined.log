@@ -1,0 +1,7 @@
+[2025-08-01T12:30:02.780Z] INFO: Successful login for: admin@admin.com from IP: ::1
+[2025-08-01T15:22:47.879Z] WARN: Login attempt with invalid email: javiertest1@test.com from IP ::1
+[2025-08-01T15:23:21.558Z] INFO: Successful login for: user_test@test.com from IP: ::1
+[2025-08-04T20:11:41.249Z] INFO: Successful login for: admin@admin.com from IP: ::1
+[2025-08-06T11:14:19.803Z] INFO: Successful login for: admin@admin.com from IP: ::1
+[2025-08-06T16:30:44.345Z] INFO: Successful login for: admin@admin.com from IP: ::1
+[2025-08-06T16:30:54.194Z] INFO: Successful login for: admin@admin.com from IP: ::1

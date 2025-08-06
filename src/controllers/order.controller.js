@@ -55,7 +55,7 @@ export const createOrder = async (req, res) => {
       if (product.stock < item.quantity) {
         stockErrors.push(`Not enough stock for product: ${product.name}`)
       } else {
-        totalAmount += item.price * item.quantity
+        totalAmount += product.price * item.quantity
       }
     }
 
@@ -63,6 +63,15 @@ export const createOrder = async (req, res) => {
       console.log('Stock errors:', stockErrors)
       return res.status(400).json({ message: stockErrors })
     }
+
+    const productCorrectPrice = validatedData.products.map(item => {
+      const product = products.find(p => p._id.toString() === item.productId)
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+        price: product.price
+      }
+    })
 
     // descuento del stock y calculo del total
     for (const item of validatedData.products) {
@@ -75,7 +84,9 @@ export const createOrder = async (req, res) => {
     }
 
     const order = new Order({
-      ...validatedData,
+      customerId: validatedData.customerId,
+      products: productCorrectPrice,
+      status: validatedData.status || 'pending',
       totalAmount
     })
 
@@ -88,7 +99,7 @@ export const createOrder = async (req, res) => {
     console.error(err.stack) // 👈 Añade esto para ver la traza del error
 
     if (err instanceof ZodError) {
-      return res.status(400).json({ message: err.message.map(e => e.message) })
+      return res.status(400).json({ message: err.errors.map(e => e.message) })
     }
     return res.status(500).json({ message: err.message || 'Internal Server Error' })
   }
@@ -120,6 +131,8 @@ export const listOrderById = async (req, res) => {
 }
 
 export const updateOrder = async (req, res) => {
+  console.log('req.user:', req.user)
+  console.log('Updating order with id:', req.params.id)
   try {
     const validatedData = orderUpdateSchema.parse(req.body)
     const orderId = req.params.id
@@ -130,62 +143,113 @@ export const updateOrder = async (req, res) => {
     }
 
     // devolvemos stock a products anteriores
-    for (const item of order.products) {
-      const product = await Product.findById(item.productId)
-      if (product) {
-        product.stock += item.quantity
-        await product.save()
-      }
-    }
+
+    const originalStatus = order.status
+    const originalProducts = [...order.products]
 
     // envio de arreglo de product
     let newTotal = order.totalAmount
     let updatedProducts = []
 
     if (validatedData.products) {
+      for (const item of order.products) {
+        const product = await Product.findById(item.productId)
+        if (product) {
+          product.stock += item.quantity
+          await product.save()
+        }
+      }
       const productIds = validatedData.products.map(p => p.productId)
       updatedProducts = await Product.find({ _id: { $in: productIds } })
+
       if (updatedProducts.length !== productIds.length) {
         return res.status(400).json({ message: 'One or more new products are invalid' })
       }
-    }
 
-    // verificacion de stock y acumulacion de errores
-    const stockErrors = []
-    newTotal = 0
+      const stockErrors = []
+      newTotal = 0
 
-    for (const item of validatedData.products) {
-      const product = updatedProducts.find(p => p._id.toString() === item.productId)
-      if (!product) continue
-
-      if (product.stock < item.quantity) {
-        stockErrors.push(`Not enough stock for product: ${product.name}`)
-      } else {
-        newTotal += item.price * item.quantity
+      // resta de productos nuevos
+      for (const item of validatedData.products) {
+        const product = updatedProducts.find(p => p._id.toString() === item.productId)
+        if (!product || product.stock < item.quantity) {
+          stockErrors.push(`Not enough stock for product: ${product?.name}`)
+        } else {
+          newTotal += product.price * item.quantity
+        }
       }
-    }
 
-    if (stockErrors.length > 0) {
-      return res.status(400).json({ message: stockErrors })
-    }
-
-    for (const item of validatedData.products) {
-      const product = updatedProducts.find(p => p._id.toString() === item.productId)
-      if (product) {
-        product.stock -= item.quantity
-        await product.save()
+      if (stockErrors.length > 0) {
+        return res.status(400).json({ message: stockErrors })
       }
-    }
-    order.products = validatedData.products
 
-    if (validatedData.customerId) order.customerId = validatedData.customerId
-    if (validatedData.status) order.status = validatedData.status
-    order.totalAmount = newTotal
+      for (const item of validatedData.products) {
+        const product = updatedProducts.find(p => p._id.toString() === item.productId)
+        if (product) {
+          product.stock -= item.quantity
+          await product.save()
+        }
+      }
+
+      order.products = validatedData.products.map(item => {
+        const product = updatedProducts.find(p => p._id.toString() === item.productId)
+        return {
+          productId: item.productId,
+          quantity: item.quantity,
+          price: product ? product.price : item.price
+        }
+      })
+
+      order.totalAmount = newTotal
+    }
+
+    // validacion de transmicion de estado
+    const validTransitions = {
+      pending: ['processing', 'cancelled'],
+      processing: ['completed', 'cancelled'],
+      completed: [],
+      cancelled: []
+    }
+
+    if (validatedData.status && validatedData.status !== order.status) {
+      const allowedNextStates = validTransitions[order.status] || []
+      if (!allowedNextStates.includes(validatedData.status)) {
+        return res.status(400).json({
+          message: `Invalid status transition from ${order.status}" to "${validatedData.status}`
+        })
+      }
+      // validacion de rol
+      if (req.user.role !== 'admin' && validatedData.status !== 'cancelled') {
+        return res.status(403).json({ message: 'Only admins can change order status except to cancelled' })
+      }
+
+      if (
+        validatedData.status === 'cancelled' &&
+        !validatedData.products &&
+        ['pending', 'processing'].includes(originalStatus)
+      ) {
+        for (const item of originalProducts) {
+          const product = await Product.findById(item.productId)
+          if (product) {
+            product.stock += item.quantity
+            await product.save()
+          }
+        }
+      }
+
+      order.status = validatedData.status
+    }
+
+    if (validatedData.customerId) {
+      order.customerId = validatedData.customerId
+    }
+
     order.updatedAt = new Date()
-
     const updatedOrder = await order.save()
+
     res.json(updatedOrder)
   } catch (err) {
+    console.error('Error in updateOrder:', err)
     if (err instanceof ZodError) {
       return res.status(400).json({ message: err.errors.map(e => e.message) })
     }

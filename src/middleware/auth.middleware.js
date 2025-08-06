@@ -15,13 +15,6 @@ export const verifyToken = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, TOKEN_SECRET)
-    // let decoded
-    // try {
-    //   decoded = jwt.verify(token, TOKEN_SECRET)
-    // } catch (verifyError) {
-    //   console.log('JWT verify error:', verifyError)
-    //   return res.status(401).json({ message: 'Invalid or expired token' })
-    // }
     const user = await User.findById(decoded.id)
 
     if (!user) return res.status(404).json({ message: ' User not found' })
@@ -30,21 +23,21 @@ export const verifyToken = async (req, res, next) => {
       id: user._id.toString(),
       role: user.role
     }
-    req.userId = user._id.toString()
+    req.userId = req.user.id
 
     next()
   } catch (err) {
-    return res.status(500).json({ message: err.message })
+    return res.status(401).json({ message: 'Invalid or expired token' })
   }
 }
 // middleware para permitir acceso solo si tiene rol
-export const requireRole = (role) => {
+export const requireRole = (...roles) => {
   return (req, res, next) => {
     if (!req.user || !req.user.role) {
       return res.status(401).json({ message: 'Unauthorized: missing role' })
     }
 
-    if (req.user.role !== role) {
+    if (!roles.includes(req.user.role)) {
       return res.status(403).json({ message: 'Access denied: admin only' })
     }
 

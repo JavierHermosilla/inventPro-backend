@@ -1,3 +1,4 @@
+import mongoose from 'mongoose'
 import pick from 'lodash/pick.js'
 import Supplier from '../models/supplier.model.js'
 import { supplierAllowedFields } from '../config/allowedFields.js'
@@ -22,6 +23,9 @@ export const listSuppliers = async (req, res) => {
 }
 
 export const supplierById = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid supplier ID.' })
+  }
   try {
     const supplier = await Supplier.findById(req.params.id)
     if (!supplier) return res.status(404).json({ message: 'Supplier not found.' })
@@ -32,12 +36,15 @@ export const supplierById = async (req, res) => {
 }
 
 export const updateSupplier = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid supplier ID.' })
+  }
   try {
     const updatedSupplier = await Supplier.findByIdAndUpdate(
       req.params.id,
       pick(req.body, supplierAllowedFields), {
         new: true,
-        runvalidators: true
+        runValidators: true
       })
     if (!updatedSupplier) return res.status(404).json({ message: 'Supplier not found.' })
     res.json({ message: 'Supplier update.', supplier: updatedSupplier })
@@ -47,6 +54,9 @@ export const updateSupplier = async (req, res) => {
 }
 
 export const deleteSupplier = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid supplier ID.' })
+  }
   try {
     const deletedSupplier = await Supplier.findByIdAndDelete(req.params.id)
     if (!deletedSupplier) return res.status(404).json({ message: 'Supplier not found' })

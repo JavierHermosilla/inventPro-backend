@@ -4,6 +4,9 @@ import swaggerUi from 'swagger-ui-express'
 
 // Importa todos los archivos de documentación
 import '../docs/products.docs.js'
+import '../docs/manualInventory.docs.js'
+import '../docs/suppliers.docs.js'
+import '../docs/users.docs.js'
 // import '../docs/users.docs.js' // <-- agrégalo cuando lo tengas
 
 const swaggerDefinition = {

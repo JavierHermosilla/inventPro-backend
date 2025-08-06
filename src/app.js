@@ -12,6 +12,8 @@ import orderRoutes from './routes/order.routes.js'
 import productRoutes from './routes/product.routes.js'
 import supplierRoutes from './routes/supplier.routes.js'
 import userRoutes from './routes/user.routes.js'
+import manualInventoryRoutes from './routes/manualInventory.routes.js'
+
 import { sanitizeInput } from './middleware/sanitizeInput.js'
 import { zodErrorHandler } from './middleware/zodErrorHandler.js'
 
@@ -37,7 +39,7 @@ const corsOptions = {
     if (whitelist.includes(origin)) callback(null, true)
     else callback(new Error('Not allowed by CORS'))
   },
-  credential: true
+  credentials: true
 }
 app.use(cors(corsOptions))
 
@@ -56,6 +58,7 @@ app.use('/api/products', productRoutes)
 app.use('/api/orders', orderRoutes)
 app.use('/api/suppliers', supplierRoutes)
 app.use('/api/dashboard', dashboardRoutes)
+app.use('/api/manual-inventory', manualInventoryRoutes)
 
 app.use(zodErrorHandler)
 

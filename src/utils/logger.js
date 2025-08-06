@@ -1,7 +1,7 @@
 import { createLogger, format, transports } from 'winston'
 
 const logger = createLogger({
-  level: 'Info',
+  level: 'info',
   format: format.combine(
     format.timestamp(),
     format.printf(({ level, message, timestamp }) => {

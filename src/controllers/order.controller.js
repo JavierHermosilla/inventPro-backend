@@ -2,17 +2,16 @@ import Order from '../models/order.model.js'
 import { orderSchema, orderUpdateSchema } from '../schemas/order.schema.js'
 import { ZodError } from 'zod'
 
+import logger from '../utils/logger.js'
 import User from '../models/user.model.js'
 import Product from '../models/product.model.js'
 
 export const createOrder = async (req, res) => {
   try {
-    console.log('Request body:', req.body)
-
     const result = orderSchema.safeParse(req.body)
-    console.log('Zod validation result:', result)
 
     if (!result.success) {
+      logger.warn('Validation failed in createOrder', { errors: result.error.errors })
       return res.status(400).json({
         message: 'Validation failed',
         errors: result.error.errors
@@ -20,27 +19,25 @@ export const createOrder = async (req, res) => {
     }
 
     const validatedData = result.data
-    console.log('Validated data:', validatedData)
 
     if (!validatedData.products || validatedData.products.length === 0) {
-      console.log('No products provieded')
+      logger.warn('No products provided in createOrder')
       return res.status(400).json({ message: 'At least one product is required' })
     }
 
     // verificacion de cliente existente
     const customer = await User.findById(validatedData.customerId)
-    console.log('Customer found:', customer)
     if (!customer) {
+      logger.warn(`Customer not found: ${validatedData.customerId}`)
       return res.status(404).json({ message: 'Customer not found' })
     }
 
     // verificacion de productos existentes
     const productIds = validatedData.products.map(p => p.productId)
-    console.log('Product IDs:', productIds)
     const products = await Product.find({ _id: { $in: productIds } })
-    console.log('Products fetched from DB:', products)
 
     if (products.length !== productIds.length) {
+      logger.warn('One or more products are invalid in createOrder')
       return res.status(400).json({ message: 'One or more products are invalid' })
     }
 
@@ -60,7 +57,7 @@ export const createOrder = async (req, res) => {
     }
 
     if (stockErrors.length > 0) {
-      console.log('Stock errors:', stockErrors)
+      logger.warn('Stock errors in createOrder', { errors: stockErrors })
       return res.status(400).json({ message: stockErrors })
     }
 
@@ -79,7 +76,6 @@ export const createOrder = async (req, res) => {
       if (product) {
         product.stock -= item.quantity
         await product.save()
-        console.log(`Updated stock for product ${product.name}: ${product.stock}`)
       }
     }
 
@@ -91,12 +87,11 @@ export const createOrder = async (req, res) => {
     })
 
     const savedOrder = await order.save()
-    console.log('Order saved:', savedOrder)
 
+    logger.info(`Order created successfully for customer ${customer._id}, totalAmount: ${totalAmount}`)
     res.status(201).json(savedOrder)
   } catch (err) {
-    console.error('Error in createOrder:', err)
-    console.error(err.stack) // 👈 Añade esto para ver la traza del error
+    logger.error('Error in createOrder', { message: err.message, stack: err.stack })
 
     if (err instanceof ZodError) {
       return res.status(400).json({ message: err.errors.map(e => e.message) })
@@ -113,6 +108,7 @@ export const listOrders = async (req, res) => {
       .populate('products.productId', 'name price stock')
     res.json(orders)
   } catch (err) {
+    logger.error('Error in listOrders', { message: err.message, stack: err.stack })
     res.status(500).json({ message: err.message })
   }
 }
@@ -126,19 +122,21 @@ export const listOrderById = async (req, res) => {
     if (!order) return res.status(404).json({ message: 'Order not found' })
     res.json(order)
   } catch (err) {
+    logger.error('Error in listOrderById', { message: err.message, stack: err.stack })
     res.status(500).json({ message: err.message })
   }
 }
 
 export const updateOrder = async (req, res) => {
-  console.log('req.user:', req.user)
-  console.log('Updating order with id:', req.params.id)
+  logger.info(`Update order request by user ${req.user?.id}, order id: ${req.params.id}`, { body: req.body })
+
   try {
     const validatedData = orderUpdateSchema.parse(req.body)
     const orderId = req.params.id
 
     const order = await Order.findById(orderId)
     if (!order) {
+      logger.warn(`Order not found in updateOrder: ${req.params.id}`)
       return res.status(404).json({ message: 'Order not found' })
     }
 
@@ -220,6 +218,7 @@ export const updateOrder = async (req, res) => {
       }
       // validacion de rol
       if (req.user.role !== 'admin' && validatedData.status !== 'cancelled') {
+        logger.warn(`Unauthorized status change attempt by user ${req.user.id} on order ${order._id}`)
         return res.status(403).json({ message: 'Only admins can change order status except to cancelled' })
       }
 
@@ -247,9 +246,11 @@ export const updateOrder = async (req, res) => {
     order.updatedAt = new Date()
     const updatedOrder = await order.save()
 
+    logger.info(`Order ${order._id} updated successfully by user ${req.user.id}`)
+
     res.json(updatedOrder)
   } catch (err) {
-    console.error('Error in updateOrder:', err)
+    logger.error('Error in updateOrder', { message: err.message, stack: err.stack })
     if (err instanceof ZodError) {
       return res.status(400).json({ message: err.errors.map(e => e.message) })
     }
@@ -260,7 +261,10 @@ export const updateOrder = async (req, res) => {
 export const deleteOrder = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
-    if (!order) return res.status(404).json({ message: 'Order not found' })
+    if (!order) {
+      logger.warn(`Order not found in deleteOrder: ${req.params.id}`)
+      return res.status(404).json({ message: 'Order not found' })
+    }
 
     // devolvemos el stock a los productos
     for (const item of order.products) {
@@ -273,8 +277,10 @@ export const deleteOrder = async (req, res) => {
 
     // eliminamos orden
     await Order.findByIdAndDelete(req.params.id)
+    logger.info(`Order ${req.params.id} deleted and stock restored successfully`)
     res.json({ message: 'Order deleted and stock restored seccessfully' })
   } catch (err) {
+    logger.error('Error in deleteOrder', { message: err.message, stack: err.stack })
     res.status(500).json({ message: err.message })
   }
 }

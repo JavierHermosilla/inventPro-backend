@@ -70,6 +70,7 @@ export const register = async (req, res) => {
     logger.error(`Registration error from IP ${userIP}: ${err.message} `)
 
     if (err instanceof ZodError) {
+      logger.warn(`Validation error during register/login from IP ${userIP}: ${err.errors.map(e => e.message).join('; ')}`)
       return res.status(400).json({ message: err.errors.map(e => e.message) })
     }
 
@@ -127,6 +128,7 @@ export const login = async (req, res) => {
     const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
     logger.error(`Login error from IP ${userIP}: ${err.message}`)
     if (err instanceof ZodError) {
+      logger.warn(`Validation error during register/login from IP ${userIP}: ${err.errors.map(e => e.message).join('; ')}`)
       return res.status(400).json({ message: err.errors.map(e => e.message) })
     }
     return res.status(500).json({ message: err.message })
@@ -147,6 +149,7 @@ export const profile = async (req, res) => {
 
     res.json(user)
   } catch (err) {
+    logger.error(`Profile fetch error for userId ${req.userId}: ${err.message}`)
     return res.status(500).json({ message: err.message })
   }
 }

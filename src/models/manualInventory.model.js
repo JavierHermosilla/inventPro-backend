@@ -35,6 +35,7 @@ manualInventorySchema.pre('validate', function (next) {
   if (this.type === 'decrease' && !this.reason) {
     this.invalidate('reason', 'Reason is required when decreasing inventory')
   }
+  next()
 })
 
 const ManualInventory = mongoose.model('ManualInventory', manualInventorySchema)

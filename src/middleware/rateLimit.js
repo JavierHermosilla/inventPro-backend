@@ -7,13 +7,13 @@ const handleTooManyRequests = (req, res, next, options) => {
 }
 
 export const loginRateLimiter = rateLimit({
-  windows: 15 * 60 * 1000, // cada 15 min
+  windowMs: 15 * 60 * 1000, // cada 15 min
   max: 5, // bloqueo al los 5 intentos
   handler: handleTooManyRequests,
   message: {
     message: 'Too many login attempts. Please try again in 15 minutes.'
   },
-  standarHeaders: true,
+  standardHeaders: true,
   legacyHeaders: false
 })
 

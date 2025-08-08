@@ -1,15 +1,19 @@
 import mongoose from 'mongoose'
 import pick from 'lodash/pick.js'
 import Supplier from '../models/supplier.model.js'
+import logger from '../utils/logger.js'
 import { supplierAllowedFields } from '../config/allowedFields.js'
 
 export const createSupplier = async (req, res) => {
   try {
     const newSupplier = new Supplier(pick(req.body, supplierAllowedFields))
     await newSupplier.save()
+
+    logger.info(`[AUDIT] user ${req.user.id} created supplier ${newSupplier._id} (${newSupplier.name || ''})`)
     res.status(201).json({ message: 'Supplier created successfully.', supplier: newSupplier })
   } catch (err) {
-    res.status(500).json({ message: 'Error crating supplier.', error: err.message })
+    logger.error('Error creating supplier', { message: err.message, stack: err.stack })
+    res.status(500).json({ message: 'Error creating supplier.', error: err.message })
   }
 }
 
@@ -18,19 +22,25 @@ export const listSuppliers = async (req, res) => {
     const suppliers = await Supplier.find()
     res.json(suppliers)
   } catch (err) {
+    logger.error('Error fetching suppliers', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'Error fetching suppliers.', error: err.message })
   }
 }
 
 export const supplierById = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    logger.warn(`Invalid supplier ID: ${req.params.id}`)
     return res.status(400).json({ message: 'Invalid supplier ID.' })
   }
   try {
     const supplier = await Supplier.findById(req.params.id)
-    if (!supplier) return res.status(404).json({ message: 'Supplier not found.' })
+    if (!supplier) {
+      logger.warn(`Supplier not found: ${req.params.id}`)
+      return res.status(404).json({ message: 'Supplier not found.' })
+    }
     res.json(supplier)
   } catch (err) {
+    logger.error('Error fetching supplier by ID', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'Error fetching supplier.', error: err.message })
   }
 }
@@ -46,22 +56,34 @@ export const updateSupplier = async (req, res) => {
         new: true,
         runValidators: true
       })
-    if (!updatedSupplier) return res.status(404).json({ message: 'Supplier not found.' })
+    if (!updatedSupplier) {
+      logger.warn(`Supplier not found for update: ${req.params.id}`)
+      return res.status(404).json({ message: 'Supplier not found.' })
+    }
+
+    logger.info(`[AUDIT] user ${req.user.id} updated supplier ${updatedSupplier._id} (${updatedSupplier.name || ''})`)
     res.json({ message: 'Supplier update.', supplier: updatedSupplier })
   } catch (err) {
+    logger.error('Error updating supplier', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'Error updating supplier.', error: err.message })
   }
 }
 
 export const deleteSupplier = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    logger.warn(`Invalid supplier ID for delete: ${req.params.id}`)
     return res.status(400).json({ message: 'Invalid supplier ID.' })
   }
   try {
     const deletedSupplier = await Supplier.findByIdAndDelete(req.params.id)
-    if (!deletedSupplier) return res.status(404).json({ message: 'Supplier not found' })
+    if (!deletedSupplier) {
+      logger.warn(`Supplier not found for delete: ${req.params.id}`)
+      return res.status(404).json({ message: 'Supplier not found' })
+    }
+    logger.info(`[AUDIT] user ${req.user.id} deleted supplier ${deletedSupplier._id} (${deletedSupplier.name || ''})`)
     res.json({ message: 'Supplier deleted.', supplier: deletedSupplier })
   } catch (err) {
+    logger.error('Error deleting supplier', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'Error deleting supplier.', error: err.message })
   }
 }

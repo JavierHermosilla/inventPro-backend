@@ -2,16 +2,18 @@ import mongoose from 'mongoose'
 import Product from '../models/product.model.js'
 import pick from 'lodash/pick.js'
 import Supplier from '../models/supplier.model.js'
+import logger from '../utils/logger.js'
 
 // creacion de productos
 export const createProduct = async (req, res) => {
   try {
     const allowedFields = ['name', 'description', 'price', 'stock', 'category', 'supplier']
     const productData = pick(req.body, allowedFields)
-
-    const supplierExists = await Supplier.findById(productData.supplier)
-    if (!supplierExists) {
-      return res.status(400).json({ message: 'Supplier not found.' })
+    if (productData.supplier) {
+      const supplierExists = await Supplier.findById(productData.supplier)
+      if (!supplierExists) {
+        return res.status(400).json({ message: 'Supplier not found.' })
+      }
     }
 
     const existingProduct = await Product.findOne({ name: productData.name })
@@ -26,7 +28,7 @@ export const createProduct = async (req, res) => {
     await newProduct.save()
 
     // auditoria desarrollo
-    console.log(`[AUDIT] user ${req.user.id} created product ${newProduct._id} (${newProduct.name})`)
+    logger.info(`[AUDIT] user ${req.user.id} created product ${newProduct._id} (${newProduct.name})`)
 
     res.status(201).json({
       message: 'Product created successfully.',
@@ -39,6 +41,7 @@ export const createProduct = async (req, res) => {
         field: 'name'
       })
     }
+    logger.error('Error creating product', { message: err.message, stack: err.stack })
     res.status(500).json({
       message: 'An error occurred while creating the product.',
       error: err.message
@@ -66,7 +69,7 @@ export const products = async (req, res) => {
       products
     })
   } catch (err) {
-    console.error('Error fetching products:', err)
+    logger.error('Error fetching products', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'An error occurred while fetching the products.' })
   }
 }
@@ -81,6 +84,7 @@ export const productById = async (req, res) => {
 
     res.json(product)
   } catch (err) {
+    logger.error('Error searching product by ID', { message: err.message, stack: err.stack })
     res.status(500).json({
       message: 'An error occurred while searching for the product.',
       error: err.message
@@ -89,7 +93,6 @@ export const productById = async (req, res) => {
 }
 // actualizacion de productos (solo admin)
 export const updateProduct = async (req, res) => {
-  console.log('req.body:', req.body)
   const { id } = req.params
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -100,7 +103,7 @@ export const updateProduct = async (req, res) => {
     const updateData = pick(req.body, allowedFields)
 
     if (updateData.name) {
-      const existingProduct = await Product.findOne({ nam: updateData.name })
+      const existingProduct = await Product.findOne({ name: updateData.name })
       if (existingProduct && existingProduct._id.toString() !== id) {
         return res.status(400).json({
           message: 'Another product with this name already exists.',
@@ -118,18 +121,17 @@ export const updateProduct = async (req, res) => {
       return res.status(404).json({ message: 'Product not found.' })
     }
 
-    // obtenemos el producto actual sumar el stock
-    console.log('📦 Raw req.body.replaceStock:', req.body.replaceStock)
-    console.log('🧪 Interpreted replaceStock:', replaceStock)
-
     if (updateData.stock !== undefined) {
+      if (!Number.isInteger(updateData.stock) || updateData.stock < 0) {
+        return res.status(400).json({ message: 'Stock must be a non-negative integer.' })
+      }
       if (replaceStock) {
         // aquí el stock es reemplazado tal cual viene
-        console.log(`[AUDIT] user ${req.user.id} replaced the stock of ${product.name} with ${updateData.stock}`)
+        logger.info(`[AUDIT] user ${req.user.id} replaced the stock of ${product.name} with ${updateData.stock}`)
       } else {
         // aquí se suma el stock existente con el nuevo
         updateData.stock = product.stock + updateData.stock
-        console.log(`[AUDIT] user ${req.user.id} added ${req.body.stock} units to ${product.name}, total stock now: ${updateData.stock}`)
+        logger.info(`[AUDIT] user ${req.user.id} added ${req.body.stock} units to ${product.name}, total stock now: ${updateData.stock}`)
       }
     }
 
@@ -150,6 +152,7 @@ export const updateProduct = async (req, res) => {
       product: updateProduct
     })
   } catch (err) {
+    logger.error('Error updating product', { message: err.message, stack: err.stack })
     res.status(500).json({
       message: 'An error occurred while updating the product.',
       error: err.message
@@ -166,11 +169,11 @@ export const deleteProduct = async (req, res) => {
     if (!deleteProduct) return res.status(404).json({ message: 'Product not found.' })
 
     // auditoria simple de desarrollo
-    console.log(`[AUDIT] user ${req.user.id} deleted product ${deleteProduct._id} (${deleteProduct.name})`)
+    logger.info(`[AUDIT] user ${req.user.id} deleted product ${deleteProduct._id} (${deleteProduct.name})`)
 
     res.json({ message: 'Product deleted successfully.', product: deleteProduct })
   } catch (err) {
-    console.error('Error deleting product:', err)
+    logger.error('Error deleting product', { message: err.message, stack: err.stack })
     res.status(500).json({
       message: 'Error deleting product.',
       error: err.message

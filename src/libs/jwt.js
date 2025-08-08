@@ -16,3 +16,12 @@ export function createAccessToken (payload) {
     )
   })
 }
+
+export function verifyToken (token) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, TOKEN_SECRET, (err, decoded) => {
+      if (err) reject(err)
+      else resolve(decoded)
+    })
+  })
+}

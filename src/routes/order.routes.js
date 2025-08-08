@@ -6,33 +6,33 @@ import {
   updateOrder,
   deleteOrder
 } from '../controllers/order.controller.js'
-import { verifyToken } from '../middleware/auth.middleware.js'
+import { verifyTokenMiddleware } from '../middleware/auth.middleware.js'
 
 const router = Router()
 
 router.get(
   '/',
-  verifyToken,
+  verifyTokenMiddleware,
   listOrders
 )
 router.get(
   '/:id',
-  verifyToken,
+  verifyTokenMiddleware,
   listOrderById
 )
 router.post(
   '/',
-  verifyToken,
+  verifyTokenMiddleware,
   createOrder
 )
 router.put(
   '/:id',
-  verifyToken,
+  verifyTokenMiddleware,
   updateOrder
 )
 router.delete(
   '/:id',
-  verifyToken,
+  verifyTokenMiddleware,
   deleteOrder
 )
 

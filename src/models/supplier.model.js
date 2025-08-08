@@ -47,11 +47,6 @@ const supplierSchema = new mongoose.Schema({
     type: String,
     trim: true
   }],
-  supplierId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Supplier',
-    required: true
-  },
   status: {
     type: String,
     enum: ['active', 'inactive'],
@@ -60,12 +55,8 @@ const supplierSchema = new mongoose.Schema({
   notes: {
     type: String,
     trim: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
   }
-})
+}, { timestamps: true })
 
 const Supplier = mongoose.model('Supplier', supplierSchema)
 

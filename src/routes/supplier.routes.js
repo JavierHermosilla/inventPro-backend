@@ -7,19 +7,19 @@ import {
   deleteSupplier
 } from '../controllers/supplier.controller.js'
 
-import { verifyToken, requireRole } from '../middleware/auth.middleware.js'
+import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
 import { supplierSchema, updateSupplierSchema } from '../schemas/supplier.schema.js'
 import { validateSchema } from '../middleware/validator.middleware.js'
 
 const router = Router()
 
 // rutas publicas
-router.get('/', verifyToken, listSuppliers)
-router.get('/:id', verifyToken, supplierById)
+router.get('/', verifyTokenMiddleware, listSuppliers)
+router.get('/:id', verifyTokenMiddleware, supplierById)
 
 // rutas solo admin
-router.post('/', verifyToken, requireRole('admin'), validateSchema(supplierSchema), createSupplier)
-router.put('/:id', verifyToken, requireRole('admin'), validateSchema(updateSupplierSchema), updateSupplier)
-router.delete('/:id', verifyToken, requireRole('admin'), deleteSupplier)
+router.post('/', verifyTokenMiddleware, requireRole('admin'), validateSchema(supplierSchema), createSupplier)
+router.put('/:id', verifyTokenMiddleware, requireRole('admin'), validateSchema(updateSupplierSchema), updateSupplier)
+router.delete('/:id', verifyTokenMiddleware, requireRole('admin'), deleteSupplier)
 
 export default router

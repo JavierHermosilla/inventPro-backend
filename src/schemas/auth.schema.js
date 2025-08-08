@@ -1,3 +1,4 @@
+import { ROLES } from '../config/roles.js'
 import { z } from 'zod'
 
 export const registerSchema = z.object({
@@ -10,7 +11,7 @@ export const registerSchema = z.object({
   phone: z.string().regex(/^\+?\d{8,15}$/, 'The number must have at least 8 digits.').optional(),
   address: z.string().min(5, { message: 'Address must be at least 5 characters long.' }).optional(),
   avatar: z.string().url({ message: 'The avatar must be a valid URL.' }).optional(),
-  role: z.enum(['user', 'manager']).optional()
+  role: z.enum([Object.values(ROLES)]).optional()
 })
 
 export const loginSchema = z.object({

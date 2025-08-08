@@ -1,5 +1,6 @@
 import User from '../models/user.model.js'
 import pick from 'lodash/pick.js'
+import logger from '../utils/logger.js'
 
 export const listUsers = async (req, res) => {
   try {
@@ -40,15 +41,22 @@ export const listUsers = async (req, res) => {
       users
     })
   } catch (err) {
+    logger.error('Error fetching users', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'Error fetching user.', error: err.message })
   }
 }
 export const userById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password')
-    if (!user) return res.status(404).json({ message: 'User not found' })
+    if (!user) {
+      logger.warn(`User not found: ${req.params.id}`)
+      return res.status(404).json({ message: 'User not found' })
+    }
+    logger.info(`Fetched user by ID: ${req.params.id}`)
+
     res.json(user)
   } catch (err) {
+    logger.error('Error fetching user by ID', { message: err.message, stack: err.stack })
     res.status(500).json({ message: err.message })
   }
 }
@@ -68,11 +76,15 @@ export const updateUser = async (req, res) => {
       { new: true, runValidators: true }
     ).select('-password')
 
-    if (!updatedUser) return res.status(404).json({ message: 'User not found' })
+    if (!updatedUser) {
+      logger.warn(`User not found for update: ${req.params.id}`)
+      return res.status(404).json({ message: 'User not found' })
+    }
 
+    logger.info(`[AUDIT] user ${req.user.id} updated user ${updatedUser._id}`)
     res.json({ message: 'User updated successfully', user: updatedUser })
   } catch (err) {
-    console.error(err)
+    logger.error('Error updating user', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'Error updating the user.', error: err.message })
   }
 }
@@ -81,12 +93,14 @@ export const deleteUser = async (req, res) => {
     const deletedUser = await User.findByIdAndDelete(req.params.id)
 
     if (!deletedUser) {
+      logger.warn(`User not found for delete: ${req.params.id}`)
       return res.status(404).json({ message: 'User not found.' })
     }
 
+    logger.info(`[AUDIT] user ${req.user.id} deleted user ${deletedUser._id}`)
     res.json({ message: 'User deleted successfully', user: deletedUser })
   } catch (err) {
-    console.log(err)
+    logger.error('Error deleting user', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'Error deleting the user.', error: err.message })
   }
 }

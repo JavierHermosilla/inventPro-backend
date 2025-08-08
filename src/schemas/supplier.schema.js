@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+const rutRegex = /^(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK])$/
+
 export const supplierSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   contactName: z.string().max(100).optional(),
@@ -9,11 +11,11 @@ export const supplierSchema = z.object({
   website: z.string().url('invalid URL').optional(),
   rut: z
     .string()
-    .regex(/^(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK])$/, 'Invalid RUT format')
-    .min(1, 'RUT is required'),
+    .nonempty('RUT id required')
+    .regex(rutRegex, 'Invalid RUT format'),
   paymentTerms: z.string().max(200).optional(),
   categories: z.array(z.string().min(1)).optional(),
-  status: z.enum(['active', 'inactive']).optional(),
+  status: z.enum(['active', 'inactive']).optional().default('active'),
   notes: z.string().max(1000).optional()
 })
 

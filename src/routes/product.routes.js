@@ -9,7 +9,7 @@ import {
 
 import { validateObjectId } from '../middleware/validateObjectId.js'
 import { validateSchema } from '../middleware/validator.middleware.js'
-import { verifyToken, requireRole } from '../middleware/auth.middleware.js'
+import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
 import { productSchema, productUpdateSchema } from '../schemas/product.schema.js'
 
 const router = Router()
@@ -21,7 +21,7 @@ router.get('/:id', validateObjectId(), productById) // producto por id
 // solo ADMIN: crear, actualizar, eliminar
 router.post(
   '/',
-  verifyToken,
+  verifyTokenMiddleware,
   requireRole('admin'),
   validateSchema(productSchema),
   createProduct
@@ -29,7 +29,7 @@ router.post(
 
 router.put(
   '/:id',
-  verifyToken,
+  verifyTokenMiddleware,
   requireRole('admin'),
   validateObjectId(),
   validateSchema(productUpdateSchema),
@@ -38,7 +38,7 @@ router.put(
 
 router.delete(
   '/:id',
-  verifyToken,
+  verifyTokenMiddleware,
   requireRole('admin'),
   validateObjectId(),
   deleteProduct

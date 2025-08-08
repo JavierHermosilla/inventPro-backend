@@ -1,5 +1,6 @@
 import Product from '../models/product.model.js'
 import ManualInventory from '../models/manualInventory.model.js'
+import logger from '../utils/logger.js'
 
 export const createManualInventory = async (req, res) => {
   try {
@@ -9,6 +10,7 @@ export const createManualInventory = async (req, res) => {
     // verificacion de el product
     const product = await Product.findById(productId)
     if (!product) {
+      logger.warn(`ManualInventory creation failed: Product not found. productId: ${productId}, userId: ${userId}`)
       return res.status(404).json({ message: 'Product not found' })
     }
 
@@ -17,6 +19,7 @@ export const createManualInventory = async (req, res) => {
       product.stock += quantity
     } else if (type === 'decrease') {
       if (product.stock < quantity) {
+        logger.warn(`ManualInventory creation failed: Insufficient stock. productId: ${productId}, userId: ${userId}, requested: ${quantity}, available: ${product.stock}`)
         return res.status(400).json({ message: 'Insufficient stock to decrease' })
       }
       product.stock -= quantity
@@ -32,7 +35,7 @@ export const createManualInventory = async (req, res) => {
       userId
     })
 
-    console.log(`[AUDIT] Admin ${req.user.name} (${userId}) ${type === 'increase' ? 'added' : 'removed'} ${quantity} units of ${product.name} (ID: ${product._id}). New stock: ${product.stock}`)
+    logger.info(`[AUDIT] Admin ${req.user.name} (${userId}) ${type === 'increase' ? 'added' : 'removed'} ${quantity} units of ${product.name} (ID: ${product._id}). New stock: ${product.stock}`)
 
     res.status(201).json({
       message: 'Inventory adjustment successful',
@@ -44,7 +47,7 @@ export const createManualInventory = async (req, res) => {
       adjustment
     })
   } catch (err) {
-    console.error('[ERROR] createManualInventory:', err)
+    logger.error(`[ERROR] createManualInventory: ${err.message}`, { stack: err.stack })
     res.status(500).json({ message: 'Internal server error' })
   }
 }
@@ -78,7 +81,7 @@ export const getAllManualInventories = async (req, res) => {
       records
     })
   } catch (err) {
-    console.error('[ERROR] getAllManualInventories:', err)
+    logger.error(`[ERROR] getAllManualInventories: ${err.message}`, { stack: err.stack })
     res.status(500).json({ message: 'internal server error' })
   }
 }
@@ -95,7 +98,7 @@ export const manualInventoryById = async (req, res) => {
 
     res.status(200).json(adjustment)
   } catch (err) {
-    console.error('[ERROR] getManualInventoryById:', err)
+    logger.error(`[ERROR] manualInventoryById: ${err.message}`, { stack: err.stack })
     res.status(500).json({ message: 'Internal server error' })
   }
 }

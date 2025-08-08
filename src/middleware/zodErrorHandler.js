@@ -1,9 +1,16 @@
+import logger from '../utils/logger.js'
+
 export function zodErrorHandler (err, req, res, next) {
   if (err.name === 'ZodError') {
     const formatted = err.errors.map(e => ({
       field: e.path.join('.'),
       message: e.message
     }))
+
+    logger.warn(`Zod validation failed for ${req.method} ${req.originalUrl}`, {
+      errors: formatted,
+      ip: req.ip
+    })
 
     return res.status(400).json({
       message: 'Validation failed',

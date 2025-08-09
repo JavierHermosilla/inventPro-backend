@@ -21,9 +21,9 @@ const app = express()
 
 app.disable('x-powered-by')
 
+app.use(helmet())
 app.use(morgan('dev'))
 app.use(cookieParser())
-app.use(helmet())
 app.use(express.json())
 app.use(sanitizeInput)
 
@@ -41,8 +41,8 @@ const corsOptions = {
   },
   credentials: true
 }
-app.use(cors(corsOptions))
 
+app.use(cors(corsOptions))
 app.use((req, res, next) => {
   if (req.body) req.body = mongoSanitize(req.body)
   if (req.params) req.params = mongoSanitize(req.params)
@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 
 setupSwagger(app)
 
-app.use('/api/auths', authRoutes)
+app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/orders', orderRoutes)

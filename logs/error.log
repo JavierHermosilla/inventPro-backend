@@ -1,0 +1,12 @@
+[2025-08-08T18:06:19.980Z] ERROR: Registration error from IP ::ffff:127.0.0.1: Operation `users.findOne()` buffering timed out after 10000ms 
+[2025-08-08T20:10:11.402Z] ERROR: Registration error from IP ::ffff:127.0.0.1: User validation failed: phone: Path `phone` is required. 
+[2025-08-08T20:10:11.507Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.579Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.617Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.633Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.655Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.670Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:38:08.755Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.809Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.853Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.898Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"

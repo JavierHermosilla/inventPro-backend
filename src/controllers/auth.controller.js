@@ -25,14 +25,11 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: 'The email is already in use.' })
     }
 
-    // hash de contraseña
-    const passwordhash = await bcrypt.hash(password, 10)
-
     const newUser = new User({
       username,
       name,
       email,
-      password: passwordhash,
+      password,
       phone,
       address,
       avatar,
@@ -92,6 +89,8 @@ export const login = async (req, res) => {
     }
 
     // hash de contraseña
+    console.log('Login password plain:', password)
+    console.log('Hash stored in DB:', userFound.password)
     const isMatch = await bcrypt.compare(password, userFound.password)
 
     if (!isMatch) {

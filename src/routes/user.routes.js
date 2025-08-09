@@ -7,7 +7,7 @@ import {
 } from '../controllers/user.controller.js'
 
 import { verifyTokenMiddleware, requireRole, requireRoleOrSelf } from '../middleware/auth.middleware.js'
-import { updateUserSchema } from '../schemas/auth.schema.js'
+import { updateUserSchema } from '../schemas/user.schema.js'
 import { validateSchema } from '../middleware/validator.middleware.js'
 import { validateObjectId } from '../middleware/validateObjectId.js'
 
@@ -23,6 +23,6 @@ router.put(
   validateSchema(updateUserSchema),
   updateUser
 )
-router.delete('/:id', verifyTokenMiddleware, requireRoleOrSelf('admin'), validateObjectId(), deleteUser)
+router.delete('/:id', verifyTokenMiddleware, requireRole('admin'), validateObjectId(), deleteUser)
 
 export default router

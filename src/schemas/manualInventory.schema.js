@@ -10,16 +10,19 @@ const objectIdSchema = z
 
 // Creacion de ajuste de inventario
 export const createManualInventorySchema = z.object({
-  productId: objectIdSchema,
-  type: z.enum(['increase', 'decrease']),
-  quantity: z
-    .number({ invalid_type_error: 'Quantity must be a number' })
-    .int()
-    .min(1, { message: 'Quantity must be at least 1' }),
-  reason: z
-    .string()
-    .max(255, { message: 'Reason is too long' })
-    .optional()
+  body: z.object({
+    productId: objectIdSchema,
+    type: z.enum(['increase', 'decrease']),
+    quantity: z
+      .number({ invalid_type_error: 'Quantity must be a number' })
+      .int()
+      .min(1, { message: 'Quantity must be at least 1' }),
+    reason: z
+      .string()
+      .max(255, { message: 'Reason is too long' })
+      .optional()
+
+  })
 })
 
 // actualizacion del ajuste, es opcional siguiendo las reglas del negocio

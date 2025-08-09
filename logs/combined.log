@@ -6,3 +6,151 @@
 [2025-08-06T16:30:44.345Z] INFO: Successful login for: admin@admin.com from IP: ::1
 [2025-08-06T16:30:54.194Z] INFO: Successful login for: admin@admin.com from IP: ::1
 [2025-08-08T16:35:09.568Z] INFO: Successful login for: admin@admin.com from IP: ::1
+[2025-08-08T18:06:19.980Z] ERROR: Registration error from IP ::ffff:127.0.0.1: Operation `users.findOne()` buffering timed out after 10000ms 
+[2025-08-08T18:26:19.441Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T18:26:19.502Z] WARN: Login attempt with invalid email: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T18:34:43.543Z] WARN: Schema validation failed (parsed error) for /api/auth/register
+[2025-08-08T18:34:43.841Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T18:34:43.866Z] WARN: Login attempt with invalid email: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:22:54.177Z] WARN: Schema validation failed (parsed error) for /api/auth/register
+[2025-08-08T19:22:54.481Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:22:54.509Z] WARN: Login attempt with invalid email: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:25:21.278Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:25:21.463Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:25:21.561Z] WARN: Incorrect password for: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:30:05.465Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:31:19.438Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:31:19.627Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:31:19.724Z] WARN: Incorrect password for: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:33:14.270Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:33:14.461Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:33:14.564Z] WARN: Incorrect password for: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:37:52.927Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:37:53.045Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:37:53.146Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T19:38:01.743Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:38:01.862Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T19:38:01.966Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:10:11.402Z] ERROR: Registration error from IP ::ffff:127.0.0.1: User validation failed: phone: Path `phone` is required. 
+[2025-08-08T20:10:11.480Z] WARN: Login attempt with invalid email: admin@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:10:11.507Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.579Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.594Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:10:11.617Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.633Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.655Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:11.670Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:10:13.807Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:10:13.960Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:10:14.086Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:15:23.206Z] INFO: User registered successfully: admin@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:15:23.321Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:15:23.351Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
+[2025-08-08T20:15:23.409Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
+[2025-08-08T20:15:23.420Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:15:23.450Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
+[2025-08-08T20:15:23.474Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
+[2025-08-08T20:15:23.497Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
+[2025-08-08T20:15:23.517Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
+[2025-08-08T20:15:25.169Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:15:25.285Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:15:25.389Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:22:31.760Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:22:31.891Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:22:31.989Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:32:13.685Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:32:13.785Z] WARN: Schema validation failed (parsed error) for /api/products
+[2025-08-08T20:32:13.848Z] WARN: Schema validation failed (parsed error) for /api/products
+[2025-08-08T20:32:13.865Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:32:13.913Z] WARN: Schema validation failed (parsed error) for /api/products
+[2025-08-08T20:32:13.944Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:32:13.998Z] WARN: Schema validation failed (parsed error) for /api/products
+[2025-08-08T20:32:14.030Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:32:17.180Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:32:17.343Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:32:17.466Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:34:29.634Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:34:29.752Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:34:29.848Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:35:46.206Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:35:46.322Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:35:46.417Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:35:48.491Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:35:48.524Z] WARN: Schema validation failed (parsed error) for /api/products
+[2025-08-08T20:35:48.575Z] WARN: Schema validation failed (parsed error) for /api/products
+[2025-08-08T20:35:48.586Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:35:48.614Z] WARN: Schema validation failed (parsed error) for /api/products
+[2025-08-08T20:35:48.634Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:35:48.655Z] WARN: Schema validation failed (parsed error) for /api/products
+[2025-08-08T20:35:48.675Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:38:08.702Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:38:08.755Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.809Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.822Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:38:08.853Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.875Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:38:08.898Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.917Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:38:10.445Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:38:10.546Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:38:10.640Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:48:05.528Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:48:05.637Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:48:05.731Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:50:46.297Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:50:46.360Z] INFO: [AUDIT] user 68966325b2b51f4648ace2f8 created product 68966326b2b51f4648ace304 (Test Product)
+[2025-08-08T20:50:46.438Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:50:46.490Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:50:46.535Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:50:48.044Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:50:48.142Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:50:48.233Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:55:30.487Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:55:30.541Z] INFO: [AUDIT] user 689664424c33070ac0d37889 created product 689664424c33070ac0d37895 (Test Product)
+[2025-08-08T20:55:30.618Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:55:30.665Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:55:30.708Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:55:32.225Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:55:32.331Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:55:32.425Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:57:07.296Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:57:07.354Z] INFO: [AUDIT] user 689664a25f5dc3d61a3dcaf5 created product 689664a35f5dc3d61a3dcb01 (Test Product)
+[2025-08-08T20:57:07.428Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:57:07.474Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:57:07.515Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:57:09.025Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:57:09.129Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:57:09.226Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:06:07.312Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:06:07.431Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:06:07.531Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:07:24.810Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:07:24.925Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:07:25.019Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:07:26.789Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:07:26.834Z] INFO: [AUDIT] user 6896670e34b2721e935996ce created product 6896670e34b2721e935996da (Test Product)
+[2025-08-08T21:07:26.899Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T21:07:26.951Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T21:07:26.992Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T21:16:10.067Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:16:10.123Z] INFO: [AUDIT] user 6896691969c97cbc11cddb09 created product 6896691a69c97cbc11cddb15 (Test Product)
+[2025-08-08T21:16:11.765Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:16:11.866Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:16:11.968Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:20:49.258Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:20:49.315Z] INFO: [AUDIT] user 68966a300a45746fd1e9fb66 created product 68966a310a45746fd1e9fb72 (Test Product)
+[2025-08-08T21:20:50.927Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:20:51.033Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:20:51.133Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:22:34.383Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:22:34.434Z] INFO: [AUDIT] user 68966a9a0c8d51476bf0a9bb created product 68966a9a0c8d51476bf0a9c6 (Test Product)
+[2025-08-08T21:22:34.626Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:22:34.659Z] INFO: [AUDIT] user 68966a9a0c8d51476bf0a9cd created product 68966a9a0c8d51476bf0a9d5 (Test Product)
+[2025-08-08T21:22:34.855Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:22:34.887Z] INFO: [AUDIT] user 68966a9a0c8d51476bf0a9dd created product 68966a9a0c8d51476bf0a9e5 (Test Product)
+[2025-08-08T21:22:35.125Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T21:22:35.157Z] INFO: [AUDIT] user 68966a9a0c8d51476bf0a9ef created product 68966a9b0c8d51476bf0a9f7 (Test Product)
+[2025-08-08T21:22:35.178Z] INFO: [AUDIT] user 68966a9a0c8d51476bf0a9ef deleted product 68966a9b0c8d51476bf0a9f7 (Test Product)
+[2025-08-08T21:22:36.747Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:22:36.852Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T21:22:36.944Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1

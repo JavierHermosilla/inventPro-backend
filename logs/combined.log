@@ -154,3 +154,431 @@
 [2025-08-08T21:22:36.747Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T21:22:36.852Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T21:22:36.944Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T15:31:34.046Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:31:34.204Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:31:34.338Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:31:34.473Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:31:36.329Z] WARN: Authorization denied: no token provided
+[2025-08-09T15:31:36.350Z] WARN: Authorization denied: no token provided
+[2025-08-09T15:31:36.372Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T15:43:41.718Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:43:41.866Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:43:42.012Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:43:42.152Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:43:43.965Z] WARN: Authorization denied: no token provided
+[2025-08-09T15:43:43.984Z] WARN: Authorization denied: no token provided
+[2025-08-09T15:43:44.005Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T15:53:49.520Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:53:49.672Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:53:49.808Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:53:49.949Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:53:51.672Z] WARN: Authorization denied: no token provided
+[2025-08-09T15:53:51.704Z] WARN: Authorization denied: no token provided
+[2025-08-09T15:53:51.727Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T15:54:22.866Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:54:23.038Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:54:23.175Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:54:23.336Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T15:54:25.138Z] WARN: Authorization denied: no token provided
+[2025-08-09T15:54:25.160Z] WARN: Authorization denied: no token provided
+[2025-08-09T15:54:25.183Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T16:10:55.003Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:10:55.143Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:10:55.271Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:10:55.408Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:10:56.966Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:10:56.986Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:10:57.005Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T16:22:45.318Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:22:45.448Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:22:45.575Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:22:45.698Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:22:47.181Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:22:47.205Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:22:47.227Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T16:25:34.688Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:25:34.823Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:25:34.950Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:25:35.074Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:25:36.577Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:25:36.596Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:25:36.614Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T16:50:27.150Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:50:27.287Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:50:27.410Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:50:27.529Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:50:29.067Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:50:29.086Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:50:29.103Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T16:53:18.049Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:53:18.187Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:53:18.312Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:53:18.433Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T16:53:19.903Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:53:19.926Z] WARN: Authorization denied: no token provided
+[2025-08-09T16:53:19.946Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:14:39.886Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:14:40.052Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:14:40.185Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:14:40.329Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:14:42.030Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:14:42.051Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:14:42.073Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:22:48.327Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:22:48.500Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:22:48.639Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:22:48.785Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:22:50.507Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:22:50.528Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:22:50.552Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:25:28.353Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:25:28.511Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:25:28.666Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:25:28.800Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:25:30.789Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:25:30.812Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:25:30.831Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:30:32.337Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:30:32.490Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:30:32.633Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:30:32.770Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:30:34.516Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:30:34.539Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:30:34.559Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:31:36.740Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:31:36.905Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:31:37.055Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:31:37.203Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:31:39.046Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:31:39.072Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:31:39.090Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:36:36.578Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:36:36.713Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:36:36.836Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:36:36.958Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:36:38.517Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:36:38.534Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:36:38.554Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:46:10.465Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:46:10.601Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:46:10.727Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:46:10.847Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:46:12.286Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:46:12.304Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:46:12.322Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:48:13.237Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:48:13.391Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:48:13.547Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:48:13.682Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:48:15.380Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:48:15.401Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:48:15.425Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:52:13.167Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:52:13.311Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:52:13.440Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:52:13.567Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:52:15.410Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:52:15.427Z] WARN: Authorization denied: no token provided
+[2025-08-09T17:52:15.447Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T17:59:59.212Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:59:59.354Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:59:59.485Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T17:59:59.613Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:00:01.144Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:00:01.198Z] WARN: Authorization denied: no token provided
+[2025-08-09T18:00:01.218Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T18:02:41.335Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:02:41.477Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:02:41.615Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:02:41.750Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:02:43.498Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:02:43.519Z] WARN: Authorization denied: no token provided
+[2025-08-09T18:02:43.543Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T18:05:20.898Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:05:21.043Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:05:21.174Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:05:21.310Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:05:22.973Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:05:22.996Z] WARN: Authorization denied: no token provided
+[2025-08-09T18:05:23.015Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T18:12:56.829Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:12:56.978Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:12:57.106Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:12:57.249Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:12:58.997Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:12:59.021Z] WARN: Authorization denied: no token provided
+[2025-08-09T18:12:59.044Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T18:21:36.457Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:21:36.491Z] WARN: Authorization denied: no token provided
+[2025-08-09T18:21:36.499Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T18:21:36.505Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:21:36.628Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:21:36.729Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T18:21:36.822Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T19:16:57.779Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T19:16:57.856Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T19:16:57.875Z] WARN: Authorization denied: no token provided
+[2025-08-09T19:16:57.887Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T19:16:57.930Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T19:16:58.041Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T19:16:58.137Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T19:19:09.703Z] ERROR: Registration error from IP ::1: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "body"
+    ],
+    "message": "Invalid input: expected object, received undefined"
+  }
+] 
+[2025-08-09T19:19:26.351Z] ERROR: Registration error from IP ::1: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "body"
+    ],
+    "message": "Invalid input: expected object, received undefined"
+  }
+] 
+[2025-08-09T19:23:27.606Z] ERROR: Registration error from IP ::1: Operation `users.findOne()` buffering timed out after 10000ms 
+[2025-08-09T19:23:32.816Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-09T19:23:32.930Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:23:32.942Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:23:33.029Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-09T19:23:33.039Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip ::ffff:127.0.0.1
+[2025-08-09T19:23:33.123Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:23:33.126Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:23:33.204Z] WARN: Incorrect password for: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-09T19:23:33.247Z] WARN: Authorization denied: no token provided
+[2025-08-09T19:23:33.252Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T19:23:33.303Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:23:33.469Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:28:23.998Z] ERROR: Registration error from IP ::1: Operation `users.findOne()` buffering timed out after 10000ms 
+[2025-08-09T19:29:13.951Z] ERROR: Registration error from IP ::1: Operation `users.findOne()` buffering timed out after 10000ms 
+[2025-08-09T19:30:37.462Z] ERROR: Registration error from IP ::1: Operation `users.findOne()` buffering timed out after 10000ms 
+[2025-08-09T19:35:20.572Z] INFO: User registered successfully: user_test1241411@test.com from IP ::1
+[2025-08-09T19:35:49.404Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-09T19:35:49.483Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:35:49.508Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:35:49.611Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-09T19:35:49.622Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip ::ffff:127.0.0.1
+[2025-08-09T19:35:49.718Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:35:49.727Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:35:49.805Z] WARN: Incorrect password for: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-09T19:35:49.843Z] WARN: Authorization denied: no token provided
+[2025-08-09T19:35:49.849Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T19:35:49.924Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:35:50.117Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:38:11.796Z] INFO: Successful login for: user_test1241411@test.com from IP: ::1
+[2025-08-09T19:38:40.400Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-09T19:38:40.565Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:38:40.628Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:38:40.676Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-09T19:38:40.688Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip ::ffff:127.0.0.1
+[2025-08-09T19:38:40.798Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:38:40.862Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:38:40.903Z] WARN: Incorrect password for: testuser@example.com from IP ::ffff:127.0.0.1
+[2025-08-09T19:38:40.952Z] WARN: Authorization denied: no token provided
+[2025-08-09T19:38:40.961Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T19:38:41.084Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:38:41.279Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-09T19:44:44.883Z] WARN: Incorrect password for: admin@admin.com from IP ::1
+[2025-08-09T19:45:24.853Z] WARN: Registration attempt with duplicate email: admin@admin.com from ip ::1
+[2025-08-09T19:45:33.038Z] INFO: User registered successfully: admin12@admin.com from IP ::1
+[2025-08-09T19:54:11.433Z] INFO: Successful login for: admin12@admin.com from IP: ::1
+[2025-08-09T20:20:42.854Z] INFO: [AUDIT] user 6897a55ca1ca32330b22b260 created product 6897ad9acc3cf279e2a4cf55 (Camiseta deportiva 2)
+[2025-08-09T20:20:57.235Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T20:20:57.267Z] WARN: Authorization denied: no token provided
+[2025-08-09T20:20:57.278Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T20:20:57.339Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T20:20:57.452Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T20:20:57.543Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T20:20:57.634Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T20:21:58.327Z] INFO: [AUDIT] user 6897a55ca1ca32330b22b260 replaced the stock of Camiseta deportiva with 51
+[2025-08-09T20:22:05.481Z] ERROR: Token verification failed: invalid signature
+[2025-08-09T20:22:11.796Z] INFO: [AUDIT] user 6897a55ca1ca32330b22b260 deleted product 68934f507ad510e51695668f (Camiseta deportiva)
+[2025-08-09T20:22:25.561Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T20:22:25.588Z] WARN: Authorization denied: no token provided
+[2025-08-09T20:22:25.597Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-09T20:22:25.680Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T20:22:25.789Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T20:22:25.882Z] ERROR: Token verification failed: jwt malformed
+[2025-08-09T20:22:25.973Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T20:24:32.962Z] ERROR: Token verification failed: jwt expired
+[2025-08-10T21:53:38.060Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T21:53:38.199Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T21:53:38.327Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T21:53:38.461Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T21:53:40.071Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T21:53:40.094Z] WARN: Authorization denied: no token provided
+[2025-08-10T21:53:40.115Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-10T22:08:34.423Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:08:34.557Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:08:34.682Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:08:34.807Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:08:36.353Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:08:36.375Z] WARN: Authorization denied: no token provided
+[2025-08-10T22:08:36.394Z] INFO: Logout from IP: ::ffff:127.0.0.1
+[2025-08-10T22:30:17.194Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:30:17.336Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:30:17.469Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:30:17.597Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:30:19.232Z] ERROR: Token verification failed: jwt malformed
+[2025-08-10T22:30:19.249Z] WARN: Authorization denied: no token provided
+[2025-08-10T22:30:19.268Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T13:41:35.469Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:41:35.610Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:41:35.732Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:41:35.851Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:41:37.388Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:41:37.408Z] WARN: Authorization denied: no token provided
+[2025-08-11T13:41:37.426Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T13:52:58.177Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:52:58.312Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:52:58.439Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:52:58.570Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:53:00.103Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:53:00.120Z] WARN: Authorization denied: no token provided
+[2025-08-11T13:53:00.139Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T13:59:04.844Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:59:04.984Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:59:05.114Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:59:05.241Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:59:06.752Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T13:59:06.767Z] WARN: Authorization denied: no token provided
+[2025-08-11T13:59:06.804Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T14:02:42.734Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:02:42.868Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:02:42.993Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:02:43.117Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:02:44.734Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:02:44.751Z] WARN: Authorization denied: no token provided
+[2025-08-11T14:02:44.769Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T14:12:16.672Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:16.806Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:16.929Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:17.048Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:18.667Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:18.685Z] WARN: Authorization denied: no token provided
+[2025-08-11T14:12:18.708Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T14:12:44.550Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:44.684Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:44.807Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:44.932Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:46.557Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:12:46.572Z] WARN: Authorization denied: no token provided
+[2025-08-11T14:12:46.591Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T14:31:52.190Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:31:52.352Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:31:52.491Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:31:52.628Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:31:54.380Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:31:54.399Z] WARN: Authorization denied: no token provided
+[2025-08-11T14:31:54.419Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T14:40:12.486Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:40:12.681Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:40:12.818Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:40:12.990Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:40:15.234Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T14:40:15.254Z] WARN: Authorization denied: no token provided
+[2025-08-11T14:40:15.314Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T14:58:05.345Z] INFO: User registered successfully: pruba@pruba.com from IP ::1
+[2025-08-11T14:58:18.517Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T14:58:18.589Z] INFO: [AUDIT] user 689a050a8ee17438fabbfdcb created product 689a050a8ee17438fabbfdd3 (Test Product), IP: 127.0.0.1
+[2025-08-11T14:58:18.795Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T14:58:18.829Z] INFO: [AUDIT] user 689a050a8ee17438fabbfdda created product 689a050a8ee17438fabbfde2 (Test Product), IP: 127.0.0.1
+[2025-08-11T14:58:18.846Z] INFO: Product retrieved by ID: 689a050a8ee17438fabbfde2, IP: 127.0.0.1
+[2025-08-11T14:58:19.039Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T14:58:19.076Z] INFO: [AUDIT] user 689a050a8ee17438fabbfdea created product 689a050b8ee17438fabbfdf2 (Test Product), IP: 127.0.0.1
+[2025-08-11T14:58:19.151Z] INFO: Product updated successfully: 689a050b8ee17438fabbfdf2, IP: 127.0.0.1
+[2025-08-11T14:58:19.338Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T14:58:19.373Z] INFO: [AUDIT] user 689a050b8ee17438fabbfdfc created product 689a050b8ee17438fabbfe04 (Test Product), IP: 127.0.0.1
+[2025-08-11T14:58:19.397Z] INFO: [AUDIT] user 689a050b8ee17438fabbfdfc deleted product 689a050b8ee17438fabbfe04 (Test Product), IP: 127.0.0.1
+[2025-08-11T14:58:21.051Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T14:58:21.151Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T14:58:21.254Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T14:58:21.275Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T14:58:21.396Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T14:58:21.495Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T14:58:21.536Z] WARN: Authorization denied: no token provided
+[2025-08-11T14:58:21.561Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T15:05:47.333Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T15:05:47.436Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T15:05:47.543Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T15:05:47.567Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T15:05:47.683Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T15:05:47.780Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T15:05:47.822Z] WARN: Authorization denied: no token provided
+[2025-08-11T15:05:47.842Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T15:05:49.528Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:05:49.565Z] INFO: [AUDIT] user 689a06cdf6385e6e7b256517 created product 689a06cdf6385e6e7b25651f (Test Product), IP: 127.0.0.1
+[2025-08-11T15:05:49.753Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:05:49.789Z] INFO: [AUDIT] user 689a06cdf6385e6e7b256526 created product 689a06cdf6385e6e7b25652e (Test Product), IP: 127.0.0.1
+[2025-08-11T15:05:49.805Z] INFO: Product retrieved by ID: 689a06cdf6385e6e7b25652e, IP: 127.0.0.1
+[2025-08-11T15:05:49.992Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:05:50.029Z] INFO: [AUDIT] user 689a06cdf6385e6e7b256536 created product 689a06cef6385e6e7b25653e (Test Product), IP: 127.0.0.1
+[2025-08-11T15:05:50.063Z] INFO: Product updated successfully: 689a06cef6385e6e7b25653e, IP: 127.0.0.1
+[2025-08-11T15:05:50.248Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:05:50.282Z] INFO: [AUDIT] user 689a06cef6385e6e7b256548 created product 689a06cef6385e6e7b256550 (Test Product), IP: 127.0.0.1
+[2025-08-11T15:05:50.301Z] INFO: [AUDIT] user 689a06cef6385e6e7b256548 deleted product 689a06cef6385e6e7b256550 (Test Product), IP: 127.0.0.1
+[2025-08-11T15:18:47.873Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T15:18:47.974Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T15:18:48.074Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T15:18:48.097Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T15:18:48.208Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T15:18:48.301Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T15:18:48.339Z] WARN: Authorization denied: no token provided
+[2025-08-11T15:18:48.359Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T15:18:50.123Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:18:50.162Z] INFO: [AUDIT] user 689a09d984892721c8808c4c created product 689a09da84892721c8808c54 (Test Product), IP: 127.0.0.1
+[2025-08-11T15:18:50.350Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:18:50.383Z] INFO: [AUDIT] user 689a09da84892721c8808c5b created product 689a09da84892721c8808c63 (Test Product), IP: 127.0.0.1
+[2025-08-11T15:18:50.398Z] INFO: Product retrieved by ID: 689a09da84892721c8808c63, IP: 127.0.0.1
+[2025-08-11T15:18:50.580Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:18:50.612Z] INFO: [AUDIT] user 689a09da84892721c8808c6b created product 689a09da84892721c8808c73 (Test Product), IP: 127.0.0.1
+[2025-08-11T15:18:50.645Z] INFO: Product updated successfully: 689a09da84892721c8808c73, IP: 127.0.0.1
+[2025-08-11T15:18:50.827Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:18:50.859Z] INFO: [AUDIT] user 689a09da84892721c8808c7d created product 689a09da84892721c8808c85 (Test Product), IP: 127.0.0.1
+[2025-08-11T15:18:50.898Z] INFO: [AUDIT] user 689a09da84892721c8808c7d deleted product 689a09da84892721c8808c85 (Test Product), IP: 127.0.0.1
+[2025-08-11T15:29:58.468Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T15:29:58.575Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T15:29:58.684Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T15:29:58.708Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T15:29:58.819Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T15:29:58.912Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T15:29:58.949Z] WARN: Authorization denied: no token provided
+[2025-08-11T15:29:58.968Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T15:30:00.571Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:30:00.607Z] INFO: [AUDIT] user 689a0c78eabe37154564c8d6 created product 689a0c78eabe37154564c8df (Test Product), IP: 127.0.0.1
+[2025-08-11T15:30:00.791Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:30:00.826Z] INFO: [AUDIT] user 689a0c78eabe37154564c8e6 created product 689a0c78eabe37154564c8ee (Test Product), IP: 127.0.0.1
+[2025-08-11T15:30:00.842Z] INFO: Product retrieved by ID: 689a0c78eabe37154564c8ee, IP: 127.0.0.1
+[2025-08-11T15:30:01.023Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:30:01.058Z] INFO: [AUDIT] user 689a0c78eabe37154564c8f6 created product 689a0c79eabe37154564c8fe (Test Product), IP: 127.0.0.1
+[2025-08-11T15:30:01.093Z] INFO: Product updated successfully: 689a0c79eabe37154564c8fe, IP: 127.0.0.1
+[2025-08-11T15:30:01.275Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:30:01.306Z] INFO: [AUDIT] user 689a0c79eabe37154564c908 created product 689a0c79eabe37154564c910 (Test Product), IP: 127.0.0.1
+[2025-08-11T15:30:01.324Z] INFO: [AUDIT] user 689a0c79eabe37154564c908 deleted product 689a0c79eabe37154564c910 (Test Product), IP: 127.0.0.1
+[2025-08-11T15:36:26.993Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T15:36:50.178Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T15:36:50.291Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T15:36:50.416Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T15:36:50.443Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T15:36:50.467Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T15:36:50.580Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T15:36:50.698Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T15:36:50.762Z] WARN: Authorization denied: no token provided
+[2025-08-11T15:36:50.785Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T15:36:52.936Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:36:52.983Z] INFO: [AUDIT] user 689a0e143dd849e9b9d05bf6 created product 689a0e143dd849e9b9d05bfe (Test Product), IP: 127.0.0.1
+[2025-08-11T15:36:53.205Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:36:53.240Z] INFO: [AUDIT] user 689a0e153dd849e9b9d05c05 created product 689a0e153dd849e9b9d05c0d (Test Product), IP: 127.0.0.1
+[2025-08-11T15:36:53.258Z] INFO: Product retrieved by ID: 689a0e153dd849e9b9d05c0d, IP: 127.0.0.1
+[2025-08-11T15:36:53.467Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:36:53.507Z] INFO: [AUDIT] user 689a0e153dd849e9b9d05c15 created product 689a0e153dd849e9b9d05c1d (Test Product), IP: 127.0.0.1
+[2025-08-11T15:36:53.546Z] INFO: Product updated successfully: 689a0e153dd849e9b9d05c1d, IP: 127.0.0.1
+[2025-08-11T15:36:53.749Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T15:36:53.784Z] INFO: [AUDIT] user 689a0e153dd849e9b9d05c27 created product 689a0e153dd849e9b9d05c2f (Test Product), IP: 127.0.0.1
+[2025-08-11T15:36:53.807Z] INFO: [AUDIT] user 689a0e153dd849e9b9d05c27 deleted product 689a0e153dd849e9b9d05c2f (Test Product), IP: 127.0.0.1

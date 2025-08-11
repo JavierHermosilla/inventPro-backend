@@ -1,5 +1,9 @@
 import logger from '../utils/logger.js'
 
+/**
+ * Middleware para verificar que el usuario tenga uno de los roles permitidos
+ * @param {string[]} allowedRoles - Array con roles permitidos (ej: ['admin', 'manager'])
+ */
 export const checkRole = (allowedRoles = []) => {
   return (req, res, next) => {
     try {
@@ -18,10 +22,11 @@ export const checkRole = (allowedRoles = []) => {
         return res.status(403).json({ message: 'Access denied: insufficient permissions' })
       }
 
+      // Usuario autorizado, sigue al siguiente middleware o controlador
       next()
     } catch (err) {
       logger.error('Error in checkRole middleware', { message: err.message, stack: err.stack })
-      return res.status(500).json({ message: err.message })
+      return res.status(500).json({ message: 'Internal server error' })
     }
   }
 }

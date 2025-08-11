@@ -8,10 +8,12 @@ import Product from '../models/product.model.js'
 
 export const createOrder = async (req, res) => {
   try {
+    const userIP = req.clientIP // <--
+
     const result = orderSchema.safeParse(req.body)
 
     if (!result.success) {
-      logger.warn('Validation failed in createOrder', { errors: result.error.errors })
+      logger.warn('Validation failed in createOrder', { errors: result.error.errors, IP: userIP }) // <--
       return res.status(400).json({
         message: 'Validation failed',
         errors: result.error.errors
@@ -21,14 +23,14 @@ export const createOrder = async (req, res) => {
     const validatedData = result.data
 
     if (!validatedData.products || validatedData.products.length === 0) {
-      logger.warn('No products provided in createOrder')
+      logger.warn('No products provided in createOrder', { IP: userIP }) // <--
       return res.status(400).json({ message: 'At least one product is required' })
     }
 
     // verificacion de cliente existente
     const customer = await User.findById(validatedData.customerId)
     if (!customer) {
-      logger.warn(`Customer not found: ${validatedData.customerId}`)
+      logger.warn(`Customer not found: ${validatedData.customerId}`, { IP: userIP }) // <--
       return res.status(404).json({ message: 'Customer not found' })
     }
 
@@ -37,7 +39,7 @@ export const createOrder = async (req, res) => {
     const products = await Product.find({ _id: { $in: productIds } })
 
     if (products.length !== productIds.length) {
-      logger.warn('One or more products are invalid in createOrder')
+      logger.warn('One or more products are invalid in createOrder', { IP: userIP }) // <--
       return res.status(400).json({ message: 'One or more products are invalid' })
     }
 
@@ -57,7 +59,7 @@ export const createOrder = async (req, res) => {
     }
 
     if (stockErrors.length > 0) {
-      logger.warn('Stock errors in createOrder', { errors: stockErrors })
+      logger.warn('Stock errors in createOrder', { errors: stockErrors, IP: userIP }) // <--
       return res.status(400).json({ message: stockErrors })
     }
 
@@ -88,10 +90,12 @@ export const createOrder = async (req, res) => {
 
     const savedOrder = await order.save()
 
-    logger.info(`Order created successfully for customer ${customer._id}, totalAmount: ${totalAmount}`)
+    logger.info(`Order created successfully for customer ${customer._id}, totalAmount: ${totalAmount}, IP: ${userIP}`) // <--
+
     res.status(201).json(savedOrder)
   } catch (err) {
-    logger.error('Error in createOrder', { message: err.message, stack: err.stack })
+    const userIP = req.clientIP // <--
+    logger.error('Error in createOrder', { message: err.message, stack: err.stack, IP: userIP }) // <--
 
     if (err instanceof ZodError) {
       return res.status(400).json({ message: err.errors.map(e => e.message) })
@@ -102,33 +106,46 @@ export const createOrder = async (req, res) => {
 
 export const listOrders = async (req, res) => {
   try {
+    const userIP = req.clientIP // <--
     const orders = await Order.find()
       .sort({ createdAt: -1 })
       .populate('customerId', 'name email')
       .populate('products.productId', 'name price stock')
+
+    logger.info(`Orders listed by IP: ${userIP}`) // <--
     res.json(orders)
   } catch (err) {
-    logger.error('Error in listOrders', { message: err.message, stack: err.stack })
+    const userIP = req.clientIP // <--
+    logger.error('Error in listOrders', { message: err.message, stack: err.stack, IP: userIP }) // <--
     res.status(500).json({ message: err.message })
   }
 }
 
 export const listOrderById = async (req, res) => {
   try {
+    const userIP = req.clientIP // <--
     const order = await Order.findById(req.params.id)
       .populate('customerId', 'name email')
       .populate('products.productId', 'name price stock')
 
-    if (!order) return res.status(404).json({ message: 'Order not found' })
+    if (!order) {
+      logger.warn(`Order not found by ID: ${req.params.id}`, { IP: userIP }) // <--
+      return res.status(404).json({ message: 'Order not found' })
+    }
+
+    logger.info(`Order retrieved by ID: ${req.params.id}, IP: ${userIP}`) // <--
+
     res.json(order)
   } catch (err) {
-    logger.error('Error in listOrderById', { message: err.message, stack: err.stack })
+    const userIP = req.clientIP // <--
+    logger.error('Error in listOrderById', { message: err.message, stack: err.stack, IP: userIP }) // <--
     res.status(500).json({ message: err.message })
   }
 }
 
 export const updateOrder = async (req, res) => {
-  logger.info(`Update order request by user ${req.user?.id}, order id: ${req.params.id}`, { body: req.body })
+  const userIP = req.clientIP // <--
+  logger.info(`Update order request by user ${req.user?.id}, order id: ${req.params.id}, IP: ${userIP}`, { body: req.body })
 
   try {
     const validatedData = orderUpdateSchema.parse(req.body)
@@ -136,12 +153,11 @@ export const updateOrder = async (req, res) => {
 
     const order = await Order.findById(orderId)
     if (!order) {
-      logger.warn(`Order not found in updateOrder: ${req.params.id}`)
+      logger.warn(`Order not found in updateOrder: ${req.params.id}`, { IP: userIP })
       return res.status(404).json({ message: 'Order not found' })
     }
 
     // devolvemos stock a products anteriores
-
     const originalStatus = order.status
     const originalProducts = [...order.products]
 
@@ -218,7 +234,7 @@ export const updateOrder = async (req, res) => {
       }
       // validacion de rol
       if (req.user.role !== 'admin' && validatedData.status !== 'cancelled') {
-        logger.warn(`Unauthorized status change attempt by user ${req.user.id} on order ${order._id}`)
+        logger.warn(`Unauthorized status change attempt by user ${req.user.id} on order ${order._id}`, { IP: userIP })
         return res.status(403).json({ message: 'Only admins can change order status except to cancelled' })
       }
 
@@ -246,11 +262,11 @@ export const updateOrder = async (req, res) => {
     order.updatedAt = new Date()
     const updatedOrder = await order.save()
 
-    logger.info(`Order ${order._id} updated successfully by user ${req.user.id}`)
+    logger.info(`Order ${order._id} updated successfully by user ${req.user.id}, IP: ${userIP}`)
 
     res.json(updatedOrder)
   } catch (err) {
-    logger.error('Error in updateOrder', { message: err.message, stack: err.stack })
+    logger.error('Error in updateOrder', { message: err.message, stack: err.stack, IP: userIP })
     if (err instanceof ZodError) {
       return res.status(400).json({ message: err.errors.map(e => e.message) })
     }
@@ -260,9 +276,10 @@ export const updateOrder = async (req, res) => {
 
 export const deleteOrder = async (req, res) => {
   try {
+    const userIP = req.clientIP // <--
     const order = await Order.findById(req.params.id)
     if (!order) {
-      logger.warn(`Order not found in deleteOrder: ${req.params.id}`)
+      logger.warn(`Order not found in deleteOrder: ${req.params.id}`, { IP: userIP })
       return res.status(404).json({ message: 'Order not found' })
     }
 
@@ -277,10 +294,11 @@ export const deleteOrder = async (req, res) => {
 
     // eliminamos orden
     await Order.findByIdAndDelete(req.params.id)
-    logger.info(`Order ${req.params.id} deleted and stock restored successfully`)
-    res.json({ message: 'Order deleted and stock restored seccessfully' })
+    logger.info(`Order ${req.params.id} deleted and stock restored successfully, IP: ${userIP}`)
+    res.json({ message: 'Order deleted and stock restored successfully' })
   } catch (err) {
-    logger.error('Error in deleteOrder', { message: err.message, stack: err.stack })
+    const userIP = req.clientIP
+    logger.error('Error in deleteOrder', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({ message: err.message })
   }
 }

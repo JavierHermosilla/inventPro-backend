@@ -6,6 +6,7 @@ dotenv.config()
 
 const PORT = process.env.PORT || 3000
 const MONGODB_URI = 'mongodb://127.0.0.1:27017/inventPro'
+console.log('JWT_SECRET en index.js:', process.env.JWT_SECRET)
 
 mongoose.connect(MONGODB_URI)
   .then(() => {

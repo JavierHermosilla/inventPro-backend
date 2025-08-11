@@ -6,6 +6,7 @@ import logger from '../utils/logger.js'
 
 // creacion de productos
 export const createProduct = async (req, res) => {
+  const userIP = req.clientIP // <--
   try {
     const allowedFields = ['name', 'description', 'price', 'stock', 'category', 'supplier']
     const productData = pick(req.body, allowedFields)
@@ -28,7 +29,7 @@ export const createProduct = async (req, res) => {
     await newProduct.save()
 
     // auditoria desarrollo
-    logger.info(`[AUDIT] user ${req.user.id} created product ${newProduct._id} (${newProduct.name})`)
+    logger.info(`[AUDIT] user ${req.user.id} created product ${newProduct._id} (${newProduct.name}), IP: ${userIP}`)
 
     res.status(201).json({
       message: 'Product created successfully.',
@@ -41,15 +42,17 @@ export const createProduct = async (req, res) => {
         field: 'name'
       })
     }
-    logger.error('Error creating product', { message: err.message, stack: err.stack })
+    logger.error('Error creating product', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({
       message: 'An error occurred while creating the product.',
       error: err.message
     })
   }
 }
+
 // obtencion de todos los productos
 export const products = async (req, res) => {
+  const userIP = req.clientIP // <--
   try {
     // obtiene page y el limit de la query params
     const page = parseInt(req.query.page) || 1
@@ -61,6 +64,8 @@ export const products = async (req, res) => {
     const total = await Product.countDocuments()
     const products = await Product.find().sort({ createdAt: -1 }).skip(skip).limit(limit)
 
+    logger.info(`Products listed, page ${page}, limit ${limit}, IP: ${userIP}`)
+
     res.json({
       page,
       limit,
@@ -69,33 +74,43 @@ export const products = async (req, res) => {
       products
     })
   } catch (err) {
-    logger.error('Error fetching products', { message: err.message, stack: err.stack })
+    logger.error('Error fetching products', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({ message: 'An error occurred while fetching the products.' })
   }
 }
+
 // obtencion de productos por id
 export const productById = async (req, res) => {
+  const userIP = req.clientIP // <--
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    logger.warn(`Invalid product ID request: ${req.params.id}, IP: ${userIP}`)
     return res.status(400).json({ message: 'Invalid product ID.' })
   }
   try {
     const product = await Product.findById(req.params.id)
-    if (!product) return res.status(404).json({ message: 'Product not found.' })
+    if (!product) {
+      logger.warn(`Product not found by ID: ${req.params.id}, IP: ${userIP}`)
+      return res.status(404).json({ message: 'Product not found.' })
+    }
 
+    logger.info(`Product retrieved by ID: ${req.params.id}, IP: ${userIP}`)
     res.json(product)
   } catch (err) {
-    logger.error('Error searching product by ID', { message: err.message, stack: err.stack })
+    logger.error('Error searching product by ID', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({
       message: 'An error occurred while searching for the product.',
       error: err.message
     })
   }
 }
+
 // actualizacion de productos (solo admin)
 export const updateProduct = async (req, res) => {
+  const userIP = req.clientIP // <--
   const { id } = req.params
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
+    logger.warn(`Invalid product ID update request: ${id}, IP: ${userIP}`)
     return res.status(400).json({ message: 'Invalid product ID.' })
   }
   try {
@@ -118,20 +133,22 @@ export const updateProduct = async (req, res) => {
 
     const product = await Product.findById(id).lean()
     if (!product) {
+      logger.warn(`Product not found in updateProduct: ${id}, IP: ${userIP}`)
       return res.status(404).json({ message: 'Product not found.' })
     }
 
     if (updateData.stock !== undefined) {
       if (!Number.isInteger(updateData.stock) || updateData.stock < 0) {
+        logger.warn(`Invalid stock value in updateProduct for product ${id}, IP: ${userIP}`)
         return res.status(400).json({ message: 'Stock must be a non-negative integer.' })
       }
       if (replaceStock) {
         // aquí el stock es reemplazado tal cual viene
-        logger.info(`[AUDIT] user ${req.user.id} replaced the stock of ${product.name} with ${updateData.stock}`)
+        logger.info(`[AUDIT] user ${req.user.id} replaced the stock of ${product.name} with ${updateData.stock}, IP: ${userIP}`)
       } else {
         // aquí se suma el stock existente con el nuevo
         updateData.stock = product.stock + updateData.stock
-        logger.info(`[AUDIT] user ${req.user.id} added ${req.body.stock} units to ${product.name}, total stock now: ${updateData.stock}`)
+        logger.info(`[AUDIT] user ${req.user.id} added ${req.body.stock} units to ${product.name}, total stock now: ${updateData.stock}, IP: ${userIP}`)
       }
     }
 
@@ -144,36 +161,45 @@ export const updateProduct = async (req, res) => {
       }
     )
     if (!updateProduct) {
+      logger.warn(`Product not found after update attempt: ${id}, IP: ${userIP}`)
       return res.status(404).json({ message: 'Product not found.' })
     }
+
+    logger.info(`Product updated successfully: ${updateProduct._id}, IP: ${userIP}`)
 
     res.json({
       message: 'Product updated successfully.',
       product: updateProduct
     })
   } catch (err) {
-    logger.error('Error updating product', { message: err.message, stack: err.stack })
+    logger.error('Error updating product', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({
       message: 'An error occurred while updating the product.',
       error: err.message
     })
   }
 }
+
 // eliminacion de prodcto (solo admin)
 export const deleteProduct = async (req, res) => {
+  const userIP = req.clientIP // <--
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    logger.warn(`Invalid product ID delete request: ${req.params.id}, IP: ${userIP}`)
     return res.status(400).json({ message: 'Invalid product ID.' })
   }
   try {
     const deleteProduct = await Product.findByIdAndDelete(req.params.id)
-    if (!deleteProduct) return res.status(404).json({ message: 'Product not found.' })
+    if (!deleteProduct) {
+      logger.warn(`Product not found in deleteProduct: ${req.params.id}, IP: ${userIP}`)
+      return res.status(404).json({ message: 'Product not found.' })
+    }
 
     // auditoria simple de desarrollo
-    logger.info(`[AUDIT] user ${req.user.id} deleted product ${deleteProduct._id} (${deleteProduct.name})`)
+    logger.info(`[AUDIT] user ${req.user.id} deleted product ${deleteProduct._id} (${deleteProduct.name}), IP: ${userIP}`)
 
     res.json({ message: 'Product deleted successfully.', product: deleteProduct })
   } catch (err) {
-    logger.error('Error deleting product', { message: err.message, stack: err.stack })
+    logger.error('Error deleting product', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({
       message: 'Error deleting product.',
       error: err.message

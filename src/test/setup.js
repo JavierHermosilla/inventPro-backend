@@ -1,9 +1,12 @@
 import mongoose from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
+import dotenv from 'dotenv'
+dotenv.config({ path: '.env.test' })
 
 let mongoServer
 
 export const connect = async () => {
+  console.log('✅ setup.js ejecutado')
   mongoServer = await MongoMemoryServer.create()
   const uri = mongoServer.getUri()
 
@@ -11,10 +14,8 @@ export const connect = async () => {
     throw new Error('MongoMemoryServer did not provide a URI')
   }
 
-  await mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
+  await mongoose.connect(uri)
+  console.log('✅ MongoDB conectado correctamente')
 }
 
 export const closeDatabase = async () => {

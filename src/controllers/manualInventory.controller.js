@@ -6,11 +6,12 @@ export const createManualInventory = async (req, res) => {
   try {
     const { productId, type, quantity, reason } = req.body
     const userId = req.user.id
+    const userIP = req.clientIP
 
     // verificacion de el product
     const product = await Product.findById(productId)
     if (!product) {
-      logger.warn(`ManualInventory creation failed: Product not found. productId: ${productId}, userId: ${userId}`)
+      logger.warn(`ManualInventory creation failed: Product not found. productId: ${productId}, userId: ${userId}, IP: ${userIP}`)
       return res.status(404).json({ message: 'Product not found' })
     }
 
@@ -19,7 +20,7 @@ export const createManualInventory = async (req, res) => {
       product.stock += quantity
     } else if (type === 'decrease') {
       if (product.stock < quantity) {
-        logger.warn(`ManualInventory creation failed: Insufficient stock. productId: ${productId}, userId: ${userId}, requested: ${quantity}, available: ${product.stock}`)
+        logger.warn(`ManualInventory creation failed: Insufficient stock. productId: ${productId}, userId: ${userId}, requested: ${quantity}, available: ${product.stock}, IP: ${userIP}`) // <--
         return res.status(400).json({ message: 'Insufficient stock to decrease' })
       }
       product.stock -= quantity
@@ -35,7 +36,7 @@ export const createManualInventory = async (req, res) => {
       userId
     })
 
-    logger.info(`[AUDIT] Admin ${req.user.name} (${userId}) ${type === 'increase' ? 'added' : 'removed'} ${quantity} units of ${product.name} (ID: ${product._id}). New stock: ${product.stock}`)
+    logger.info(`[AUDIT] Admin ${req.user.name} (${userId}) ${type === 'increase' ? 'added' : 'removed'} ${quantity} units of ${product.name} (ID: ${product._id}). New stock: ${product.stock}. IP: ${userIP}`) // <--
 
     res.status(201).json({
       message: 'Inventory adjustment successful',
@@ -51,6 +52,7 @@ export const createManualInventory = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' })
   }
 }
+
 export const getAllManualInventories = async (req, res) => {
   try {
     const { page = 1, limit = 10, type, productId, userId } = req.query
@@ -85,6 +87,7 @@ export const getAllManualInventories = async (req, res) => {
     res.status(500).json({ message: 'internal server error' })
   }
 }
+
 export const manualInventoryById = async (req, res) => {
   try {
     const { id } = req.params

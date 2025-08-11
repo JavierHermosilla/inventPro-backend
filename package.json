@@ -5,11 +5,15 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
     "lint": "standard",
     "lint:fix": "standard --fix",
-    "test": "jest --detectOpenHandles --forceExit"
+    "test": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit"
+  },
+  "jest": {
+    "setupFiles": ["<rootDir>/src/test/setupEnv.js"],
+    "testEnvironment": "node"
   },
   "repository": {
     "type": "git",

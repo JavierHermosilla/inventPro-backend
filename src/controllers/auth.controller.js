@@ -3,26 +3,26 @@ import User from '../models/user.model.js'
 import logger from '../utils/logger.js'
 import pick from 'lodash/pick.js'
 import { createAccessToken } from '../libs/jwt.js'
-import { registerSchema, loginSchema } from '../schemas/auth.schema.js'
 import { ZodError } from 'zod'
 
 export const register = async (req, res) => {
+  console.log('Body recibido:', req.body)
+  console.log('JWT_SECRET:', process.env.JWT_SECRET)
   try {
-    // validacion de zod
-    registerSchema.parse(req.body)
-
     const { username, name, email, password, phone, address, avatar, role } = req.body
-    const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
+    const userIP = req.clientIP
 
-    // restriccion de creacion de rol admin
+    // restricción de creación de rol admin
     const allowedRoles = ['user', 'manager']
     const safeRole = allowedRoles.includes(role) ? role : 'user'
 
-    // verificacion si existe un user con el email
+    // verificación si existe un user con el email
     const existingUser = await User.findOne({ email })
     if (existingUser) {
       logger.warn(`Registration attempt with duplicate email: ${email} from ip ${userIP}`)
-      return res.status(400).json({ message: 'The email is already in use.' })
+      return res.status(400).json({
+        errors: [{ path: 'email', message: 'El correo electrónico ya está en uso.' }]
+      })
     }
 
     const newUser = new User({
@@ -59,33 +59,39 @@ export const register = async (req, res) => {
         'avatar',
         'createdAt',
         'updatedAt'
-
       ])
     })
   } catch (err) {
-    const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
-    logger.error(`Registration error from IP ${userIP}: ${err.message} `)
+    console.error('Error stack:', err.stack)
+
+    const userIP = req.clientIP
+    logger.error(`Registration error from IP ${userIP}: ${err.message}`, { stack: err.stack })
 
     if (err instanceof ZodError) {
-      logger.warn(`Validation error during register/login from IP ${userIP}: ${err.errors.map(e => e.message).join('; ')}`)
-      return res.status(400).json({ message: err.errors.map(e => e.message) })
+      const errors = err.errors.map(e => ({
+        path: e.path.join('.'),
+        message: e.message
+      }))
+      logger.warn(`Validation error during register/login from IP ${userIP}: ${errors.map(e => e.message).join('; ')}`)
+      return res.status(400).json({ errors })
     }
 
     return res.status(500).json({ message: err.message })
   }
 }
+
 export const login = async (req, res) => {
   try {
-    loginSchema.parse(req.body)
-
     const { email, password } = req.body
-    const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
+    const userIP = req.clientIP
+    console.log(`[LOGIN] Email recibido: ${email} desde IP: ${userIP}`)
 
     const userFound = await User.findOne({ email })
+    console.log(`[LOGIN] Usuario encontrado: ${userFound ? 'Sí' : 'No'}`)
 
     if (!userFound) {
       logger.warn(`Login attempt with invalid email: ${email} from IP ${userIP}`)
-      return res.status(400).json({ message: 'Username or password is incorrect.' })
+      return res.status(401).json({ message: 'Username or password is incorrect.' })
     }
 
     // hash de contraseña
@@ -95,7 +101,7 @@ export const login = async (req, res) => {
 
     if (!isMatch) {
       logger.warn(`Incorrect password for: ${email} from IP ${userIP}`)
-      return res.status(400).json({ message: 'Username or password is incorrect.' })
+      return res.status(401).json({ message: 'Username or password is incorrect.' })
     }
 
     logger.info(`Successful login for: ${email} from IP: ${userIP}`)
@@ -124,18 +130,24 @@ export const login = async (req, res) => {
       ])
     })
   } catch (err) {
-    const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
+    const userIP = req.clientIP
     logger.error(`Login error from IP ${userIP}: ${err.message}`)
+
     if (err instanceof ZodError) {
-      logger.warn(`Validation error during register/login from IP ${userIP}: ${err.errors.map(e => e.message).join('; ')}`)
-      return res.status(400).json({ message: err.errors.map(e => e.message) })
+      const errors = err.errors.map(e => ({
+        path: e.path.join('.'),
+        message: e.message
+      }))
+      logger.warn(`Validation error during register/login from IP ${userIP}: ${errors.map(e => e.message).join('; ')}`)
+      return res.status(400).json({ errors })
     }
+
     return res.status(500).json({ message: err.message })
   }
 }
+
 export const profile = async (req, res) => {
   try {
-    // verificacion si se seteo el userId
     if (!req.userId) {
       return res.status(401).json({ message: 'Unauthorized' })
     }
@@ -152,8 +164,9 @@ export const profile = async (req, res) => {
     return res.status(500).json({ message: err.message })
   }
 }
+
 export const logout = (req, res) => {
-  const userIP = req.headers['x-forwarded-for']?.split(',').shift().trim() || req.connection.remoteAddress || req.ip
+  const userIP = req.clientIP
   logger.info(`Logout from IP: ${userIP}`)
   res.cookie('token', '', {
     httpOnly: true,

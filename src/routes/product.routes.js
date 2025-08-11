@@ -14,11 +14,11 @@ import { productSchema, productUpdateSchema } from '../schemas/product.schema.js
 
 const router = Router()
 
-// publico: se pueden ver todos los productos y detalles
-router.get('/', products) // listar productos
-router.get('/:id', validateObjectId(), productById) // producto por id
+// Rutas públicas: listar productos y obtener producto por ID
+router.get('/', products) // listar productos paginados
+router.get('/:id', validateObjectId('id'), productById) // obtener producto por id
 
-// solo ADMIN: crear, actualizar, eliminar
+// Rutas protegidas: solo admin puede crear, actualizar o eliminar productos
 router.post(
   '/',
   verifyTokenMiddleware,
@@ -31,17 +31,17 @@ router.put(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
-  validateObjectId(),
+  validateObjectId('id'),
   validateSchema(productUpdateSchema),
   updateProduct
-) // actualizar producto
+)
 
 router.delete(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
-  validateObjectId(),
+  validateObjectId('id'),
   deleteProduct
-) // eliminar producto
+)
 
 export default router

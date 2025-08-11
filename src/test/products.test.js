@@ -30,7 +30,7 @@ describe('Products API', () => {
     await clearDatabase()
 
     // Crear adminUser fresh
-    await User.create({
+    const newUser = new User({
       username: 'adminuser',
       name: 'Admin User',
       email: adminUser.email,
@@ -38,6 +38,7 @@ describe('Products API', () => {
       phone: '+56912345678',
       role: 'admin'
     })
+    await newUser.save()
 
     // Crear proveedor fresh
     const supplier = await Supplier.create({

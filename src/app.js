@@ -16,10 +16,22 @@ import manualInventoryRoutes from './routes/manualInventory.routes.js'
 
 import { sanitizeInput } from './middleware/sanitizeInput.js'
 import { zodErrorHandler } from './middleware/zodErrorHandler.js'
+import { attachClientIP } from './middleware/attachClientIP.middleware.js'
 
 const app = express()
 
 app.disable('x-powered-by')
+
+// Middleware para pruebas: simular req.clientIP
+if (process.env.NODE_ENV === 'test') {
+  app.use((req, res, next) => {
+    req.clientIP = '127.0.0.1' // Valor fijo en tests
+    next()
+  })
+} else {
+  // Middleware real en producción/desarrollo
+  app.use(attachClientIP)
+}
 
 app.use(helmet())
 app.use(morgan('dev'))
@@ -43,6 +55,7 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
+
 app.use((req, res, next) => {
   if (req.body) req.body = mongoSanitize(req.body)
   if (req.params) req.params = mongoSanitize(req.params)

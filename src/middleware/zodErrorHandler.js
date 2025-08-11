@@ -1,9 +1,9 @@
 import logger from '../utils/logger.js'
 
 export function zodErrorHandler (err, req, res, next) {
-  if (err.name === 'ZodError') {
+  if (err?.name === 'ZodError' && Array.isArray(err.errors)) {
     const formatted = err.errors.map(e => ({
-      field: e.path.join('.'),
+      field: e.path.join('.') || '',
       message: e.message
     }))
 
@@ -18,5 +18,6 @@ export function zodErrorHandler (err, req, res, next) {
     })
   }
 
+  // Pasar a siguiente middleware de error si no es ZodError
   next(err)
 }

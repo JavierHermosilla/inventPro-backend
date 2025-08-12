@@ -582,3 +582,1104 @@
 [2025-08-11T15:36:53.749Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
 [2025-08-11T15:36:53.784Z] INFO: [AUDIT] user 689a0e153dd849e9b9d05c27 created product 689a0e153dd849e9b9d05c2f (Test Product), IP: 127.0.0.1
 [2025-08-11T15:36:53.807Z] INFO: [AUDIT] user 689a0e153dd849e9b9d05c27 deleted product 689a0e153dd849e9b9d05c2f (Test Product), IP: 127.0.0.1
+[2025-08-11T16:48:40.551Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T16:48:40.653Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T16:48:40.766Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T16:48:40.789Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T16:48:40.810Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T16:48:40.901Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T16:48:40.994Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T16:48:41.030Z] WARN: Authorization denied: no token provided
+[2025-08-11T16:48:41.050Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T16:48:42.822Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:48:42.928Z] INFO: [AUDIT] user 689a1eea42ce24c9df3d6598 created product 689a1eea42ce24c9df3d65a0 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:48:43.175Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:48:43.208Z] INFO: [AUDIT] user 689a1eea42ce24c9df3d65a7 created product 689a1eeb42ce24c9df3d65af (Test Product), IP: 127.0.0.1
+[2025-08-11T16:48:43.223Z] INFO: Product retrieved by ID: 689a1eeb42ce24c9df3d65af, IP: 127.0.0.1
+[2025-08-11T16:48:43.407Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:48:43.440Z] INFO: [AUDIT] user 689a1eeb42ce24c9df3d65b7 created product 689a1eeb42ce24c9df3d65bf (Test Product), IP: 127.0.0.1
+[2025-08-11T16:48:43.474Z] INFO: Product updated successfully: 689a1eeb42ce24c9df3d65bf, IP: 127.0.0.1
+[2025-08-11T16:48:43.662Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:48:43.694Z] INFO: [AUDIT] user 689a1eeb42ce24c9df3d65c9 created product 689a1eeb42ce24c9df3d65d1 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:48:43.713Z] INFO: [AUDIT] user 689a1eeb42ce24c9df3d65c9 deleted product 689a1eeb42ce24c9df3d65d1 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:49:41.798Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T16:49:41.913Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T16:49:42.016Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T16:49:42.042Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T16:49:42.063Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T16:49:42.155Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T16:49:42.248Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T16:49:42.284Z] WARN: Authorization denied: no token provided
+[2025-08-11T16:49:42.303Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T16:49:44.007Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:49:44.049Z] INFO: [AUDIT] user 689a1f279d2ddcab3546af2a created product 689a1f289d2ddcab3546af32 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:49:44.235Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:49:44.270Z] INFO: [AUDIT] user 689a1f289d2ddcab3546af39 created product 689a1f289d2ddcab3546af41 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:49:44.285Z] INFO: Product retrieved by ID: 689a1f289d2ddcab3546af41, IP: 127.0.0.1
+[2025-08-11T16:49:44.471Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:49:44.503Z] INFO: [AUDIT] user 689a1f289d2ddcab3546af49 created product 689a1f289d2ddcab3546af51 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:49:44.536Z] INFO: Product updated successfully: 689a1f289d2ddcab3546af51, IP: 127.0.0.1
+[2025-08-11T16:49:44.725Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:49:44.757Z] INFO: [AUDIT] user 689a1f289d2ddcab3546af5b created product 689a1f289d2ddcab3546af63 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:49:44.777Z] INFO: [AUDIT] user 689a1f289d2ddcab3546af5b deleted product 689a1f289d2ddcab3546af63 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:56:54.574Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:56:54.632Z] INFO: [AUDIT] user 689a20d6c681cbfddbc91789 created product 689a20d6c681cbfddbc91792 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:56:54.822Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:56:54.857Z] INFO: [AUDIT] user 689a20d6c681cbfddbc91799 created product 689a20d6c681cbfddbc917a1 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:56:54.873Z] INFO: Product retrieved by ID: 689a20d6c681cbfddbc917a1, IP: 127.0.0.1
+[2025-08-11T16:56:55.061Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:56:55.093Z] INFO: [AUDIT] user 689a20d6c681cbfddbc917a9 created product 689a20d7c681cbfddbc917b1 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:56:55.128Z] INFO: Product updated successfully: 689a20d7c681cbfddbc917b1, IP: 127.0.0.1
+[2025-08-11T16:56:55.313Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T16:56:55.345Z] INFO: [AUDIT] user 689a20d7c681cbfddbc917bb created product 689a20d7c681cbfddbc917c3 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:56:55.364Z] INFO: [AUDIT] user 689a20d7c681cbfddbc917bb deleted product 689a20d7c681cbfddbc917c3 (Test Product), IP: 127.0.0.1
+[2025-08-11T16:56:56.945Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T16:56:57.039Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T16:56:57.136Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T16:56:57.157Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T16:56:57.176Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T16:56:57.269Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T16:56:57.367Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T16:56:57.399Z] WARN: Authorization denied: no token provided
+[2025-08-11T16:56:57.417Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T17:07:44.700Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:07:44.757Z] INFO: [AUDIT] user 689a2360395e0cc1d0f29585 created product 689a2360395e0cc1d0f2958e (Test Product), IP: 127.0.0.1
+[2025-08-11T17:07:44.943Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:07:44.978Z] INFO: [AUDIT] user 689a2360395e0cc1d0f29595 created product 689a2360395e0cc1d0f2959d (Test Product), IP: 127.0.0.1
+[2025-08-11T17:07:44.994Z] INFO: Product retrieved by ID: 689a2360395e0cc1d0f2959d, IP: 127.0.0.1
+[2025-08-11T17:07:45.180Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:07:45.214Z] INFO: [AUDIT] user 689a2361395e0cc1d0f295a5 created product 689a2361395e0cc1d0f295ad (Test Product), IP: 127.0.0.1
+[2025-08-11T17:07:45.251Z] INFO: Product updated successfully: 689a2361395e0cc1d0f295ad, IP: 127.0.0.1
+[2025-08-11T17:07:45.433Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:07:45.466Z] INFO: [AUDIT] user 689a2361395e0cc1d0f295b7 created product 689a2361395e0cc1d0f295bf (Test Product), IP: 127.0.0.1
+[2025-08-11T17:07:45.486Z] INFO: [AUDIT] user 689a2361395e0cc1d0f295b7 deleted product 689a2361395e0cc1d0f295bf (Test Product), IP: 127.0.0.1
+[2025-08-11T17:07:47.019Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:07:47.120Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T17:07:47.224Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T17:07:47.246Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T17:07:47.268Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T17:07:47.363Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T17:07:47.463Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:07:47.497Z] WARN: Authorization denied: no token provided
+[2025-08-11T17:07:47.516Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T17:16:28.476Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:16:28.529Z] INFO: [AUDIT] user 689a256cc9cb15c8534bec18 created product 689a256cc9cb15c8534bec20 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:16:28.718Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:16:28.750Z] INFO: [AUDIT] user 689a256cc9cb15c8534bec27 created product 689a256cc9cb15c8534bec2f (Test Product), IP: 127.0.0.1
+[2025-08-11T17:16:28.765Z] INFO: Product retrieved by ID: 689a256cc9cb15c8534bec2f, IP: 127.0.0.1
+[2025-08-11T17:16:28.948Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:16:28.983Z] INFO: [AUDIT] user 689a256cc9cb15c8534bec37 created product 689a256cc9cb15c8534bec3f (Test Product), IP: 127.0.0.1
+[2025-08-11T17:16:29.021Z] INFO: Product updated successfully: 689a256cc9cb15c8534bec3f, IP: 127.0.0.1
+[2025-08-11T17:16:29.209Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:16:29.242Z] INFO: [AUDIT] user 689a256dc9cb15c8534bec49 created product 689a256dc9cb15c8534bec51 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:16:29.259Z] INFO: [AUDIT] user 689a256dc9cb15c8534bec49 deleted product 689a256dc9cb15c8534bec51 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:16:30.882Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:16:30.971Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T17:16:31.069Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T17:16:31.088Z] WARN: Registration attempt with duplicate email: testuser@example.com from ip 127.0.0.1
+[2025-08-11T17:16:31.108Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T17:16:31.199Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T17:16:31.294Z] WARN: Incorrect password for: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:16:31.325Z] WARN: Authorization denied: no token provided
+[2025-08-11T17:16:31.342Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T17:50:56.173Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:50:56.278Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T17:50:56.385Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T17:50:56.506Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:50:56.542Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T17:50:56.576Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:50:56.611Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:50:56.647Z] WARN: Authorization denied: user not found for decoded id 689a2d800da77b5e4dcfe273
+[2025-08-11T17:50:56.679Z] WARN: Authorization denied: no token provided
+[2025-08-11T17:50:56.714Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T17:50:58.381Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:50:58.419Z] INFO: [AUDIT] user 689a2d82e50767aa6b53f414 created product 689a2d82e50767aa6b53f41c (Test Product), IP: 127.0.0.1
+[2025-08-11T17:50:58.656Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:50:58.691Z] INFO: [AUDIT] user 689a2d82e50767aa6b53f428 created product 689a2d82e50767aa6b53f430 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:50:58.707Z] INFO: Product retrieved by ID: 689a2d82e50767aa6b53f430, IP: 127.0.0.1
+[2025-08-11T17:50:58.906Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:50:58.940Z] INFO: [AUDIT] user 689a2d82e50767aa6b53f43d created product 689a2d82e50767aa6b53f445 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:50:58.975Z] INFO: Product updated successfully: 689a2d82e50767aa6b53f445, IP: 127.0.0.1
+[2025-08-11T17:50:59.173Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:50:59.208Z] INFO: [AUDIT] user 689a2d83e50767aa6b53f454 created product 689a2d83e50767aa6b53f45c (Test Product), IP: 127.0.0.1
+[2025-08-11T17:50:59.232Z] INFO: [AUDIT] user 689a2d83e50767aa6b53f454 deleted product 689a2d83e50767aa6b53f45c (Test Product), IP: 127.0.0.1
+[2025-08-11T17:51:25.787Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:51:25.895Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T17:51:25.995Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T17:51:26.109Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:51:26.141Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T17:51:26.173Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:51:26.204Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:51:26.235Z] WARN: Authorization denied: user not found for decoded id 689a2d9dee3147f2047bccba
+[2025-08-11T17:51:26.260Z] WARN: Authorization denied: no token provided
+[2025-08-11T17:51:26.289Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T17:51:27.904Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:51:27.939Z] INFO: [AUDIT] user 689a2d9fb5e0d6447bf911a7 created product 689a2d9fb5e0d6447bf911b0 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:51:28.126Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:51:28.161Z] INFO: [AUDIT] user 689a2d9fb5e0d6447bf911bc created product 689a2da0b5e0d6447bf911c4 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:51:28.176Z] INFO: Product retrieved by ID: 689a2da0b5e0d6447bf911c4, IP: 127.0.0.1
+[2025-08-11T17:51:28.365Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:51:28.396Z] INFO: [AUDIT] user 689a2da0b5e0d6447bf911d1 created product 689a2da0b5e0d6447bf911d9 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:51:28.429Z] INFO: Product updated successfully: 689a2da0b5e0d6447bf911d9, IP: 127.0.0.1
+[2025-08-11T17:51:28.619Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:51:28.650Z] INFO: [AUDIT] user 689a2da0b5e0d6447bf911e8 created product 689a2da0b5e0d6447bf911f0 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:51:28.671Z] INFO: [AUDIT] user 689a2da0b5e0d6447bf911e8 deleted product 689a2da0b5e0d6447bf911f0 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:57:55.892Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:57:56.002Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T17:57:56.105Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T17:57:56.221Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:57:56.289Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T17:57:56.328Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:57:56.366Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T17:57:56.399Z] WARN: Authorization denied: user not found for decoded id 689a2f2359de22ed25618ab5
+[2025-08-11T17:57:56.428Z] WARN: Authorization denied: no token provided
+[2025-08-11T17:57:56.461Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T17:57:58.197Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:57:58.234Z] INFO: [AUDIT] user 689a2f26e7796d2b8ddf5c0c created product 689a2f26e7796d2b8ddf5c14 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:57:58.437Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:57:58.474Z] INFO: [AUDIT] user 689a2f26e7796d2b8ddf5c20 created product 689a2f26e7796d2b8ddf5c28 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:57:58.490Z] INFO: Product retrieved by ID: 689a2f26e7796d2b8ddf5c28, IP: 127.0.0.1
+[2025-08-11T17:57:58.686Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:57:58.722Z] INFO: [AUDIT] user 689a2f26e7796d2b8ddf5c35 created product 689a2f26e7796d2b8ddf5c3d (Test Product), IP: 127.0.0.1
+[2025-08-11T17:57:58.758Z] INFO: Product updated successfully: 689a2f26e7796d2b8ddf5c3d, IP: 127.0.0.1
+[2025-08-11T17:57:58.953Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T17:57:58.986Z] INFO: [AUDIT] user 689a2f26e7796d2b8ddf5c4c created product 689a2f26e7796d2b8ddf5c54 (Test Product), IP: 127.0.0.1
+[2025-08-11T17:57:59.010Z] INFO: [AUDIT] user 689a2f26e7796d2b8ddf5c4c deleted product 689a2f26e7796d2b8ddf5c54 (Test Product), IP: 127.0.0.1
+[2025-08-11T18:03:39.915Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T18:03:40.019Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T18:03:40.124Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T18:03:40.243Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T18:03:40.277Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T18:03:40.311Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T18:03:40.346Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T18:03:40.383Z] WARN: Authorization denied: user not found for decoded id 689a307bcdea5899cc453cc9
+[2025-08-11T18:03:40.411Z] WARN: Authorization denied: no token provided
+[2025-08-11T18:03:40.441Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T18:03:42.199Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T18:03:42.236Z] INFO: [AUDIT] user 689a307e4c7598bb480ca452 created product 689a307e4c7598bb480ca45a (Test Product), IP: 127.0.0.1
+[2025-08-11T18:03:42.436Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T18:03:42.470Z] INFO: [AUDIT] user 689a307e4c7598bb480ca466 created product 689a307e4c7598bb480ca46e (Test Product), IP: 127.0.0.1
+[2025-08-11T18:03:42.485Z] INFO: Product retrieved by ID: 689a307e4c7598bb480ca46e, IP: 127.0.0.1
+[2025-08-11T18:03:42.684Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T18:03:42.717Z] INFO: [AUDIT] user 689a307e4c7598bb480ca47b created product 689a307e4c7598bb480ca483 (Test Product), IP: 127.0.0.1
+[2025-08-11T18:03:42.750Z] INFO: Product updated successfully: 689a307e4c7598bb480ca483, IP: 127.0.0.1
+[2025-08-11T18:03:42.945Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T18:03:42.978Z] INFO: [AUDIT] user 689a307e4c7598bb480ca492 created product 689a307e4c7598bb480ca49a (Test Product), IP: 127.0.0.1
+[2025-08-11T18:03:42.996Z] INFO: [AUDIT] user 689a307e4c7598bb480ca492 deleted product 689a307e4c7598bb480ca49a (Test Product), IP: 127.0.0.1
+[2025-08-11T18:07:30.611Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T18:07:30.716Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T18:07:30.825Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T18:07:30.950Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T18:07:30.986Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T18:07:31.020Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T18:07:31.052Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T18:07:31.085Z] WARN: Authorization denied: user not found for decoded id 689a31620ec636788cb7fd14
+[2025-08-11T18:07:31.114Z] WARN: Authorization denied: no token provided
+[2025-08-11T18:07:31.147Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T18:07:32.999Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T18:07:33.044Z] INFO: [AUDIT] user 689a3164fa69dfa601d33d7e created product 689a3165fa69dfa601d33d86 (Test Product), IP: 127.0.0.1
+[2025-08-11T18:07:33.248Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T18:07:33.285Z] INFO: [AUDIT] user 689a3165fa69dfa601d33d92 created product 689a3165fa69dfa601d33d9a (Test Product), IP: 127.0.0.1
+[2025-08-11T18:07:33.303Z] INFO: Product retrieved by ID: 689a3165fa69dfa601d33d9a, IP: 127.0.0.1
+[2025-08-11T18:07:33.505Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T18:07:33.546Z] INFO: [AUDIT] user 689a3165fa69dfa601d33da7 created product 689a3165fa69dfa601d33daf (Test Product), IP: 127.0.0.1
+[2025-08-11T18:07:33.583Z] INFO: Product updated successfully: 689a3165fa69dfa601d33daf, IP: 127.0.0.1
+[2025-08-11T18:07:33.794Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T18:07:33.831Z] INFO: [AUDIT] user 689a3165fa69dfa601d33dbe created product 689a3165fa69dfa601d33dc6 (Test Product), IP: 127.0.0.1
+[2025-08-11T18:07:33.851Z] INFO: [AUDIT] user 689a3165fa69dfa601d33dbe deleted product 689a3165fa69dfa601d33dc6 (Test Product), IP: 127.0.0.1
+[2025-08-11T18:14:49.548Z] INFO: Successful login for: admin12@admin.com from IP: ::1
+[2025-08-11T18:14:55.931Z] INFO: Successful login for: admin12@admin.com from IP: ::1
+[2025-08-11T18:15:14.451Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T18:15:32.721Z] INFO: [AUDIT] user 6897a55ca1ca32330b22b260 created product 689a3344837f87ca7c2b2c98 (Camiseta deportiva 3), IP: ::1
+[2025-08-11T18:15:49.478Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T18:16:05.511Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T19:21:00.159Z] WARN: Authorization denied: no token provided
+[2025-08-11T19:21:21.128Z] WARN: Authorization denied: no token provided
+[2025-08-11T19:21:30.073Z] INFO: Successful login for: admin12@admin.com from IP: ::1
+[2025-08-11T19:21:53.187Z] WARN: Forbidden access attempt by user 6897a55ca1ca32330b22b260 with role admin
+[2025-08-11T19:21:59.527Z] WARN: Forbidden access attempt by user 6897a55ca1ca32330b22b260 with role admin
+[2025-08-11T19:22:22.018Z] WARN: Forbidden access attempt by user 6897a55ca1ca32330b22b260 with role admin
+[2025-08-11T19:22:45.450Z] WARN: Forbidden access attempt by user 6897a55ca1ca32330b22b260 with role admin
+[2025-08-11T19:23:50.935Z] WARN: Forbidden access attempt by user 6897a55ca1ca32330b22b260 with role admin
+[2025-08-11T19:37:09.861Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:37:09.960Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T19:37:10.063Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T19:37:10.197Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:37:10.234Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T19:37:10.269Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:37:10.302Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:37:10.335Z] WARN: Authorization denied: user not found for decoded id 689a466593acc4437ebca529
+[2025-08-11T19:37:10.363Z] WARN: Authorization denied: no token provided
+[2025-08-11T19:37:10.396Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T19:37:12.341Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:37:12.394Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.604Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:37:12.634Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.832Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:37:12.863Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:13.057Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:37:13.086Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:20.910Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:40:21.035Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T19:40:21.145Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T19:40:21.271Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:40:21.307Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T19:40:21.343Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:40:21.378Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:40:21.417Z] WARN: Authorization denied: user not found for decoded id 689a472441257b9cacd0fd9f
+[2025-08-11T19:40:21.449Z] WARN: Authorization denied: no token provided
+[2025-08-11T19:40:21.487Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T19:40:23.484Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:40:23.532Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:23.760Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:40:23.810Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:24.021Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:40:24.055Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:24.276Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:40:24.306Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:55.129Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:46:55.232Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T19:46:55.338Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T19:46:55.458Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:46:55.496Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T19:46:55.530Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:46:55.563Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:46:55.596Z] WARN: Authorization denied: user not found for decoded id 689a48aed3a3619f8d7253be
+[2025-08-11T19:46:55.625Z] WARN: Authorization denied: no token provided
+[2025-08-11T19:46:55.659Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T19:46:57.351Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:46:57.391Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.656Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:46:57.689Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.891Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:46:57.921Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:58.121Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:46:58.150Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:53:03.038Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:53:03.146Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T19:53:03.249Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T19:53:03.369Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:53:03.403Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T19:53:03.438Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:53:03.472Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T19:53:03.510Z] WARN: Authorization denied: user not found for decoded id 689a4a1e7466dded9deae1bf
+[2025-08-11T19:53:03.539Z] WARN: Authorization denied: no token provided
+[2025-08-11T19:53:03.574Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T19:53:05.449Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:53:05.486Z] INFO: [AUDIT] user 689a4a21876a3aede947a298 created product 689a4a21876a3aede947a2a3 (Test Product), IP: 127.0.0.1
+[2025-08-11T19:53:05.691Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:53:05.725Z] INFO: [AUDIT] user 689a4a21876a3aede947a2b1 created product 689a4a21876a3aede947a2bb (Test Product), IP: 127.0.0.1
+[2025-08-11T19:53:05.741Z] INFO: Product retrieved by ID: 689a4a21876a3aede947a2bb, IP: 127.0.0.1
+[2025-08-11T19:53:05.943Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:53:05.975Z] INFO: [AUDIT] user 689a4a21876a3aede947a2ca created product 689a4a21876a3aede947a2d4 (Test Product), IP: 127.0.0.1
+[2025-08-11T19:53:06.023Z] INFO: Product updated successfully: 689a4a21876a3aede947a2d4, IP: 127.0.0.1
+[2025-08-11T19:53:06.219Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T19:53:06.251Z] INFO: [AUDIT] user 689a4a22876a3aede947a2e5 created product 689a4a22876a3aede947a2ef (Test Product), IP: 127.0.0.1
+[2025-08-11T19:53:06.270Z] INFO: [AUDIT] user 689a4a22876a3aede947a2e5 deleted product 689a4a22876a3aede947a2ef (Test Product), IP: 127.0.0.1
+[2025-08-11T20:10:18.516Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T20:10:18.622Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
+[2025-08-11T20:10:18.731Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
+[2025-08-11T20:10:18.857Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
+[2025-08-11T20:10:18.891Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T20:10:18.929Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T20:10:18.963Z] WARN: Login attempt with invalid email: testuser@example.com from IP 127.0.0.1
+[2025-08-11T20:10:18.998Z] WARN: Authorization denied: user not found for decoded id 689a4e2a742765cfbaf7e032
+[2025-08-11T20:10:19.027Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:10:19.061Z] INFO: Logout from IP: 127.0.0.1
+[2025-08-11T20:10:22.968Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:10:23.014Z] INFO: [AUDIT] user 689a4e2eea6a269076eb7f3f created product 689a4e2fea6a269076eb7f4a (Test Product), IP: 127.0.0.1
+[2025-08-11T20:10:23.269Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:10:23.303Z] INFO: [AUDIT] user 689a4e2fea6a269076eb7f58 created product 689a4e2fea6a269076eb7f62 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:10:23.319Z] INFO: Product retrieved by ID: 689a4e2fea6a269076eb7f62, IP: 127.0.0.1
+[2025-08-11T20:10:23.534Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:10:23.568Z] INFO: [AUDIT] user 689a4e2fea6a269076eb7f71 created product 689a4e2fea6a269076eb7f7b (Test Product), IP: 127.0.0.1
+[2025-08-11T20:10:23.602Z] INFO: Product updated successfully: 689a4e2fea6a269076eb7f7b, IP: 127.0.0.1
+[2025-08-11T20:10:23.808Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:10:23.839Z] INFO: [AUDIT] user 689a4e2fea6a269076eb7f8c created product 689a4e2fea6a269076eb7f96 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:10:23.860Z] INFO: [AUDIT] user 689a4e2fea6a269076eb7f8c deleted product 689a4e2fea6a269076eb7f96 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:14:21.588Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:14:21.728Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:14:21.750Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T20:14:22.024Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:14:22.298Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:14:22.504Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:14:22.537Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:14:25.953Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:14:25.993Z] INFO: [AUDIT] user 689a4f21766f86dc26325331 created product 689a4f21766f86dc2632533c (Test Product), IP: 127.0.0.1
+[2025-08-11T20:14:26.208Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:14:26.247Z] INFO: [AUDIT] user 689a4f22766f86dc2632534a created product 689a4f22766f86dc26325354 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:14:26.264Z] INFO: Product retrieved by ID: 689a4f22766f86dc26325354, IP: 127.0.0.1
+[2025-08-11T20:14:26.495Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:14:26.529Z] INFO: [AUDIT] user 689a4f22766f86dc26325363 created product 689a4f22766f86dc2632536d (Test Product), IP: 127.0.0.1
+[2025-08-11T20:14:26.563Z] INFO: Product updated successfully: 689a4f22766f86dc2632536d, IP: 127.0.0.1
+[2025-08-11T20:14:26.777Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:14:26.814Z] INFO: [AUDIT] user 689a4f22766f86dc2632537e created product 689a4f22766f86dc26325388 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:14:26.834Z] INFO: [AUDIT] user 689a4f22766f86dc2632537e deleted product 689a4f22766f86dc26325388 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:17:53.589Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:17:53.734Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:17:53.754Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T20:17:54.027Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:17:54.309Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:17:54.507Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:17:54.544Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:17:58.340Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:17:58.379Z] INFO: [AUDIT] user 689a4ff6501df0426795ae62 created product 689a4ff6501df0426795ae6e (Test Product), IP: 127.0.0.1
+[2025-08-11T20:17:58.614Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:17:58.649Z] INFO: [AUDIT] user 689a4ff6501df0426795ae7c created product 689a4ff6501df0426795ae86 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:17:58.664Z] INFO: Product retrieved by ID: 689a4ff6501df0426795ae86, IP: 127.0.0.1
+[2025-08-11T20:17:58.878Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:17:58.911Z] INFO: [AUDIT] user 689a4ff6501df0426795ae95 created product 689a4ff6501df0426795ae9f (Test Product), IP: 127.0.0.1
+[2025-08-11T20:17:58.945Z] INFO: Product updated successfully: 689a4ff6501df0426795ae9f, IP: 127.0.0.1
+[2025-08-11T20:17:59.166Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:17:59.199Z] INFO: [AUDIT] user 689a4ff6501df0426795aeb0 created product 689a4ff7501df0426795aeba (Test Product), IP: 127.0.0.1
+[2025-08-11T20:17:59.221Z] INFO: [AUDIT] user 689a4ff6501df0426795aeb0 deleted product 689a4ff7501df0426795aeba (Test Product), IP: 127.0.0.1
+[2025-08-11T20:33:02.689Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:33:02.825Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:33:02.846Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T20:33:03.036Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T20:33:03.227Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:33:03.347Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:33:03.381Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:33:06.705Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:33:06.746Z] INFO: [AUDIT] user 689a5382bec968b8d585a780 created product 689a5382bec968b8d585a78a (Test Product), IP: 127.0.0.1
+[2025-08-11T20:33:06.946Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:33:06.979Z] INFO: [AUDIT] user 689a5382bec968b8d585a798 created product 689a5382bec968b8d585a7a2 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:33:06.994Z] INFO: Product retrieved by ID: 689a5382bec968b8d585a7a2, IP: 127.0.0.1
+[2025-08-11T20:33:07.197Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:33:07.230Z] INFO: [AUDIT] user 689a5383bec968b8d585a7b1 created product 689a5383bec968b8d585a7bb (Test Product), IP: 127.0.0.1
+[2025-08-11T20:33:07.261Z] INFO: Product updated successfully: 689a5383bec968b8d585a7bb, IP: 127.0.0.1
+[2025-08-11T20:33:07.461Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:33:07.493Z] INFO: [AUDIT] user 689a5383bec968b8d585a7cc created product 689a5383bec968b8d585a7d6 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:33:07.512Z] INFO: [AUDIT] user 689a5383bec968b8d585a7cc deleted product 689a5383bec968b8d585a7d6 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:38:19.834Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:38:19.964Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:38:19.984Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T20:38:20.170Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T20:38:20.355Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:38:20.471Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:38:20.507Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:38:22.169Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:38:22.202Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:38:23.741Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:38:23.780Z] INFO: [AUDIT] user 689a54bf2089f6aca152de90 created product 689a54bf2089f6aca152de9c (Test Product), IP: 127.0.0.1
+[2025-08-11T20:38:23.979Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:38:24.013Z] INFO: [AUDIT] user 689a54bf2089f6aca152deaa created product 689a54c02089f6aca152deb4 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:38:24.027Z] INFO: Product retrieved by ID: 689a54c02089f6aca152deb4, IP: 127.0.0.1
+[2025-08-11T20:38:24.232Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:38:24.270Z] INFO: [AUDIT] user 689a54c02089f6aca152dec3 created product 689a54c02089f6aca152decd (Test Product), IP: 127.0.0.1
+[2025-08-11T20:38:24.303Z] INFO: Product updated successfully: 689a54c02089f6aca152decd, IP: 127.0.0.1
+[2025-08-11T20:38:24.507Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:38:24.539Z] INFO: [AUDIT] user 689a54c02089f6aca152dede created product 689a54c02089f6aca152dee8 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:38:24.558Z] INFO: [AUDIT] user 689a54c02089f6aca152dede deleted product 689a54c02089f6aca152dee8 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:40:52.470Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:40:52.601Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:40:52.622Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T20:40:52.808Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T20:40:52.994Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:40:53.111Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:40:53.147Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:40:54.912Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:40:54.947Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:40:56.491Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:40:56.529Z] INFO: [AUDIT] user 689a5558cbf0135bcfba9b2b created product 689a5558cbf0135bcfba9b35 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:40:56.734Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:40:56.768Z] INFO: [AUDIT] user 689a5558cbf0135bcfba9b43 created product 689a5558cbf0135bcfba9b4d (Test Product), IP: 127.0.0.1
+[2025-08-11T20:40:56.783Z] INFO: Product retrieved by ID: 689a5558cbf0135bcfba9b4d, IP: 127.0.0.1
+[2025-08-11T20:40:56.989Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:40:57.032Z] INFO: [AUDIT] user 689a5558cbf0135bcfba9b5c created product 689a5559cbf0135bcfba9b66 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:40:57.077Z] INFO: Product updated successfully: 689a5559cbf0135bcfba9b66, IP: 127.0.0.1
+[2025-08-11T20:40:57.284Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:40:57.317Z] INFO: [AUDIT] user 689a5559cbf0135bcfba9b77 created product 689a5559cbf0135bcfba9b81 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:40:57.337Z] INFO: [AUDIT] user 689a5559cbf0135bcfba9b77 deleted product 689a5559cbf0135bcfba9b81 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:43:39.042Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:43:39.184Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:43:39.206Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T20:43:39.399Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T20:43:39.583Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:43:39.714Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:43:39.752Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:43:41.445Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:43:41.481Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:43:42.999Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:43:43.036Z] INFO: [AUDIT] user 689a55fe0e69106a387ebc6f created product 689a55ff0e69106a387ebc7b (Test Product), IP: 127.0.0.1
+[2025-08-11T20:43:43.236Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:43:43.273Z] INFO: [AUDIT] user 689a55ff0e69106a387ebc89 created product 689a55ff0e69106a387ebc93 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:43:43.288Z] INFO: Product retrieved by ID: 689a55ff0e69106a387ebc93, IP: 127.0.0.1
+[2025-08-11T20:43:43.494Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:43:43.542Z] INFO: [AUDIT] user 689a55ff0e69106a387ebca2 created product 689a55ff0e69106a387ebcac (Test Product), IP: 127.0.0.1
+[2025-08-11T20:43:43.581Z] INFO: Product updated successfully: 689a55ff0e69106a387ebcac, IP: 127.0.0.1
+[2025-08-11T20:43:43.781Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:43:43.813Z] INFO: [AUDIT] user 689a55ff0e69106a387ebcbd created product 689a55ff0e69106a387ebcc7 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:43:43.833Z] INFO: [AUDIT] user 689a55ff0e69106a387ebcbd deleted product 689a55ff0e69106a387ebcc7 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:44:11.567Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:44:11.700Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:44:11.722Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T20:44:11.905Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T20:44:12.086Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:44:12.203Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:44:12.238Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:44:13.847Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:44:13.885Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:44:15.481Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:44:15.522Z] INFO: [AUDIT] user 689a561fd736cf060a494ac8 created product 689a561fd736cf060a494ad2 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:44:15.738Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:44:15.776Z] INFO: [AUDIT] user 689a561fd736cf060a494ae0 created product 689a561fd736cf060a494aea (Test Product), IP: 127.0.0.1
+[2025-08-11T20:44:15.791Z] INFO: Product retrieved by ID: 689a561fd736cf060a494aea, IP: 127.0.0.1
+[2025-08-11T20:44:16.018Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:44:16.057Z] INFO: [AUDIT] user 689a561fd736cf060a494af9 created product 689a5620d736cf060a494b03 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:44:16.096Z] INFO: Product updated successfully: 689a5620d736cf060a494b03, IP: 127.0.0.1
+[2025-08-11T20:44:16.314Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:44:16.353Z] INFO: [AUDIT] user 689a5620d736cf060a494b14 created product 689a5620d736cf060a494b1e (Test Product), IP: 127.0.0.1
+[2025-08-11T20:44:16.374Z] INFO: [AUDIT] user 689a5620d736cf060a494b14 deleted product 689a5620d736cf060a494b1e (Test Product), IP: 127.0.0.1
+[2025-08-11T20:48:14.859Z] WARN: Login attempt with invalid email: javiertest1@test.com from IP ::1
+[2025-08-11T20:48:30.316Z] WARN: Login attempt with invalid email: javiertest123@test.com from IP ::1
+[2025-08-11T20:48:37.811Z] WARN: Login attempt with invalid email: javiertest123@test.com from IP ::1
+[2025-08-11T20:48:50.934Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-11T20:48:55.209Z] INFO: User registered successfully: nuevo@example.com from IP ::1
+[2025-08-11T20:49:41.294Z] INFO: Successful login for: nuevo@example.com from IP: ::1
+[2025-08-11T20:53:43.484Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:53:43.621Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:53:43.641Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T20:53:43.831Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T20:53:44.025Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:53:44.139Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:53:44.175Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:53:45.975Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:53:46.009Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:53:47.535Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:53:47.581Z] INFO: [AUDIT] user 689a585b4c8ab86fe28e9ffb created product 689a585b4c8ab86fe28ea006 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:53:47.780Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:53:47.817Z] INFO: [AUDIT] user 689a585b4c8ab86fe28ea014 created product 689a585b4c8ab86fe28ea01e (Test Product), IP: 127.0.0.1
+[2025-08-11T20:53:47.833Z] INFO: Product retrieved by ID: 689a585b4c8ab86fe28ea01e, IP: 127.0.0.1
+[2025-08-11T20:53:48.039Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:53:48.080Z] INFO: [AUDIT] user 689a585b4c8ab86fe28ea02d created product 689a585c4c8ab86fe28ea037 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:53:48.126Z] INFO: Product updated successfully: 689a585c4c8ab86fe28ea037, IP: 127.0.0.1
+[2025-08-11T20:53:48.332Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:53:48.367Z] INFO: [AUDIT] user 689a585c4c8ab86fe28ea048 created product 689a585c4c8ab86fe28ea052 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:53:48.388Z] INFO: [AUDIT] user 689a585c4c8ab86fe28ea048 deleted product 689a585c4c8ab86fe28ea052 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:55:04.912Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:55:05.060Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T20:55:05.083Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T20:55:05.278Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T20:55:05.472Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T20:55:05.593Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:55:05.631Z] WARN: Authorization denied: no token provided
+[2025-08-11T20:55:07.453Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:55:07.489Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:55:09.085Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:55:09.122Z] INFO: [AUDIT] user 689a58acd6bfe9c07dff9a6e created product 689a58add6bfe9c07dff9a79 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:55:09.331Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:55:09.368Z] INFO: [AUDIT] user 689a58add6bfe9c07dff9a87 created product 689a58add6bfe9c07dff9a91 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:55:09.386Z] INFO: Product retrieved by ID: 689a58add6bfe9c07dff9a91, IP: 127.0.0.1
+[2025-08-11T20:55:09.592Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:55:09.628Z] INFO: [AUDIT] user 689a58add6bfe9c07dff9aa0 created product 689a58add6bfe9c07dff9aaa (Test Product), IP: 127.0.0.1
+[2025-08-11T20:55:09.660Z] INFO: Product updated successfully: 689a58add6bfe9c07dff9aaa, IP: 127.0.0.1
+[2025-08-11T20:55:09.873Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T20:55:09.917Z] INFO: [AUDIT] user 689a58add6bfe9c07dff9abb created product 689a58add6bfe9c07dff9ac5 (Test Product), IP: 127.0.0.1
+[2025-08-11T20:55:09.952Z] INFO: [AUDIT] user 689a58add6bfe9c07dff9abb deleted product 689a58add6bfe9c07dff9ac5 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:00:26.476Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:00:26.607Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:00:26.626Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T21:00:26.813Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T21:00:26.995Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T21:00:27.109Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:00:27.145Z] WARN: Authorization denied: no token provided
+[2025-08-11T21:00:28.872Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:00:28.907Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:00:30.466Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:00:30.503Z] INFO: [AUDIT] user 689a59ee0060e26bdcb2b619 created product 689a59ee0060e26bdcb2b624 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:00:30.702Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:00:30.735Z] INFO: [AUDIT] user 689a59ee0060e26bdcb2b632 created product 689a59ee0060e26bdcb2b63c (Test Product), IP: 127.0.0.1
+[2025-08-11T21:00:30.750Z] INFO: Product retrieved by ID: 689a59ee0060e26bdcb2b63c, IP: 127.0.0.1
+[2025-08-11T21:00:30.958Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:00:31.001Z] INFO: [AUDIT] user 689a59ee0060e26bdcb2b64b created product 689a59ee0060e26bdcb2b655 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:00:31.049Z] INFO: Product updated successfully: 689a59ee0060e26bdcb2b655, IP: 127.0.0.1
+[2025-08-11T21:00:31.257Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:00:31.289Z] INFO: [AUDIT] user 689a59ef0060e26bdcb2b666 created product 689a59ef0060e26bdcb2b670 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:00:31.308Z] INFO: [AUDIT] user 689a59ef0060e26bdcb2b666 deleted product 689a59ef0060e26bdcb2b670 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:05:47.196Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:05:47.336Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:05:47.356Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T21:05:47.544Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T21:05:47.727Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T21:05:47.843Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:05:47.877Z] WARN: Authorization denied: no token provided
+[2025-08-11T21:05:49.864Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:05:49.908Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:05:51.467Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:05:51.502Z] INFO: [AUDIT] user 689a5b2fca5c7b4b13631af3 created product 689a5b2fca5c7b4b13631afe (Test Product), IP: 127.0.0.1
+[2025-08-11T21:05:51.730Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:05:51.774Z] INFO: [AUDIT] user 689a5b2fca5c7b4b13631b0c created product 689a5b2fca5c7b4b13631b16 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:05:51.794Z] INFO: Product retrieved by ID: 689a5b2fca5c7b4b13631b16, IP: 127.0.0.1
+[2025-08-11T21:05:52.001Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:05:52.038Z] INFO: [AUDIT] user 689a5b2fca5c7b4b13631b25 created product 689a5b30ca5c7b4b13631b2f (Test Product), IP: 127.0.0.1
+[2025-08-11T21:05:52.073Z] INFO: Product updated successfully: 689a5b30ca5c7b4b13631b2f, IP: 127.0.0.1
+[2025-08-11T21:05:52.279Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:05:52.312Z] INFO: [AUDIT] user 689a5b30ca5c7b4b13631b40 created product 689a5b30ca5c7b4b13631b4a (Test Product), IP: 127.0.0.1
+[2025-08-11T21:05:52.331Z] INFO: [AUDIT] user 689a5b30ca5c7b4b13631b40 deleted product 689a5b30ca5c7b4b13631b4a (Test Product), IP: 127.0.0.1
+[2025-08-11T21:12:41.868Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:12:41.999Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:12:42.018Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T21:12:42.206Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T21:12:42.399Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T21:12:42.511Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:12:42.547Z] WARN: Authorization denied: no token provided
+[2025-08-11T21:12:44.347Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:12:44.387Z] WARN: Authorization denied: user not found for decoded id 689a5cccc3c906e5c4781544
+[2025-08-11T21:12:45.944Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:12:45.985Z] INFO: [AUDIT] user 689a5ccd9a16d34f72f900cd created product 689a5ccd9a16d34f72f900d7 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:12:46.192Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:12:46.228Z] INFO: [AUDIT] user 689a5cce9a16d34f72f900e5 created product 689a5cce9a16d34f72f900ef (Test Product), IP: 127.0.0.1
+[2025-08-11T21:12:46.244Z] INFO: Product retrieved by ID: 689a5cce9a16d34f72f900ef, IP: 127.0.0.1
+[2025-08-11T21:12:46.462Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:12:46.499Z] INFO: [AUDIT] user 689a5cce9a16d34f72f900fe created product 689a5cce9a16d34f72f90108 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:12:46.535Z] INFO: Product updated successfully: 689a5cce9a16d34f72f90108, IP: 127.0.0.1
+[2025-08-11T21:12:46.739Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:12:46.771Z] INFO: [AUDIT] user 689a5cce9a16d34f72f90119 created product 689a5cce9a16d34f72f90123 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:12:46.790Z] INFO: [AUDIT] user 689a5cce9a16d34f72f90119 deleted product 689a5cce9a16d34f72f90123 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:15:54.924Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:15:55.053Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:15:55.073Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T21:15:55.257Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T21:15:55.441Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T21:15:55.587Z] WARN: Authorization denied: no token provided
+[2025-08-11T21:15:57.245Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:15:57.280Z] WARN: Authorization denied: user not found for decoded id 689a5d8da2a76bf164286ce4
+[2025-08-11T21:15:58.850Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:15:58.887Z] INFO: [AUDIT] user 689a5d8ebd309762f65c95eb created product 689a5d8ebd309762f65c95f6 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:15:59.090Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:15:59.124Z] INFO: [AUDIT] user 689a5d8ebd309762f65c9604 created product 689a5d8fbd309762f65c960e (Test Product), IP: 127.0.0.1
+[2025-08-11T21:15:59.140Z] INFO: Product retrieved by ID: 689a5d8fbd309762f65c960e, IP: 127.0.0.1
+[2025-08-11T21:15:59.351Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:15:59.389Z] INFO: [AUDIT] user 689a5d8fbd309762f65c961d created product 689a5d8fbd309762f65c9627 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:15:59.421Z] INFO: Product updated successfully: 689a5d8fbd309762f65c9627, IP: 127.0.0.1
+[2025-08-11T21:15:59.624Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:15:59.657Z] INFO: [AUDIT] user 689a5d8fbd309762f65c9638 created product 689a5d8fbd309762f65c9642 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:15:59.676Z] INFO: [AUDIT] user 689a5d8fbd309762f65c9638 deleted product 689a5d8fbd309762f65c9642 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:22:35.852Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:22:35.901Z] WARN: Authorization denied: user not found for decoded id 689a5f1bb6976c3ebefb40a2
+[2025-08-11T21:22:37.395Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:22:37.521Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:22:37.544Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T21:22:37.734Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T21:22:37.928Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T21:22:38.080Z] WARN: Authorization denied: no token provided
+[2025-08-11T21:22:39.643Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:22:39.681Z] INFO: [AUDIT] user 689a5f1f90c49ad86d6360bd created product 689a5f1f90c49ad86d6360c9 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:22:39.950Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:22:39.984Z] INFO: [AUDIT] user 689a5f1f90c49ad86d6360d7 created product 689a5f1f90c49ad86d6360e1 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:22:40.004Z] INFO: Product retrieved by ID: 689a5f1f90c49ad86d6360e1, IP: 127.0.0.1
+[2025-08-11T21:22:40.205Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:22:40.237Z] INFO: [AUDIT] user 689a5f2090c49ad86d6360f0 created product 689a5f2090c49ad86d6360fa (Test Product), IP: 127.0.0.1
+[2025-08-11T21:22:40.268Z] INFO: Product updated successfully: 689a5f2090c49ad86d6360fa, IP: 127.0.0.1
+[2025-08-11T21:22:40.467Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:22:40.499Z] INFO: [AUDIT] user 689a5f2090c49ad86d63610b created product 689a5f2090c49ad86d636115 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:22:40.519Z] INFO: [AUDIT] user 689a5f2090c49ad86d63610b deleted product 689a5f2090c49ad86d636115 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:24:14.022Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:24:14.075Z] WARN: Authorization denied: user not found for decoded id 689a5f7d03665d9b8018e729
+[2025-08-11T21:24:15.649Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:24:15.686Z] INFO: [AUDIT] user 689a5f7fd95b1f97d99b5d5e created product 689a5f7fd95b1f97d99b5d6b (Test Product), IP: 127.0.0.1
+[2025-08-11T21:24:15.895Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:24:15.929Z] INFO: [AUDIT] user 689a5f7fd95b1f97d99b5d79 created product 689a5f7fd95b1f97d99b5d83 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:24:15.946Z] INFO: Product retrieved by ID: 689a5f7fd95b1f97d99b5d83, IP: 127.0.0.1
+[2025-08-11T21:24:16.151Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:24:16.184Z] INFO: [AUDIT] user 689a5f7fd95b1f97d99b5d92 created product 689a5f80d95b1f97d99b5d9c (Test Product), IP: 127.0.0.1
+[2025-08-11T21:24:16.219Z] INFO: Product updated successfully: 689a5f80d95b1f97d99b5d9c, IP: 127.0.0.1
+[2025-08-11T21:24:16.425Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:24:16.463Z] INFO: [AUDIT] user 689a5f80d95b1f97d99b5dad created product 689a5f80d95b1f97d99b5db7 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:24:16.484Z] INFO: [AUDIT] user 689a5f80d95b1f97d99b5dad deleted product 689a5f80d95b1f97d99b5db7 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:24:18.087Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:24:18.209Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:24:18.227Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T21:24:18.417Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T21:24:18.598Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T21:24:18.739Z] WARN: Authorization denied: no token provided
+[2025-08-11T21:26:32.828Z] WARN: Forbidden access attempt by user 689a5737968c7545bdc48543 with role user
+[2025-08-11T21:26:58.511Z] WARN: Forbidden access attempt by user 689a5737968c7545bdc48543 with role user
+[2025-08-11T21:27:48.435Z] WARN: Login attempt with invalid email: admin12@test.com from IP ::1
+[2025-08-11T21:27:52.502Z] WARN: Login attempt with invalid email: admin12@test.com from IP ::1
+[2025-08-11T21:27:59.802Z] WARN: Login attempt with invalid email: admin@test.com from IP ::1
+[2025-08-11T21:28:09.906Z] INFO: Successful login for: admin12@admin.com from IP: ::1
+[2025-08-11T21:28:36.631Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:29:02.282Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:31:31.531Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:31:34.155Z] INFO: [AUDIT] Admin undefined (689a6135553a5e1918e36841) added 5 units of Producto prueba (ID: 689a6136553a5e1918e36843). New stock: 15. IP: 127.0.0.1
+[2025-08-11T21:31:34.226Z] WARN: Authorization denied: user not found for decoded id 689a6135553a5e1918e36841
+[2025-08-11T21:31:36.132Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:31:36.172Z] INFO: [AUDIT] user 689a61378bd3e658b1df063b created product 689a61388bd3e658b1df0646 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:31:36.382Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:31:36.416Z] INFO: [AUDIT] user 689a61388bd3e658b1df0654 created product 689a61388bd3e658b1df065e (Test Product), IP: 127.0.0.1
+[2025-08-11T21:31:36.431Z] INFO: Product retrieved by ID: 689a61388bd3e658b1df065e, IP: 127.0.0.1
+[2025-08-11T21:31:36.633Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:31:36.667Z] INFO: [AUDIT] user 689a61388bd3e658b1df066d created product 689a61388bd3e658b1df0677 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:31:36.701Z] INFO: Product updated successfully: 689a61388bd3e658b1df0677, IP: 127.0.0.1
+[2025-08-11T21:31:36.897Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:31:36.932Z] INFO: [AUDIT] user 689a61388bd3e658b1df0688 created product 689a61388bd3e658b1df0692 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:31:36.952Z] INFO: [AUDIT] user 689a61388bd3e658b1df0688 deleted product 689a61388bd3e658b1df0692 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:31:38.544Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:31:38.676Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:31:38.695Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T21:31:38.890Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T21:31:39.078Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T21:31:39.228Z] WARN: Authorization denied: no token provided
+[2025-08-11T21:31:56.063Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:32:28.551Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:32:47.556Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:33:21.434Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:33:34.526Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:34:49.379Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:35:08.577Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:36:04.308Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:36:17.150Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:42:23.291Z] INFO: [AUDIT] user 6897a55ca1ca32330b22b260 created product 689a63bf52c9e78b208ab778 (Camiseta deportiva), IP: ::1
+[2025-08-11T21:43:19.588Z] INFO: [AUDIT] Admin undefined (6897a55ca1ca32330b22b260) removed 3 units of Camiseta deportiva (ID: 689a63bf52c9e78b208ab778). New stock: 47. IP: ::1
+[2025-08-11T21:43:56.796Z] INFO: [AUDIT] Admin undefined (689a641c00ce529728273a8d) added 5 units of Producto prueba (ID: 689a641c00ce529728273a8f). New stock: 15. IP: 127.0.0.1
+[2025-08-11T21:43:56.900Z] WARN: Authorization denied: user not found for decoded id 689a641c00ce529728273a8d
+[2025-08-11T21:43:59.088Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:43:59.137Z] INFO: [AUDIT] user 689a641e56f96fbba410c9e7 created product 689a641f56f96fbba410c9f3 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:43:59.353Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:43:59.385Z] INFO: [AUDIT] user 689a641f56f96fbba410ca01 created product 689a641f56f96fbba410ca0b (Test Product), IP: 127.0.0.1
+[2025-08-11T21:43:59.400Z] INFO: Product retrieved by ID: 689a641f56f96fbba410ca0b, IP: 127.0.0.1
+[2025-08-11T21:43:59.607Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:43:59.641Z] INFO: [AUDIT] user 689a641f56f96fbba410ca1a created product 689a641f56f96fbba410ca24 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:43:59.676Z] INFO: Product updated successfully: 689a641f56f96fbba410ca24, IP: 127.0.0.1
+[2025-08-11T21:43:59.890Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:43:59.933Z] INFO: [AUDIT] user 689a641f56f96fbba410ca35 created product 689a641f56f96fbba410ca3f (Test Product), IP: 127.0.0.1
+[2025-08-11T21:43:59.955Z] INFO: [AUDIT] user 689a641f56f96fbba410ca35 deleted product 689a641f56f96fbba410ca3f (Test Product), IP: 127.0.0.1
+[2025-08-11T21:44:01.652Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:44:01.783Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:44:01.812Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T21:44:02.045Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T21:44:02.258Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T21:44:02.446Z] WARN: Authorization denied: no token provided
+[2025-08-11T21:44:20.044Z] INFO: [AUDIT] Admin undefined (689a643339590296ed74908c) added 5 units of Producto prueba (ID: 689a643339590296ed74908e). New stock: 15. IP: 127.0.0.1
+[2025-08-11T21:44:20.096Z] WARN: Authorization denied: user not found for decoded id 689a643339590296ed74908c
+[2025-08-11T21:44:21.666Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:44:21.704Z] INFO: [AUDIT] user 689a643573e8ca73431622a3 created product 689a643573e8ca73431622ae (Test Product), IP: 127.0.0.1
+[2025-08-11T21:44:21.906Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:44:21.939Z] INFO: [AUDIT] user 689a643573e8ca73431622bc created product 689a643573e8ca73431622c6 (Test Product), IP: 127.0.0.1
+[2025-08-11T21:44:21.954Z] INFO: Product retrieved by ID: 689a643573e8ca73431622c6, IP: 127.0.0.1
+[2025-08-11T21:44:22.160Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:44:22.193Z] INFO: [AUDIT] user 689a643573e8ca73431622d5 created product 689a643673e8ca73431622df (Test Product), IP: 127.0.0.1
+[2025-08-11T21:44:22.227Z] INFO: Product updated successfully: 689a643673e8ca73431622df, IP: 127.0.0.1
+[2025-08-11T21:44:22.425Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T21:44:22.457Z] INFO: [AUDIT] user 689a643673e8ca73431622f0 created product 689a643673e8ca73431622fa (Test Product), IP: 127.0.0.1
+[2025-08-11T21:44:22.477Z] INFO: [AUDIT] user 689a643673e8ca73431622f0 deleted product 689a643673e8ca73431622fa (Test Product), IP: 127.0.0.1
+[2025-08-11T21:44:24.038Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:44:24.158Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T21:44:24.175Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T21:44:24.362Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T21:44:24.548Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T21:44:24.687Z] WARN: Authorization denied: no token provided
+[2025-08-11T21:45:56.601Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T21:46:15.065Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T22:00:46.010Z] INFO: [AUDIT] Admin undefined (689a680dde08ad8bea28409c) added 5 units of Producto prueba (ID: 689a680dde08ad8bea28409e). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:00:46.066Z] WARN: Authorization denied: user not found for decoded id 689a680dde08ad8bea28409c
+[2025-08-11T22:00:48.065Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:00:48.104Z] INFO: [AUDIT] user 689a680f0c08f607245db7a5 created product 689a68100c08f607245db7b0 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:00:48.332Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:00:48.368Z] INFO: [AUDIT] user 689a68100c08f607245db7be created product 689a68100c08f607245db7c8 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:00:48.386Z] INFO: Product retrieved by ID: 689a68100c08f607245db7c8, IP: 127.0.0.1
+[2025-08-11T22:00:48.635Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:00:48.677Z] INFO: [AUDIT] user 689a68100c08f607245db7d7 created product 689a68100c08f607245db7e1 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:00:48.727Z] INFO: Product updated successfully: 689a68100c08f607245db7e1, IP: 127.0.0.1
+[2025-08-11T22:00:48.978Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:00:49.087Z] INFO: [AUDIT] user 689a68100c08f607245db7f2 created product 689a68110c08f607245db7fc (Test Product), IP: 127.0.0.1
+[2025-08-11T22:00:49.167Z] INFO: [AUDIT] user 689a68100c08f607245db7f2 deleted product 689a68110c08f607245db7fc (Test Product), IP: 127.0.0.1
+[2025-08-11T22:00:51.207Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:00:51.571Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:00:51.613Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:00:51.838Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:00:52.028Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:00:52.187Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:01:53.747Z] INFO: [AUDIT] Admin undefined (689a68515019b68ce0a986da) added 5 units of Producto prueba (ID: 689a68515019b68ce0a986dc). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:01:53.809Z] WARN: Authorization denied: user not found for decoded id 689a68515019b68ce0a986da
+[2025-08-11T22:01:56.226Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:01:56.268Z] INFO: [AUDIT] user 689a68537fbaceaf7bc8bcf2 created product 689a68547fbaceaf7bc8bcfd (Test Product), IP: 127.0.0.1
+[2025-08-11T22:01:56.496Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:01:56.534Z] INFO: [AUDIT] user 689a68547fbaceaf7bc8bd0b created product 689a68547fbaceaf7bc8bd15 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:01:56.552Z] INFO: Product retrieved by ID: 689a68547fbaceaf7bc8bd15, IP: 127.0.0.1
+[2025-08-11T22:01:56.804Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:01:56.846Z] INFO: [AUDIT] user 689a68547fbaceaf7bc8bd24 created product 689a68547fbaceaf7bc8bd2e (Test Product), IP: 127.0.0.1
+[2025-08-11T22:01:56.884Z] INFO: Product updated successfully: 689a68547fbaceaf7bc8bd2e, IP: 127.0.0.1
+[2025-08-11T22:01:57.110Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:01:57.148Z] INFO: [AUDIT] user 689a68547fbaceaf7bc8bd3f created product 689a68557fbaceaf7bc8bd49 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:01:57.173Z] INFO: [AUDIT] user 689a68547fbaceaf7bc8bd3f deleted product 689a68557fbaceaf7bc8bd49 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:01:58.802Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:01:58.928Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:01:58.946Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:01:59.139Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:01:59.333Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:01:59.485Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:02:56.027Z] INFO: [AUDIT] Admin undefined (689a688f0bae8271fe255571) added 5 units of Producto prueba (ID: 689a688f0bae8271fe255573). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:02:56.078Z] WARN: Authorization denied: user not found for decoded id 689a688f0bae8271fe255571
+[2025-08-11T22:02:57.695Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:02:57.733Z] INFO: [AUDIT] user 689a68910af07a78476b7d1f created product 689a68910af07a78476b7d29 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:02:57.936Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:02:57.968Z] INFO: [AUDIT] user 689a68910af07a78476b7d37 created product 689a68910af07a78476b7d41 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:02:57.984Z] INFO: Product retrieved by ID: 689a68910af07a78476b7d41, IP: 127.0.0.1
+[2025-08-11T22:02:58.184Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:02:58.221Z] INFO: [AUDIT] user 689a68920af07a78476b7d50 created product 689a68920af07a78476b7d5a (Test Product), IP: 127.0.0.1
+[2025-08-11T22:02:58.253Z] INFO: Product updated successfully: 689a68920af07a78476b7d5a, IP: 127.0.0.1
+[2025-08-11T22:02:58.598Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:02:58.629Z] INFO: [AUDIT] user 689a68920af07a78476b7d6b created product 689a68920af07a78476b7d75 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:02:58.648Z] INFO: [AUDIT] user 689a68920af07a78476b7d6b deleted product 689a68920af07a78476b7d75 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:03:00.214Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:03:00.352Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:03:00.370Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:03:00.569Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:03:00.765Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:03:00.920Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:04:13.416Z] INFO: [AUDIT] Admin undefined (689a68dd428921ced439200a) added 5 units of Producto prueba (ID: 689a68dd428921ced439200c). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:04:13.499Z] WARN: Authorization denied: user not found for decoded id 689a68dd428921ced439200a
+[2025-08-11T22:04:15.070Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:04:15.110Z] INFO: [AUDIT] user 689a68de143602a9ffdb4d3b created product 689a68df143602a9ffdb4d46 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:04:15.321Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:04:15.354Z] INFO: [AUDIT] user 689a68df143602a9ffdb4d54 created product 689a68df143602a9ffdb4d5e (Test Product), IP: 127.0.0.1
+[2025-08-11T22:04:15.370Z] INFO: Product retrieved by ID: 689a68df143602a9ffdb4d5e, IP: 127.0.0.1
+[2025-08-11T22:04:15.586Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:04:15.620Z] INFO: [AUDIT] user 689a68df143602a9ffdb4d6d created product 689a68df143602a9ffdb4d77 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:04:15.655Z] INFO: Product updated successfully: 689a68df143602a9ffdb4d77, IP: 127.0.0.1
+[2025-08-11T22:04:15.867Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:04:15.907Z] INFO: [AUDIT] user 689a68df143602a9ffdb4d88 created product 689a68df143602a9ffdb4d92 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:04:15.932Z] INFO: [AUDIT] user 689a68df143602a9ffdb4d88 deleted product 689a68df143602a9ffdb4d92 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:04:17.546Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:04:17.704Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:04:17.723Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:04:18.016Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:04:18.217Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:04:18.409Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:06:43.203Z] INFO: [AUDIT] Admin undefined (689a69732862dea1e409071c) added 5 units of Producto prueba (ID: 689a69732862dea1e409071e). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:06:43.258Z] WARN: Authorization denied: user not found for decoded id 689a69732862dea1e409071c
+[2025-08-11T22:06:44.750Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:06:44.867Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:06:44.885Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:06:45.068Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:06:45.250Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:06:45.390Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:06:47.029Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:06:47.064Z] INFO: [AUDIT] user 689a69769ce8fada77ddaf87 created product 689a69779ce8fada77ddaf91 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:06:47.268Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:06:47.300Z] INFO: [AUDIT] user 689a69779ce8fada77ddaf9f created product 689a69779ce8fada77ddafa9 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:06:47.315Z] INFO: Product retrieved by ID: 689a69779ce8fada77ddafa9, IP: 127.0.0.1
+[2025-08-11T22:06:47.518Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:06:47.549Z] INFO: [AUDIT] user 689a69779ce8fada77ddafb8 created product 689a69779ce8fada77ddafc2 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:06:47.581Z] INFO: Product updated successfully: 689a69779ce8fada77ddafc2, IP: 127.0.0.1
+[2025-08-11T22:06:47.782Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:06:47.815Z] INFO: [AUDIT] user 689a69779ce8fada77ddafd3 created product 689a69779ce8fada77ddafdd (Test Product), IP: 127.0.0.1
+[2025-08-11T22:06:47.833Z] INFO: [AUDIT] user 689a69779ce8fada77ddafd3 deleted product 689a69779ce8fada77ddafdd (Test Product), IP: 127.0.0.1
+[2025-08-11T22:09:43.399Z] INFO: [AUDIT] Admin undefined (689a6a2754e1a1383036dbcd) added 5 units of Producto prueba (ID: 689a6a2754e1a1383036dbcf). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:09:43.453Z] WARN: Authorization denied: user not found for decoded id 689a6a2754e1a1383036dbcd
+[2025-08-11T22:09:45.032Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:09:45.068Z] INFO: [AUDIT] user 689a6a28926bd51370a7ee88 created product 689a6a29926bd51370a7ee93 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:09:45.273Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:09:45.306Z] INFO: [AUDIT] user 689a6a29926bd51370a7eea1 created product 689a6a29926bd51370a7eeab (Test Product), IP: 127.0.0.1
+[2025-08-11T22:09:45.321Z] INFO: Product retrieved by ID: 689a6a29926bd51370a7eeab, IP: 127.0.0.1
+[2025-08-11T22:09:45.519Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:09:45.551Z] INFO: [AUDIT] user 689a6a29926bd51370a7eeba created product 689a6a29926bd51370a7eec4 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:09:45.585Z] INFO: Product updated successfully: 689a6a29926bd51370a7eec4, IP: 127.0.0.1
+[2025-08-11T22:09:45.786Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:09:45.817Z] INFO: [AUDIT] user 689a6a29926bd51370a7eed5 created product 689a6a29926bd51370a7eedf (Test Product), IP: 127.0.0.1
+[2025-08-11T22:09:45.835Z] INFO: [AUDIT] user 689a6a29926bd51370a7eed5 deleted product 689a6a29926bd51370a7eedf (Test Product), IP: 127.0.0.1
+[2025-08-11T22:09:47.302Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:09:47.421Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:09:47.438Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:09:47.626Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:09:47.850Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:09:48.024Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:12:54.469Z] INFO: [AUDIT] Admin undefined (689a6ae6ecbd6670a1b8bfa7) added 5 units of Producto prueba (ID: 689a6ae6ecbd6670a1b8bfa9). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:12:54.529Z] WARN: Authorization denied: user not found for decoded id 689a6ae6ecbd6670a1b8bfa7
+[2025-08-11T22:12:56.370Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:12:56.417Z] INFO: [AUDIT] user 689a6ae82078c722e79a8d38 created product 689a6ae82078c722e79a8d45 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:12:56.672Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:12:56.712Z] INFO: [AUDIT] user 689a6ae82078c722e79a8d53 created product 689a6ae82078c722e79a8d5d (Test Product), IP: 127.0.0.1
+[2025-08-11T22:12:56.733Z] INFO: Product retrieved by ID: 689a6ae82078c722e79a8d5d, IP: 127.0.0.1
+[2025-08-11T22:12:56.941Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:12:56.974Z] INFO: [AUDIT] user 689a6ae82078c722e79a8d6c created product 689a6ae82078c722e79a8d76 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:12:57.008Z] INFO: Product updated successfully: 689a6ae82078c722e79a8d76, IP: 127.0.0.1
+[2025-08-11T22:12:57.223Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:12:57.257Z] INFO: [AUDIT] user 689a6ae92078c722e79a8d87 created product 689a6ae92078c722e79a8d91 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:12:57.279Z] INFO: [AUDIT] user 689a6ae92078c722e79a8d87 deleted product 689a6ae92078c722e79a8d91 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:12:59.799Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:12:59.923Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:12:59.941Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:13:00.139Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:13:00.336Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:13:00.492Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:15:51.576Z] INFO: [AUDIT] Admin undefined (689a6b9719f410365f8eac73) added 5 units of Producto prueba (ID: 689a6b9719f410365f8eac75). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:15:51.626Z] WARN: Authorization denied: user not found for decoded id 689a6b9719f410365f8eac73
+[2025-08-11T22:15:53.149Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:15:53.268Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:15:53.284Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:15:53.471Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:15:53.654Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:15:53.798Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:15:55.422Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:15:55.456Z] INFO: [AUDIT] user 689a6b9b6721cf5ee6dbb2fe created product 689a6b9b6721cf5ee6dbb308 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:15:55.663Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:15:55.693Z] INFO: [AUDIT] user 689a6b9b6721cf5ee6dbb316 created product 689a6b9b6721cf5ee6dbb320 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:15:55.709Z] INFO: Product retrieved by ID: 689a6b9b6721cf5ee6dbb320, IP: 127.0.0.1
+[2025-08-11T22:15:55.910Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:15:55.939Z] INFO: [AUDIT] user 689a6b9b6721cf5ee6dbb32f created product 689a6b9b6721cf5ee6dbb339 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:15:55.970Z] INFO: Product updated successfully: 689a6b9b6721cf5ee6dbb339, IP: 127.0.0.1
+[2025-08-11T22:15:56.169Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:15:56.201Z] INFO: [AUDIT] user 689a6b9c6721cf5ee6dbb34a created product 689a6b9c6721cf5ee6dbb354 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:15:56.221Z] INFO: [AUDIT] user 689a6b9c6721cf5ee6dbb34a deleted product 689a6b9c6721cf5ee6dbb354 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:16:52.128Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T22:17:23.327Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T22:18:45.418Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T22:19:10.473Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T22:20:05.173Z] INFO: [AUDIT] Admin undefined (689a6c945872a9cfe3840cd5) added 5 units of Producto prueba (ID: 689a6c955872a9cfe3840cd7). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:20:05.231Z] WARN: Authorization denied: user not found for decoded id 689a6c945872a9cfe3840cd5
+[2025-08-11T22:20:07.033Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:07.069Z] INFO: [AUDIT] user 689a6c96ca1ba1caf72fad7a created product 689a6c97ca1ba1caf72fad84 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:07.289Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:07.334Z] INFO: [AUDIT] user 689a6c97ca1ba1caf72fad92 created product 689a6c97ca1ba1caf72fad9c (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:07.354Z] INFO: Product retrieved by ID: 689a6c97ca1ba1caf72fad9c, IP: 127.0.0.1
+[2025-08-11T22:20:07.629Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:07.670Z] INFO: [AUDIT] user 689a6c97ca1ba1caf72fadab created product 689a6c97ca1ba1caf72fadb5 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:07.717Z] INFO: Product updated successfully: 689a6c97ca1ba1caf72fadb5, IP: 127.0.0.1
+[2025-08-11T22:20:07.943Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:07.974Z] INFO: [AUDIT] user 689a6c97ca1ba1caf72fadc6 created product 689a6c97ca1ba1caf72fadd0 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:07.995Z] INFO: [AUDIT] user 689a6c97ca1ba1caf72fadc6 deleted product 689a6c97ca1ba1caf72fadd0 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:09.895Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:20:10.015Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:20:10.033Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:20:10.233Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:10.444Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:20:10.602Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:20:48.022Z] INFO: [AUDIT] Admin undefined (689a6cbf9ff9d96341943fed) added 5 units of Producto prueba (ID: 689a6cbf9ff9d96341943fef). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:20:48.079Z] WARN: Authorization denied: user not found for decoded id 689a6cbf9ff9d96341943fed
+[2025-08-11T22:20:50.936Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:50.973Z] INFO: [AUDIT] user 689a6cc2972035b63bc47350 created product 689a6cc2972035b63bc4735c (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:51.182Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:51.217Z] INFO: [AUDIT] user 689a6cc3972035b63bc4736a created product 689a6cc3972035b63bc47374 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:51.238Z] INFO: Product retrieved by ID: 689a6cc3972035b63bc47374, IP: 127.0.0.1
+[2025-08-11T22:20:51.467Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:51.498Z] INFO: [AUDIT] user 689a6cc3972035b63bc47383 created product 689a6cc3972035b63bc4738d (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:51.531Z] INFO: Product updated successfully: 689a6cc3972035b63bc4738d, IP: 127.0.0.1
+[2025-08-11T22:20:51.745Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:51.783Z] INFO: [AUDIT] user 689a6cc3972035b63bc4739e created product 689a6cc3972035b63bc473a8 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:51.803Z] INFO: [AUDIT] user 689a6cc3972035b63bc4739e deleted product 689a6cc3972035b63bc473a8 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:20:54.082Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:20:54.371Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:20:54.388Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:20:54.570Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:20:54.753Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:20:54.893Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:22:03.524Z] INFO: [AUDIT] Admin undefined (689a6d0b0dca63754c9b9f6a) added 5 units of Producto prueba (ID: 689a6d0b0dca63754c9b9f6c). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:22:03.579Z] WARN: Authorization denied: user not found for decoded id 689a6d0b0dca63754c9b9f6a
+[2025-08-11T22:22:18.687Z] INFO: [AUDIT] Admin undefined (689a6d1a93113a8fb27bf178) added 5 units of Producto prueba (ID: 689a6d1a93113a8fb27bf17a). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:22:18.747Z] WARN: Authorization denied: user not found for decoded id 689a6d1a93113a8fb27bf178
+[2025-08-11T22:22:20.571Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:22:20.607Z] INFO: [AUDIT] user 689a6d1cc57f094fcb86429d created product 689a6d1cc57f094fcb8642a8 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:22:20.833Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:22:20.867Z] INFO: [AUDIT] user 689a6d1cc57f094fcb8642b6 created product 689a6d1cc57f094fcb8642c0 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:22:20.882Z] INFO: Product retrieved by ID: 689a6d1cc57f094fcb8642c0, IP: 127.0.0.1
+[2025-08-11T22:22:21.093Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:22:21.125Z] INFO: [AUDIT] user 689a6d1cc57f094fcb8642cf created product 689a6d1dc57f094fcb8642d9 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:22:21.156Z] INFO: Product updated successfully: 689a6d1dc57f094fcb8642d9, IP: 127.0.0.1
+[2025-08-11T22:22:21.365Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:22:21.397Z] INFO: [AUDIT] user 689a6d1dc57f094fcb8642ea created product 689a6d1dc57f094fcb8642f4 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:22:21.416Z] INFO: [AUDIT] user 689a6d1dc57f094fcb8642ea deleted product 689a6d1dc57f094fcb8642f4 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:22:23.170Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:22:23.306Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:22:23.327Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:22:23.528Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:22:23.731Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:22:23.897Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:23:32.463Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:23:32.563Z] INFO: [AUDIT] user 689a6d6414934a0809dc111f created product 689a6d6414934a0809dc112b (Test Product), IP: 127.0.0.1
+[2025-08-11T22:23:32.769Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:23:32.800Z] INFO: [AUDIT] user 689a6d6414934a0809dc1139 created product 689a6d6414934a0809dc1143 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:23:32.815Z] INFO: Product retrieved by ID: 689a6d6414934a0809dc1143, IP: 127.0.0.1
+[2025-08-11T22:23:33.016Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:23:33.047Z] INFO: [AUDIT] user 689a6d6414934a0809dc1152 created product 689a6d6514934a0809dc115c (Test Product), IP: 127.0.0.1
+[2025-08-11T22:23:33.079Z] INFO: Product updated successfully: 689a6d6514934a0809dc115c, IP: 127.0.0.1
+[2025-08-11T22:23:33.279Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:23:33.310Z] INFO: [AUDIT] user 689a6d6514934a0809dc116d created product 689a6d6514934a0809dc1177 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:23:33.328Z] INFO: [AUDIT] user 689a6d6514934a0809dc116d deleted product 689a6d6514934a0809dc1177 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:23:34.778Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:23:34.893Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:23:34.910Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:23:35.093Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:23:35.274Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:23:35.418Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:24:13.145Z] INFO: [AUDIT] Admin undefined (689a6d8c295adf9b628d5aaf) added 5 units of Producto prueba (ID: 689a6d8d295adf9b628d5ab1). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:24:14.890Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:24:14.927Z] INFO: [AUDIT] user 689a6d8e9a0aee5f3cf60a26 created product 689a6d8e9a0aee5f3cf60a30 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:24:15.143Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:24:15.173Z] INFO: [AUDIT] user 689a6d8e9a0aee5f3cf60a3e created product 689a6d8f9a0aee5f3cf60a48 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:24:15.188Z] INFO: Product retrieved by ID: 689a6d8f9a0aee5f3cf60a48, IP: 127.0.0.1
+[2025-08-11T22:24:15.395Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:24:15.428Z] INFO: [AUDIT] user 689a6d8f9a0aee5f3cf60a57 created product 689a6d8f9a0aee5f3cf60a61 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:24:15.460Z] INFO: Product updated successfully: 689a6d8f9a0aee5f3cf60a61, IP: 127.0.0.1
+[2025-08-11T22:24:15.667Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:24:15.699Z] INFO: [AUDIT] user 689a6d8f9a0aee5f3cf60a72 created product 689a6d8f9a0aee5f3cf60a7c (Test Product), IP: 127.0.0.1
+[2025-08-11T22:24:15.718Z] INFO: [AUDIT] user 689a6d8f9a0aee5f3cf60a72 deleted product 689a6d8f9a0aee5f3cf60a7c (Test Product), IP: 127.0.0.1
+[2025-08-11T22:24:17.305Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:24:17.426Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:24:17.446Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:24:17.641Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:24:17.835Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:24:17.994Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:25:01.186Z] INFO: [AUDIT] Admin undefined (689a6dbc5a0fbf5e6132d882) added 5 units of Producto prueba (ID: 689a6dbd5a0fbf5e6132d884). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:25:01.240Z] WARN: Authorization denied: user not found for decoded id 689a6dbc5a0fbf5e6132d882
+[2025-08-11T22:25:03.319Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:25:03.356Z] INFO: [AUDIT] user 689a6dbfa420d9f16337e75f created product 689a6dbfa420d9f16337e76a (Test Product), IP: 127.0.0.1
+[2025-08-11T22:25:03.580Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:25:03.614Z] INFO: [AUDIT] user 689a6dbfa420d9f16337e778 created product 689a6dbfa420d9f16337e782 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:25:03.633Z] INFO: Product retrieved by ID: 689a6dbfa420d9f16337e782, IP: 127.0.0.1
+[2025-08-11T22:25:03.847Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:25:03.884Z] INFO: [AUDIT] user 689a6dbfa420d9f16337e791 created product 689a6dbfa420d9f16337e79b (Test Product), IP: 127.0.0.1
+[2025-08-11T22:25:03.926Z] INFO: Product updated successfully: 689a6dbfa420d9f16337e79b, IP: 127.0.0.1
+[2025-08-11T22:25:04.145Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:25:04.181Z] INFO: [AUDIT] user 689a6dbfa420d9f16337e7ac created product 689a6dc0a420d9f16337e7b6 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:25:04.201Z] INFO: [AUDIT] user 689a6dbfa420d9f16337e7ac deleted product 689a6dc0a420d9f16337e7b6 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:25:06.301Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:25:06.455Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:25:06.478Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:25:06.738Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:25:06.970Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:25:07.197Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:27:46.916Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T22:28:58.513Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-11T22:31:58.351Z] INFO: [AUDIT] Admin undefined (689a6f5e507adfb5a933568d) added 5 units of Producto prueba (ID: 689a6f5e507adfb5a933568f). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:31:58.406Z] WARN: Authorization denied: user not found for decoded id 689a6f5e507adfb5a933568d
+[2025-08-11T22:31:59.939Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:32:00.058Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:32:00.077Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:32:00.260Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:32:00.444Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:32:00.592Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:32:02.208Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:32:02.242Z] INFO: [AUDIT] user 689a6f6146e1cb1d9b219713 created product 689a6f6246e1cb1d9b21971d (Test Product), IP: 127.0.0.1
+[2025-08-11T22:32:02.451Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:32:02.482Z] INFO: [AUDIT] user 689a6f6246e1cb1d9b21972b created product 689a6f6246e1cb1d9b219735 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:32:02.497Z] INFO: Product retrieved by ID: 689a6f6246e1cb1d9b219735, IP: 127.0.0.1
+[2025-08-11T22:32:02.701Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:32:02.732Z] INFO: [AUDIT] user 689a6f6246e1cb1d9b219744 created product 689a6f6246e1cb1d9b21974e (Test Product), IP: 127.0.0.1
+[2025-08-11T22:32:02.766Z] INFO: Product updated successfully: 689a6f6246e1cb1d9b21974e, IP: 127.0.0.1
+[2025-08-11T22:32:02.982Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:32:03.018Z] INFO: [AUDIT] user 689a6f6246e1cb1d9b21975f created product 689a6f6346e1cb1d9b219769 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:32:03.039Z] INFO: [AUDIT] user 689a6f6246e1cb1d9b21975f deleted product 689a6f6346e1cb1d9b219769 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:36:02.741Z] INFO: [AUDIT] Admin undefined (689a7052417c006983c5f721) added 5 units of Producto prueba (ID: 689a7052417c006983c5f723). New stock: 15. IP: 127.0.0.1
+[2025-08-11T22:36:02.794Z] WARN: Authorization denied: user not found for decoded id 689a7052417c006983c5f721
+[2025-08-11T22:36:04.493Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:36:04.528Z] INFO: [AUDIT] user 689a705452ea25ad2d127658 created product 689a705452ea25ad2d127664 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:36:04.732Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:36:04.763Z] INFO: [AUDIT] user 689a705452ea25ad2d127672 created product 689a705452ea25ad2d12767c (Test Product), IP: 127.0.0.1
+[2025-08-11T22:36:04.779Z] INFO: Product retrieved by ID: 689a705452ea25ad2d12767c, IP: 127.0.0.1
+[2025-08-11T22:36:04.980Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:36:05.012Z] INFO: [AUDIT] user 689a705452ea25ad2d12768b created product 689a705552ea25ad2d127695 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:36:05.043Z] INFO: Product updated successfully: 689a705552ea25ad2d127695, IP: 127.0.0.1
+[2025-08-11T22:36:05.241Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-11T22:36:05.273Z] INFO: [AUDIT] user 689a705552ea25ad2d1276a6 created product 689a705552ea25ad2d1276b0 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:36:05.292Z] INFO: [AUDIT] user 689a705552ea25ad2d1276a6 deleted product 689a705552ea25ad2d1276b0 (Test Product), IP: 127.0.0.1
+[2025-08-11T22:36:06.813Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:36:06.929Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-11T22:36:06.944Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-11T22:36:07.125Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-11T22:36:07.308Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-11T22:36:07.450Z] WARN: Authorization denied: no token provided
+[2025-08-11T22:37:35.861Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-12T00:33:49.912Z] INFO: [AUDIT] Admin undefined (689a8bed8235bd2df72790f2) added 5 units of Producto prueba (ID: 689a8bed8235bd2df72790f4). New stock: 15. IP: 127.0.0.1
+[2025-08-12T00:33:49.965Z] WARN: Authorization denied: user not found for decoded id 689a8bed8235bd2df72790f2
+[2025-08-12T00:33:51.632Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T00:33:51.669Z] INFO: [AUDIT] user 689a8befb8a5055f67882742 created product 689a8befb8a5055f6788274c (Test Product), IP: 127.0.0.1
+[2025-08-12T00:33:51.877Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T00:33:51.906Z] INFO: [AUDIT] user 689a8befb8a5055f6788275a created product 689a8befb8a5055f67882764 (Test Product), IP: 127.0.0.1
+[2025-08-12T00:33:51.920Z] INFO: Product retrieved by ID: 689a8befb8a5055f67882764, IP: 127.0.0.1
+[2025-08-12T00:33:52.121Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T00:33:52.152Z] INFO: [AUDIT] user 689a8befb8a5055f67882773 created product 689a8bf0b8a5055f6788277d (Test Product), IP: 127.0.0.1
+[2025-08-12T00:33:52.183Z] INFO: Product updated successfully: 689a8bf0b8a5055f6788277d, IP: 127.0.0.1
+[2025-08-12T00:33:52.473Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T00:33:52.506Z] INFO: [AUDIT] user 689a8bf0b8a5055f6788278e created product 689a8bf0b8a5055f67882798 (Test Product), IP: 127.0.0.1
+[2025-08-12T00:33:52.527Z] INFO: [AUDIT] user 689a8bf0b8a5055f6788278e deleted product 689a8bf0b8a5055f67882798 (Test Product), IP: 127.0.0.1
+[2025-08-12T00:33:54.063Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T00:33:54.176Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T00:33:54.194Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-12T00:33:54.379Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-12T00:33:54.562Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-12T00:33:54.709Z] WARN: Authorization denied: no token provided
+[2025-08-12T01:16:02.324Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-12T01:28:52.675Z] INFO: [AUDIT] Admin undefined (689a98d4c8a697f898987d57) added 5 units of Producto prueba (ID: 689a98d4c8a697f898987d59). New stock: 15. IP: 127.0.0.1
+[2025-08-12T01:28:52.726Z] WARN: Authorization denied: user not found for decoded id 689a98d4c8a697f898987d57
+[2025-08-12T01:28:54.336Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:28:54.372Z] INFO: [AUDIT] user 689a98d6d7ac7d6d1c5ea5a0 created product 689a98d6d7ac7d6d1c5ea5ac (Test Product), IP: 127.0.0.1
+[2025-08-12T01:28:54.573Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:28:54.606Z] INFO: [AUDIT] user 689a98d6d7ac7d6d1c5ea5ba created product 689a98d6d7ac7d6d1c5ea5c4 (Test Product), IP: 127.0.0.1
+[2025-08-12T01:28:54.620Z] INFO: Product retrieved by ID: 689a98d6d7ac7d6d1c5ea5c4, IP: 127.0.0.1
+[2025-08-12T01:28:54.824Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:28:54.858Z] INFO: [AUDIT] user 689a98d6d7ac7d6d1c5ea5d3 created product 689a98d6d7ac7d6d1c5ea5dd (Test Product), IP: 127.0.0.1
+[2025-08-12T01:28:54.893Z] INFO: Product updated successfully: 689a98d6d7ac7d6d1c5ea5dd, IP: 127.0.0.1
+[2025-08-12T01:28:55.096Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:28:55.128Z] INFO: [AUDIT] user 689a98d6d7ac7d6d1c5ea5ee created product 689a98d7d7ac7d6d1c5ea5f8 (Test Product), IP: 127.0.0.1
+[2025-08-12T01:28:55.148Z] INFO: [AUDIT] user 689a98d6d7ac7d6d1c5ea5ee deleted product 689a98d7d7ac7d6d1c5ea5f8 (Test Product), IP: 127.0.0.1
+[2025-08-12T01:28:56.692Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T01:28:56.810Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T01:28:56.826Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-12T01:28:57.010Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-12T01:28:57.193Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-12T01:28:57.340Z] WARN: Authorization denied: no token provided
+[2025-08-12T01:38:28.749Z] INFO: [AUDIT] Admin undefined (689a9b14957569ad60190c7c) added 5 units of Producto prueba (ID: 689a9b14957569ad60190c7e). New stock: 15. IP: 127.0.0.1
+[2025-08-12T01:38:28.838Z] WARN: Authorization denied: user not found for decoded id 689a9b14957569ad60190c7c
+[2025-08-12T01:38:30.976Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:38:31.031Z] INFO: [AUDIT] user 689a9b1663b7ce7a9a4d9332 created product 689a9b1763b7ce7a9a4d933d (Test Product), IP: 127.0.0.1
+[2025-08-12T01:38:31.262Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:38:31.298Z] INFO: [AUDIT] user 689a9b1763b7ce7a9a4d934b created product 689a9b1763b7ce7a9a4d9355 (Test Product), IP: 127.0.0.1
+[2025-08-12T01:38:31.315Z] INFO: Product retrieved by ID: 689a9b1763b7ce7a9a4d9355, IP: 127.0.0.1
+[2025-08-12T01:38:31.534Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:38:31.581Z] INFO: [AUDIT] user 689a9b1763b7ce7a9a4d9364 created product 689a9b1763b7ce7a9a4d936e (Test Product), IP: 127.0.0.1
+[2025-08-12T01:38:31.616Z] INFO: Product updated successfully: 689a9b1763b7ce7a9a4d936e, IP: 127.0.0.1
+[2025-08-12T01:38:31.888Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:38:31.926Z] INFO: [AUDIT] user 689a9b1763b7ce7a9a4d937f created product 689a9b1763b7ce7a9a4d9389 (Test Product), IP: 127.0.0.1
+[2025-08-12T01:38:31.947Z] INFO: [AUDIT] user 689a9b1763b7ce7a9a4d937f deleted product 689a9b1763b7ce7a9a4d9389 (Test Product), IP: 127.0.0.1
+[2025-08-12T01:38:33.807Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T01:38:33.927Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T01:38:33.946Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-12T01:38:34.142Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-12T01:38:34.327Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-12T01:38:34.475Z] WARN: Authorization denied: no token provided
+[2025-08-12T01:49:22.578Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:49:22.657Z] INFO: [AUDIT] user 689a9da2d296889cb7ad1082 created product 689a9da2d296889cb7ad108d (Test Product), IP: 127.0.0.1
+[2025-08-12T01:49:22.867Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:49:22.911Z] INFO: [AUDIT] user 689a9da2d296889cb7ad109b created product 689a9da2d296889cb7ad10a5 (Test Product), IP: 127.0.0.1
+[2025-08-12T01:49:22.928Z] INFO: Product retrieved by ID: 689a9da2d296889cb7ad10a5, IP: 127.0.0.1
+[2025-08-12T01:49:23.135Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:49:23.168Z] INFO: [AUDIT] user 689a9da2d296889cb7ad10b4 created product 689a9da3d296889cb7ad10be (Test Product), IP: 127.0.0.1
+[2025-08-12T01:49:23.218Z] INFO: Product updated successfully: 689a9da3d296889cb7ad10be, IP: 127.0.0.1
+[2025-08-12T01:49:23.417Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T01:49:23.450Z] INFO: [AUDIT] user 689a9da3d296889cb7ad10cf created product 689a9da3d296889cb7ad10d9 (Test Product), IP: 127.0.0.1
+[2025-08-12T01:49:23.470Z] INFO: [AUDIT] user 689a9da3d296889cb7ad10cf deleted product 689a9da3d296889cb7ad10d9 (Test Product), IP: 127.0.0.1
+[2025-08-12T01:49:25.133Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T01:49:25.260Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T01:49:25.277Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-12T01:49:25.469Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-12T01:49:25.669Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-12T01:49:25.826Z] WARN: Authorization denied: no token provided
+[2025-08-12T13:12:47.108Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T13:12:47.274Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T13:12:47.296Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-12T13:12:47.507Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-12T13:12:47.735Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-12T13:12:47.930Z] WARN: Authorization denied: no token provided
+[2025-08-12T13:27:12.818Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T13:27:12.894Z] INFO: [AUDIT] user 689b41300d71658b0b2a56e8 created product 689b41300d71658b0b2a56f4 (Test Product), IP: 127.0.0.1
+[2025-08-12T13:27:13.147Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T13:27:13.187Z] INFO: [AUDIT] user 689b41300d71658b0b2a5702 created product 689b41310d71658b0b2a570c (Test Product), IP: 127.0.0.1
+[2025-08-12T13:27:13.207Z] INFO: Product retrieved by ID: 689b41310d71658b0b2a570c, IP: 127.0.0.1
+[2025-08-12T13:27:13.448Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T13:27:13.487Z] INFO: [AUDIT] user 689b41310d71658b0b2a571b created product 689b41310d71658b0b2a5725 (Test Product), IP: 127.0.0.1
+[2025-08-12T13:27:13.534Z] INFO: Product updated successfully: 689b41310d71658b0b2a5725, IP: 127.0.0.1
+[2025-08-12T13:27:13.790Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-12T13:27:13.826Z] INFO: [AUDIT] user 689b41310d71658b0b2a5736 created product 689b41310d71658b0b2a5740 (Test Product), IP: 127.0.0.1
+[2025-08-12T13:27:13.854Z] INFO: [AUDIT] user 689b41310d71658b0b2a5736 deleted product 689b41310d71658b0b2a5740 (Test Product), IP: 127.0.0.1
+[2025-08-12T13:27:15.783Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T13:27:15.917Z] INFO: User registered successfully: test@example.com from IP 127.0.0.1
+[2025-08-12T13:27:15.933Z] WARN: Registration attempt with duplicate email: test@example.com from ip 127.0.0.1
+[2025-08-12T13:27:16.176Z] INFO: Successful login for: test@example.com from IP: 127.0.0.1
+[2025-08-12T13:27:16.423Z] WARN: Incorrect password for: test@example.com from IP 127.0.0.1
+[2025-08-12T13:27:16.593Z] WARN: Authorization denied: no token provided
+[2025-08-12T13:27:23.906Z] INFO: [AUDIT] Admin undefined (689b413bfb5ddcec8ee11903) added 5 units of Producto prueba (ID: 689b413bfb5ddcec8ee11905). New stock: 15. IP: 127.0.0.1
+[2025-08-12T13:27:24.066Z] WARN: Schema validation failed for POST /api/manual-inventory

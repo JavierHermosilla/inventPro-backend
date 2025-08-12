@@ -207,3 +207,49 @@
 [2025-08-11T14:40:12.818Z] ERROR: Token verification failed: jwt malformed
 [2025-08-11T14:40:12.990Z] ERROR: Token verification failed: jwt malformed
 [2025-08-11T14:40:15.234Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T19:37:12.394Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.634Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.863Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:13.086Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:23.532Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:23.810Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:24.055Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:24.306Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.391Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.689Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.921Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:58.150Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T20:14:22.504Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:17:54.507Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:33:03.347Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:38:20.471Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:38:22.169Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:38:22.202Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:40:53.111Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:40:54.912Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:40:54.947Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:43:39.714Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:43:41.445Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:43:41.481Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:44:12.203Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:44:13.847Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:44:13.885Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:53:44.139Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:53:45.975Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:53:46.009Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:55:05.593Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:55:07.453Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T20:55:07.489Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:00:27.109Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:00:28.872Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:00:28.907Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:05:47.843Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:05:49.864Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:05:49.908Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:12:42.511Z] ERROR: Token verification failed: jwt malformed
+[2025-08-11T21:33:21.434Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:33:34.526Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:34:49.379Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:35:08.577Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:36:04.308Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:36:17.150Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"

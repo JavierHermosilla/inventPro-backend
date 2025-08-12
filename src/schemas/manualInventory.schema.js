@@ -8,16 +8,23 @@ const objectIdSchema = z.string().refine(val => mongoose.Types.ObjectId.isValid(
 
 // Schema para crear un ajuste manual de inventario
 export const createManualInventorySchema = z.object({
-  body: z.object({
-    productId: objectIdSchema,
-    type: z.enum(['increase', 'decrease']),
-    quantity: z.number({ invalid_type_error: 'Quantity must be a number' })
-      .int()
-      .min(1, { message: 'Quantity must be at least 1' }),
-    reason: z.string()
-      .max(255, { message: 'Reason is too long' })
-      .optional()
-  })
+  productId: objectIdSchema,
+  type: z.enum(['increase', 'decrease']),
+  quantity: z.number({ invalid_type_error: 'Quantity must be a number' })
+    .int()
+    .min(1, { message: 'Quantity must be at least 1' }),
+  reason: z.string()
+    .max(255, { message: 'Reason is too long' })
+    .optional()
+}).superRefine((data, ctx) => {
+  // validacion de decrease
+  if (data.type === 'decrease' && (!data.reason || data.reason.trim() === '')) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Reason is required when type is decrease',
+      path: ['reason']
+    })
+  }
 })
 
 // Schema para actualizar ajuste manual (todos opcionales)

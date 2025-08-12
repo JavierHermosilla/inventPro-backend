@@ -12,9 +12,12 @@
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit"
   },
   "jest": {
-    "setupFiles": ["<rootDir>/src/test/setupEnv.js"],
-    "testEnvironment": "node"
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
+  "testEnvironment": "node"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JavierHermosilla/inventpro.git"

@@ -7,11 +7,21 @@ import logger from '../utils/logger.js'
  */
 const sanitize = (obj) => {
   if (!obj || typeof obj !== 'object') return
-  for (const key in obj) {
-    if (typeof obj[key] === 'string') {
-      obj[key] = xss(obj[key])
-    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
-      sanitize(obj[key])
+  if (Array.isArray(obj)) {
+    obj.forEach((item, index) => {
+      if (typeof item === 'string') {
+        obj[index] = xss(item)
+      } else if (typeof item === 'object' && item !== null) {
+        sanitize(item)
+      }
+    })
+  } else {
+    for (const key in obj) {
+      if (typeof obj[key] === 'string') {
+        obj[key] = xss(obj[key])
+      } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+        sanitize(obj[key])
+      }
     }
   }
 }

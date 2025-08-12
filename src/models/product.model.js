@@ -23,10 +23,9 @@ const productSchema = new mongoose.Schema({
     default: 0
   },
   category: {
-    type: String,
-    required: [true, 'Category is required'],
-    trim: true,
-    lowercase: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true
   },
   supplier: {
     type: mongoose.Schema.Types.ObjectId,

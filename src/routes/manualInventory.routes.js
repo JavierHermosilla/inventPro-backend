@@ -17,6 +17,10 @@ router.post(
   verifyTokenMiddleware,
   requireRole('admin'),
   validateSchema(createManualInventorySchema),
+  (req, res, next) => {
+    console.log('💡 Entré a manualInventoryRoutes') // <-- Aquí justo antes del controlador
+    next()
+  },
   createManualInventory
 )
 

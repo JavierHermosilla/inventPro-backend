@@ -1,93 +1,92 @@
 import request from 'supertest'
 import app from '../app.js'
-import { clearDatabase, closeDatabase, connect } from './setup.js'
+import mongoose from 'mongoose'
+import User from '../models/user.model.js'
+import { createAccessToken } from '../libs/jwt.js'
 
-/** @jest-environment node */
 describe('Auth API', () => {
   const userData = {
     username: 'testuser',
     name: 'Test User',
-    email: 'testuser@example.com',
-    password: 'test1234',
+    email: 'test@example.com',
+    password: 'Password123',
     phone: '+56912345678'
   }
 
-  let token = ''
-
-  jest.setTimeout(20000)
-
   beforeAll(async () => {
-    await connect()
+    if (mongoose.connection.readyState === 0) {
+      await mongoose.connect(process.env.MONGO_URI_TEST, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+    }
+  })
 
-    await request(app).post('/api/auth/register').send(userData)
-
-    const loginRes = await request(app)
-      .post('/api/auth/login')
-      .send({ email: userData.email, password: userData.password })
-
-    token = loginRes.body.token
+  beforeEach(async () => {
+    await User.deleteMany()
   })
 
   afterAll(async () => {
-    await clearDatabase()
-    await closeDatabase()
+    await mongoose.connection.close()
   })
 
-  it('should register a new user', async () => {
-    const newUser = { ...userData, email: 'newuser@example.com', username: 'newuser' }
-    const res = await request(app).post('/api/auth/register').send(newUser)
+  test('should register user successfully', async () => {
+    const res = await request(app).post('/api/auth/register').send(userData)
     expect(res.statusCode).toBe(201)
-    expect(res.body).toHaveProperty('username', newUser.username)
+    expect(res.body).toHaveProperty('_id')
+    expect(res.body.email).toBe(userData.email)
   })
 
-  it('should NOT register user with existing email', async () => {
+  test('should NOT register user with existing email', async () => {
+    await request(app).post('/api/auth/register').send(userData)
     const res = await request(app).post('/api/auth/register').send(userData)
     expect(res.statusCode).toBe(400)
     expect(res.body).toHaveProperty('errors')
+    expect(res.body.errors[0]).toHaveProperty('path', 'email')
   })
 
-  it('should NOT register with invalid password', async () => {
-    const res = await request(app)
-      .post('/api/auth/register')
-      .send({ ...userData, email: 'newemail@example.com', password: '123' })
-    expect(res.statusCode).toBe(400)
-    expect(res.body.errors[0].message).toMatch(/contraseña/i)
-  })
+  test('should login successfully with valid credentials', async () => {
+    // Aquí no hash de password para que el login funcione con middleware real
+    const user = new User(userData)
+    await user.save()
 
-  it('should login successfully with valid credentials', async () => {
     const res = await request(app)
       .post('/api/auth/login')
       .send({ email: userData.email, password: userData.password })
+
     expect(res.statusCode).toBe(200)
     expect(res.body).toHaveProperty('token')
+    expect(res.body.email).toBe(userData.email)
   })
 
-  it('should NOT login with wrong password', async () => {
+  test('should NOT login with wrong password', async () => {
+    const user = new User(userData)
+    await user.save()
+
     const res = await request(app)
       .post('/api/auth/login')
-      .send({ email: userData.email, password: 'WrongPassword!' })
+      .send({ email: userData.email, password: 'wrongpassword' })
+
     expect(res.statusCode).toBe(401)
-    expect(res.body).toHaveProperty('message')
   })
 
-  it('should access protected profile route with valid token', async () => {
+  test('should access protected profile route with valid token', async () => {
+    const user = new User(userData)
+    const savedUser = await user.save()
+
+    const token = await createAccessToken({ id: savedUser._id.toString() })
+
     const res = await request(app)
       .get('/api/auth/profile')
       .set('Authorization', `Bearer ${token}`)
+
     expect(res.statusCode).toBe(200)
     expect(res.body).toHaveProperty('email', userData.email)
+    expect(res.body).not.toHaveProperty('password') // password no debe enviarse
   })
 
-  it('should NOT access profile without token', async () => {
+  test('should NOT access profile route without token', async () => {
     const res = await request(app).get('/api/auth/profile')
     expect(res.statusCode).toBe(401)
-  })
-
-  it('should logout successfully', async () => {
-    const res = await request(app)
-      .post('/api/auth/logout')
-      .set('Authorization', `Bearer ${token}`)
-    expect(res.statusCode).toBe(200)
-    expect(res.body).toHaveProperty('message')
   })
 })

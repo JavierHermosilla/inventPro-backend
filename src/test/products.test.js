@@ -1,6 +1,7 @@
 import request from 'supertest'
 import User from '../models/user.model.js'
 import Supplier from '../models/supplier.model.js'
+import Category from '../models/category.model.js' // si tienes este modelo
 import app from '../app.js'
 import { connect, clearDatabase, closeDatabase } from './setup.js'
 
@@ -13,13 +14,14 @@ describe('Products API', () => {
   }
   let token
   let supplierId
+  let categoryId
 
   const productData = {
     name: 'Test Product',
     description: 'A test product',
     price: 100,
-    stock: 10,
-    category: 'Electronics'
+    stock: 10
+    // category y supplier se asignan dinámicamente
   }
 
   beforeAll(async () => {
@@ -29,7 +31,7 @@ describe('Products API', () => {
   beforeEach(async () => {
     await clearDatabase()
 
-    // Crear adminUser fresh
+    // Crear usuario admin fresh
     const newUser = new User({
       username: 'adminuser',
       name: 'Admin User',
@@ -40,6 +42,12 @@ describe('Products API', () => {
     })
     await newUser.save()
 
+    // Crear categoría necesaria para producto
+    const category = await Category.create({
+      name: 'Electronics'
+    })
+    categoryId = category._id
+
     // Crear proveedor fresh
     const supplier = await Supplier.create({
       name: 'Proveedor Test',
@@ -47,12 +55,12 @@ describe('Products API', () => {
       rut: '12345678-9'
     })
     supplierId = supplier._id
-    console.log('Supplier ID created:', supplierId)
 
-    // Login fresh para token
+    // Login para obtener token
     const loginRes = await request(app)
       .post('/api/auth/login')
       .send({ email: adminUser.email, password: adminUser.password })
+
     token = loginRes.body.token
   })
 
@@ -62,15 +70,16 @@ describe('Products API', () => {
   })
 
   it('should create a product', async () => {
-    const productToSend = { ...productData, supplier: supplierId }
-    console.log('Sending product:', productToSend)
+    const productToSend = {
+      ...productData,
+      category: categoryId,
+      supplier: supplierId
+    }
 
     const res = await request(app)
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
       .send(productToSend)
-
-    console.log('Create product response:', res.body)
 
     expect(res.statusCode).toBe(201)
     expect(res.body).toHaveProperty('message', 'Product created successfully.')
@@ -78,11 +87,11 @@ describe('Products API', () => {
   })
 
   it('should get product by id', async () => {
-    // Crear producto fresh para este test
+    // Crear producto fresh
     const createRes = await request(app)
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
-      .send({ ...productData, supplier: supplierId })
+      .send({ ...productData, category: categoryId, supplier: supplierId })
 
     expect(createRes.statusCode).toBe(201)
     expect(createRes.body).toHaveProperty('productId')
@@ -100,9 +109,9 @@ describe('Products API', () => {
     const createRes = await request(app)
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
-      .send({ ...productData, supplier: supplierId })
+      .send({ ...productData, category: categoryId, supplier: supplierId })
 
-    expect(createRes.statusCode).toBe(201) // <-- AQUÍ
+    expect(createRes.statusCode).toBe(201)
     expect(createRes.body).toHaveProperty('productId')
 
     const productId = createRes.body.productId
@@ -120,7 +129,7 @@ describe('Products API', () => {
     const createRes = await request(app)
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
-      .send({ ...productData, supplier: supplierId })
+      .send({ ...productData, category: categoryId, supplier: supplierId })
 
     expect(createRes.statusCode).toBe(201)
     expect(createRes.body).toHaveProperty('productId')
@@ -132,6 +141,7 @@ describe('Products API', () => {
       .set('Authorization', `Bearer ${token}`)
 
     expect(res.statusCode).toBe(200)
-    expect(res.body).toHaveProperty('message', expect.stringContaining('deleted'))
+    expect(res.body).toHaveProperty('message')
+    expect(res.body.message).toMatch(/deleted/i)
   })
 })

@@ -22,12 +22,15 @@ export const verifyTokenMiddleware = async (req, res, next) => {
       return res.status(401).json({ message: 'Invalid token payload' })
     }
 
+    console.log('Decoded ID from token:', decoded.id)
     const user = await User.findById(decoded.id)
+    console.log('User found:', user)
     if (!user) {
       logger.warn(`Authorization denied: user not found for decoded id ${decoded.id}`)
       return res.status(404).json({ message: 'User not found' })
     }
 
+    // Se asigna a req.user el id y role para control de acceso posterior
     req.user = { id: user._id.toString(), role: user.role }
     req.userId = req.user.id
 
@@ -40,14 +43,21 @@ export const verifyTokenMiddleware = async (req, res, next) => {
 
 // Middleware para permitir acceso solo si el usuario tiene alguno de los roles permitidos
 export const requireRole = (...roles) => (req, res, next) => {
-  if (!req.user) {
-    return res.status(401).json({ message: 'Unauthorized: No user info' })
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: 'Unauthorized: No user info' })
+    }
+
+    if (!roles.includes(req.user.role)) {
+      logger.warn(`Forbidden access attempt by user ${req.user.id} with role ${req.user.role}`)
+      return res.status(403).json({ message: 'Forbidden: You do not have permission' })
+    }
+
+    next()
+  } catch (err) {
+    console.error('verifyTokenMiddleware error:', err)
+    return res.status(401).json({ message: 'Unauthorized' })
   }
-  if (!roles.includes(req.user.role)) {
-    logger.warn(`Forbidden access attempt by user ${req.user.id} with role ${req.user.role}`)
-    return res.status(403).json({ message: 'Forbidden: You do not have permission' })
-  }
-  next()
 }
 
 // Middleware para permitir acceso si es rol indicado o el mismo usuario (por id)
@@ -63,6 +73,7 @@ export const requireRoleOrSelf = (role) => (req, res, next) => {
   if (req.user.role === role || userId === paramId) {
     return next()
   }
+
   logger.warn(`Access denied for user ${userId} with role ${req.user.role} to resource of user ${paramId}`)
   return res.status(403).json({ message: 'Access denied: insufficient permissions' })
 }

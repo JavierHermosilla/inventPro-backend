@@ -62,18 +62,16 @@ export const requireRole = (...roles) => (req, res, next) => {
 
 // Middleware para permitir acceso si es rol indicado o el mismo usuario (por id)
 export const requireRoleOrSelf = (role) => (req, res, next) => {
-  if (!req.user || !req.user.role || !req.user.id) {
-    logger.warn('Unauthorized access attempt: missing user info')
+  const user = req.user
+  if (!user?.role || !user?.id) {
     return res.status(401).json({ message: 'Unauthorized: missing user info' })
   }
 
-  const userId = req.user.id
   const paramId = req.params?.id?.toString()
 
-  if (req.user.role === role || userId === paramId) {
+  if (user.role === 'admin' || user.id === paramId) {
     return next()
   }
 
-  logger.warn(`Access denied for user ${userId} with role ${req.user.role} to resource of user ${paramId}`)
   return res.status(403).json({ message: 'Access denied: insufficient permissions' })
 }

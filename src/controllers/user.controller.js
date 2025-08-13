@@ -2,7 +2,63 @@ import mongoose from 'mongoose'
 import User from '../models/user.model.js'
 import pick from 'lodash/pick.js'
 import logger from '../utils/logger.js'
+import bcrypt from 'bcryptjs'
 
+// crear nuevo usuario (solo admin)
+export const createUser = async (req, res) => {
+  const userIP = req.clientIP
+
+  try {
+    const isAdmin = req.user?.role === 'admin'
+    if (!isAdmin) {
+      logger.warn(`User ${req.user.id} attempted to create a user without admin rights, IP: ${userIP}`)
+      return res.status(403).json({ message: 'No tienes permisos para crear usuarios.' })
+    }
+
+    const { username, name, email, password, phone, address, avatar, role } = req.body
+
+    // Verificar si el email ya existe
+    const existingUser = await User.findOne({ email })
+    if (existingUser) {
+      logger.warn(`Email already in use: ${email}, IP: ${userIP}`)
+      return res.status(400).json({ message: 'El email ya está registrado.' })
+    }
+
+    let finalPassword = password
+
+    // Solo hashear si NO parece ser un hash de bcrypt
+    if (!password.startsWith('$2')) {
+      const salt = await bcrypt.genSalt(10)
+      finalPassword = await bcrypt.hash(password, salt)
+    }
+
+    // Crear usuario
+    const newUser = new User({
+      username,
+      name,
+      email,
+      password: finalPassword,
+      phone,
+      address,
+      avatar,
+      role
+    })
+
+    await newUser.save()
+
+    logger.info(`[AUDIT] user ${req.user.id} created user ${newUser._id}, IP: ${userIP}`)
+
+    const userResponse = newUser.toObject()
+    delete userResponse.password
+
+    res.status(201).json({ message: 'Usuario creado exitosamente', user: userResponse })
+  } catch (err) {
+    logger.error('Error creating user', { message: err.message, stack: err.stack, IP: userIP })
+    res.status(500).json({ message: 'Error al crear el usuario.', error: err.message })
+  }
+}
+
+// Listar todos los usuarios (solo admin)
 export const listUsers = async (req, res) => {
   const userIP = req.clientIP
   try {
@@ -47,6 +103,7 @@ export const listUsers = async (req, res) => {
   }
 }
 
+// Obtener usuario por ID (admin o propio usuario)
 export const userById = async (req, res) => {
   const userIP = req.clientIP
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -68,8 +125,10 @@ export const userById = async (req, res) => {
   }
 }
 
+// Actualizar usuario (admin o propio usuario)
 export const updateUser = async (req, res) => {
   const userIP = req.clientIP
+
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     logger.warn(`Invalid user ID for update: ${req.params.id}, IP: ${userIP}`)
     return res.status(400).json({ message: 'Invalid user ID.' })
@@ -78,10 +137,18 @@ export const updateUser = async (req, res) => {
   try {
     const isAdmin = req.user?.role === 'admin'
     const allowedFields = isAdmin
-      ? ['username', 'name', 'email', 'phone', 'address', 'avatar', 'role']
-      : ['username', 'name', 'email', 'phone', 'address', 'avatar']
+      ? ['username', 'name', 'email', 'phone', 'address', 'avatar', 'role', 'password']
+      : ['username', 'name', 'email', 'phone', 'address', 'avatar', 'password']
 
     const dataToUpdate = pick(req.body, allowedFields)
+
+    if (dataToUpdate.password) {
+      // Solo hashear si NO parece ser un hash de bcrypt
+      if (!dataToUpdate.password.startsWith('$2')) {
+        const salt = await bcrypt.genSalt(10)
+        dataToUpdate.password = await bcrypt.hash(dataToUpdate.password, salt)
+      }
+    }
 
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -101,7 +168,7 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ message: 'Error updating the user.', error: err.message })
   }
 }
-
+// Eliminar usuario (solo admin)
 export const deleteUser = async (req, res) => {
   const userIP = req.clientIP
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {

@@ -34,11 +34,16 @@ if (process.env.NODE_ENV === 'test') {
   app.use(attachClientIP)
 }
 
+app.use(express.json())
+app.use(sanitizeInput)
 app.use(helmet())
 app.use(morgan('dev'))
 app.use(cookieParser())
-app.use(express.json())
-app.use(sanitizeInput)
+app.use((req, res, next) => {
+  console.log('REQ.BODY (antes de Zod):', req.body)
+  if (!req.body) req.body = {} // evita undefined para Zod
+  next()
+})
 
 const whitelist = [
   'http://localhost:3000',

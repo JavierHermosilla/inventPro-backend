@@ -85,8 +85,10 @@ describe('Auth API', () => {
     expect(res.body).not.toHaveProperty('password') // password no debe enviarse
   })
 
-  test('should NOT access profile route without token', async () => {
-    const res = await request(app).get('/api/auth/profile')
+  test('should NOT access profile with invalid token', async () => {
+    const res = await request(app)
+      .get('/api/auth/profile')
+      .set('Authorization', 'Bearer invalidtoken')
     expect(res.statusCode).toBe(401)
   })
 })

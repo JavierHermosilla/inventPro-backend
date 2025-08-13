@@ -6,22 +6,21 @@ dotenv.config({ path: '.env.test' })
 let mongoServer
 
 export const connect = async () => {
-  if (mongoose.connection.readyState === 0) { // 0 = disconnected
-    console.log('✅ setup.js ejecutado')
-    mongoServer = await MongoMemoryServer.create()
-    const uri = mongoServer.getUri()
-
-    if (!uri) {
-      throw new Error('MongoMemoryServer no proporcionó URI')
+    try {
+    if (mongoose.connection.readyState === 0) {
+      console.log('✅ setup.js ejecutado')
+      mongoServer = await MongoMemoryServer.create()
+      const uri = mongoServer.getUri()
+      if (!uri) throw new Error('MongoMemoryServer no proporcionó URI')
+      await mongoose.connect(uri)
+      console.log('✅ MongoDB conectado correctamente')
     }
-
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    })
-    console.log('✅ MongoDB conectado correctamente')
+  } catch (err) {
+    console.error('❌ Error conectando MongoDB en tests:', err)
+    throw err
   }
 }
+
 
 export const closeDatabase = async () => {
   if (mongoose.connection.readyState !== 0) {

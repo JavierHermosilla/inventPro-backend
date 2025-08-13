@@ -12,10 +12,8 @@
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit"
   },
   "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.js"
-    ],
-  "testEnvironment": "node"
+    "setupFilesAfterEnv": ["<rootDir>/jest.setup.js"],
+    "testEnvironment": "node"
   },
 
   "repository": {

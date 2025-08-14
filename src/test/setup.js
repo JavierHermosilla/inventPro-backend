@@ -6,7 +6,7 @@ dotenv.config({ path: '.env.test' })
 let mongoServer
 
 export const connect = async () => {
-    try {
+  try {
     if (mongoose.connection.readyState === 0) {
       console.log('✅ setup.js ejecutado')
       mongoServer = await MongoMemoryServer.create()
@@ -21,7 +21,6 @@ export const connect = async () => {
   }
 }
 
-
 export const closeDatabase = async () => {
   if (mongoose.connection.readyState !== 0) {
     await mongoose.connection.dropDatabase()
@@ -35,7 +34,9 @@ export const closeDatabase = async () => {
 export const clearDatabase = async () => {
   const collections = mongoose.connection.collections
   for (const key in collections) {
-    await collections[key].deleteMany({})
+    if (key !== 'users') { // <- no borramos usuarios
+      await collections[key].deleteMany({})
+    }
   }
 }
 

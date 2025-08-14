@@ -304,3 +304,15 @@
 [2025-08-13T21:26:05.043Z] ERROR: Token verification failed: jwt malformed
 [2025-08-13T21:28:10.687Z] ERROR: Token verification failed: jwt malformed
 [2025-08-13T21:32:16.289Z] ERROR: Token verification failed: jwt malformed
+[2025-08-13T21:36:38.360Z] ERROR: Token verification failed: jwt malformed
+[2025-08-13T21:36:38.573Z] ERROR: Token verification failed: jwt malformed
+[2025-08-13T21:36:38.783Z] ERROR: Token verification failed: jwt malformed
+[2025-08-13T21:36:38.992Z] ERROR: Token verification failed: jwt malformed
+[2025-08-13T21:36:39.202Z] ERROR: Token verification failed: jwt malformed
+[2025-08-13T21:36:39.485Z] ERROR: Token verification failed: jwt malformed
+[2025-08-13T21:36:39.694Z] ERROR: Token verification failed: jwt malformed
+[2025-08-13T21:36:44.821Z] ERROR: Token verification failed: jwt malformed
+[2025-08-13T21:37:09.777Z] ERROR: Token verification failed: jwt malformed
+[2025-08-14T20:38:19.545Z] ERROR: Token verification failed: jwt malformed
+[2025-08-14T20:39:56.506Z] ERROR: Token verification failed: jwt expired
+[2025-08-14T20:48:04.287Z] ERROR: Token verification failed: jwt malformed

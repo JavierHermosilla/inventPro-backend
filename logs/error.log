@@ -342,3 +342,44 @@
 [2025-08-14T21:25:32.505Z] ERROR: Token verification failed: jwt malformed
 [2025-08-14T21:25:32.633Z] ERROR: Token verification failed: jwt malformed
 [2025-08-14T21:25:32.757Z] ERROR: Token verification failed: jwt malformed
+[2025-08-15T15:27:49.987Z] ERROR: Token verification failed: jwt malformed
+[2025-08-15T15:35:51.443Z] ERROR: Token verification failed: jwt malformed
+[2025-08-15T15:36:32.051Z] ERROR: Token verification failed: jwt malformed
+[2025-08-15T15:55:07.894Z] ERROR: Error creating supplier E11000 duplicate key error collection: test.suppliers index: rut_1 dup key: { rut: "12.345.678-9" }
+[2025-08-15T15:57:54.458Z] ERROR: Error creating supplier E11000 duplicate key error collection: inventPro.suppliers index: rut_1 dup key: { rut: "12.345.678-9" }
+[2025-08-15T17:44:23.318Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.423Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.464Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.504Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.543Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.583Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.603Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.645Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.686Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.747Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.839Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.861Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.902Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.964Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:24.019Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:57.879Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:57.980Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.023Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.063Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.103Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.142Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.163Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.203Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.243Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.304Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.400Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.419Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.459Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.513Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.567Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:10:45.755Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:30:48.957Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:31:23.581Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:31:30.013Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:31:54.487Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:32:20.377Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')

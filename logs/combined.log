@@ -3557,3 +3557,1702 @@
 [2025-08-14T22:01:38.710Z] WARN: Forbidden access attempt by user 689e5cc2f45e598cd63b808e with role user
 [2025-08-14T22:01:40.472Z] INFO: [AUDIT] Admin undefined (689e5cc43695789f1abf8840) added 5 units of Producto prueba (ID: 689e5cc43695789f1abf8842). New stock: 15. IP: 127.0.0.1
 [2025-08-14T22:01:40.607Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T14:57:38.344Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:38.452Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:38.664Z] INFO: [AUDIT] user 689f4ae15086c2a681eaabff created user 689f4ae25086c2a681eaac0e, IP: 127.0.0.1
+[2025-08-15T14:57:38.922Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:39.017Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:39.040Z] WARN: Forbidden access attempt by user 689f4ae25086c2a681eaac19 with role user
+[2025-08-15T14:57:39.323Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:39.412Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:39.694Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:39.782Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:39.828Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T14:57:40.085Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:40.176Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:40.194Z] WARN: Forbidden access attempt by user 689f4ae35086c2a681eaac46 with role user
+[2025-08-15T14:57:40.449Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:40.535Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:40.581Z] INFO: [AUDIT] user 689f4ae45086c2a681eaac52 updated user 689f4ae45086c2a681eaac54, IP: 127.0.0.1
+[2025-08-15T14:57:40.837Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:40.928Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:40.952Z] INFO: [AUDIT] user 689f4ae45086c2a681eaac63 updated user 689f4ae45086c2a681eaac63, IP: 127.0.0.1
+[2025-08-15T14:57:41.204Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:41.295Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:41.591Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:41.678Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:41.777Z] INFO: [AUDIT] user 689f4ae55086c2a681eaac7e deleted user 689f4ae55086c2a681eaac84, IP: 127.0.0.1
+[2025-08-15T14:57:42.058Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:42.145Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T14:57:42.162Z] WARN: Forbidden access attempt by user 689f4ae55086c2a681eaac91 with role user
+[2025-08-15T14:57:43.962Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T14:57:44.035Z] INFO: [AUDIT] user 689f4ae70437bec407d29fdf created product 689f4ae80437bec407d29ff4 (Test Product), IP: 127.0.0.1
+[2025-08-15T14:57:44.105Z] INFO: [AUDIT] user 689f4ae70437bec407d29fdf created product 689f4ae80437bec407d2a009 (Test Product), IP: 127.0.0.1
+[2025-08-15T14:57:44.120Z] INFO: Product retrieved by ID: 689f4ae80437bec407d2a009, IP: 127.0.0.1
+[2025-08-15T14:57:44.184Z] INFO: [AUDIT] user 689f4ae70437bec407d29fdf created product 689f4ae80437bec407d2a01f (Test Product), IP: 127.0.0.1
+[2025-08-15T14:57:44.212Z] INFO: Product updated successfully: 689f4ae80437bec407d2a01f, IP: 127.0.0.1
+[2025-08-15T14:57:44.276Z] INFO: [AUDIT] user 689f4ae70437bec407d29fdf created product 689f4ae80437bec407d2a037 (Test Product), IP: 127.0.0.1
+[2025-08-15T14:57:44.295Z] INFO: [AUDIT] user 689f4ae70437bec407d29fdf deleted product 689f4ae80437bec407d2a037 (Test Product), IP: 127.0.0.1
+[2025-08-15T14:57:46.052Z] INFO: [AUDIT] Admin undefined (689f4ae97153bae394ac63fa) added 5 units of Producto prueba (ID: 689f4ae97153bae394ac63fc). New stock: 15. IP: 127.0.0.1
+[2025-08-15T14:57:46.197Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:27:35.380Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:35.485Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:35.670Z] INFO: [AUDIT] user 689f51e771ce7320a2f112c4 created user 689f51e771ce7320a2f112d1, IP: 127.0.0.1
+[2025-08-15T15:27:35.931Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:36.023Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:36.044Z] WARN: Forbidden access attempt by user 689f51e771ce7320a2f112dc with role user
+[2025-08-15T15:27:36.299Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:36.388Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:36.668Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:36.755Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:36.786Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:27:37.042Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:37.131Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:37.149Z] WARN: Forbidden access attempt by user 689f51e871ce7320a2f11309 with role user
+[2025-08-15T15:27:37.406Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:37.492Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:37.523Z] INFO: [AUDIT] user 689f51e971ce7320a2f11315 updated user 689f51e971ce7320a2f11317, IP: 127.0.0.1
+[2025-08-15T15:27:37.776Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:37.863Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:37.885Z] INFO: [AUDIT] user 689f51e971ce7320a2f11326 updated user 689f51e971ce7320a2f11326, IP: 127.0.0.1
+[2025-08-15T15:27:38.137Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:38.224Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:38.491Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:38.579Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:38.676Z] INFO: [AUDIT] user 689f51ea71ce7320a2f11341 deleted user 689f51ea71ce7320a2f11347, IP: 127.0.0.1
+[2025-08-15T15:27:38.931Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:39.018Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:27:39.035Z] WARN: Forbidden access attempt by user 689f51ea71ce7320a2f11354 with role user
+[2025-08-15T15:27:40.841Z] INFO: [AUDIT] Admin undefined (689f51eca81e610cd1296ab3) added 5 units of Producto prueba (ID: 689f51eca81e610cd1296ab5). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:27:40.994Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:27:43.121Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:27:43.203Z] INFO: [AUDIT] user 689f51ee67280603a19f4f1b created product 689f51ef67280603a19f4f30 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:27:43.292Z] INFO: [AUDIT] user 689f51ee67280603a19f4f1b created product 689f51ef67280603a19f4f45 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:27:43.309Z] INFO: Product retrieved by ID: 689f51ef67280603a19f4f45, IP: 127.0.0.1
+[2025-08-15T15:27:43.394Z] INFO: [AUDIT] user 689f51ee67280603a19f4f1b created product 689f51ef67280603a19f4f5b (Test Product), IP: 127.0.0.1
+[2025-08-15T15:27:43.431Z] INFO: Product updated successfully: 689f51ef67280603a19f4f5b, IP: 127.0.0.1
+[2025-08-15T15:27:43.520Z] INFO: [AUDIT] user 689f51ee67280603a19f4f1b created product 689f51ef67280603a19f4f73 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:27:43.545Z] INFO: [AUDIT] user 689f51ee67280603a19f4f1b deleted product 689f51ef67280603a19f4f73 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:27:49.987Z] ERROR: Token verification failed: jwt malformed
+[2025-08-15T15:31:08.201Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:08.307Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:08.493Z] INFO: [AUDIT] user 689f52bb7ba0a41dcffa310a created user 689f52bc7ba0a41dcffa3118, IP: 127.0.0.1
+[2025-08-15T15:31:08.751Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:08.839Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:08.860Z] WARN: Forbidden access attempt by user 689f52bc7ba0a41dcffa3123 with role user
+[2025-08-15T15:31:09.116Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:09.203Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:09.502Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:09.592Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:09.623Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:31:09.876Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:09.965Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:09.982Z] WARN: Forbidden access attempt by user 689f52bd7ba0a41dcffa3150 with role user
+[2025-08-15T15:31:10.237Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:10.324Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:10.356Z] INFO: [AUDIT] user 689f52be7ba0a41dcffa315c updated user 689f52be7ba0a41dcffa315e, IP: 127.0.0.1
+[2025-08-15T15:31:10.608Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:10.695Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:10.718Z] INFO: [AUDIT] user 689f52be7ba0a41dcffa316d updated user 689f52be7ba0a41dcffa316d, IP: 127.0.0.1
+[2025-08-15T15:31:10.970Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:11.056Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:11.326Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:11.416Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:11.512Z] INFO: [AUDIT] user 689f52bf7ba0a41dcffa3188 deleted user 689f52bf7ba0a41dcffa318e, IP: 127.0.0.1
+[2025-08-15T15:31:11.768Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:11.856Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:11.876Z] WARN: Forbidden access attempt by user 689f52bf7ba0a41dcffa319b with role user
+[2025-08-15T15:31:13.530Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:31:13.591Z] INFO: [AUDIT] user 689f52c185a8770dd236aedb created product 689f52c185a8770dd236aef0 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:31:13.657Z] INFO: [AUDIT] user 689f52c185a8770dd236aedb created product 689f52c185a8770dd236af05 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:31:13.672Z] INFO: Product retrieved by ID: 689f52c185a8770dd236af05, IP: 127.0.0.1
+[2025-08-15T15:31:13.739Z] INFO: [AUDIT] user 689f52c185a8770dd236aedb created product 689f52c185a8770dd236af1b (Test Product), IP: 127.0.0.1
+[2025-08-15T15:31:13.765Z] INFO: Product updated successfully: 689f52c185a8770dd236af1b, IP: 127.0.0.1
+[2025-08-15T15:31:13.832Z] INFO: [AUDIT] user 689f52c185a8770dd236aedb created product 689f52c185a8770dd236af33 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:31:13.852Z] INFO: [AUDIT] user 689f52c185a8770dd236aedb deleted product 689f52c185a8770dd236af33 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:31:15.407Z] INFO: [AUDIT] Admin undefined (689f52c3300172e258c23c5a) added 5 units of Producto prueba (ID: 689f52c3300172e258c23c5c). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:31:15.541Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:31:55.959Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:56.077Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:56.261Z] INFO: [AUDIT] user 689f52eb6dc0c58b0e8bab72 created user 689f52ec6dc0c58b0e8bab80, IP: 127.0.0.1
+[2025-08-15T15:31:56.519Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:56.609Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:56.630Z] WARN: Forbidden access attempt by user 689f52ec6dc0c58b0e8bab8b with role user
+[2025-08-15T15:31:56.887Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:56.975Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:57.258Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:57.344Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:57.375Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:31:57.629Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:57.716Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:57.732Z] WARN: Forbidden access attempt by user 689f52ed6dc0c58b0e8babb8 with role user
+[2025-08-15T15:31:57.988Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:58.076Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:58.107Z] INFO: [AUDIT] user 689f52ed6dc0c58b0e8babc4 updated user 689f52ed6dc0c58b0e8babc6, IP: 127.0.0.1
+[2025-08-15T15:31:58.367Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:58.454Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:58.479Z] INFO: [AUDIT] user 689f52ee6dc0c58b0e8babd5 updated user 689f52ee6dc0c58b0e8babd5, IP: 127.0.0.1
+[2025-08-15T15:31:58.735Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:58.823Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:59.094Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:59.185Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:59.287Z] INFO: [AUDIT] user 689f52ee6dc0c58b0e8babf0 deleted user 689f52ef6dc0c58b0e8babf6, IP: 127.0.0.1
+[2025-08-15T15:31:59.547Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:59.635Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:31:59.651Z] WARN: Forbidden access attempt by user 689f52ef6dc0c58b0e8bac03 with role user
+[2025-08-15T15:32:01.287Z] INFO: [AUDIT] Admin undefined (689f52f1df25dfeea111f300) added 5 units of Producto prueba (ID: 689f52f1df25dfeea111f303). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:32:01.430Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:32:03.073Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:32:03.132Z] INFO: [AUDIT] user 689f52f225d579fb94eecd8f created product 689f52f325d579fb94eecda5 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:32:03.205Z] INFO: [AUDIT] user 689f52f225d579fb94eecd8f created product 689f52f325d579fb94eecdba (Test Product), IP: 127.0.0.1
+[2025-08-15T15:32:03.222Z] INFO: Product retrieved by ID: 689f52f325d579fb94eecdba, IP: 127.0.0.1
+[2025-08-15T15:32:03.293Z] INFO: [AUDIT] user 689f52f225d579fb94eecd8f created product 689f52f325d579fb94eecdd0 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:32:03.323Z] INFO: Product updated successfully: 689f52f325d579fb94eecdd0, IP: 127.0.0.1
+[2025-08-15T15:32:03.413Z] INFO: [AUDIT] user 689f52f225d579fb94eecd8f created product 689f52f325d579fb94eecde8 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:32:03.445Z] INFO: [AUDIT] user 689f52f225d579fb94eecd8f deleted product 689f52f325d579fb94eecde8 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:27.832Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:27.933Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:28.118Z] INFO: [AUDIT] user 689f53bf20ed2fc58a801911 created user 689f53c020ed2fc58a80191e, IP: 127.0.0.1
+[2025-08-15T15:35:28.377Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:28.467Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:28.487Z] WARN: Forbidden access attempt by user 689f53c020ed2fc58a801929 with role user
+[2025-08-15T15:35:28.747Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:28.835Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:29.114Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:29.203Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:29.234Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:35:29.490Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:29.579Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:29.599Z] WARN: Forbidden access attempt by user 689f53c120ed2fc58a801956 with role user
+[2025-08-15T15:35:29.854Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:29.944Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:29.977Z] INFO: [AUDIT] user 689f53c120ed2fc58a801962 updated user 689f53c120ed2fc58a801964, IP: 127.0.0.1
+[2025-08-15T15:35:30.234Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:30.323Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:30.348Z] INFO: [AUDIT] user 689f53c220ed2fc58a801973 updated user 689f53c220ed2fc58a801973, IP: 127.0.0.1
+[2025-08-15T15:35:30.605Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:30.728Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:31.054Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:31.152Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:31.276Z] INFO: [AUDIT] user 689f53c220ed2fc58a80198e deleted user 689f53c320ed2fc58a801994, IP: 127.0.0.1
+[2025-08-15T15:35:31.589Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:31.684Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:35:31.703Z] WARN: Forbidden access attempt by user 689f53c320ed2fc58a8019a1 with role user
+[2025-08-15T15:35:33.739Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:35:33.814Z] INFO: [AUDIT] user 689f53c50cdc56537c39d66d created product 689f53c50cdc56537c39d682 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:33.889Z] INFO: [AUDIT] user 689f53c50cdc56537c39d66d created product 689f53c50cdc56537c39d697 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:33.905Z] INFO: Product retrieved by ID: 689f53c50cdc56537c39d697, IP: 127.0.0.1
+[2025-08-15T15:35:33.972Z] INFO: [AUDIT] user 689f53c50cdc56537c39d66d created product 689f53c50cdc56537c39d6ad (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:34.000Z] INFO: Product updated successfully: 689f53c50cdc56537c39d6ad, IP: 127.0.0.1
+[2025-08-15T15:35:34.069Z] INFO: [AUDIT] user 689f53c50cdc56537c39d66d created product 689f53c60cdc56537c39d6c5 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:34.089Z] INFO: [AUDIT] user 689f53c50cdc56537c39d66d deleted product 689f53c60cdc56537c39d6c5 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:35.882Z] INFO: [AUDIT] Admin undefined (689f53c72eda142763f5c1eb) added 5 units of Producto prueba (ID: 689f53c72eda142763f5c1ed). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:35:36.060Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:35:51.443Z] ERROR: Token verification failed: jwt malformed
+[2025-08-15T15:35:53.861Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:35:53.935Z] INFO: [AUDIT] user 689f53d9a6acb317ba8bb9cd created product 689f53d9a6acb317ba8bb9e3 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:54.010Z] INFO: [AUDIT] user 689f53d9a6acb317ba8bb9cd created product 689f53daa6acb317ba8bb9f8 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:54.028Z] INFO: Product retrieved by ID: 689f53daa6acb317ba8bb9f8, IP: 127.0.0.1
+[2025-08-15T15:35:54.109Z] INFO: [AUDIT] user 689f53d9a6acb317ba8bb9cd created product 689f53daa6acb317ba8bba0e (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:54.144Z] INFO: Product updated successfully: 689f53daa6acb317ba8bba0e, IP: 127.0.0.1
+[2025-08-15T15:35:54.215Z] INFO: [AUDIT] user 689f53d9a6acb317ba8bb9cd created product 689f53daa6acb317ba8bba26 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:54.237Z] INFO: [AUDIT] user 689f53d9a6acb317ba8bb9cd deleted product 689f53daa6acb317ba8bba26 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:35:55.812Z] INFO: [AUDIT] Admin undefined (689f53db6ae7d1bc80fc9b49) added 5 units of Producto prueba (ID: 689f53db6ae7d1bc80fc9b4c). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:35:55.972Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:36:18.699Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:18.806Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:18.995Z] INFO: [AUDIT] user 689f53f2560ebaa477c67f5f created user 689f53f2560ebaa477c67f6c, IP: 127.0.0.1
+[2025-08-15T15:36:19.253Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:19.342Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:19.362Z] WARN: Forbidden access attempt by user 689f53f3560ebaa477c67f77 with role user
+[2025-08-15T15:36:19.617Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:19.704Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:19.986Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:20.073Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:20.104Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:36:20.356Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:20.456Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:20.473Z] WARN: Forbidden access attempt by user 689f53f4560ebaa477c67fa4 with role user
+[2025-08-15T15:36:20.728Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:20.814Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:20.846Z] INFO: [AUDIT] user 689f53f4560ebaa477c67fb0 updated user 689f53f4560ebaa477c67fb2, IP: 127.0.0.1
+[2025-08-15T15:36:21.102Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:21.190Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:21.212Z] INFO: [AUDIT] user 689f53f4560ebaa477c67fc1 updated user 689f53f4560ebaa477c67fc1, IP: 127.0.0.1
+[2025-08-15T15:36:21.465Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:21.551Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:21.822Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:21.910Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:22.008Z] INFO: [AUDIT] user 689f53f5560ebaa477c67fdc deleted user 689f53f5560ebaa477c67fe2, IP: 127.0.0.1
+[2025-08-15T15:36:22.267Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:22.354Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:36:22.370Z] WARN: Forbidden access attempt by user 689f53f6560ebaa477c67fef with role user
+[2025-08-15T15:36:24.070Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:36:24.131Z] INFO: [AUDIT] user 689f53f734a5ff6962c347c2 created product 689f53f834a5ff6962c347d7 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:36:24.201Z] INFO: [AUDIT] user 689f53f734a5ff6962c347c2 created product 689f53f834a5ff6962c347ec (Test Product), IP: 127.0.0.1
+[2025-08-15T15:36:24.216Z] INFO: Product retrieved by ID: 689f53f834a5ff6962c347ec, IP: 127.0.0.1
+[2025-08-15T15:36:24.282Z] INFO: [AUDIT] user 689f53f734a5ff6962c347c2 created product 689f53f834a5ff6962c34802 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:36:24.308Z] INFO: Product updated successfully: 689f53f834a5ff6962c34802, IP: 127.0.0.1
+[2025-08-15T15:36:24.375Z] INFO: [AUDIT] user 689f53f734a5ff6962c347c2 created product 689f53f834a5ff6962c3481a (Test Product), IP: 127.0.0.1
+[2025-08-15T15:36:24.395Z] INFO: [AUDIT] user 689f53f734a5ff6962c347c2 deleted product 689f53f834a5ff6962c3481a (Test Product), IP: 127.0.0.1
+[2025-08-15T15:36:25.962Z] INFO: [AUDIT] Admin undefined (689f53f998e73c5115002100) added 5 units of Producto prueba (ID: 689f53f998e73c5115002102). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:36:26.093Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:36:32.051Z] ERROR: Token verification failed: jwt malformed
+[2025-08-15T15:39:14.784Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:14.889Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:15.074Z] INFO: [AUDIT] user 689f54a2c1f31b96a1f02a0f created user 689f54a2c1f31b96a1f02a1d, IP: 127.0.0.1
+[2025-08-15T15:39:15.334Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:15.423Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:15.447Z] WARN: Forbidden access attempt by user 689f54a3c1f31b96a1f02a28 with role user
+[2025-08-15T15:39:15.704Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:15.791Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:16.071Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:16.158Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:16.188Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:39:16.443Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:16.531Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:16.548Z] WARN: Forbidden access attempt by user 689f54a4c1f31b96a1f02a55 with role user
+[2025-08-15T15:39:16.802Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:16.894Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:16.923Z] INFO: [AUDIT] user 689f54a4c1f31b96a1f02a61 updated user 689f54a4c1f31b96a1f02a63, IP: 127.0.0.1
+[2025-08-15T15:39:17.175Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:17.263Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:17.286Z] INFO: [AUDIT] user 689f54a5c1f31b96a1f02a72 updated user 689f54a5c1f31b96a1f02a72, IP: 127.0.0.1
+[2025-08-15T15:39:17.539Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:17.626Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:17.891Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:17.980Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:18.079Z] INFO: [AUDIT] user 689f54a5c1f31b96a1f02a8d deleted user 689f54a5c1f31b96a1f02a93, IP: 127.0.0.1
+[2025-08-15T15:39:18.334Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:18.421Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:39:18.439Z] WARN: Forbidden access attempt by user 689f54a6c1f31b96a1f02aa0 with role user
+[2025-08-15T15:39:20.095Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:39:20.155Z] INFO: [AUDIT] user 689f54a7197215b512100275 created product 689f54a8197215b51210028a (Test Product), IP: 127.0.0.1
+[2025-08-15T15:39:20.222Z] INFO: [AUDIT] user 689f54a7197215b512100275 created product 689f54a8197215b51210029f (Test Product), IP: 127.0.0.1
+[2025-08-15T15:39:20.238Z] INFO: Product retrieved by ID: 689f54a8197215b51210029f, IP: 127.0.0.1
+[2025-08-15T15:39:20.303Z] INFO: [AUDIT] user 689f54a7197215b512100275 created product 689f54a8197215b5121002b5 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:39:20.330Z] INFO: Product updated successfully: 689f54a8197215b5121002b5, IP: 127.0.0.1
+[2025-08-15T15:39:20.398Z] INFO: [AUDIT] user 689f54a7197215b512100275 created product 689f54a8197215b5121002cd (Test Product), IP: 127.0.0.1
+[2025-08-15T15:39:20.418Z] INFO: [AUDIT] user 689f54a7197215b512100275 deleted product 689f54a8197215b5121002cd (Test Product), IP: 127.0.0.1
+[2025-08-15T15:39:22.021Z] INFO: [AUDIT] Admin undefined (689f54a9d10b43d53673025e) added 5 units of Producto prueba (ID: 689f54a9d10b43d536730260). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:39:22.151Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:43:27.887Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:27.992Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:28.179Z] INFO: [AUDIT] user 689f559fe893714f7e32fbaf created user 689f55a0e893714f7e32fbbd, IP: 127.0.0.1
+[2025-08-15T15:43:28.441Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:28.530Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:28.551Z] WARN: Forbidden access attempt by user 689f55a0e893714f7e32fbc8 with role user
+[2025-08-15T15:43:28.808Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:28.898Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:29.178Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:29.267Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:29.297Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:43:29.556Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:29.647Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:29.665Z] WARN: Forbidden access attempt by user 689f55a1e893714f7e32fbf5 with role user
+[2025-08-15T15:43:29.919Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:30.008Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:30.039Z] INFO: [AUDIT] user 689f55a1e893714f7e32fc01 updated user 689f55a1e893714f7e32fc03, IP: 127.0.0.1
+[2025-08-15T15:43:30.290Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:30.378Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:30.401Z] INFO: [AUDIT] user 689f55a2e893714f7e32fc12 updated user 689f55a2e893714f7e32fc12, IP: 127.0.0.1
+[2025-08-15T15:43:30.656Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:30.743Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:31.010Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:31.100Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:31.202Z] INFO: [AUDIT] user 689f55a2e893714f7e32fc2d deleted user 689f55a3e893714f7e32fc33, IP: 127.0.0.1
+[2025-08-15T15:43:31.460Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:31.548Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:43:31.567Z] WARN: Forbidden access attempt by user 689f55a3e893714f7e32fc40 with role user
+[2025-08-15T15:43:33.370Z] INFO: [AUDIT] Admin undefined (689f55a563a1e9f2acee02a6) added 5 units of Producto prueba (ID: 689f55a563a1e9f2acee02a8). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:43:33.505Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:43:35.161Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:43:35.218Z] INFO: [AUDIT] user 689f55a6a08af670eabbe463 created product 689f55a7a08af670eabbe479 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:43:35.283Z] INFO: [AUDIT] user 689f55a6a08af670eabbe463 created product 689f55a7a08af670eabbe48e (Test Product), IP: 127.0.0.1
+[2025-08-15T15:43:35.298Z] INFO: Product retrieved by ID: 689f55a7a08af670eabbe48e, IP: 127.0.0.1
+[2025-08-15T15:43:35.427Z] INFO: [AUDIT] user 689f55a6a08af670eabbe463 created product 689f55a7a08af670eabbe4a4 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:43:35.463Z] INFO: Product updated successfully: 689f55a7a08af670eabbe4a4, IP: 127.0.0.1
+[2025-08-15T15:43:35.540Z] INFO: [AUDIT] user 689f55a6a08af670eabbe463 created product 689f55a7a08af670eabbe4bc (Test Product), IP: 127.0.0.1
+[2025-08-15T15:43:35.558Z] INFO: [AUDIT] user 689f55a6a08af670eabbe463 deleted product 689f55a7a08af670eabbe4bc (Test Product), IP: 127.0.0.1
+[2025-08-15T15:47:42.124Z] INFO: [AUDIT] user 689f569daf946fa1f3a4acc5 created supplier 689f569eaf946fa1f3a4acce (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T15:47:42.200Z] INFO: [AUDIT] user 689f569daf946fa1f3a4acc5 created supplier 689f569eaf946fa1f3a4acdd (Proveedor inválido), IP: 127.0.0.1
+[2025-08-15T15:47:42.248Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T15:47:42.300Z] INFO: [AUDIT] user 689f569daf946fa1f3a4acc5 created supplier 689f569eaf946fa1f3a4acf9 (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T15:47:42.348Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T15:47:42.394Z] WARN: Invalid supplier ID: undefined, IP: 127.0.0.1
+[2025-08-15T15:47:42.441Z] WARN: Supplier not found: 689f569eaf946fa1f3a4ad22, IP: 127.0.0.1
+[2025-08-15T15:47:42.488Z] WARN: Invalid supplier ID for update: undefined, IP: 127.0.0.1
+[2025-08-15T15:47:42.534Z] WARN: Invalid supplier ID for delete: undefined, IP: 127.0.0.1
+[2025-08-15T15:47:42.578Z] WARN: Invalid supplier ID for delete: undefined, IP: 127.0.0.1
+[2025-08-15T15:47:44.288Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:44.382Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:44.566Z] INFO: [AUDIT] user 689f56a01b6f78f1a7a417bd created user 689f56a01b6f78f1a7a417ca, IP: 127.0.0.1
+[2025-08-15T15:47:44.828Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:44.918Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:44.938Z] WARN: Forbidden access attempt by user 689f56a01b6f78f1a7a417d5 with role user
+[2025-08-15T15:47:45.197Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:45.285Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:45.568Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:45.657Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:45.687Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:47:45.942Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:46.031Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:46.052Z] WARN: Forbidden access attempt by user 689f56a11b6f78f1a7a41802 with role user
+[2025-08-15T15:47:46.335Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:46.422Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:46.461Z] INFO: [AUDIT] user 689f56a21b6f78f1a7a4180e updated user 689f56a21b6f78f1a7a41810, IP: 127.0.0.1
+[2025-08-15T15:47:46.716Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:46.803Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:46.828Z] INFO: [AUDIT] user 689f56a21b6f78f1a7a4181f updated user 689f56a21b6f78f1a7a4181f, IP: 127.0.0.1
+[2025-08-15T15:47:47.115Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:47.202Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:47.472Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:47.564Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:47.664Z] INFO: [AUDIT] user 689f56a31b6f78f1a7a4183a deleted user 689f56a31b6f78f1a7a41840, IP: 127.0.0.1
+[2025-08-15T15:47:47.925Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:48.012Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:47:48.030Z] WARN: Forbidden access attempt by user 689f56a31b6f78f1a7a4184d with role user
+[2025-08-15T15:47:49.678Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:47:49.741Z] INFO: [AUDIT] user 689f56a5d57098021a969e29 created product 689f56a5d57098021a969e3e (Test Product), IP: 127.0.0.1
+[2025-08-15T15:47:49.812Z] INFO: [AUDIT] user 689f56a5d57098021a969e29 created product 689f56a5d57098021a969e53 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:47:49.830Z] INFO: Product retrieved by ID: 689f56a5d57098021a969e53, IP: 127.0.0.1
+[2025-08-15T15:47:49.902Z] INFO: [AUDIT] user 689f56a5d57098021a969e29 created product 689f56a5d57098021a969e69 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:47:49.931Z] INFO: Product updated successfully: 689f56a5d57098021a969e69, IP: 127.0.0.1
+[2025-08-15T15:47:50.002Z] INFO: [AUDIT] user 689f56a5d57098021a969e29 created product 689f56a5d57098021a969e81 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:47:50.036Z] INFO: [AUDIT] user 689f56a5d57098021a969e29 deleted product 689f56a5d57098021a969e81 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:47:51.640Z] INFO: [AUDIT] Admin undefined (689f56a750e8e0f79a32b395) added 5 units of Producto prueba (ID: 689f56a750e8e0f79a32b397). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:47:51.776Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:52:48.811Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:48.915Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:49.102Z] INFO: [AUDIT] user 689f57d06c9f23f73fd41ec2 created user 689f57d16c9f23f73fd41ecf, IP: 127.0.0.1
+[2025-08-15T15:52:49.366Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:49.456Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:49.477Z] WARN: Forbidden access attempt by user 689f57d16c9f23f73fd41eda with role user
+[2025-08-15T15:52:49.734Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:49.823Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:50.106Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:50.197Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:50.228Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:52:50.482Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:50.571Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:50.589Z] WARN: Forbidden access attempt by user 689f57d26c9f23f73fd41f07 with role user
+[2025-08-15T15:52:50.848Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:50.936Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:50.967Z] INFO: [AUDIT] user 689f57d26c9f23f73fd41f13 updated user 689f57d26c9f23f73fd41f15, IP: 127.0.0.1
+[2025-08-15T15:52:51.227Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:51.317Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:51.343Z] INFO: [AUDIT] user 689f57d36c9f23f73fd41f24 updated user 689f57d36c9f23f73fd41f24, IP: 127.0.0.1
+[2025-08-15T15:52:51.633Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:51.721Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:51.997Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:52.084Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:52.183Z] INFO: [AUDIT] user 689f57d36c9f23f73fd41f3f deleted user 689f57d46c9f23f73fd41f45, IP: 127.0.0.1
+[2025-08-15T15:52:52.440Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:52.529Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:52:52.547Z] WARN: Forbidden access attempt by user 689f57d46c9f23f73fd41f52 with role user
+[2025-08-15T15:52:54.202Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:52:54.260Z] INFO: [AUDIT] user 689f57d6481935346c05eebc created product 689f57d6481935346c05eed2 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:52:54.328Z] INFO: [AUDIT] user 689f57d6481935346c05eebc created product 689f57d6481935346c05eee7 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:52:54.343Z] INFO: Product retrieved by ID: 689f57d6481935346c05eee7, IP: 127.0.0.1
+[2025-08-15T15:52:54.409Z] INFO: [AUDIT] user 689f57d6481935346c05eebc created product 689f57d6481935346c05eefd (Test Product), IP: 127.0.0.1
+[2025-08-15T15:52:54.436Z] INFO: Product updated successfully: 689f57d6481935346c05eefd, IP: 127.0.0.1
+[2025-08-15T15:52:54.500Z] INFO: [AUDIT] user 689f57d6481935346c05eebc created product 689f57d6481935346c05ef15 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:52:54.520Z] INFO: [AUDIT] user 689f57d6481935346c05eebc deleted product 689f57d6481935346c05ef15 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:52:56.134Z] INFO: [AUDIT] Admin undefined (689f57d7aa273e309e656f98) added 5 units of Producto prueba (ID: 689f57d8aa273e309e656f9a). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:52:56.272Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:55:07.680Z] INFO: [AUDIT] user 689f585b3e122ce15d4de35a created supplier 689f585b3e122ce15d4de363 (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T15:55:07.753Z] INFO: [AUDIT] user 689f585b3e122ce15d4de35a created supplier 689f585b3e122ce15d4de372 (Proveedor inválido), IP: 127.0.0.1
+[2025-08-15T15:55:07.807Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T15:55:07.858Z] INFO: [AUDIT] user 689f585b3e122ce15d4de35a created supplier 689f585b3e122ce15d4de38e (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T15:55:07.894Z] ERROR: Error creating supplier E11000 duplicate key error collection: test.suppliers index: rut_1 dup key: { rut: "12.345.678-9" }
+[2025-08-15T15:55:07.946Z] INFO: [AUDIT] user 689f585b3e122ce15d4de35a created supplier 689f585b3e122ce15d4de3a0 (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T15:55:07.966Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T15:55:08.015Z] WARN: Supplier not found: 689f585b3e122ce15d4de363, IP: 127.0.0.1
+[2025-08-15T15:55:08.064Z] WARN: Supplier not found: 689f585c3e122ce15d4de3be, IP: 127.0.0.1
+[2025-08-15T15:55:08.120Z] WARN: Supplier not found for update: 689f585b3e122ce15d4de363, IP: 127.0.0.1
+[2025-08-15T15:55:08.172Z] WARN: Supplier not found for delete: 689f585b3e122ce15d4de363, IP: 127.0.0.1
+[2025-08-15T15:55:08.218Z] WARN: Supplier not found for delete: 689f585b3e122ce15d4de363, IP: 127.0.0.1
+[2025-08-15T15:55:09.942Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:10.033Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:10.212Z] INFO: [AUDIT] user 689f585d6b5ac4d281e4a2e1 created user 689f585e6b5ac4d281e4a2ed, IP: 127.0.0.1
+[2025-08-15T15:55:10.634Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:10.723Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:10.742Z] WARN: Forbidden access attempt by user 689f585e6b5ac4d281e4a2f8 with role user
+[2025-08-15T15:55:10.999Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:11.087Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:11.371Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:11.460Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:11.489Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T15:55:11.750Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:11.838Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:11.856Z] WARN: Forbidden access attempt by user 689f585f6b5ac4d281e4a325 with role user
+[2025-08-15T15:55:12.141Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:12.232Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:12.258Z] INFO: [AUDIT] user 689f585f6b5ac4d281e4a331 updated user 689f585f6b5ac4d281e4a333, IP: 127.0.0.1
+[2025-08-15T15:55:12.512Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:12.599Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:12.623Z] INFO: [AUDIT] user 689f58606b5ac4d281e4a342 updated user 689f58606b5ac4d281e4a342, IP: 127.0.0.1
+[2025-08-15T15:55:12.877Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:12.965Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:13.287Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:13.374Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:13.471Z] INFO: [AUDIT] user 689f58616b5ac4d281e4a35d deleted user 689f58616b5ac4d281e4a363, IP: 127.0.0.1
+[2025-08-15T15:55:13.754Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:13.850Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T15:55:13.914Z] WARN: Forbidden access attempt by user 689f58616b5ac4d281e4a370 with role user
+[2025-08-15T15:55:15.872Z] INFO: [AUDIT] Admin undefined (689f586369c82941f011104a) added 5 units of Producto prueba (ID: 689f586369c82941f011104c). New stock: 15. IP: 127.0.0.1
+[2025-08-15T15:55:16.007Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T15:55:17.627Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T15:55:17.687Z] INFO: [AUDIT] user 689f586553df876387e65b64 created product 689f586553df876387e65b7a (Test Product), IP: 127.0.0.1
+[2025-08-15T15:55:17.757Z] INFO: [AUDIT] user 689f586553df876387e65b64 created product 689f586553df876387e65b8f (Test Product), IP: 127.0.0.1
+[2025-08-15T15:55:17.774Z] INFO: Product retrieved by ID: 689f586553df876387e65b8f, IP: 127.0.0.1
+[2025-08-15T15:55:17.847Z] INFO: [AUDIT] user 689f586553df876387e65b64 created product 689f586553df876387e65ba5 (Test Product), IP: 127.0.0.1
+[2025-08-15T15:55:17.878Z] INFO: Product updated successfully: 689f586553df876387e65ba5, IP: 127.0.0.1
+[2025-08-15T15:55:17.946Z] INFO: [AUDIT] user 689f586553df876387e65b64 created product 689f586553df876387e65bbd (Test Product), IP: 127.0.0.1
+[2025-08-15T15:55:17.967Z] INFO: [AUDIT] user 689f586553df876387e65b64 deleted product 689f586553df876387e65bbd (Test Product), IP: 127.0.0.1
+[2025-08-15T15:57:11.090Z] WARN: Authorization denied: no token provided
+[2025-08-15T15:57:18.238Z] INFO: Successful login for: ADMIN@ADMIN.com from IP: ::1
+[2025-08-15T15:57:49.916Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c created supplier 689f58fd7d3d088651c7a0bc (Proveedor Prueba), IP: ::1
+[2025-08-15T15:57:54.458Z] ERROR: Error creating supplier E11000 duplicate key error collection: inventPro.suppliers index: rut_1 dup key: { rut: "12.345.678-9" }
+[2025-08-15T16:06:03.365Z] INFO: [AUDIT] user 689f5aeb0ddf9ae0a890c0f2 created supplier 689f5aeb0ddf9ae0a890c0fc (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T16:06:03.436Z] INFO: [AUDIT] user 689f5aeb0ddf9ae0a890c0f2 created supplier 689f5aeb0ddf9ae0a890c10c (Proveedor inválido), IP: 127.0.0.1
+[2025-08-15T16:06:03.494Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:06:03.551Z] INFO: [AUDIT] user 689f5aeb0ddf9ae0a890c0f2 created supplier 689f5aeb0ddf9ae0a890c129 (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T16:06:03.574Z] WARN: [AUDIT] user 689f5aeb0ddf9ae0a890c0f2 tried to create duplicate supplier with RUT 12.345.678-9, IP: 127.0.0.1
+[2025-08-15T16:06:03.627Z] INFO: [AUDIT] user 689f5aeb0ddf9ae0a890c0f2 created supplier 689f5aeb0ddf9ae0a890c13b (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T16:06:03.648Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T16:06:03.697Z] WARN: Supplier not found: 689f5aeb0ddf9ae0a890c0fc, IP: 127.0.0.1
+[2025-08-15T16:06:03.746Z] WARN: Supplier not found: 689f5aeb0ddf9ae0a890c159, IP: 127.0.0.1
+[2025-08-15T16:06:03.804Z] WARN: Supplier not found for update: 689f5aeb0ddf9ae0a890c0fc, IP: 127.0.0.1
+[2025-08-15T16:06:03.851Z] WARN: Supplier not found for delete: 689f5aeb0ddf9ae0a890c0fc, IP: 127.0.0.1
+[2025-08-15T16:06:03.899Z] WARN: Supplier not found for delete: 689f5aeb0ddf9ae0a890c0fc, IP: 127.0.0.1
+[2025-08-15T16:06:05.627Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:05.718Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:05.899Z] INFO: [AUDIT] user 689f5aedc83465c8eb3daa67 created user 689f5aedc83465c8eb3daa74, IP: 127.0.0.1
+[2025-08-15T16:06:06.164Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:06.254Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:06.274Z] WARN: Forbidden access attempt by user 689f5aeec83465c8eb3daa7f with role user
+[2025-08-15T16:06:06.537Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:06.626Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:06.911Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:07.000Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:07.032Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T16:06:07.292Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:07.380Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:07.396Z] WARN: Forbidden access attempt by user 689f5aefc83465c8eb3daaac with role user
+[2025-08-15T16:06:07.686Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:07.798Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:07.826Z] INFO: [AUDIT] user 689f5aefc83465c8eb3daab8 updated user 689f5aefc83465c8eb3daaba, IP: 127.0.0.1
+[2025-08-15T16:06:08.085Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:08.174Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:08.197Z] INFO: [AUDIT] user 689f5aefc83465c8eb3daac9 updated user 689f5aefc83465c8eb3daac9, IP: 127.0.0.1
+[2025-08-15T16:06:08.456Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:08.544Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:08.826Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:08.915Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:09.012Z] INFO: [AUDIT] user 689f5af0c83465c8eb3daae4 deleted user 689f5af0c83465c8eb3daaea, IP: 127.0.0.1
+[2025-08-15T16:06:09.270Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:09.363Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:06:09.382Z] WARN: Forbidden access attempt by user 689f5af1c83465c8eb3daaf7 with role user
+[2025-08-15T16:06:11.153Z] INFO: [AUDIT] Admin undefined (689f5af33683bae49fc12b8a) added 5 units of Producto prueba (ID: 689f5af33683bae49fc12b8c). New stock: 15. IP: 127.0.0.1
+[2025-08-15T16:06:11.289Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T16:06:12.963Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T16:06:13.023Z] INFO: [AUDIT] user 689f5af474ffa34d45d946dc created product 689f5af574ffa34d45d946f1 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:06:13.098Z] INFO: [AUDIT] user 689f5af474ffa34d45d946dc created product 689f5af574ffa34d45d94706 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:06:13.115Z] INFO: Product retrieved by ID: 689f5af574ffa34d45d94706, IP: 127.0.0.1
+[2025-08-15T16:06:13.184Z] INFO: [AUDIT] user 689f5af474ffa34d45d946dc created product 689f5af574ffa34d45d9471c (Test Product), IP: 127.0.0.1
+[2025-08-15T16:06:13.211Z] INFO: Product updated successfully: 689f5af574ffa34d45d9471c, IP: 127.0.0.1
+[2025-08-15T16:06:13.281Z] INFO: [AUDIT] user 689f5af474ffa34d45d946dc created product 689f5af574ffa34d45d94734 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:06:13.301Z] INFO: [AUDIT] user 689f5af474ffa34d45d946dc deleted product 689f5af574ffa34d45d94734 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:10:27.849Z] INFO: [AUDIT] user 689f5bf3c48319f07b117005 created supplier 689f5bf3c48319f07b11700f (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T16:10:27.919Z] INFO: [AUDIT] user 689f5bf3c48319f07b117005 created supplier 689f5bf3c48319f07b11701f (Proveedor inválido), IP: 127.0.0.1
+[2025-08-15T16:10:27.976Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:10:28.034Z] INFO: [AUDIT] user 689f5bf3c48319f07b117005 created supplier 689f5bf4c48319f07b11703c (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T16:10:28.057Z] WARN: [AUDIT] user 689f5bf3c48319f07b117005 tried to create duplicate supplier with RUT 12.345.678-9, IP: 127.0.0.1
+[2025-08-15T16:10:28.111Z] INFO: [AUDIT] user 689f5bf3c48319f07b117005 created supplier 689f5bf4c48319f07b11704e (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T16:10:28.131Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T16:10:28.179Z] WARN: Supplier not found: 689f5bf3c48319f07b11700f, IP: 127.0.0.1
+[2025-08-15T16:10:28.226Z] WARN: Supplier not found: 689f5bf4c48319f07b11706c, IP: 127.0.0.1
+[2025-08-15T16:10:28.283Z] WARN: Supplier not found for update: 689f5bf3c48319f07b11700f, IP: 127.0.0.1
+[2025-08-15T16:10:28.333Z] WARN: Supplier not found for delete: 689f5bf3c48319f07b11700f, IP: 127.0.0.1
+[2025-08-15T16:10:28.381Z] WARN: Supplier not found for delete: 689f5bf3c48319f07b11700f, IP: 127.0.0.1
+[2025-08-15T16:10:30.128Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:30.220Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:30.400Z] INFO: [AUDIT] user 689f5bf52478481668971542 created user 689f5bf6247848166897154f, IP: 127.0.0.1
+[2025-08-15T16:10:30.662Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:30.751Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:30.771Z] WARN: Forbidden access attempt by user 689f5bf6247848166897155a with role user
+[2025-08-15T16:10:31.029Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:31.122Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:31.409Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:31.497Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:31.528Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T16:10:31.786Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:31.875Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:31.896Z] WARN: Forbidden access attempt by user 689f5bf72478481668971587 with role user
+[2025-08-15T16:10:32.192Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:32.282Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:32.309Z] INFO: [AUDIT] user 689f5bf72478481668971593 updated user 689f5bf72478481668971595, IP: 127.0.0.1
+[2025-08-15T16:10:32.568Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:32.657Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:32.682Z] INFO: [AUDIT] user 689f5bf824784816689715a4 updated user 689f5bf824784816689715a4, IP: 127.0.0.1
+[2025-08-15T16:10:32.939Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:33.027Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:33.301Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:33.390Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:33.488Z] INFO: [AUDIT] user 689f5bf924784816689715bf deleted user 689f5bf924784816689715c5, IP: 127.0.0.1
+[2025-08-15T16:10:33.747Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:33.835Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:10:33.852Z] WARN: Forbidden access attempt by user 689f5bf924784816689715d2 with role user
+[2025-08-15T16:10:35.651Z] INFO: [AUDIT] Admin undefined (689f5bfb8b8ef320f7a4beb0) added 5 units of Producto prueba (ID: 689f5bfb8b8ef320f7a4beb2). New stock: 15. IP: 127.0.0.1
+[2025-08-15T16:10:35.788Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T16:10:37.390Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T16:10:37.448Z] INFO: [AUDIT] user 689f5bfd97c00b9152154587 created product 689f5bfd97c00b915215459c (Test Product), IP: 127.0.0.1
+[2025-08-15T16:10:37.513Z] INFO: [AUDIT] user 689f5bfd97c00b9152154587 created product 689f5bfd97c00b91521545b1 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:10:37.528Z] INFO: Product retrieved by ID: 689f5bfd97c00b91521545b1, IP: 127.0.0.1
+[2025-08-15T16:10:37.592Z] INFO: [AUDIT] user 689f5bfd97c00b9152154587 created product 689f5bfd97c00b91521545c7 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:10:37.620Z] INFO: Product updated successfully: 689f5bfd97c00b91521545c7, IP: 127.0.0.1
+[2025-08-15T16:10:37.685Z] INFO: [AUDIT] user 689f5bfd97c00b9152154587 created product 689f5bfd97c00b91521545df (Test Product), IP: 127.0.0.1
+[2025-08-15T16:10:37.706Z] INFO: [AUDIT] user 689f5bfd97c00b9152154587 deleted product 689f5bfd97c00b91521545df (Test Product), IP: 127.0.0.1
+[2025-08-15T16:21:10.678Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 created supplier 689f5e7613dfa9662bb3285a (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T16:21:10.740Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 created supplier 689f5e7613dfa9662bb32865 (Proveedor inválido), IP: 127.0.0.1
+[2025-08-15T16:21:10.787Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:21:10.834Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 created supplier 689f5e7613dfa9662bb32878 (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T16:21:10.858Z] WARN: [AUDIT] user 689f5e7613dfa9662bb32851 tried to create duplicate supplier with RUT 12.345.678-9, IP: 127.0.0.1
+[2025-08-15T16:21:10.904Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 created supplier 689f5e7613dfa9662bb32885 (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T16:21:10.925Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T16:21:10.969Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 created supplier 689f5e7613dfa9662bb32892 (Proveedor GET), IP: 127.0.0.1
+[2025-08-15T16:21:10.992Z] INFO: Supplier retrieved by ID: 689f5e7613dfa9662bb32892, IP: 127.0.0.1
+[2025-08-15T16:21:11.037Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 created supplier 689f5e7713dfa9662bb3289f (Proveedor GET), IP: 127.0.0.1
+[2025-08-15T16:21:11.056Z] WARN: Supplier not found: 689f5e7713dfa9662bb328a1, IP: 127.0.0.1
+[2025-08-15T16:21:11.100Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 created supplier 689f5e7713dfa9662bb328ad (Proveedor PUT), IP: 127.0.0.1
+[2025-08-15T16:21:11.132Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 updated supplier 689f5e7713dfa9662bb328ad (Proveedor Actualizado), IP: 127.0.0.1
+[2025-08-15T16:21:11.172Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 created supplier 689f5e7713dfa9662bb328ba (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:21:11.192Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 deleted supplier 689f5e7713dfa9662bb328ba (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:21:11.238Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 created supplier 689f5e7713dfa9662bb328c7 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:21:11.258Z] INFO: [AUDIT] user 689f5e7613dfa9662bb32851 deleted supplier 689f5e7713dfa9662bb328c7 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:21:11.276Z] WARN: Supplier not found for delete: 689f5e7713dfa9662bb328c7, IP: 127.0.0.1
+[2025-08-15T16:21:12.993Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:13.085Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:13.268Z] INFO: [AUDIT] user 689f5e7855d4c00727d9dd1f created user 689f5e7955d4c00727d9dd2d, IP: 127.0.0.1
+[2025-08-15T16:21:13.533Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:13.621Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:13.641Z] WARN: Forbidden access attempt by user 689f5e7955d4c00727d9dd38 with role user
+[2025-08-15T16:21:13.900Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:13.988Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:14.270Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:14.363Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:14.396Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T16:21:14.656Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:14.744Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:14.761Z] WARN: Forbidden access attempt by user 689f5e7a55d4c00727d9dd65 with role user
+[2025-08-15T16:21:15.101Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:15.193Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:15.219Z] INFO: [AUDIT] user 689f5e7a55d4c00727d9dd71 updated user 689f5e7a55d4c00727d9dd73, IP: 127.0.0.1
+[2025-08-15T16:21:15.480Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:15.569Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:15.596Z] INFO: [AUDIT] user 689f5e7b55d4c00727d9dd82 updated user 689f5e7b55d4c00727d9dd82, IP: 127.0.0.1
+[2025-08-15T16:21:15.854Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:15.942Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:16.217Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:16.308Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:16.408Z] INFO: [AUDIT] user 689f5e7b55d4c00727d9dd9d deleted user 689f5e7c55d4c00727d9dda3, IP: 127.0.0.1
+[2025-08-15T16:21:16.679Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:16.769Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:21:16.788Z] WARN: Forbidden access attempt by user 689f5e7c55d4c00727d9ddb0 with role user
+[2025-08-15T16:21:18.555Z] INFO: [AUDIT] Admin undefined (689f5e7e1b4931fc5b76984c) added 5 units of Producto prueba (ID: 689f5e7e1b4931fc5b76984e). New stock: 15. IP: 127.0.0.1
+[2025-08-15T16:21:18.701Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T16:21:20.338Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T16:21:20.401Z] INFO: [AUDIT] user 689f5e80a5ed75792134c90d created product 689f5e80a5ed75792134c922 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:21:20.476Z] INFO: [AUDIT] user 689f5e80a5ed75792134c90d created product 689f5e80a5ed75792134c937 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:21:20.493Z] INFO: Product retrieved by ID: 689f5e80a5ed75792134c937, IP: 127.0.0.1
+[2025-08-15T16:21:20.566Z] INFO: [AUDIT] user 689f5e80a5ed75792134c90d created product 689f5e80a5ed75792134c94d (Test Product), IP: 127.0.0.1
+[2025-08-15T16:21:20.595Z] INFO: Product updated successfully: 689f5e80a5ed75792134c94d, IP: 127.0.0.1
+[2025-08-15T16:21:20.665Z] INFO: [AUDIT] user 689f5e80a5ed75792134c90d created product 689f5e80a5ed75792134c965 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:21:20.687Z] INFO: [AUDIT] user 689f5e80a5ed75792134c90d deleted product 689f5e80a5ed75792134c965 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:23:49.186Z] INFO: [AUDIT] user 689f5f142143d57d4c11b6e4 created supplier 689f5f152143d57d4c11b6ed (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T16:23:49.246Z] INFO: [AUDIT] user 689f5f142143d57d4c11b6e4 created supplier 689f5f152143d57d4c11b6f8 (Proveedor inválido), IP: 127.0.0.1
+[2025-08-15T16:23:49.289Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:23:49.337Z] INFO: [AUDIT] user 689f5f142143d57d4c11b6e4 created supplier 689f5f152143d57d4c11b70b (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T16:23:49.360Z] WARN: [AUDIT] user 689f5f142143d57d4c11b6e4 tried to create duplicate supplier with RUT 12.345.678-9, IP: 127.0.0.1
+[2025-08-15T16:23:49.404Z] INFO: [AUDIT] user 689f5f142143d57d4c11b6e4 created supplier 689f5f152143d57d4c11b718 (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T16:23:49.423Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T16:23:49.469Z] INFO: [AUDIT] user 689f5f142143d57d4c11b6e4 created supplier 689f5f152143d57d4c11b725 (Proveedor GET), IP: 127.0.0.1
+[2025-08-15T16:23:49.489Z] INFO: Supplier retrieved by ID: 689f5f152143d57d4c11b725, IP: 127.0.0.1
+[2025-08-15T16:23:49.528Z] WARN: Supplier not found: 689f5f152143d57d4c11b730, IP: 127.0.0.1
+[2025-08-15T16:23:49.570Z] INFO: [AUDIT] user 689f5f142143d57d4c11b6e4 created supplier 689f5f152143d57d4c11b73c (Proveedor PUT), IP: 127.0.0.1
+[2025-08-15T16:23:49.601Z] INFO: [AUDIT] user 689f5f142143d57d4c11b6e4 updated supplier 689f5f152143d57d4c11b73c (Proveedor Actualizado), IP: 127.0.0.1
+[2025-08-15T16:23:49.644Z] INFO: [AUDIT] user 689f5f142143d57d4c11b6e4 created supplier 689f5f152143d57d4c11b749 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:23:49.664Z] INFO: [AUDIT] user 689f5f142143d57d4c11b6e4 deleted supplier 689f5f152143d57d4c11b749 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:23:49.702Z] WARN: Supplier not found for delete: 689f5f152143d57d4c11b754, IP: 127.0.0.1
+[2025-08-15T16:23:51.413Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:51.505Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:51.688Z] INFO: [AUDIT] user 689f5f17ac8e69018e79b8f6 created user 689f5f17ac8e69018e79b903, IP: 127.0.0.1
+[2025-08-15T16:23:51.949Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:52.037Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:52.055Z] WARN: Forbidden access attempt by user 689f5f17ac8e69018e79b90e with role user
+[2025-08-15T16:23:52.313Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:52.402Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:52.686Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:52.775Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:52.805Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T16:23:53.068Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:53.157Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:53.176Z] WARN: Forbidden access attempt by user 689f5f18ac8e69018e79b93b with role user
+[2025-08-15T16:23:53.461Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:53.556Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:53.583Z] INFO: [AUDIT] user 689f5f19ac8e69018e79b947 updated user 689f5f19ac8e69018e79b949, IP: 127.0.0.1
+[2025-08-15T16:23:53.869Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:53.958Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:53.989Z] INFO: [AUDIT] user 689f5f19ac8e69018e79b958 updated user 689f5f19ac8e69018e79b958, IP: 127.0.0.1
+[2025-08-15T16:23:54.263Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:54.356Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:54.645Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:54.737Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:54.841Z] INFO: [AUDIT] user 689f5f1aac8e69018e79b973 deleted user 689f5f1aac8e69018e79b979, IP: 127.0.0.1
+[2025-08-15T16:23:55.108Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:55.198Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:23:55.216Z] WARN: Forbidden access attempt by user 689f5f1aac8e69018e79b986 with role user
+[2025-08-15T16:23:57.020Z] INFO: [AUDIT] Admin undefined (689f5f1cb0e113f22bb58e55) added 5 units of Producto prueba (ID: 689f5f1cb0e113f22bb58e57). New stock: 15. IP: 127.0.0.1
+[2025-08-15T16:23:57.158Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T16:23:58.839Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T16:23:58.900Z] INFO: [AUDIT] user 689f5f1e66258aa9e6d3bbcc created product 689f5f1e66258aa9e6d3bbe1 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:23:58.969Z] INFO: [AUDIT] user 689f5f1e66258aa9e6d3bbcc created product 689f5f1e66258aa9e6d3bbf6 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:23:58.985Z] INFO: Product retrieved by ID: 689f5f1e66258aa9e6d3bbf6, IP: 127.0.0.1
+[2025-08-15T16:23:59.052Z] INFO: [AUDIT] user 689f5f1e66258aa9e6d3bbcc created product 689f5f1f66258aa9e6d3bc0c (Test Product), IP: 127.0.0.1
+[2025-08-15T16:23:59.085Z] INFO: Product updated successfully: 689f5f1f66258aa9e6d3bc0c, IP: 127.0.0.1
+[2025-08-15T16:23:59.153Z] INFO: [AUDIT] user 689f5f1e66258aa9e6d3bbcc created product 689f5f1f66258aa9e6d3bc24 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:23:59.171Z] INFO: [AUDIT] user 689f5f1e66258aa9e6d3bbcc deleted product 689f5f1f66258aa9e6d3bc24 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:25:58.756Z] WARN: [AUDIT] user 689e49c2d4e918ba269b941c tried to create duplicate supplier with RUT 12.345.678-9, IP: ::1
+[2025-08-15T16:26:15.531Z] WARN: [AUDIT] user 689e49c2d4e918ba269b941c tried to create duplicate supplier with RUT 12.345.678-9, IP: ::1
+[2025-08-15T16:30:07.760Z] INFO: [AUDIT] user 689f608f96252351724503c8 created supplier 689f608f96252351724503d1 (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T16:30:07.818Z] INFO: [AUDIT] user 689f608f96252351724503c8 created supplier 689f608f96252351724503dc (Proveedor inválido), IP: 127.0.0.1
+[2025-08-15T16:30:07.863Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:30:07.910Z] INFO: [AUDIT] user 689f608f96252351724503c8 created supplier 689f608f96252351724503ef (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T16:30:07.935Z] WARN: [AUDIT] user 689f608f96252351724503c8 tried to create duplicate supplier with RUT 12.345.678-9, IP: 127.0.0.1
+[2025-08-15T16:30:07.980Z] INFO: [AUDIT] user 689f608f96252351724503c8 created supplier 689f608f96252351724503fc (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T16:30:08.001Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T16:30:08.045Z] INFO: [AUDIT] user 689f608f96252351724503c8 created supplier 689f60909625235172450409 (Proveedor GET), IP: 127.0.0.1
+[2025-08-15T16:30:08.067Z] INFO: Supplier retrieved by ID: 689f60909625235172450409, IP: 127.0.0.1
+[2025-08-15T16:30:08.104Z] WARN: Supplier not found: 689f60909625235172450414, IP: 127.0.0.1
+[2025-08-15T16:30:08.148Z] INFO: [AUDIT] user 689f608f96252351724503c8 created supplier 689f60909625235172450420 (Proveedor PUT), IP: 127.0.0.1
+[2025-08-15T16:30:08.178Z] INFO: [AUDIT] user 689f608f96252351724503c8 updated supplier 689f60909625235172450420 (Proveedor Actualizado), IP: 127.0.0.1
+[2025-08-15T16:30:08.222Z] INFO: [AUDIT] user 689f608f96252351724503c8 created supplier 689f6090962523517245042d (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:30:08.242Z] INFO: [AUDIT] user 689f608f96252351724503c8 deleted supplier 689f6090962523517245042d (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:30:08.278Z] WARN: Supplier not found for delete: 689f60909625235172450438, IP: 127.0.0.1
+[2025-08-15T16:30:10.045Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:10.137Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:10.318Z] INFO: [AUDIT] user 689f6091fe66712d140124f2 created user 689f6092fe66712d140124fe, IP: 127.0.0.1
+[2025-08-15T16:30:10.579Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:10.672Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:10.692Z] WARN: Forbidden access attempt by user 689f6092fe66712d14012509 with role user
+[2025-08-15T16:30:10.954Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:11.043Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:11.574Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:11.664Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:11.695Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T16:30:11.961Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:12.079Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:12.120Z] WARN: Forbidden access attempt by user 689f6093fe66712d14012536 with role user
+[2025-08-15T16:30:12.607Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:12.694Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:12.720Z] INFO: [AUDIT] user 689f6094fe66712d14012542 updated user 689f6094fe66712d14012544, IP: 127.0.0.1
+[2025-08-15T16:30:12.977Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:13.070Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:13.096Z] INFO: [AUDIT] user 689f6094fe66712d14012553 updated user 689f6094fe66712d14012553, IP: 127.0.0.1
+[2025-08-15T16:30:13.367Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:13.462Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:13.754Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:13.845Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:13.946Z] INFO: [AUDIT] user 689f6095fe66712d1401256e deleted user 689f6095fe66712d14012574, IP: 127.0.0.1
+[2025-08-15T16:30:14.220Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:14.314Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:30:14.336Z] WARN: Forbidden access attempt by user 689f6096fe66712d14012581 with role user
+[2025-08-15T16:30:16.127Z] INFO: [AUDIT] Admin undefined (689f609738e60fa3cab4afef) added 5 units of Producto prueba (ID: 689f609838e60fa3cab4aff1). New stock: 15. IP: 127.0.0.1
+[2025-08-15T16:30:16.267Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T16:30:17.891Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T16:30:17.957Z] INFO: [AUDIT] user 689f6099a397bf6153b10bc0 created product 689f6099a397bf6153b10bd5 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:30:18.028Z] INFO: [AUDIT] user 689f6099a397bf6153b10bc0 created product 689f609aa397bf6153b10bea (Test Product), IP: 127.0.0.1
+[2025-08-15T16:30:18.045Z] INFO: Product retrieved by ID: 689f609aa397bf6153b10bea, IP: 127.0.0.1
+[2025-08-15T16:30:18.120Z] INFO: [AUDIT] user 689f6099a397bf6153b10bc0 created product 689f609aa397bf6153b10c00 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:30:18.151Z] INFO: Product updated successfully: 689f609aa397bf6153b10c00, IP: 127.0.0.1
+[2025-08-15T16:30:18.220Z] INFO: [AUDIT] user 689f6099a397bf6153b10bc0 created product 689f609aa397bf6153b10c18 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:30:18.241Z] INFO: [AUDIT] user 689f6099a397bf6153b10bc0 deleted product 689f609aa397bf6153b10c18 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:31:57.911Z] WARN: [AUDIT] user 689e49c2d4e918ba269b941c tried to create duplicate supplier with RUT 12.345.678-9, IP: ::1
+[2025-08-15T16:32:27.674Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c created supplier 689f611bca2f99ae30b995b8 (Proveedor Prueba1), IP: ::1
+[2025-08-15T16:32:30.598Z] WARN: [AUDIT] user 689e49c2d4e918ba269b941c tried to create duplicate supplier with RUT 12.345.678-0, IP: ::1
+[2025-08-15T16:35:04.189Z] INFO: [AUDIT] user 689f61b79038b6eeef61e64d created supplier 689f61b89038b6eeef61e655 (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T16:35:04.252Z] INFO: [AUDIT] user 689f61b79038b6eeef61e64d created supplier 689f61b89038b6eeef61e660 (Proveedor inválido), IP: 127.0.0.1
+[2025-08-15T16:35:04.296Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:35:04.343Z] INFO: [AUDIT] user 689f61b79038b6eeef61e64d created supplier 689f61b89038b6eeef61e673 (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T16:35:04.367Z] WARN: [AUDIT] user 689f61b79038b6eeef61e64d tried to create duplicate supplier with RUT 12.345.678-9, IP: 127.0.0.1
+[2025-08-15T16:35:04.413Z] INFO: [AUDIT] user 689f61b79038b6eeef61e64d created supplier 689f61b89038b6eeef61e680 (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T16:35:04.434Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T16:35:04.479Z] INFO: [AUDIT] user 689f61b79038b6eeef61e64d created supplier 689f61b89038b6eeef61e68d (Proveedor GET), IP: 127.0.0.1
+[2025-08-15T16:35:04.500Z] INFO: Supplier retrieved by ID: 689f61b89038b6eeef61e68d, IP: 127.0.0.1
+[2025-08-15T16:35:04.537Z] WARN: Supplier not found: 689f61b89038b6eeef61e698, IP: 127.0.0.1
+[2025-08-15T16:35:04.579Z] INFO: [AUDIT] user 689f61b79038b6eeef61e64d created supplier 689f61b89038b6eeef61e6a4 (Proveedor PUT), IP: 127.0.0.1
+[2025-08-15T16:35:04.609Z] INFO: [AUDIT] user 689f61b79038b6eeef61e64d updated supplier 689f61b89038b6eeef61e6a4 (Proveedor Actualizado), IP: 127.0.0.1
+[2025-08-15T16:35:04.651Z] INFO: [AUDIT] user 689f61b79038b6eeef61e64d created supplier 689f61b89038b6eeef61e6b1 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:35:04.670Z] INFO: [AUDIT] user 689f61b79038b6eeef61e64d deleted supplier 689f61b89038b6eeef61e6b1 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:35:04.707Z] WARN: Supplier not found for delete: 689f61b89038b6eeef61e6bc, IP: 127.0.0.1
+[2025-08-15T16:35:06.482Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:06.573Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:06.755Z] INFO: [AUDIT] user 689f61bae1f305808c3464ff created user 689f61bae1f305808c34650b, IP: 127.0.0.1
+[2025-08-15T16:35:07.016Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:07.109Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:07.128Z] WARN: Forbidden access attempt by user 689f61bae1f305808c346516 with role user
+[2025-08-15T16:35:07.388Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:07.476Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:07.758Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:07.851Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:07.881Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T16:35:08.141Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:08.229Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:08.246Z] WARN: Forbidden access attempt by user 689f61bbe1f305808c346543 with role user
+[2025-08-15T16:35:08.523Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:08.610Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:08.633Z] INFO: [AUDIT] user 689f61bce1f305808c34654f updated user 689f61bce1f305808c346551, IP: 127.0.0.1
+[2025-08-15T16:35:08.894Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:08.982Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:09.007Z] INFO: [AUDIT] user 689f61bce1f305808c346560 updated user 689f61bce1f305808c346560, IP: 127.0.0.1
+[2025-08-15T16:35:09.264Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:09.358Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:09.636Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:09.728Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:09.831Z] INFO: [AUDIT] user 689f61bde1f305808c34657b deleted user 689f61bde1f305808c346581, IP: 127.0.0.1
+[2025-08-15T16:35:10.096Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:10.187Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:35:10.205Z] WARN: Forbidden access attempt by user 689f61bde1f305808c34658e with role user
+[2025-08-15T16:35:11.900Z] INFO: [AUDIT] Admin undefined (689f61bf3201ce7373448562) added 5 units of Producto prueba (ID: 689f61bf3201ce7373448565). New stock: 15. IP: 127.0.0.1
+[2025-08-15T16:35:12.037Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T16:35:13.694Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T16:35:13.755Z] INFO: [AUDIT] user 689f61c139dddbc934989aca created product 689f61c139dddbc934989ae0 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:35:13.822Z] INFO: [AUDIT] user 689f61c139dddbc934989aca created product 689f61c139dddbc934989af5 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:35:13.838Z] INFO: Product retrieved by ID: 689f61c139dddbc934989af5, IP: 127.0.0.1
+[2025-08-15T16:35:13.910Z] INFO: [AUDIT] user 689f61c139dddbc934989aca created product 689f61c139dddbc934989b0b (Test Product), IP: 127.0.0.1
+[2025-08-15T16:35:13.940Z] INFO: Product updated successfully: 689f61c139dddbc934989b0b, IP: 127.0.0.1
+[2025-08-15T16:35:14.012Z] INFO: [AUDIT] user 689f61c139dddbc934989aca created product 689f61c239dddbc934989b23 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:35:14.033Z] INFO: [AUDIT] user 689f61c139dddbc934989aca deleted product 689f61c239dddbc934989b23 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:38:41.619Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:38:41.687Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:38:41.725Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:38:41.765Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:38:41.816Z] INFO: [AUDIT] user 689f62919c7bb277c2d5867d created supplier 689f62919c7bb277c2d586a4 (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T16:38:41.838Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T16:38:41.884Z] INFO: [AUDIT] user 689f62919c7bb277c2d5867d created supplier 689f62919c7bb277c2d586b1 (Proveedor GET), IP: 127.0.0.1
+[2025-08-15T16:38:41.907Z] INFO: Supplier retrieved by ID: 689f62919c7bb277c2d586b1, IP: 127.0.0.1
+[2025-08-15T16:38:41.946Z] WARN: Supplier not found: 689f62919c7bb277c2d586bc, IP: 127.0.0.1
+[2025-08-15T16:38:41.990Z] INFO: [AUDIT] user 689f62919c7bb277c2d5867d created supplier 689f62919c7bb277c2d586c8 (Proveedor PUT), IP: 127.0.0.1
+[2025-08-15T16:38:42.022Z] INFO: [AUDIT] user 689f62919c7bb277c2d5867d updated supplier 689f62919c7bb277c2d586c8 (Proveedor Actualizado), IP: 127.0.0.1
+[2025-08-15T16:38:42.066Z] INFO: [AUDIT] user 689f62919c7bb277c2d5867d created supplier 689f62929c7bb277c2d586d5 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:38:42.087Z] INFO: [AUDIT] user 689f62919c7bb277c2d5867d deleted supplier 689f62929c7bb277c2d586d5 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:38:42.123Z] WARN: Supplier not found for delete: 689f62929c7bb277c2d586e0, IP: 127.0.0.1
+[2025-08-15T16:38:44.122Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:44.217Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:44.415Z] INFO: [AUDIT] user 689f6293365fc3dd4cde2b2e created user 689f6294365fc3dd4cde2b3c, IP: 127.0.0.1
+[2025-08-15T16:38:44.697Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:44.798Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:44.820Z] WARN: Forbidden access attempt by user 689f6294365fc3dd4cde2b47 with role user
+[2025-08-15T16:38:45.108Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:45.209Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:45.524Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:45.618Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:45.650Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T16:38:45.952Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:46.043Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:46.061Z] WARN: Forbidden access attempt by user 689f6295365fc3dd4cde2b74 with role user
+[2025-08-15T16:38:46.337Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:46.431Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:46.458Z] INFO: [AUDIT] user 689f6296365fc3dd4cde2b80 updated user 689f6296365fc3dd4cde2b82, IP: 127.0.0.1
+[2025-08-15T16:38:46.724Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:46.814Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:46.837Z] INFO: [AUDIT] user 689f6296365fc3dd4cde2b91 updated user 689f6296365fc3dd4cde2b91, IP: 127.0.0.1
+[2025-08-15T16:38:47.092Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:47.182Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:47.467Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:47.557Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:47.662Z] INFO: [AUDIT] user 689f6297365fc3dd4cde2bac deleted user 689f6297365fc3dd4cde2bb2, IP: 127.0.0.1
+[2025-08-15T16:38:47.937Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:48.039Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:38:48.059Z] WARN: Forbidden access attempt by user 689f6297365fc3dd4cde2bbf with role user
+[2025-08-15T16:38:49.692Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T16:38:49.750Z] INFO: [AUDIT] user 689f629957698add325452f9 created product 689f629957698add3254530f (Test Product), IP: 127.0.0.1
+[2025-08-15T16:38:49.818Z] INFO: [AUDIT] user 689f629957698add325452f9 created product 689f629957698add32545324 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:38:49.834Z] INFO: Product retrieved by ID: 689f629957698add32545324, IP: 127.0.0.1
+[2025-08-15T16:38:49.900Z] INFO: [AUDIT] user 689f629957698add325452f9 created product 689f629957698add3254533a (Test Product), IP: 127.0.0.1
+[2025-08-15T16:38:49.927Z] INFO: Product updated successfully: 689f629957698add3254533a, IP: 127.0.0.1
+[2025-08-15T16:38:49.993Z] INFO: [AUDIT] user 689f629957698add325452f9 created product 689f629957698add32545352 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:38:50.013Z] INFO: [AUDIT] user 689f629957698add325452f9 deleted product 689f629957698add32545352 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:38:51.568Z] INFO: [AUDIT] Admin undefined (689f629b05e6cae94445c94d) added 5 units of Producto prueba (ID: 689f629b05e6cae94445c94f). New stock: 15. IP: 127.0.0.1
+[2025-08-15T16:38:51.702Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T16:39:17.328Z] INFO: Suppliers listed, IP: ::1
+[2025-08-15T16:39:26.899Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c deleted supplier 6885289f533bd47a633311a5 (Emirates Proveedores Limitada), IP: ::1
+[2025-08-15T16:40:00.664Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T16:40:24.036Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T16:40:24.047Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T16:41:46.208Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T16:41:57.954Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T16:51:04.462Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:51:04.520Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:51:04.560Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:51:04.597Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:51:04.647Z] INFO: [AUDIT] user 689f6578534fbb29c63c3f73 created supplier 689f6578534fbb29c63c3f9c (Proveedor válido), IP: 127.0.0.1
+[2025-08-15T16:51:04.683Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:51:04.719Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T16:51:04.765Z] INFO: [AUDIT] user 689f6578534fbb29c63c3f73 created supplier 689f6578534fbb29c63c3fb7 (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T16:51:04.786Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T16:51:04.829Z] INFO: [AUDIT] user 689f6578534fbb29c63c3f73 created supplier 689f6578534fbb29c63c3fc4 (Proveedor GET), IP: 127.0.0.1
+[2025-08-15T16:51:04.850Z] INFO: Supplier retrieved by ID: 689f6578534fbb29c63c3fc4, IP: 127.0.0.1
+[2025-08-15T16:51:04.887Z] WARN: Supplier not found: 689f6578534fbb29c63c3fcf, IP: 127.0.0.1
+[2025-08-15T16:51:04.931Z] INFO: [AUDIT] user 689f6578534fbb29c63c3f73 created supplier 689f6578534fbb29c63c3fdb (Proveedor PUT), IP: 127.0.0.1
+[2025-08-15T16:51:04.960Z] INFO: [AUDIT] user 689f6578534fbb29c63c3f73 updated supplier 689f6578534fbb29c63c3fdb (Proveedor Actualizado), IP: 127.0.0.1
+[2025-08-15T16:51:05.005Z] INFO: [AUDIT] user 689f6578534fbb29c63c3f73 created supplier 689f6578534fbb29c63c3fe8 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:51:05.023Z] INFO: [AUDIT] user 689f6578534fbb29c63c3f73 deleted supplier 689f6578534fbb29c63c3fe8 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T16:51:05.059Z] WARN: Supplier not found for delete: 689f6579534fbb29c63c3ff3, IP: 127.0.0.1
+[2025-08-15T16:51:06.843Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:06.938Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:07.117Z] INFO: [AUDIT] user 689f657ab53ab978bbe07d7e created user 689f657bb53ab978bbe07d8b, IP: 127.0.0.1
+[2025-08-15T16:51:07.378Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:07.471Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:07.490Z] WARN: Forbidden access attempt by user 689f657bb53ab978bbe07d96 with role user
+[2025-08-15T16:51:07.750Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:07.838Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:08.123Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:08.212Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:08.241Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T16:51:08.501Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:08.591Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:08.609Z] WARN: Forbidden access attempt by user 689f657cb53ab978bbe07dc3 with role user
+[2025-08-15T16:51:08.903Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:08.997Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:09.022Z] INFO: [AUDIT] user 689f657cb53ab978bbe07dcf updated user 689f657cb53ab978bbe07dd1, IP: 127.0.0.1
+[2025-08-15T16:51:09.282Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:09.370Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:09.394Z] INFO: [AUDIT] user 689f657db53ab978bbe07de0 updated user 689f657db53ab978bbe07de0, IP: 127.0.0.1
+[2025-08-15T16:51:09.679Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:09.772Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:10.048Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:10.136Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:10.237Z] INFO: [AUDIT] user 689f657db53ab978bbe07dfb deleted user 689f657eb53ab978bbe07e01, IP: 127.0.0.1
+[2025-08-15T16:51:10.497Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:10.588Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T16:51:10.606Z] WARN: Forbidden access attempt by user 689f657eb53ab978bbe07e0e with role user
+[2025-08-15T16:51:14.043Z] INFO: [AUDIT] Admin undefined (689f65818f1453402f32335a) added 5 units of Producto prueba (ID: 689f65818f1453402f32335c). New stock: 15. IP: 127.0.0.1
+[2025-08-15T16:51:14.180Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T16:51:15.831Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T16:51:15.897Z] INFO: [AUDIT] user 689f65835740282c8942883a created product 689f65835740282c89428850 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:51:15.968Z] INFO: [AUDIT] user 689f65835740282c8942883a created product 689f65835740282c89428865 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:51:15.986Z] INFO: Product retrieved by ID: 689f65835740282c89428865, IP: 127.0.0.1
+[2025-08-15T16:51:16.055Z] INFO: [AUDIT] user 689f65835740282c8942883a created product 689f65845740282c8942887b (Test Product), IP: 127.0.0.1
+[2025-08-15T16:51:16.087Z] INFO: Product updated successfully: 689f65845740282c8942887b, IP: 127.0.0.1
+[2025-08-15T16:51:16.157Z] INFO: [AUDIT] user 689f65835740282c8942883a created product 689f65845740282c89428893 (Test Product), IP: 127.0.0.1
+[2025-08-15T16:51:16.178Z] INFO: [AUDIT] user 689f65835740282c8942883a deleted product 689f65845740282c89428893 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:02:14.923Z] INFO: [AUDIT] user 689f68168dbc1c9ff16143cd created supplier 689f68168dbc1c9ff16143d6 (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T17:02:14.978Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:02:15.017Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:02:15.054Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:02:15.104Z] INFO: [AUDIT] user 689f68168dbc1c9ff16143cd created supplier 689f68178dbc1c9ff16143f9 (Proveedor válido), IP: 127.0.0.1
+[2025-08-15T17:02:15.140Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:02:15.185Z] INFO: [AUDIT] user 689f68168dbc1c9ff16143cd created supplier 689f68178dbc1c9ff161440c (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T17:02:15.206Z] WARN: [AUDIT] user 689f68168dbc1c9ff16143cd tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T17:02:15.249Z] INFO: [AUDIT] user 689f68168dbc1c9ff16143cd created supplier 689f68178dbc1c9ff1614419 (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T17:02:15.269Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T17:02:15.313Z] INFO: [AUDIT] user 689f68168dbc1c9ff16143cd created supplier 689f68178dbc1c9ff1614426 (Proveedor GET), IP: 127.0.0.1
+[2025-08-15T17:02:15.336Z] INFO: Supplier retrieved by ID: 689f68178dbc1c9ff1614426, IP: 127.0.0.1
+[2025-08-15T17:02:15.372Z] WARN: Supplier not found: 689f68178dbc1c9ff1614431, IP: 127.0.0.1
+[2025-08-15T17:02:15.416Z] INFO: [AUDIT] user 689f68168dbc1c9ff16143cd created supplier 689f68178dbc1c9ff161443d (Proveedor PUT), IP: 127.0.0.1
+[2025-08-15T17:02:15.446Z] INFO: [AUDIT] user 689f68168dbc1c9ff16143cd updated supplier 689f68178dbc1c9ff161443d (Proveedor Actualizado), IP: 127.0.0.1
+[2025-08-15T17:02:15.489Z] INFO: [AUDIT] user 689f68168dbc1c9ff16143cd created supplier 689f68178dbc1c9ff161444a (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T17:02:15.510Z] INFO: [AUDIT] user 689f68168dbc1c9ff16143cd deleted supplier 689f68178dbc1c9ff161444a (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T17:02:15.546Z] WARN: Supplier not found for delete: 689f68178dbc1c9ff1614455, IP: 127.0.0.1
+[2025-08-15T17:02:17.346Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:17.437Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:17.622Z] INFO: [AUDIT] user 689f6819c708f0adc7f8a8a7 created user 689f6819c708f0adc7f8a8b5, IP: 127.0.0.1
+[2025-08-15T17:02:17.879Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:17.981Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:18.016Z] WARN: Forbidden access attempt by user 689f6819c708f0adc7f8a8c0 with role user
+[2025-08-15T17:02:18.275Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:18.364Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:18.648Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:18.737Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:18.768Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T17:02:19.027Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:19.117Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:19.134Z] WARN: Forbidden access attempt by user 689f681ac708f0adc7f8a8ed with role user
+[2025-08-15T17:02:19.396Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:19.486Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:19.512Z] INFO: [AUDIT] user 689f681bc708f0adc7f8a8f9 updated user 689f681bc708f0adc7f8a8fb, IP: 127.0.0.1
+[2025-08-15T17:02:19.770Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:19.857Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:19.884Z] INFO: [AUDIT] user 689f681bc708f0adc7f8a90a updated user 689f681bc708f0adc7f8a90a, IP: 127.0.0.1
+[2025-08-15T17:02:20.143Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:20.230Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:20.504Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:20.594Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:20.692Z] INFO: [AUDIT] user 689f681cc708f0adc7f8a925 deleted user 689f681cc708f0adc7f8a92b, IP: 127.0.0.1
+[2025-08-15T17:02:20.951Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:21.040Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:02:21.058Z] WARN: Forbidden access attempt by user 689f681cc708f0adc7f8a938 with role user
+[2025-08-15T17:02:22.726Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T17:02:22.784Z] INFO: [AUDIT] user 689f681e9662978b23db379b created product 689f681e9662978b23db37b0 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:02:22.852Z] INFO: [AUDIT] user 689f681e9662978b23db379b created product 689f681e9662978b23db37c5 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:02:22.868Z] INFO: Product retrieved by ID: 689f681e9662978b23db37c5, IP: 127.0.0.1
+[2025-08-15T17:02:22.934Z] INFO: [AUDIT] user 689f681e9662978b23db379b created product 689f681e9662978b23db37db (Test Product), IP: 127.0.0.1
+[2025-08-15T17:02:22.961Z] INFO: Product updated successfully: 689f681e9662978b23db37db, IP: 127.0.0.1
+[2025-08-15T17:02:23.028Z] INFO: [AUDIT] user 689f681e9662978b23db379b created product 689f681f9662978b23db37f3 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:02:23.046Z] INFO: [AUDIT] user 689f681e9662978b23db379b deleted product 689f681f9662978b23db37f3 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:02:24.585Z] INFO: [AUDIT] Admin undefined (689f6820c49498aa49ff44ea) added 5 units of Producto prueba (ID: 689f6820c49498aa49ff44ec). New stock: 15. IP: 127.0.0.1
+[2025-08-15T17:02:24.716Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T17:08:22.641Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:22.746Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:22.932Z] INFO: [AUDIT] user 689f698614447e6e0ef6e128 created user 689f698614447e6e0ef6e135, IP: 127.0.0.1
+[2025-08-15T17:08:23.191Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:23.280Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:23.301Z] WARN: Forbidden access attempt by user 689f698714447e6e0ef6e140 with role user
+[2025-08-15T17:08:23.561Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:23.651Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:23.936Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:24.024Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:24.055Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T17:08:24.312Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:24.401Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:24.419Z] WARN: Forbidden access attempt by user 689f698814447e6e0ef6e16d with role user
+[2025-08-15T17:08:24.680Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:24.768Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:24.799Z] INFO: [AUDIT] user 689f698814447e6e0ef6e179 updated user 689f698814447e6e0ef6e17b, IP: 127.0.0.1
+[2025-08-15T17:08:25.053Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:25.144Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:25.167Z] INFO: [AUDIT] user 689f698814447e6e0ef6e18a updated user 689f698814447e6e0ef6e18a, IP: 127.0.0.1
+[2025-08-15T17:08:25.424Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:25.514Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:25.787Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:25.876Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:25.974Z] INFO: [AUDIT] user 689f698914447e6e0ef6e1a5 deleted user 689f698914447e6e0ef6e1ab, IP: 127.0.0.1
+[2025-08-15T17:08:26.232Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:26.320Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:08:26.337Z] WARN: Forbidden access attempt by user 689f698a14447e6e0ef6e1b8 with role user
+[2025-08-15T17:08:28.200Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be created supplier 689f698c6afe0e9a93daf7c6 (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T17:08:28.241Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:08:28.276Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:08:28.313Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:08:28.358Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be created supplier 689f698c6afe0e9a93daf7e9 (Proveedor válido), IP: 127.0.0.1
+[2025-08-15T17:08:28.393Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:08:28.449Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be created supplier 689f698c6afe0e9a93daf7fc (Proveedor K Incorrecto), IP: 127.0.0.1
+[2025-08-15T17:08:28.485Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:08:28.528Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be created supplier 689f698c6afe0e9a93daf80f (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T17:08:28.549Z] WARN: [AUDIT] user 689f698c6afe0e9a93daf7be tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T17:08:28.593Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be created supplier 689f698c6afe0e9a93daf81c (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T17:08:28.613Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T17:08:28.656Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be created supplier 689f698c6afe0e9a93daf829 (Proveedor GET), IP: 127.0.0.1
+[2025-08-15T17:08:28.676Z] INFO: Supplier retrieved by ID: 689f698c6afe0e9a93daf829, IP: 127.0.0.1
+[2025-08-15T17:08:28.716Z] WARN: Supplier not found: 689f698c6afe0e9a93daf834, IP: 127.0.0.1
+[2025-08-15T17:08:28.762Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be created supplier 689f698c6afe0e9a93daf840 (Proveedor PUT), IP: 127.0.0.1
+[2025-08-15T17:08:28.786Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be updated supplier 689f698c6afe0e9a93daf840 (Proveedor Actualizado), IP: 127.0.0.1
+[2025-08-15T17:08:28.831Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be created supplier 689f698c6afe0e9a93daf84d (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T17:08:28.852Z] INFO: [AUDIT] user 689f698c6afe0e9a93daf7be deleted supplier 689f698c6afe0e9a93daf84d (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T17:08:28.892Z] WARN: Supplier not found for delete: 689f698c6afe0e9a93daf858, IP: 127.0.0.1
+[2025-08-15T17:08:30.442Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T17:08:30.500Z] INFO: [AUDIT] user 689f698e0416aaa46d814679 created product 689f698e0416aaa46d81468f (Test Product), IP: 127.0.0.1
+[2025-08-15T17:08:30.565Z] INFO: [AUDIT] user 689f698e0416aaa46d814679 created product 689f698e0416aaa46d8146a4 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:08:30.580Z] INFO: Product retrieved by ID: 689f698e0416aaa46d8146a4, IP: 127.0.0.1
+[2025-08-15T17:08:30.643Z] INFO: [AUDIT] user 689f698e0416aaa46d814679 created product 689f698e0416aaa46d8146ba (Test Product), IP: 127.0.0.1
+[2025-08-15T17:08:30.668Z] INFO: Product updated successfully: 689f698e0416aaa46d8146ba, IP: 127.0.0.1
+[2025-08-15T17:08:30.737Z] INFO: [AUDIT] user 689f698e0416aaa46d814679 created product 689f698e0416aaa46d8146d2 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:08:30.758Z] INFO: [AUDIT] user 689f698e0416aaa46d814679 deleted product 689f698e0416aaa46d8146d2 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:08:32.337Z] INFO: [AUDIT] Admin undefined (689f699087e908e96b6df268) added 5 units of Producto prueba (ID: 689f699087e908e96b6df26a). New stock: 15. IP: 127.0.0.1
+[2025-08-15T17:08:32.496Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T17:20:23.642Z] INFO: [AUDIT] user 689f6c57c2e9b998c5304252 created supplier 689f6c57c2e9b998c530425a (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T17:20:23.715Z] INFO: [AUDIT] user 689f6c57c2e9b998c5304252 created supplier 689f6c57c2e9b998c5304265 (Proveedor K), IP: 127.0.0.1
+[2025-08-15T17:20:23.763Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:20:23.804Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:20:23.854Z] INFO: [AUDIT] user 689f6c57c2e9b998c5304252 created supplier 689f6c57c2e9b998c5304280 (Proveedor duplicado), IP: 127.0.0.1
+[2025-08-15T17:20:23.877Z] WARN: [AUDIT] user 689f6c57c2e9b998c5304252 tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T17:20:23.926Z] INFO: [AUDIT] user 689f6c57c2e9b998c5304252 created supplier 689f6c57c2e9b998c530428d (Proveedor Listado), IP: 127.0.0.1
+[2025-08-15T17:20:23.946Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T17:20:23.987Z] WARN: Supplier not found: 689f6c57c2e9b998c5304298, IP: 127.0.0.1
+[2025-08-15T17:20:24.049Z] INFO: [AUDIT] user 689f6c57c2e9b998c5304252 created supplier 689f6c58c2e9b998c53042a4 (Proveedor PUT), IP: 127.0.0.1
+[2025-08-15T17:20:24.091Z] INFO: [AUDIT] user 689f6c57c2e9b998c5304252 updated supplier 689f6c58c2e9b998c53042a4 (Proveedor Actualizado), IP: 127.0.0.1
+[2025-08-15T17:20:24.139Z] INFO: [AUDIT] user 689f6c57c2e9b998c5304252 created supplier 689f6c58c2e9b998c53042b1 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T17:20:24.159Z] INFO: [AUDIT] user 689f6c57c2e9b998c5304252 deleted supplier 689f6c58c2e9b998c53042b1 (Proveedor DELETE), IP: 127.0.0.1
+[2025-08-15T17:20:24.203Z] WARN: Supplier not found for delete: 689f6c58c2e9b998c53042bc, IP: 127.0.0.1
+[2025-08-15T17:20:26.011Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:26.102Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:26.288Z] INFO: [AUDIT] user 689f6c59e111a420be8af4db created user 689f6c5ae111a420be8af4e8, IP: 127.0.0.1
+[2025-08-15T17:20:26.547Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:26.635Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:26.656Z] WARN: Forbidden access attempt by user 689f6c5ae111a420be8af4f3 with role user
+[2025-08-15T17:20:26.916Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:27.005Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:27.296Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:27.388Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:27.419Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T17:20:27.683Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:27.775Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:27.794Z] WARN: Forbidden access attempt by user 689f6c5be111a420be8af520 with role user
+[2025-08-15T17:20:28.080Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:28.172Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:28.196Z] INFO: [AUDIT] user 689f6c5be111a420be8af52c updated user 689f6c5be111a420be8af52e, IP: 127.0.0.1
+[2025-08-15T17:20:28.499Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:28.588Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:28.611Z] INFO: [AUDIT] user 689f6c5ce111a420be8af53d updated user 689f6c5ce111a420be8af53d, IP: 127.0.0.1
+[2025-08-15T17:20:28.886Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:28.977Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:29.262Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:29.356Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:29.458Z] INFO: [AUDIT] user 689f6c5de111a420be8af558 deleted user 689f6c5de111a420be8af55e, IP: 127.0.0.1
+[2025-08-15T17:20:29.721Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:29.816Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:20:29.836Z] WARN: Forbidden access attempt by user 689f6c5de111a420be8af56b with role user
+[2025-08-15T17:20:31.542Z] INFO: [AUDIT] Admin undefined (689f6c5fabd7411e2050ef1a) added 5 units of Producto prueba (ID: 689f6c5fabd7411e2050ef1c). New stock: 15. IP: 127.0.0.1
+[2025-08-15T17:20:31.678Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T17:20:33.310Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T17:20:33.373Z] INFO: [AUDIT] user 689f6c613eefcd9751374798 created product 689f6c613eefcd97513747ae (Test Product), IP: 127.0.0.1
+[2025-08-15T17:20:33.446Z] INFO: [AUDIT] user 689f6c613eefcd9751374798 created product 689f6c613eefcd97513747c3 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:20:33.463Z] INFO: Product retrieved by ID: 689f6c613eefcd97513747c3, IP: 127.0.0.1
+[2025-08-15T17:20:33.534Z] INFO: [AUDIT] user 689f6c613eefcd9751374798 created product 689f6c613eefcd97513747d9 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:20:33.563Z] INFO: Product updated successfully: 689f6c613eefcd97513747d9, IP: 127.0.0.1
+[2025-08-15T17:20:33.635Z] INFO: [AUDIT] user 689f6c613eefcd9751374798 created product 689f6c613eefcd97513747f1 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:20:33.658Z] INFO: [AUDIT] user 689f6c613eefcd9751374798 deleted product 689f6c613eefcd97513747f1 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:24:11.997Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:12.103Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:12.288Z] INFO: [AUDIT] user 689f6d3be55f891d62c00c5c created user 689f6d3ce55f891d62c00c69, IP: 127.0.0.1
+[2025-08-15T17:24:12.558Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:12.655Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:12.679Z] WARN: Forbidden access attempt by user 689f6d3ce55f891d62c00c74 with role user
+[2025-08-15T17:24:12.950Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:13.040Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:13.329Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:13.420Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:13.453Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T17:24:13.718Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:13.811Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:13.829Z] WARN: Forbidden access attempt by user 689f6d3de55f891d62c00ca1 with role user
+[2025-08-15T17:24:14.090Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:14.177Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:14.209Z] INFO: [AUDIT] user 689f6d3de55f891d62c00cad updated user 689f6d3de55f891d62c00caf, IP: 127.0.0.1
+[2025-08-15T17:24:14.471Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:14.561Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:14.586Z] INFO: [AUDIT] user 689f6d3ee55f891d62c00cbe updated user 689f6d3ee55f891d62c00cbe, IP: 127.0.0.1
+[2025-08-15T17:24:14.855Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:14.949Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:15.261Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:15.392Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:15.492Z] INFO: [AUDIT] user 689f6d3fe55f891d62c00cd9 deleted user 689f6d3fe55f891d62c00cdf, IP: 127.0.0.1
+[2025-08-15T17:24:15.766Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:15.861Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:24:15.885Z] WARN: Forbidden access attempt by user 689f6d3fe55f891d62c00cec with role user
+[2025-08-15T17:24:17.921Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 created supplier 689f6d41b69d96c58e30e99f (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T17:24:17.962Z] WARN: Forbidden access attempt by user 689f6d41b69d96c58e30e99a with role user
+[2025-08-15T17:24:18.007Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 created supplier 689f6d42b69d96c58e30e9b2 (Proveedor K), IP: 127.0.0.1
+[2025-08-15T17:24:18.045Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:24:18.082Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:24:18.120Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:24:18.206Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 created supplier 689f6d42b69d96c58e30e9d5 (Duplicado 1), IP: 127.0.0.1
+[2025-08-15T17:24:18.226Z] WARN: [AUDIT] user 689f6d41b69d96c58e30e995 tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T17:24:18.260Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:24:18.315Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 created supplier 689f6d42b69d96c58e30e9ea (Listado), IP: 127.0.0.1
+[2025-08-15T17:24:18.337Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T17:24:18.379Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 created supplier 689f6d42b69d96c58e30e9f7 (Por ID), IP: 127.0.0.1
+[2025-08-15T17:24:18.399Z] INFO: Supplier retrieved by ID: 689f6d42b69d96c58e30e9f7, IP: 127.0.0.1
+[2025-08-15T17:24:18.437Z] WARN: Supplier not found: 689f6d42b69d96c58e30ea02, IP: 127.0.0.1
+[2025-08-15T17:24:18.482Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 created supplier 689f6d42b69d96c58e30ea0e (Actualizar), IP: 127.0.0.1
+[2025-08-15T17:24:18.507Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 updated supplier 689f6d42b69d96c58e30ea0e (Actualizado), IP: 127.0.0.1
+[2025-08-15T17:24:18.553Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 created supplier 689f6d42b69d96c58e30ea1b (NoActualizar), IP: 127.0.0.1
+[2025-08-15T17:24:18.571Z] WARN: Forbidden access attempt by user 689f6d41b69d96c58e30e99a with role user
+[2025-08-15T17:24:18.612Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 created supplier 689f6d42b69d96c58e30ea27 (Eliminar), IP: 127.0.0.1
+[2025-08-15T17:24:18.632Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 deleted supplier 689f6d42b69d96c58e30ea27 (Eliminar), IP: 127.0.0.1
+[2025-08-15T17:24:18.676Z] INFO: [AUDIT] user 689f6d41b69d96c58e30e995 created supplier 689f6d42b69d96c58e30ea34 (NoEliminar), IP: 127.0.0.1
+[2025-08-15T17:24:18.692Z] WARN: Forbidden access attempt by user 689f6d41b69d96c58e30e99a with role user
+[2025-08-15T17:24:18.730Z] WARN: Supplier not found for delete: 689f6d42b69d96c58e30ea3e, IP: 127.0.0.1
+[2025-08-15T17:24:20.329Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T17:24:20.389Z] INFO: [AUDIT] user 689f6d44512f6d7b9f259826 created product 689f6d44512f6d7b9f25983b (Test Product), IP: 127.0.0.1
+[2025-08-15T17:24:20.455Z] INFO: [AUDIT] user 689f6d44512f6d7b9f259826 created product 689f6d44512f6d7b9f259850 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:24:20.470Z] INFO: Product retrieved by ID: 689f6d44512f6d7b9f259850, IP: 127.0.0.1
+[2025-08-15T17:24:20.533Z] INFO: [AUDIT] user 689f6d44512f6d7b9f259826 created product 689f6d44512f6d7b9f259866 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:24:20.558Z] INFO: Product updated successfully: 689f6d44512f6d7b9f259866, IP: 127.0.0.1
+[2025-08-15T17:24:20.625Z] INFO: [AUDIT] user 689f6d44512f6d7b9f259826 created product 689f6d44512f6d7b9f25987e (Test Product), IP: 127.0.0.1
+[2025-08-15T17:24:20.645Z] INFO: [AUDIT] user 689f6d44512f6d7b9f259826 deleted product 689f6d44512f6d7b9f25987e (Test Product), IP: 127.0.0.1
+[2025-08-15T17:24:22.178Z] INFO: [AUDIT] Admin undefined (689f6d46dc7dbaa10eb0d82d) added 5 units of Producto prueba (ID: 689f6d46dc7dbaa10eb0d82f). New stock: 15. IP: 127.0.0.1
+[2025-08-15T17:24:22.307Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T17:29:27.415Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc created supplier 689f6e7746119d441e28d3d7 (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T17:29:27.470Z] WARN: Forbidden access attempt by user 689f6e7746119d441e28d3d2 with role user
+[2025-08-15T17:29:27.517Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc created supplier 689f6e7746119d441e28d3ea (Proveedor K), IP: 127.0.0.1
+[2025-08-15T17:29:27.556Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:29:27.598Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:29:27.634Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:29:27.682Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc created supplier 689f6e7746119d441e28d40d (Duplicado 1), IP: 127.0.0.1
+[2025-08-15T17:29:27.703Z] WARN: [AUDIT] user 689f6e7746119d441e28d3cc tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T17:29:27.741Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:29:27.797Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc created supplier 689f6e7746119d441e28d422 (Listado), IP: 127.0.0.1
+[2025-08-15T17:29:27.817Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T17:29:27.863Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc created supplier 689f6e7746119d441e28d42f (Por ID), IP: 127.0.0.1
+[2025-08-15T17:29:27.881Z] INFO: Supplier retrieved by ID: 689f6e7746119d441e28d42f, IP: 127.0.0.1
+[2025-08-15T17:29:27.920Z] WARN: Supplier not found: 689f6e7746119d441e28d43a, IP: 127.0.0.1
+[2025-08-15T17:29:27.964Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc created supplier 689f6e7746119d441e28d446 (Actualizar), IP: 127.0.0.1
+[2025-08-15T17:29:27.995Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc updated supplier 689f6e7746119d441e28d446 (Actualizado), IP: 127.0.0.1
+[2025-08-15T17:29:28.039Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc created supplier 689f6e7846119d441e28d453 (NoActualizar), IP: 127.0.0.1
+[2025-08-15T17:29:28.056Z] WARN: Forbidden access attempt by user 689f6e7746119d441e28d3d2 with role user
+[2025-08-15T17:29:28.097Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc created supplier 689f6e7846119d441e28d45f (Eliminar), IP: 127.0.0.1
+[2025-08-15T17:29:28.116Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc deleted supplier 689f6e7846119d441e28d45f (Eliminar), IP: 127.0.0.1
+[2025-08-15T17:29:28.157Z] INFO: [AUDIT] user 689f6e7746119d441e28d3cc created supplier 689f6e7846119d441e28d46c (NoEliminar), IP: 127.0.0.1
+[2025-08-15T17:29:28.177Z] WARN: Forbidden access attempt by user 689f6e7746119d441e28d3d2 with role user
+[2025-08-15T17:29:28.213Z] WARN: Supplier not found for delete: 689f6e7846119d441e28d476, IP: 127.0.0.1
+[2025-08-15T17:29:29.950Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:30.040Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:30.225Z] INFO: [AUDIT] user 689f6e79d991f74c662e25d4 created user 689f6e7ad991f74c662e25e1, IP: 127.0.0.1
+[2025-08-15T17:29:30.487Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:30.577Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:30.597Z] WARN: Forbidden access attempt by user 689f6e7ad991f74c662e25ec with role user
+[2025-08-15T17:29:30.858Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:30.949Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:31.235Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:31.326Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:31.356Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T17:29:31.615Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:31.706Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:31.725Z] WARN: Forbidden access attempt by user 689f6e7bd991f74c662e2619 with role user
+[2025-08-15T17:29:32.026Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:32.117Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:32.143Z] INFO: [AUDIT] user 689f6e7bd991f74c662e2625 updated user 689f6e7bd991f74c662e2627, IP: 127.0.0.1
+[2025-08-15T17:29:32.402Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:32.490Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:32.515Z] INFO: [AUDIT] user 689f6e7cd991f74c662e2636 updated user 689f6e7cd991f74c662e2636, IP: 127.0.0.1
+[2025-08-15T17:29:32.769Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:32.858Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:33.137Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:33.225Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:33.324Z] INFO: [AUDIT] user 689f6e7cd991f74c662e2651 deleted user 689f6e7dd991f74c662e2657, IP: 127.0.0.1
+[2025-08-15T17:29:33.584Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:33.671Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:29:33.688Z] WARN: Forbidden access attempt by user 689f6e7dd991f74c662e2664 with role user
+[2025-08-15T17:29:35.357Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T17:29:35.420Z] INFO: [AUDIT] user 689f6e7f3df768f1fc0ec07d created product 689f6e7f3df768f1fc0ec092 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:29:35.490Z] INFO: [AUDIT] user 689f6e7f3df768f1fc0ec07d created product 689f6e7f3df768f1fc0ec0a7 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:29:35.507Z] INFO: Product retrieved by ID: 689f6e7f3df768f1fc0ec0a7, IP: 127.0.0.1
+[2025-08-15T17:29:35.579Z] INFO: [AUDIT] user 689f6e7f3df768f1fc0ec07d created product 689f6e7f3df768f1fc0ec0bd (Test Product), IP: 127.0.0.1
+[2025-08-15T17:29:35.611Z] INFO: Product updated successfully: 689f6e7f3df768f1fc0ec0bd, IP: 127.0.0.1
+[2025-08-15T17:29:35.681Z] INFO: [AUDIT] user 689f6e7f3df768f1fc0ec07d created product 689f6e7f3df768f1fc0ec0d5 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:29:35.703Z] INFO: [AUDIT] user 689f6e7f3df768f1fc0ec07d deleted product 689f6e7f3df768f1fc0ec0d5 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:29:37.286Z] INFO: [AUDIT] Admin undefined (689f6e81b28a6f168a7b42c8) added 5 units of Producto prueba (ID: 689f6e81b28a6f168a7b42ca). New stock: 15. IP: 127.0.0.1
+[2025-08-15T17:29:37.421Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T17:31:13.645Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb created supplier 689f6ee12275e7c92d78abd6 (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T17:31:13.701Z] WARN: Forbidden access attempt by user 689f6ee12275e7c92d78abd1 with role user
+[2025-08-15T17:31:13.754Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb created supplier 689f6ee12275e7c92d78abe9 (Proveedor K), IP: 127.0.0.1
+[2025-08-15T17:31:13.800Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:31:13.839Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:31:13.877Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:31:13.924Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb created supplier 689f6ee12275e7c92d78ac0c (Duplicado 1), IP: 127.0.0.1
+[2025-08-15T17:31:13.946Z] WARN: [AUDIT] user 689f6ee12275e7c92d78abcb tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T17:31:13.986Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:31:14.047Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb created supplier 689f6ee22275e7c92d78ac21 (Listado), IP: 127.0.0.1
+[2025-08-15T17:31:14.067Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T17:31:14.111Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb created supplier 689f6ee22275e7c92d78ac2e (Por ID), IP: 127.0.0.1
+[2025-08-15T17:31:14.129Z] INFO: Supplier retrieved by ID: 689f6ee22275e7c92d78ac2e, IP: 127.0.0.1
+[2025-08-15T17:31:14.168Z] WARN: Supplier not found: 689f6ee22275e7c92d78ac39, IP: 127.0.0.1
+[2025-08-15T17:31:14.215Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb created supplier 689f6ee22275e7c92d78ac45 (Actualizar), IP: 127.0.0.1
+[2025-08-15T17:31:14.246Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb updated supplier 689f6ee22275e7c92d78ac45 (Actualizado), IP: 127.0.0.1
+[2025-08-15T17:31:14.293Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb created supplier 689f6ee22275e7c92d78ac52 (NoActualizar), IP: 127.0.0.1
+[2025-08-15T17:31:14.312Z] WARN: Forbidden access attempt by user 689f6ee12275e7c92d78abd1 with role user
+[2025-08-15T17:31:14.358Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb created supplier 689f6ee22275e7c92d78ac5e (Eliminar), IP: 127.0.0.1
+[2025-08-15T17:31:14.379Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb deleted supplier 689f6ee22275e7c92d78ac5e (Eliminar), IP: 127.0.0.1
+[2025-08-15T17:31:14.429Z] INFO: [AUDIT] user 689f6ee12275e7c92d78abcb created supplier 689f6ee22275e7c92d78ac6b (NoEliminar), IP: 127.0.0.1
+[2025-08-15T17:31:14.449Z] WARN: Forbidden access attempt by user 689f6ee12275e7c92d78abd1 with role user
+[2025-08-15T17:31:14.492Z] WARN: Supplier not found for delete: 689f6ee22275e7c92d78ac75, IP: 127.0.0.1
+[2025-08-15T17:31:16.271Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:16.368Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:16.553Z] INFO: [AUDIT] user 689f6ee33990fc97ba85d85d created user 689f6ee43990fc97ba85d86b, IP: 127.0.0.1
+[2025-08-15T17:31:16.819Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:16.912Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:16.932Z] WARN: Forbidden access attempt by user 689f6ee43990fc97ba85d876 with role user
+[2025-08-15T17:31:17.197Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:17.288Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:17.573Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:17.665Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:17.696Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T17:31:18.014Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:18.106Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:18.125Z] WARN: Forbidden access attempt by user 689f6ee53990fc97ba85d8a3 with role user
+[2025-08-15T17:31:18.391Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:18.481Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:18.506Z] INFO: [AUDIT] user 689f6ee63990fc97ba85d8af updated user 689f6ee63990fc97ba85d8b1, IP: 127.0.0.1
+[2025-08-15T17:31:18.778Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:18.885Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:18.909Z] INFO: [AUDIT] user 689f6ee63990fc97ba85d8c0 updated user 689f6ee63990fc97ba85d8c0, IP: 127.0.0.1
+[2025-08-15T17:31:19.169Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:19.258Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:19.547Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:19.636Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:19.734Z] INFO: [AUDIT] user 689f6ee73990fc97ba85d8db deleted user 689f6ee73990fc97ba85d8e1, IP: 127.0.0.1
+[2025-08-15T17:31:19.999Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:20.087Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:31:20.110Z] WARN: Forbidden access attempt by user 689f6ee73990fc97ba85d8ee with role user
+[2025-08-15T17:31:22.126Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T17:31:22.202Z] INFO: [AUDIT] user 689f6ee92038ec30ebc92753 created product 689f6eea2038ec30ebc92767 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:31:22.276Z] INFO: [AUDIT] user 689f6ee92038ec30ebc92753 created product 689f6eea2038ec30ebc9277c (Test Product), IP: 127.0.0.1
+[2025-08-15T17:31:22.292Z] INFO: Product retrieved by ID: 689f6eea2038ec30ebc9277c, IP: 127.0.0.1
+[2025-08-15T17:31:22.357Z] INFO: [AUDIT] user 689f6ee92038ec30ebc92753 created product 689f6eea2038ec30ebc92792 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:31:22.383Z] INFO: Product updated successfully: 689f6eea2038ec30ebc92792, IP: 127.0.0.1
+[2025-08-15T17:31:22.452Z] INFO: [AUDIT] user 689f6ee92038ec30ebc92753 created product 689f6eea2038ec30ebc927aa (Test Product), IP: 127.0.0.1
+[2025-08-15T17:31:22.471Z] INFO: [AUDIT] user 689f6ee92038ec30ebc92753 deleted product 689f6eea2038ec30ebc927aa (Test Product), IP: 127.0.0.1
+[2025-08-15T17:31:24.353Z] INFO: [AUDIT] Admin undefined (689f6eec70cbaaec1d46bfeb) added 5 units of Producto prueba (ID: 689f6eec70cbaaec1d46bfed). New stock: 15. IP: 127.0.0.1
+[2025-08-15T17:31:24.500Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T17:42:14.041Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:14.144Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:14.328Z] INFO: [AUDIT] user 689f7175092659d7daf6fa2c created user 689f7176092659d7daf6fa39, IP: 127.0.0.1
+[2025-08-15T17:42:14.589Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:14.679Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:14.699Z] WARN: Forbidden access attempt by user 689f7176092659d7daf6fa44 with role user
+[2025-08-15T17:42:14.959Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:15.050Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:15.333Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:15.420Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:15.450Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T17:42:15.707Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:15.794Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:15.811Z] WARN: Forbidden access attempt by user 689f7177092659d7daf6fa71 with role user
+[2025-08-15T17:42:16.063Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:16.153Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:16.186Z] INFO: [AUDIT] user 689f7177092659d7daf6fa7d updated user 689f7177092659d7daf6fa7f, IP: 127.0.0.1
+[2025-08-15T17:42:16.442Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:16.530Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:16.554Z] INFO: [AUDIT] user 689f7178092659d7daf6fa8e updated user 689f7178092659d7daf6fa8e, IP: 127.0.0.1
+[2025-08-15T17:42:16.808Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:16.895Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:17.167Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:17.256Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:17.354Z] INFO: [AUDIT] user 689f7178092659d7daf6faa9 deleted user 689f7179092659d7daf6faaf, IP: 127.0.0.1
+[2025-08-15T17:42:17.613Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:17.700Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:42:17.717Z] WARN: Forbidden access attempt by user 689f7179092659d7daf6fabc with role user
+[2025-08-15T17:42:19.347Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f created supplier 689f717bd705c3ae92828f3a (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T17:42:19.384Z] WARN: Forbidden access attempt by user 689f717bd705c3ae92828f35 with role user
+[2025-08-15T17:42:19.428Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f created supplier 689f717bd705c3ae92828f4d (Proveedor K), IP: 127.0.0.1
+[2025-08-15T17:42:19.467Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:42:19.502Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:42:19.535Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:42:19.581Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f created supplier 689f717bd705c3ae92828f70 (Duplicado 1), IP: 127.0.0.1
+[2025-08-15T17:42:19.603Z] WARN: [AUDIT] user 689f717bd705c3ae92828f2f tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T17:42:19.639Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T17:42:19.690Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f created supplier 689f717bd705c3ae92828f85 (Listado), IP: 127.0.0.1
+[2025-08-15T17:42:19.711Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T17:42:19.753Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f created supplier 689f717bd705c3ae92828f92 (Por ID), IP: 127.0.0.1
+[2025-08-15T17:42:19.772Z] INFO: Supplier retrieved by ID: 689f717bd705c3ae92828f92, IP: 127.0.0.1
+[2025-08-15T17:42:19.810Z] WARN: Supplier not found: 689f717bd705c3ae92828f9d, IP: 127.0.0.1
+[2025-08-15T17:42:19.855Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f created supplier 689f717bd705c3ae92828fa9 (Actualizar), IP: 127.0.0.1
+[2025-08-15T17:42:19.878Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f updated supplier 689f717bd705c3ae92828fa9 (Actualizado), IP: 127.0.0.1
+[2025-08-15T17:42:19.919Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f created supplier 689f717bd705c3ae92828fb6 (NoActualizar), IP: 127.0.0.1
+[2025-08-15T17:42:19.937Z] WARN: Forbidden access attempt by user 689f717bd705c3ae92828f35 with role user
+[2025-08-15T17:42:19.979Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f created supplier 689f717bd705c3ae92828fc2 (Eliminar), IP: 127.0.0.1
+[2025-08-15T17:42:20.000Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f deleted supplier 689f717bd705c3ae92828fc2 (Eliminar), IP: 127.0.0.1
+[2025-08-15T17:42:20.047Z] INFO: [AUDIT] user 689f717bd705c3ae92828f2f created supplier 689f717cd705c3ae92828fcf (NoEliminar), IP: 127.0.0.1
+[2025-08-15T17:42:20.064Z] WARN: Forbidden access attempt by user 689f717bd705c3ae92828f35 with role user
+[2025-08-15T17:42:20.102Z] WARN: Supplier not found for delete: 689f717cd705c3ae92828fd9, IP: 127.0.0.1
+[2025-08-15T17:42:21.665Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T17:42:21.725Z] INFO: [AUDIT] user 689f717df23c78e9ea6dbc10 created product 689f717df23c78e9ea6dbc25 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:42:21.792Z] INFO: [AUDIT] user 689f717df23c78e9ea6dbc10 created product 689f717df23c78e9ea6dbc3a (Test Product), IP: 127.0.0.1
+[2025-08-15T17:42:21.807Z] INFO: Product retrieved by ID: 689f717df23c78e9ea6dbc3a, IP: 127.0.0.1
+[2025-08-15T17:42:21.871Z] INFO: [AUDIT] user 689f717df23c78e9ea6dbc10 created product 689f717df23c78e9ea6dbc50 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:42:21.900Z] INFO: Product updated successfully: 689f717df23c78e9ea6dbc50, IP: 127.0.0.1
+[2025-08-15T17:42:21.964Z] INFO: [AUDIT] user 689f717df23c78e9ea6dbc10 created product 689f717df23c78e9ea6dbc68 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:42:21.984Z] INFO: [AUDIT] user 689f717df23c78e9ea6dbc10 deleted product 689f717df23c78e9ea6dbc68 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:42:23.727Z] INFO: [AUDIT] Admin undefined (689f717f19efdbc802440453) added 5 units of Producto prueba (ID: 689f717f19efdbc802440455). New stock: 15. IP: 127.0.0.1
+[2025-08-15T17:42:23.859Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T17:44:23.318Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.383Z] WARN: Forbidden access attempt by user 689f71f78f743c8a90cd10b2 with role user
+[2025-08-15T17:44:23.423Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.464Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.504Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.543Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.583Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.603Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.645Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.686Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.710Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T17:44:23.747Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.765Z] WARN: Invalid supplier ID: undefined, IP: 127.0.0.1
+[2025-08-15T17:44:23.803Z] WARN: Supplier not found: 689f71f78f743c8a90cd1109, IP: 127.0.0.1
+[2025-08-15T17:44:23.839Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.861Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.902Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.924Z] WARN: Forbidden access attempt by user 689f71f78f743c8a90cd10b2 with role user
+[2025-08-15T17:44:23.964Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:23.984Z] WARN: Invalid supplier ID for delete: undefined, IP: 127.0.0.1
+[2025-08-15T17:44:24.019Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:44:24.037Z] WARN: Forbidden access attempt by user 689f71f78f743c8a90cd10b2 with role user
+[2025-08-15T17:44:24.076Z] WARN: Supplier not found for delete: 689f71f88f743c8a90cd1137, IP: 127.0.0.1
+[2025-08-15T17:44:25.858Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:25.954Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:26.132Z] INFO: [AUDIT] user 689f71f9ee70204a219e523e created user 689f71faee70204a219e524b, IP: 127.0.0.1
+[2025-08-15T17:44:26.414Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:26.509Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:26.528Z] WARN: Forbidden access attempt by user 689f71faee70204a219e5256 with role user
+[2025-08-15T17:44:26.793Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:26.883Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:27.172Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:27.262Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:27.293Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T17:44:27.555Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:27.646Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:27.666Z] WARN: Forbidden access attempt by user 689f71fbee70204a219e5283 with role user
+[2025-08-15T17:44:27.929Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:28.018Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:28.047Z] INFO: [AUDIT] user 689f71fbee70204a219e528f updated user 689f71fbee70204a219e5291, IP: 127.0.0.1
+[2025-08-15T17:44:28.306Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:28.395Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:28.420Z] INFO: [AUDIT] user 689f71fcee70204a219e52a0 updated user 689f71fcee70204a219e52a0, IP: 127.0.0.1
+[2025-08-15T17:44:28.676Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:28.766Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:29.041Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:29.129Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:29.229Z] INFO: [AUDIT] user 689f71fcee70204a219e52bb deleted user 689f71fdee70204a219e52c1, IP: 127.0.0.1
+[2025-08-15T17:44:29.488Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:29.578Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:44:29.595Z] WARN: Forbidden access attempt by user 689f71fdee70204a219e52ce with role user
+[2025-08-15T17:44:32.428Z] INFO: [AUDIT] Admin undefined (689f7200f11a1a85174c19df) added 5 units of Producto prueba (ID: 689f7200f11a1a85174c19e1). New stock: 15. IP: 127.0.0.1
+[2025-08-15T17:44:32.692Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T17:44:34.339Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T17:44:34.407Z] INFO: [AUDIT] user 689f7202b0b8919f09d1b861 created product 689f7202b0b8919f09d1b876 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:44:34.515Z] INFO: [AUDIT] user 689f7202b0b8919f09d1b861 created product 689f7202b0b8919f09d1b88b (Test Product), IP: 127.0.0.1
+[2025-08-15T17:44:34.534Z] INFO: Product retrieved by ID: 689f7202b0b8919f09d1b88b, IP: 127.0.0.1
+[2025-08-15T17:44:34.611Z] INFO: [AUDIT] user 689f7202b0b8919f09d1b861 created product 689f7202b0b8919f09d1b8a1 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:44:34.642Z] INFO: Product updated successfully: 689f7202b0b8919f09d1b8a1, IP: 127.0.0.1
+[2025-08-15T17:44:34.712Z] INFO: [AUDIT] user 689f7202b0b8919f09d1b861 created product 689f7202b0b8919f09d1b8b9 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:44:34.732Z] INFO: [AUDIT] user 689f7202b0b8919f09d1b861 deleted product 689f7202b0b8919f09d1b8b9 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:48:57.879Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:57.943Z] WARN: Forbidden access attempt by user 689f7309c7f9b5ecba2819fb with role user
+[2025-08-15T17:48:57.980Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.023Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.063Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.103Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.142Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.163Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.203Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.243Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.267Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T17:48:58.304Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.324Z] WARN: Invalid supplier ID: undefined, IP: 127.0.0.1
+[2025-08-15T17:48:58.364Z] WARN: Supplier not found: 689f730ac7f9b5ecba281a52, IP: 127.0.0.1
+[2025-08-15T17:48:58.400Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.419Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.459Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.478Z] WARN: Forbidden access attempt by user 689f7309c7f9b5ecba2819fb with role user
+[2025-08-15T17:48:58.513Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.532Z] WARN: Invalid supplier ID for delete: undefined, IP: 127.0.0.1
+[2025-08-15T17:48:58.567Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T17:48:58.585Z] WARN: Forbidden access attempt by user 689f7309c7f9b5ecba2819fb with role user
+[2025-08-15T17:48:58.622Z] WARN: Supplier not found for delete: 689f730ac7f9b5ecba281a80, IP: 127.0.0.1
+[2025-08-15T17:49:00.427Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:00.520Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:00.700Z] INFO: [AUDIT] user 689f730c9723ec6e49686d63 created user 689f730c9723ec6e49686d6f, IP: 127.0.0.1
+[2025-08-15T17:49:00.961Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:01.052Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:01.072Z] WARN: Forbidden access attempt by user 689f730c9723ec6e49686d7a with role user
+[2025-08-15T17:49:01.335Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:01.426Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:01.712Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:01.802Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:01.835Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T17:49:02.099Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:02.186Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:02.203Z] WARN: Forbidden access attempt by user 689f730d9723ec6e49686da7 with role user
+[2025-08-15T17:49:02.483Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:02.573Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:02.604Z] INFO: [AUDIT] user 689f730e9723ec6e49686db3 updated user 689f730e9723ec6e49686db5, IP: 127.0.0.1
+[2025-08-15T17:49:02.860Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:02.949Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:02.971Z] INFO: [AUDIT] user 689f730e9723ec6e49686dc4 updated user 689f730e9723ec6e49686dc4, IP: 127.0.0.1
+[2025-08-15T17:49:03.231Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:03.323Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:03.603Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:03.692Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:03.788Z] INFO: [AUDIT] user 689f730f9723ec6e49686ddf deleted user 689f730f9723ec6e49686de5, IP: 127.0.0.1
+[2025-08-15T17:49:04.050Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:04.137Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T17:49:04.155Z] WARN: Forbidden access attempt by user 689f730f9723ec6e49686df2 with role user
+[2025-08-15T17:49:05.891Z] INFO: [AUDIT] Admin undefined (689f731186b380aa1958f96b) added 5 units of Producto prueba (ID: 689f731186b380aa1958f96d). New stock: 15. IP: 127.0.0.1
+[2025-08-15T17:49:06.029Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T17:49:07.784Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T17:49:07.846Z] INFO: [AUDIT] user 689f73139335eb0fc4ccf317 created product 689f73139335eb0fc4ccf32d (Test Product), IP: 127.0.0.1
+[2025-08-15T17:49:07.916Z] INFO: [AUDIT] user 689f73139335eb0fc4ccf317 created product 689f73139335eb0fc4ccf342 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:49:07.934Z] INFO: Product retrieved by ID: 689f73139335eb0fc4ccf342, IP: 127.0.0.1
+[2025-08-15T17:49:08.005Z] INFO: [AUDIT] user 689f73139335eb0fc4ccf317 created product 689f73139335eb0fc4ccf358 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:49:08.033Z] INFO: Product updated successfully: 689f73139335eb0fc4ccf358, IP: 127.0.0.1
+[2025-08-15T17:49:08.104Z] INFO: [AUDIT] user 689f73139335eb0fc4ccf317 created product 689f73149335eb0fc4ccf370 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:49:08.128Z] INFO: [AUDIT] user 689f73139335eb0fc4ccf317 deleted product 689f73149335eb0fc4ccf370 (Test Product), IP: 127.0.0.1
+[2025-08-15T17:53:00.761Z] INFO: Suppliers listed, IP: ::1
+[2025-08-15T17:53:14.073Z] INFO: Suppliers listed, IP: ::1
+[2025-08-15T17:53:24.881Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c deleted supplier 6887f99cf4e83d936d9a2f39 (Emirates Proveedores), IP: ::1
+[2025-08-15T17:53:32.536Z] INFO: Suppliers listed, IP: ::1
+[2025-08-15T17:53:38.991Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c deleted supplier 689f58fd7d3d088651c7a0bc (Proveedor Prueba), IP: ::1
+[2025-08-15T17:53:44.165Z] INFO: Suppliers listed, IP: ::1
+[2025-08-15T17:53:53.600Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c deleted supplier 689f611bca2f99ae30b995b8 (Proveedor Prueba1), IP: ::1
+[2025-08-15T17:53:56.863Z] INFO: Suppliers listed, IP: ::1
+[2025-08-15T17:54:02.073Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T17:54:22.969Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T17:55:18.554Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c created supplier 689f7486434c9ac5ca72b2d7 (Proveedor Prueba12), IP: ::1
+[2025-08-15T17:57:10.789Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c created supplier 689f74f6434c9ac5ca72b2db (Proveedor Prueba12), IP: ::1
+[2025-08-15T17:57:17.205Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T17:57:23.829Z] WARN: [AUDIT] user 689e49c2d4e918ba269b941c tried to create duplicate supplier with RUT 16173327-k, IP: ::1
+[2025-08-15T18:10:45.755Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:16:52.639Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c created supplier 689f7994434c9ac5ca72b2e3 (Proveedor Prueba12), IP: ::1
+[2025-08-15T18:17:05.924Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T18:17:55.350Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T18:21:50.887Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T18:22:12.224Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T18:22:13.519Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T18:22:29.835Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T18:24:19.941Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c created supplier 689f7b533765c480c6977f6c (Proveedor K), IP: ::1
+[2025-08-15T18:24:26.145Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T18:26:12.075Z] INFO: [AUDIT] user 689e49c2d4e918ba269b941c created supplier 689f7bc4dfcfe894a79d9780 (Proveedor K), IP: ::1
+[2025-08-15T18:26:44.082Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T18:29:22.160Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-15T18:30:48.957Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:31:23.581Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:31:30.013Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:31:54.487Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T18:32:20.377Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
+[2025-08-15T19:01:30.598Z] INFO: [AUDIT] user 689f840a5ce149ff999653df created supplier 689f840a5ce149ff999653ea (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T19:01:30.651Z] WARN: Forbidden access attempt by user 689f840a5ce149ff999653e5 with role user
+[2025-08-15T19:01:30.698Z] INFO: [AUDIT] user 689f840a5ce149ff999653df created supplier 689f840a5ce149ff999653fd (Proveedor K), IP: 127.0.0.1
+[2025-08-15T19:01:30.738Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:01:30.778Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:01:30.815Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:01:30.863Z] INFO: [AUDIT] user 689f840a5ce149ff999653df created supplier 689f840a5ce149ff99965420 (Duplicado 1), IP: 127.0.0.1
+[2025-08-15T19:01:30.884Z] WARN: [AUDIT] user 689f840a5ce149ff999653df tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T19:01:30.920Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:01:30.977Z] INFO: [AUDIT] user 689f840a5ce149ff999653df created supplier 689f840a5ce149ff99965435 (Listado), IP: 127.0.0.1
+[2025-08-15T19:01:30.997Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T19:01:31.043Z] INFO: [AUDIT] user 689f840a5ce149ff999653df created supplier 689f840b5ce149ff99965442 (Por ID), IP: 127.0.0.1
+[2025-08-15T19:01:31.064Z] INFO: Supplier retrieved by ID: 689f840b5ce149ff99965442, IP: 127.0.0.1
+[2025-08-15T19:01:31.101Z] WARN: Supplier not found: 689f840b5ce149ff9996544d, IP: 127.0.0.1
+[2025-08-15T19:01:31.146Z] INFO: [AUDIT] user 689f840a5ce149ff999653df created supplier 689f840b5ce149ff99965459 (Actualizar), IP: 127.0.0.1
+[2025-08-15T19:01:31.175Z] INFO: [AUDIT] user 689f840a5ce149ff999653df updated supplier 689f840b5ce149ff99965459 (Actualizado), IP: 127.0.0.1
+[2025-08-15T19:01:31.218Z] INFO: [AUDIT] user 689f840a5ce149ff999653df created supplier 689f840b5ce149ff99965466 (NoActualizar), IP: 127.0.0.1
+[2025-08-15T19:01:31.235Z] WARN: Forbidden access attempt by user 689f840a5ce149ff999653e5 with role user
+[2025-08-15T19:01:31.276Z] INFO: [AUDIT] user 689f840a5ce149ff999653df created supplier 689f840b5ce149ff99965472 (Eliminar), IP: 127.0.0.1
+[2025-08-15T19:01:31.295Z] INFO: [AUDIT] user 689f840a5ce149ff999653df deleted supplier 689f840b5ce149ff99965472 (Eliminar), IP: 127.0.0.1
+[2025-08-15T19:01:31.340Z] INFO: [AUDIT] user 689f840a5ce149ff999653df created supplier 689f840b5ce149ff9996547f (NoEliminar), IP: 127.0.0.1
+[2025-08-15T19:01:31.357Z] WARN: Forbidden access attempt by user 689f840a5ce149ff999653e5 with role user
+[2025-08-15T19:01:31.394Z] WARN: Supplier not found for delete: 689f840b5ce149ff99965489, IP: 127.0.0.1
+[2025-08-15T19:01:33.199Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:33.291Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:33.470Z] INFO: [AUDIT] user 689f840ca83af3e62fdd4edb created user 689f840da83af3e62fdd4ee8, IP: 127.0.0.1
+[2025-08-15T19:01:33.731Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:33.822Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:33.846Z] WARN: Forbidden access attempt by user 689f840da83af3e62fdd4ef3 with role user
+[2025-08-15T19:01:34.106Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:34.201Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:34.481Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:34.571Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:34.605Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T19:01:34.870Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:34.959Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:34.979Z] WARN: Forbidden access attempt by user 689f840ea83af3e62fdd4f20 with role user
+[2025-08-15T19:01:35.272Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:35.362Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:35.388Z] INFO: [AUDIT] user 689f840fa83af3e62fdd4f2c updated user 689f840fa83af3e62fdd4f2e, IP: 127.0.0.1
+[2025-08-15T19:01:35.651Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:35.741Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:35.766Z] INFO: [AUDIT] user 689f840fa83af3e62fdd4f3d updated user 689f840fa83af3e62fdd4f3d, IP: 127.0.0.1
+[2025-08-15T19:01:36.023Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:36.110Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:36.386Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:36.476Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:36.573Z] INFO: [AUDIT] user 689f8410a83af3e62fdd4f58 deleted user 689f8410a83af3e62fdd4f5e, IP: 127.0.0.1
+[2025-08-15T19:01:36.835Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:36.923Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:01:36.940Z] WARN: Forbidden access attempt by user 689f8410a83af3e62fdd4f6b with role user
+[2025-08-15T19:01:38.594Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T19:01:38.658Z] INFO: [AUDIT] user 689f841238cb7aba9e9bdb22 created product 689f841238cb7aba9e9bdb37 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:01:38.734Z] INFO: [AUDIT] user 689f841238cb7aba9e9bdb22 created product 689f841238cb7aba9e9bdb4c (Test Product), IP: 127.0.0.1
+[2025-08-15T19:01:38.751Z] INFO: Product retrieved by ID: 689f841238cb7aba9e9bdb4c, IP: 127.0.0.1
+[2025-08-15T19:01:38.829Z] INFO: [AUDIT] user 689f841238cb7aba9e9bdb22 created product 689f841238cb7aba9e9bdb62 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:01:38.858Z] INFO: Product updated successfully: 689f841238cb7aba9e9bdb62, IP: 127.0.0.1
+[2025-08-15T19:01:38.929Z] INFO: [AUDIT] user 689f841238cb7aba9e9bdb22 created product 689f841238cb7aba9e9bdb7a (Test Product), IP: 127.0.0.1
+[2025-08-15T19:01:38.952Z] INFO: [AUDIT] user 689f841238cb7aba9e9bdb22 deleted product 689f841238cb7aba9e9bdb7a (Test Product), IP: 127.0.0.1
+[2025-08-15T19:01:40.537Z] INFO: [AUDIT] Admin undefined (689f8414fecd5531f0464c04) added 5 units of Producto prueba (ID: 689f8414fecd5531f0464c06). New stock: 15. IP: 127.0.0.1
+[2025-08-15T19:01:40.676Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T19:07:03.393Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 created supplier 689f85575dd3a0716eb3f0a0 (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T19:07:03.451Z] WARN: Forbidden access attempt by user 689f85575dd3a0716eb3f09b with role user
+[2025-08-15T19:07:03.508Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 created supplier 689f85575dd3a0716eb3f0b3 (Proveedor K), IP: 127.0.0.1
+[2025-08-15T19:07:03.549Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:07:03.589Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:07:03.630Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:07:03.677Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 created supplier 689f85575dd3a0716eb3f0d6 (Duplicado 1), IP: 127.0.0.1
+[2025-08-15T19:07:03.700Z] WARN: [AUDIT] user 689f85575dd3a0716eb3f096 tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T19:07:03.738Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:07:03.796Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 created supplier 689f85575dd3a0716eb3f0eb (Listado), IP: 127.0.0.1
+[2025-08-15T19:07:03.817Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T19:07:03.867Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 created supplier 689f85575dd3a0716eb3f0f8 (Por ID), IP: 127.0.0.1
+[2025-08-15T19:07:03.887Z] INFO: Supplier retrieved by ID: 689f85575dd3a0716eb3f0f8, IP: 127.0.0.1
+[2025-08-15T19:07:03.926Z] WARN: Supplier not found: 689f85575dd3a0716eb3f103, IP: 127.0.0.1
+[2025-08-15T19:07:03.973Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 created supplier 689f85575dd3a0716eb3f10f (Actualizar), IP: 127.0.0.1
+[2025-08-15T19:07:04.004Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 updated supplier 689f85575dd3a0716eb3f10f (Actualizado), IP: 127.0.0.1
+[2025-08-15T19:07:04.050Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 created supplier 689f85585dd3a0716eb3f11c (NoActualizar), IP: 127.0.0.1
+[2025-08-15T19:07:04.067Z] WARN: Forbidden access attempt by user 689f85575dd3a0716eb3f09b with role user
+[2025-08-15T19:07:04.111Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 created supplier 689f85585dd3a0716eb3f128 (Eliminar), IP: 127.0.0.1
+[2025-08-15T19:07:04.134Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 deleted supplier 689f85585dd3a0716eb3f128 (Eliminar), IP: 127.0.0.1
+[2025-08-15T19:07:04.177Z] INFO: [AUDIT] user 689f85575dd3a0716eb3f096 created supplier 689f85585dd3a0716eb3f135 (NoEliminar), IP: 127.0.0.1
+[2025-08-15T19:07:04.194Z] WARN: Forbidden access attempt by user 689f85575dd3a0716eb3f09b with role user
+[2025-08-15T19:07:04.233Z] WARN: Supplier not found for delete: 689f85585dd3a0716eb3f13f, IP: 127.0.0.1
+[2025-08-15T19:07:06.094Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:06.194Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:06.549Z] INFO: [AUDIT] user 689f8559f9f1fa9e52f47b42 created user 689f855af9f1fa9e52f47b4e, IP: 127.0.0.1
+[2025-08-15T19:07:06.943Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:07.049Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:07.071Z] WARN: Forbidden access attempt by user 689f855af9f1fa9e52f47b59 with role user
+[2025-08-15T19:07:07.385Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:07.480Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:07.788Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:07.880Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:07.913Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T19:07:08.285Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:08.380Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:08.400Z] WARN: Forbidden access attempt by user 689f855cf9f1fa9e52f47b86 with role user
+[2025-08-15T19:07:08.689Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:08.782Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:08.809Z] INFO: [AUDIT] user 689f855cf9f1fa9e52f47b92 updated user 689f855cf9f1fa9e52f47b94, IP: 127.0.0.1
+[2025-08-15T19:07:09.104Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:09.198Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:09.223Z] INFO: [AUDIT] user 689f855cf9f1fa9e52f47ba3 updated user 689f855cf9f1fa9e52f47ba3, IP: 127.0.0.1
+[2025-08-15T19:07:09.518Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:09.612Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:09.908Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:10.016Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:10.141Z] INFO: [AUDIT] user 689f855df9f1fa9e52f47bbe deleted user 689f855ef9f1fa9e52f47bc4, IP: 127.0.0.1
+[2025-08-15T19:07:10.428Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:10.533Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:07:10.555Z] WARN: Forbidden access attempt by user 689f855ef9f1fa9e52f47bd1 with role user
+[2025-08-15T19:07:12.341Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T19:07:12.401Z] INFO: [AUDIT] user 689f8560ad1d7e42893ae2ae created product 689f8560ad1d7e42893ae2c3 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:07:12.470Z] INFO: [AUDIT] user 689f8560ad1d7e42893ae2ae created product 689f8560ad1d7e42893ae2d8 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:07:12.486Z] INFO: Product retrieved by ID: 689f8560ad1d7e42893ae2d8, IP: 127.0.0.1
+[2025-08-15T19:07:12.553Z] INFO: [AUDIT] user 689f8560ad1d7e42893ae2ae created product 689f8560ad1d7e42893ae2ee (Test Product), IP: 127.0.0.1
+[2025-08-15T19:07:12.579Z] INFO: Product updated successfully: 689f8560ad1d7e42893ae2ee, IP: 127.0.0.1
+[2025-08-15T19:07:12.650Z] INFO: [AUDIT] user 689f8560ad1d7e42893ae2ae created product 689f8560ad1d7e42893ae306 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:07:12.669Z] INFO: [AUDIT] user 689f8560ad1d7e42893ae2ae deleted product 689f8560ad1d7e42893ae306 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:07:14.196Z] INFO: [AUDIT] Admin undefined (689f85627f4420e89998b5d3) added 5 units of Producto prueba (ID: 689f85627f4420e89998b5d5). New stock: 15. IP: 127.0.0.1
+[2025-08-15T19:07:14.343Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T19:13:02.955Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 created supplier 689f86be1154fe9b5f5d8fbe (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T19:13:03.011Z] WARN: Forbidden access attempt by user 689f86be1154fe9b5f5d8fb9 with role user
+[2025-08-15T19:13:03.060Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 created supplier 689f86bf1154fe9b5f5d8fd1 (Proveedor K), IP: 127.0.0.1
+[2025-08-15T19:13:03.106Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:13:03.146Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:13:03.184Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:13:03.231Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 created supplier 689f86bf1154fe9b5f5d8ff4 (Duplicado 1), IP: 127.0.0.1
+[2025-08-15T19:13:03.253Z] WARN: [AUDIT] user 689f86be1154fe9b5f5d8fb3 tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T19:13:03.291Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:13:03.348Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 created supplier 689f86bf1154fe9b5f5d9009 (Listado), IP: 127.0.0.1
+[2025-08-15T19:13:03.372Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T19:13:03.415Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 created supplier 689f86bf1154fe9b5f5d9016 (Por ID), IP: 127.0.0.1
+[2025-08-15T19:13:03.437Z] INFO: Supplier retrieved by ID: 689f86bf1154fe9b5f5d9016, IP: 127.0.0.1
+[2025-08-15T19:13:03.476Z] WARN: Supplier not found: 689f86bf1154fe9b5f5d9021, IP: 127.0.0.1
+[2025-08-15T19:13:03.523Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 created supplier 689f86bf1154fe9b5f5d902d (Actualizar), IP: 127.0.0.1
+[2025-08-15T19:13:03.554Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 updated supplier 689f86bf1154fe9b5f5d902d (Actualizado), IP: 127.0.0.1
+[2025-08-15T19:13:03.602Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 created supplier 689f86bf1154fe9b5f5d903a (NoActualizar), IP: 127.0.0.1
+[2025-08-15T19:13:03.621Z] WARN: Forbidden access attempt by user 689f86be1154fe9b5f5d8fb9 with role user
+[2025-08-15T19:13:03.664Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 created supplier 689f86bf1154fe9b5f5d9046 (Eliminar), IP: 127.0.0.1
+[2025-08-15T19:13:03.685Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 deleted supplier 689f86bf1154fe9b5f5d9046 (Eliminar), IP: 127.0.0.1
+[2025-08-15T19:13:03.729Z] INFO: [AUDIT] user 689f86be1154fe9b5f5d8fb3 created supplier 689f86bf1154fe9b5f5d9053 (NoEliminar), IP: 127.0.0.1
+[2025-08-15T19:13:03.746Z] WARN: Forbidden access attempt by user 689f86be1154fe9b5f5d8fb9 with role user
+[2025-08-15T19:13:03.782Z] WARN: Supplier not found for delete: 689f86bf1154fe9b5f5d905d, IP: 127.0.0.1
+[2025-08-15T19:13:05.540Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:05.631Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:05.815Z] INFO: [AUDIT] user 689f86c17c73ec5a22660381 created user 689f86c17c73ec5a2266038e, IP: 127.0.0.1
+[2025-08-15T19:13:06.116Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:06.206Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:06.226Z] WARN: Forbidden access attempt by user 689f86c17c73ec5a22660399 with role user
+[2025-08-15T19:13:06.491Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:06.582Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:06.872Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:06.960Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:06.991Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T19:13:07.255Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:07.346Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:07.365Z] WARN: Forbidden access attempt by user 689f86c37c73ec5a226603c6 with role user
+[2025-08-15T19:13:07.629Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:07.719Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:07.747Z] INFO: [AUDIT] user 689f86c37c73ec5a226603d2 updated user 689f86c37c73ec5a226603d4, IP: 127.0.0.1
+[2025-08-15T19:13:08.007Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:08.098Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:08.125Z] INFO: [AUDIT] user 689f86c37c73ec5a226603e3 updated user 689f86c37c73ec5a226603e3, IP: 127.0.0.1
+[2025-08-15T19:13:08.391Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:08.483Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:08.770Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:08.862Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:08.963Z] INFO: [AUDIT] user 689f86c47c73ec5a226603fe deleted user 689f86c47c73ec5a22660404, IP: 127.0.0.1
+[2025-08-15T19:13:09.245Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:09.334Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:13:09.351Z] WARN: Forbidden access attempt by user 689f86c57c73ec5a22660411 with role user
+[2025-08-15T19:13:11.093Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T19:13:11.159Z] INFO: [AUDIT] user 689f86c6578152fe98f2afdb created product 689f86c7578152fe98f2aff0 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:13:11.233Z] INFO: [AUDIT] user 689f86c6578152fe98f2afdb created product 689f86c7578152fe98f2b005 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:13:11.248Z] INFO: Product retrieved by ID: 689f86c7578152fe98f2b005, IP: 127.0.0.1
+[2025-08-15T19:13:11.326Z] INFO: [AUDIT] user 689f86c6578152fe98f2afdb created product 689f86c7578152fe98f2b01b (Test Product), IP: 127.0.0.1
+[2025-08-15T19:13:11.359Z] INFO: Product updated successfully: 689f86c7578152fe98f2b01b, IP: 127.0.0.1
+[2025-08-15T19:13:11.434Z] INFO: [AUDIT] user 689f86c6578152fe98f2afdb created product 689f86c7578152fe98f2b033 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:13:11.453Z] INFO: [AUDIT] user 689f86c6578152fe98f2afdb deleted product 689f86c7578152fe98f2b033 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:13:13.047Z] INFO: [AUDIT] Admin undefined (689f86c8b021b4f8837f9a7f) added 5 units of Producto prueba (ID: 689f86c8b021b4f8837f9a81). New stock: 15. IP: 127.0.0.1
+[2025-08-15T19:13:13.189Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-15T19:20:27.227Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24ac1 (Proveedor 1), IP: 127.0.0.1
+[2025-08-15T19:20:27.280Z] WARN: Forbidden access attempt by user 689f887b0871194c61b24abc with role user
+[2025-08-15T19:20:27.331Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24ad4 (Proveedor K), IP: 127.0.0.1
+[2025-08-15T19:20:27.371Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:20:27.408Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:20:27.446Z] WARN: Schema validation failed for POST /api/suppliers
+[2025-08-15T19:20:27.493Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24af7 (Duplicado 1), IP: 127.0.0.1
+[2025-08-15T19:20:27.514Z] WARN: [AUDIT] user 689f887a0871194c61b24ab6 tried to create duplicate supplier with RUT 20362511-1, IP: 127.0.0.1
+[2025-08-15T19:20:27.559Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24b04 (Opcionales Vacíos), IP: 127.0.0.1
+[2025-08-15T19:20:27.606Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24b0f (Listado), IP: 127.0.0.1
+[2025-08-15T19:20:27.627Z] INFO: Suppliers listed, IP: 127.0.0.1
+[2025-08-15T19:20:27.671Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24b1c (Por ID), IP: 127.0.0.1
+[2025-08-15T19:20:27.691Z] INFO: Supplier retrieved by ID: 689f887b0871194c61b24b1c, IP: 127.0.0.1
+[2025-08-15T19:20:27.729Z] WARN: Supplier not found: 689f887b0871194c61b24b27, IP: 127.0.0.1
+[2025-08-15T19:20:27.774Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24b33 (Actualizar), IP: 127.0.0.1
+[2025-08-15T19:20:27.804Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 updated supplier 689f887b0871194c61b24b33 (Actualizado), IP: 127.0.0.1
+[2025-08-15T19:20:27.849Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24b40 (NoActualizar), IP: 127.0.0.1
+[2025-08-15T19:20:27.866Z] WARN: Forbidden access attempt by user 689f887b0871194c61b24abc with role user
+[2025-08-15T19:20:27.907Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24b4c (Eliminar), IP: 127.0.0.1
+[2025-08-15T19:20:27.927Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 deleted supplier 689f887b0871194c61b24b4c (Eliminar), IP: 127.0.0.1
+[2025-08-15T19:20:27.970Z] INFO: [AUDIT] user 689f887a0871194c61b24ab6 created supplier 689f887b0871194c61b24b59 (NoEliminar), IP: 127.0.0.1
+[2025-08-15T19:20:27.987Z] WARN: Forbidden access attempt by user 689f887b0871194c61b24abc with role user
+[2025-08-15T19:20:28.024Z] WARN: Supplier not found for delete: 689f887c0871194c61b24b63, IP: 127.0.0.1
+[2025-08-15T19:20:29.763Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:29.855Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:30.040Z] INFO: [AUDIT] user 689f887dfd4bf2c36e41a3b5 created user 689f887dfd4bf2c36e41a3c2, IP: 127.0.0.1
+[2025-08-15T19:20:30.304Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:30.394Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:30.414Z] WARN: Forbidden access attempt by user 689f887efd4bf2c36e41a3cd with role user
+[2025-08-15T19:20:30.679Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:30.769Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:31.053Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:31.147Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:31.178Z] INFO: Listed users, page 1, IP: 127.0.0.1
+[2025-08-15T19:20:31.443Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:31.531Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:31.549Z] WARN: Forbidden access attempt by user 689f887ffd4bf2c36e41a3fa with role user
+[2025-08-15T19:20:31.837Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:31.929Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:31.960Z] INFO: [AUDIT] user 689f887ffd4bf2c36e41a406 updated user 689f887ffd4bf2c36e41a408, IP: 127.0.0.1
+[2025-08-15T19:20:32.245Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:32.335Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:32.359Z] INFO: [AUDIT] user 689f8880fd4bf2c36e41a417 updated user 689f8880fd4bf2c36e41a417, IP: 127.0.0.1
+[2025-08-15T19:20:32.616Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:32.706Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:32.984Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:33.072Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:33.170Z] INFO: [AUDIT] user 689f8880fd4bf2c36e41a432 deleted user 689f8881fd4bf2c36e41a438, IP: 127.0.0.1
+[2025-08-15T19:20:33.432Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:33.520Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
+[2025-08-15T19:20:33.537Z] WARN: Forbidden access attempt by user 689f8881fd4bf2c36e41a445 with role user
+[2025-08-15T19:20:35.222Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
+[2025-08-15T19:20:35.285Z] INFO: [AUDIT] user 689f8882d52fc6a48feabb19 created product 689f8883d52fc6a48feabb2e (Test Product), IP: 127.0.0.1
+[2025-08-15T19:20:35.361Z] INFO: [AUDIT] user 689f8882d52fc6a48feabb19 created product 689f8883d52fc6a48feabb43 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:20:35.379Z] INFO: Product retrieved by ID: 689f8883d52fc6a48feabb43, IP: 127.0.0.1
+[2025-08-15T19:20:35.458Z] INFO: [AUDIT] user 689f8882d52fc6a48feabb19 created product 689f8883d52fc6a48feabb59 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:20:35.487Z] INFO: Product updated successfully: 689f8883d52fc6a48feabb59, IP: 127.0.0.1
+[2025-08-15T19:20:35.557Z] INFO: [AUDIT] user 689f8882d52fc6a48feabb19 created product 689f8883d52fc6a48feabb71 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:20:35.580Z] INFO: [AUDIT] user 689f8882d52fc6a48feabb19 deleted product 689f8883d52fc6a48feabb71 (Test Product), IP: 127.0.0.1
+[2025-08-15T19:20:37.188Z] INFO: [AUDIT] Admin undefined (689f88857b134dd6b47df686) added 5 units of Producto prueba (ID: 689f88857b134dd6b47df688). New stock: 15. IP: 127.0.0.1
+[2025-08-15T19:20:37.329Z] WARN: Schema validation failed for POST /api/manual-inventory

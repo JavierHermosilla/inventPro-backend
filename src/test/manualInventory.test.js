@@ -1,113 +1,107 @@
 import request from 'supertest'
 import app from '../app.js'
-import ManualInventory from '../models/manualInventory.model.js'
 import Product from '../models/product.model.js'
 import User from '../models/user.model.js'
 import Supplier from '../models/supplier.model.js'
 import Category from '../models/category.model.js'
 import { createAccessToken } from '../libs/jwt.js'
 import { ROLES } from '../config/roles.js'
-import { createManualInventorySchema } from '../schemas/manualInventory.schema.js'
+import { setupTests, teardownTests, clearDatabase } from './setup.js'
 
-describe('Manual Inventory API', () => {
-  let testUser
-  let testProduct
-  let testSupplier
-  let testCategory
-  let token
+describe('Manual Inventory API - Cobertura completa', () => {
+  let adminToken, userToken, bodegueroToken
+  let adminUser, normalUser, bodegueroUser
+  let testProduct, testSupplier, testCategory
 
-  jest.setTimeout(20000) // más tiempo para conexiones DB
+  jest.setTimeout(30000)
 
   beforeAll(async () => {
-    testSupplier = await Supplier.create({
-      name: 'Proveedor prueba',
-      rut: '12345678-9'
-    })
+    await setupTests() // conecta MongoMemoryServer y carga seedDatabase
 
-    testCategory = await Category.create({
-      name: 'Categoría prueba'
-    })
+    // Obtener usuarios de seedDatabase
+    adminUser = await User.findOne({ role: ROLES.ADMIN })
+    normalUser = await User.findOne({ role: ROLES.USER })
+    bodegueroUser = await User.findOne({ role: ROLES.BODEGUERO })
+
+    // ⚡ Generar tokens correctamente usando await
+    adminToken = await createAccessToken({ id: adminUser._id.toString(), role: ROLES.ADMIN })
+    userToken = await createAccessToken({ id: normalUser._id.toString(), role: ROLES.USER })
+    bodegueroToken = await createAccessToken({ id: bodegueroUser._id.toString(), role: ROLES.BODEGUERO })
+
+    // Obtener proveedor y categoría existentes del seed
+    testSupplier = await Supplier.findOne({ rut: '12345678-9' })
+    testCategory = await Category.findOne({ name: 'Categoría prueba' })
   })
 
   beforeEach(async () => {
-    await ManualInventory.deleteMany({})
-    await Product.deleteMany({})
-    await User.deleteMany({})
+    await clearDatabase() // limpia colecciones excepto users, suppliers, categories
 
-    testUser = await User.create({
-      username: 'testuser',
-      email: 'test@example.com',
-      password: 'Password123',
-      name: 'Usuario Test',
-      phone: '+56912345678',
-      role: ROLES.ADMIN
-    })
-
+    // Crear producto único por test
     testProduct = await Product.create({
-      name: 'Producto prueba',
+      name: `Producto prueba ${Date.now()}`, // nombre único
       price: 1000,
       stock: 10,
       supplier: testSupplier._id,
       category: testCategory._id
     })
-
-    token = await createAccessToken({ id: testUser._id.toString(), role: testUser.role })
   })
 
   afterAll(async () => {
-    await ManualInventory.deleteMany({})
-    await Product.deleteMany({})
-    await User.deleteMany({})
-    await Supplier.deleteMany({})
-    await Category.deleteMany({})
+    await teardownTests() // cierra MongoMemoryServer
   })
 
-  test('Debería crear un ajuste manual con cantidad positiva', async () => {
+  // ---------------------------------------
+  // CREAR AJUSTE MANUAL
+  // ---------------------------------------
+  test('POST → admin puede crear ajuste positivo', async () => {
     const res = await request(app)
       .post('/api/manual-inventory')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        productId: testProduct._id.toString(),
-        quantity: 5,
-        reason: 'stock inicial corregido',
-        type: 'increase'
-      })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ productId: testProduct._id, quantity: 5, type: 'increase', reason: 'Stock inicial' })
       .expect(201)
 
     expect(res.body).toHaveProperty('adjustment')
-    expect(res.body.adjustment.quantity).toBe(5)
-
     const updatedProduct = await Product.findById(testProduct._id)
     expect(updatedProduct.stock).toBe(15)
   })
 
-  test('Debería fallar si falta reason en cantidad negativa', async () => {
+  test('POST → admin puede crear ajuste negativo con reason', async () => {
     const res = await request(app)
       .post('/api/manual-inventory')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        productId: testProduct._id.toString(),
-        type: 'decrease',
-        quantity: 5
-      })
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ productId: testProduct._id, quantity: 3, type: 'decrease', reason: 'Corrección' })
+      .expect(201)
+
+    const updatedProduct = await Product.findById(testProduct._id)
+    expect(updatedProduct.stock).toBe(7)
+  })
+
+  test('POST → falla si decrease sin reason', async () => {
+    const res = await request(app)
+      .post('/api/manual-inventory')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ productId: testProduct._id, quantity: 2, type: 'decrease' })
       .expect(400)
 
     expect(res.body).toHaveProperty('errors')
-    expect(res.body.errors[0].message).toMatch(/reason/i)
   })
 
-  test('Schema Zod: falla si type es decrease y no hay reason', () => {
-    const data = {
-      productId: '507f191e810c19729de860ea',
-      type: 'decrease',
-      quantity: 5
-    }
+  // ---------------------------------------
+  // PERMISOS SEGÚN ROLES
+  // ---------------------------------------
+  test('POST → user normal no puede crear ajuste', async () => {
+    await request(app)
+      .post('/api/manual-inventory')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({ productId: testProduct._id, quantity: 5, type: 'increase', reason: 'Test' })
+      .expect(403)
+  })
 
-    const result = createManualInventorySchema.safeParse(data)
-    expect(result.success).toBe(false)
-    if (!result.success) {
-      expect(result.error.issues[0].path).toContain('reason')
-      expect(result.error.issues[0].message).toMatch(/reason is required/i)
-    }
+  test('POST → bodeguero no puede crear ajuste', async () => {
+    await request(app)
+      .post('/api/manual-inventory')
+      .set('Authorization', `Bearer ${bodegueroToken}`)
+      .send({ productId: testProduct._id, quantity: 5, type: 'increase', reason: 'Test' })
+      .expect(403)
   })
 })

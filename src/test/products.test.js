@@ -4,7 +4,7 @@ import User from '../models/user.model.js'
 import Supplier from '../models/supplier.model.js'
 import Category from '../models/category.model.js'
 import app from '../app.js'
-import { connect, closeDatabase } from './setup.js'
+import { setupTests, teardownTests } from './setup.js'
 
 /** @jest-environment node */
 
@@ -25,7 +25,7 @@ describe('Products API', () => {
   }
 
   beforeAll(async () => {
-    await connect()
+    await setupTests()
 
     // Crear usuario admin solo si no existe
     let admin = await User.findOne({ email: adminUser.email })
@@ -71,9 +71,10 @@ describe('Products API', () => {
   })
 
   afterAll(async () => {
-    await closeDatabase()
+    await teardownTests()
   })
 
+  // ------------------ CREATE ------------------
   it('should create a product', async () => {
     const productToSend = {
       ...productData,
@@ -91,6 +92,7 @@ describe('Products API', () => {
     expect(res.body).toHaveProperty('productId')
   })
 
+  // ------------------ READ ------------------
   it('should get product by id', async () => {
     const createRes = await request(app)
       .post('/api/products')
@@ -106,6 +108,7 @@ describe('Products API', () => {
     expect(res.body).toHaveProperty('_id', productId)
   })
 
+  // ------------------ UPDATE ------------------
   it('should update a product', async () => {
     const createRes = await request(app)
       .post('/api/products')
@@ -123,6 +126,7 @@ describe('Products API', () => {
     expect(res.body.product).toHaveProperty('price', 150)
   })
 
+  // ------------------ DELETE ------------------
   it('should delete a product', async () => {
     const createRes = await request(app)
       .post('/api/products')

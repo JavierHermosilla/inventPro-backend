@@ -6,10 +6,9 @@ import {
   updateOrder,
   deleteOrder
 } from '../controllers/order.controller.js'
-import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js' // asumiendo que validateObjectId está aquí o ajusta import
+import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
 import { validateObjectId } from '../middleware/validateObjectId.js'
-
-// Si validateObjectId está en otro archivo, ajusta la importación.
+import { canUpdateOrder } from '../middleware/order.middleware.js'
 
 const router = Router()
 
@@ -32,15 +31,22 @@ router.get(
 router.post(
   '/',
   verifyTokenMiddleware,
+  async (req, res, next) => {
+    // Garantizar que el cliente solo cree orden para sí mismo
+    if (req.body.customerId !== req.user.id) {
+      return res.status(403).json({ message: 'Cannot create order for another user' })
+    }
+    next()
+  },
   createOrder
 )
 
-// Actualizar orden - solo admin (podrías ajustar si quieres que clientes puedan actualizar ciertas cosas)
+// Actualizar orden
 router.put(
   '/:id',
   verifyTokenMiddleware,
-  requireRole('admin'),
   validateObjectId('id'),
+  canUpdateOrder,
   updateOrder
 )
 

@@ -1,13 +1,27 @@
 import Client from '../models/client.model.js'
 
 export const createClient = async (req, res) => {
+  const userIP = req.clientIP || req.ip // IP del cliente
+
   try {
+    // Validar si el cliente ya existe
+    const existingClient = await Client.findOne({ rut: req.body.rut })
+    if (existingClient) {
+      console.warn(`Intento de crear cliente duplicado: ${req.body.rut}`, { IP: userIP })
+      return res.status(409).json({ message: 'Cliente con este RUT ya existe' })
+    }
+
     const client = await Client.create(req.body)
-    console.log('Cliente creado correctamente:', client) // ✅ log de éxito
+    console.log('Cliente creado correctamente:', client, { IP: userIP })
     res.status(201).json(client)
   } catch (err) {
-    console.error('Error creando cliente:', err) // 🔴 log de error
-    res.status(400).json({ message: err.message })
+    console.error('Error creando cliente:', err, { IP: userIP })
+
+    if (err.code === 11000) {
+      return res.status(409).json({ message: 'Cliente con este RUT ya existe' })
+    }
+
+    res.status(500).json({ message: 'Error interno del servidor' })
   }
 }
 

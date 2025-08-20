@@ -19,6 +19,7 @@ import clientRoutes from './routes/client.routes.js'
 import { sanitizeInput } from './middleware/sanitizeInput.js'
 import { zodErrorHandler } from './middleware/zodErrorHandler.js'
 import { attachClientIP } from './middleware/attachClientIP.middleware.js'
+import { setClientIP } from './middleware/clientIP.middleware.js'
 
 const app = express()
 
@@ -72,6 +73,7 @@ app.use((req, res, next) => {
 
 setupSwagger(app)
 
+app.use(setClientIP)
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)

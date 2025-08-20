@@ -1,28 +1,29 @@
+import mongoose from 'mongoose'
 import { z } from 'zod'
 
-export const orderSchema = z.object({
-  customerId: z.string().min(1, { message: 'Customer ID is required' }),
-
-  products: z.array(
-    z.object({
-      productId: z.string().min(1, { message: 'Product ID is required' }),
-      quantity: z.number()
-        .int({ message: 'Quantity must be an integer' })
-        .min(1, { message: 'Quantity must be greater than 0' }),
-      price: z.number()
-        .nonnegative({ message: 'Price must be non-negative' })
-    })
-  ).min(1, { message: 'At least one product is required' }),
-
-  status: z.enum(['pending', 'processing', 'completed', 'cancelled']).default('pending'),
-
-  totalAmount: z.number()
-    .min(0, { message: 'Total amount must be non-negative' })
-    .optional(),
-
-  createdAt: z.date().optional(),
-  updatedAt: z.date().optional()
+// 🔹 Validador para Mongo ObjectId
+const objectIdSchema = z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
+  message: 'Invalid ObjectId format'
 })
 
-// Para actualización parcial, todos los campos opcionales
-export const orderUpdateSchema = orderSchema.partial()
+// Esquema principal para creación de orden
+export const orderSchema = z.object({
+  customerId: objectIdSchema,
+  products: z.array(
+    z.object({
+      productId: objectIdSchema,
+      quantity: z.number()
+        .int({ message: 'Quantity must be an integer' })
+        .min(1, { message: 'Quantity must be greater than 0' })
+    })
+  ).min(1, { message: 'At least one product is required' }),
+  status: z.enum(['pending', 'processing', 'completed', 'cancelled']).default('pending'),
+  totalAmount: z.number().nonnegative().optional(),
+  createdAt: z.preprocess(arg => arg ? new Date(arg) : undefined, z.date().optional()),
+  updatedAt: z.preprocess(arg => arg ? new Date(arg) : undefined, z.date().optional())
+})
+
+// Esquema para actualización parcial
+export const orderUpdateSchema = z.object({
+  status: z.enum(['pending', 'processing', 'completed', 'cancelled']).optional()
+})

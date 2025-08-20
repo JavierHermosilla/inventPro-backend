@@ -384,3 +384,357 @@
 [2025-08-15T18:31:54.487Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
 [2025-08-15T18:32:20.377Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
 [2025-08-18T13:40:51.627Z] ERROR: Error in createOrder Cast to ObjectId failed for value "customer123" (type string) at path "_id" for model "User"
+[2025-08-19T17:28:11.615Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:29:53.976Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:30:06.595Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:31:45.685Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:31:59.775Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:34:26.431Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:34:33.689Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:34:36.749Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:37:40.730Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:37:49.891Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:37:59.599Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:41:26.597Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:41:28.986Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:41:34.596Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:43:36.754Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:43:48.199Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:43:56.657Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:47:22.230Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:48:39.401Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:48:50.345Z] ERROR: Token verification failed: invalid token
+[2025-08-19T17:50:23.319Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:52:01.177Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:53:18.084Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:54:09.490Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T17:56:23.644Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T18:41:51.656Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T18:45:40.643Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T18:45:50.819Z] ERROR: Token verification failed: invalid token
+[2025-08-19T18:53:06.787Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T18:58:49.326Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T19:03:27.740Z] ERROR: Error in updateOrder [
+  {
+    "code": "invalid_value",
+    "values": [
+      "pending",
+      "processing",
+      "completed",
+      "cancelled"
+    ],
+    "path": [
+      "status"
+    ],
+    "message": "Invalid option: expected one of \"pending\"|\"processing\"|\"completed\"|\"cancelled\""
+  }
+]
+[2025-08-19T19:13:15.195Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:13:15.254Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:13:15.295Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:13:15.335Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:13:15.432Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:13:15.483Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:20:06.230Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:20:06.293Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:20:06.337Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:20:06.382Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:20:06.479Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:20:06.528Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:25.899Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:26.097Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:26.137Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:26.436Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:26.533Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:26.552Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:26.841Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:26.951Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:26.969Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:27.268Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:27.370Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:27.387Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:27.695Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:27.796Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:27.811Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:28.105Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:28.204Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:28.221Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:28.509Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:28.616Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:28.634Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:28.920Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:29.023Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:29.040Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:29.335Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:29.435Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:29.537Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:30:29.835Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:29.941Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:30:29.957Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:31:36.156Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:31:36.272Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:31:36.302Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:31:36.609Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:31:36.722Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:31:36.740Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:31:37.043Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:31:37.144Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:31:37.164Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:31:37.466Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:31:37.570Z] ERROR: Login error from IP 127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-19T19:31:37.587Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T19:32:45.430Z] ERROR: Token verification failed: invalid token
+[2025-08-19T19:32:53.616Z] ERROR: Token verification failed: invalid token
+[2025-08-19T20:31:33.924Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:31:33.992Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:31:34.040Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:49:14.381Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:49:14.468Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:49:14.528Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:51:40.070Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:51:40.138Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:51:40.185Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:51:50.955Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:51:51.025Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:51:51.071Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T20:52:02.655Z] ERROR: Token verification failed: invalid token
+[2025-08-19T20:52:07.308Z] ERROR: Token verification failed: invalid token
+[2025-08-19T21:01:46.393Z] ERROR: Token verification failed: invalid token
+[2025-08-19T21:08:26.034Z] ERROR: Token verification failed: invalid token
+[2025-08-19T21:13:18.607Z] ERROR: Token verification failed: invalid token
+[2025-08-19T21:16:36.911Z] ERROR: Token verification failed: invalid token
+[2025-08-19T21:28:04.567Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T21:28:04.624Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T21:28:04.666Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T21:28:04.709Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T21:28:04.756Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T21:48:49.961Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T21:48:50.026Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T21:48:50.072Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T21:52:18.385Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T21:52:18.453Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T21:52:18.502Z] ERROR: Error in createOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T21:52:18.611Z] ERROR: Error in updateOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T21:52:18.665Z] ERROR: Error in deleteOrder Transaction numbers are only allowed on a replica set member or mongos
+[2025-08-19T22:37:35.931Z] ERROR: Token verification failed: invalid token
+[2025-08-19T22:40:14.869Z] ERROR: Token verification failed: invalid token
+[2025-08-19T23:43:51.190Z] ERROR: Token verification failed: invalid token
+[2025-08-19T23:52:33.850Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T23:52:33.907Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T23:52:34.032Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T23:52:34.081Z] ERROR: Token verification failed: jwt malformed
+[2025-08-19T23:55:32.216Z] ERROR: Token verification failed: invalid token
+[2025-08-20T11:32:24.700Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:13:30.702Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:16:26.213Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:18:09.514Z] ERROR: Token verification failed: invalid token

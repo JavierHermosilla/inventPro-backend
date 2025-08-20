@@ -24,8 +24,14 @@ const clientSchema = new mongoose.Schema(
     email: {
       type: String,
       trim: true,
-      lowerCase: true
+      lowercase: true
+    },
+    avatar: {
+      type: String,
+      trim: true,
+      default: null
     }
+
   },
   { timestamps: true }
 )

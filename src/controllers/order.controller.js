@@ -1,304 +1,186 @@
+import mongoose from 'mongoose'
 import Order from '../models/order.model.js'
-import { orderSchema, orderUpdateSchema } from '../schemas/order.schema.js'
-import { ZodError } from 'zod'
-
-import logger from '../utils/logger.js'
-import User from '../models/user.model.js'
 import Product from '../models/product.model.js'
+import { orderSchema, orderUpdateSchema } from '../schemas/order.schema.js'
 
+// --------------------- Auxiliares ---------------------
+const startSessionIfNeeded = async () => {
+  if (process.env.NODE_ENV === 'test') return null
+  const session = await mongoose.startSession()
+  session.startTransaction()
+  return session
+}
+
+const endSession = async (session, success = true) => {
+  if (!session) return
+  if (success) await session.commitTransaction()
+  else await session.abortTransaction()
+  session.endSession()
+}
+
+const restoreStock = async (products, session) => {
+  for (const item of products) {
+    const product = await Product.findById(item.productId).session(session)
+    if (product) {
+      product.stock += item.quantity
+      await product.save(session ? { session } : {})
+    }
+  }
+}
+
+// --------------------- CREATE ORDER ---------------------
 export const createOrder = async (req, res) => {
+  let session = null
   try {
-    const userIP = req.clientIP // <--
+    session = await startSessionIfNeeded()
 
-    const result = orderSchema.safeParse(req.body)
-
-    if (!result.success) {
-      logger.warn('Validation failed in createOrder', { errors: result.error.errors, IP: userIP }) // <--
-      return res.status(400).json({
-        message: 'Validation failed',
-        errors: result.error.errors
-      })
+    const validation = orderSchema.safeParse(req.body)
+    if (!validation.success) {
+      return res.status(400).json({ message: 'Validation error', errors: validation.error.errors })
     }
 
-    const validatedData = result.data
+    const { customerId, products } = validation.data
 
-    if (!validatedData.products || validatedData.products.length === 0) {
-      logger.warn('No products provided in createOrder', { IP: userIP }) // <--
-      return res.status(400).json({ message: 'At least one product is required' })
+    // 🔹 Clientes solo pueden crear órdenes para sí mismos
+    if (req.user.role !== 'admin' && req.user.id !== customerId) {
+      return res.status(403).json({ message: 'You can only create orders for yourself' })
     }
 
-    // verificacion de cliente existente
-    const customer = await User.findById(validatedData.customerId)
-    if (!customer) {
-      logger.warn(`Customer not found: ${validatedData.customerId}`, { IP: userIP }) // <--
-      return res.status(404).json({ message: 'Customer not found' })
-    }
-
-    // verificacion de productos existentes
-    const productIds = validatedData.products.map(p => p.productId)
-    const products = await Product.find({ _id: { $in: productIds } })
-
-    if (products.length !== productIds.length) {
-      logger.warn('One or more products are invalid in createOrder', { IP: userIP }) // <--
-      return res.status(400).json({ message: 'One or more products are invalid' })
-    }
-
-    // validacion de stock y calculo del total
-    const stockErrors = []
     let totalAmount = 0
+    const orderProducts = []
 
-    for (const item of validatedData.products) {
-      const product = products.find(p => p._id.toString() === item.productId)
-      if (!product) continue
+    for (const item of products) {
+      const product = await Product.findById(item.productId).session(session)
+      if (!product) return res.status(404).json({ message: `Product ${item.productId} not found` })
+      if (product.stock < item.quantity) return res.status(400).json({ message: `Insufficient stock for ${product.name}` })
 
-      if (product.stock < item.quantity) {
-        stockErrors.push(`Not enough stock for product: ${product.name}`)
-      } else {
-        totalAmount += product.price * item.quantity
-      }
-    }
+      product.stock -= item.quantity
+      await product.save(session ? { session } : {})
 
-    if (stockErrors.length > 0) {
-      logger.warn('Stock errors in createOrder', { errors: stockErrors, IP: userIP }) // <--
-      return res.status(400).json({ message: stockErrors })
-    }
-
-    const productCorrectPrice = validatedData.products.map(item => {
-      const product = products.find(p => p._id.toString() === item.productId)
-      return {
-        productId: item.productId,
-        quantity: item.quantity,
-        price: product.price
-      }
-    })
-
-    // descuento del stock y calculo del total
-    for (const item of validatedData.products) {
-      const product = products.find(p => p._id.toString() === item.productId)
-      if (product) {
-        product.stock -= item.quantity
-        await product.save()
-      }
+      totalAmount += product.price * item.quantity
+      orderProducts.push({ productId: product._id, quantity: item.quantity, price: product.price })
     }
 
     const order = new Order({
-      customerId: validatedData.customerId,
-      products: productCorrectPrice,
-      status: validatedData.status || 'pending',
-      totalAmount
+      customerId,
+      products: orderProducts,
+      totalAmount,
+      stockRestored: false
     })
 
-    const savedOrder = await order.save()
+    await order.save(session ? { session } : {})
+    await endSession(session, true)
 
-    logger.info(`Order created successfully for customer ${customer._id}, totalAmount: ${totalAmount}, IP: ${userIP}`) // <--
-
-    res.status(201).json(savedOrder)
+    res.status(201).json(order)
   } catch (err) {
-    const userIP = req.clientIP // <--
-    logger.error('Error in createOrder', { message: err.message, stack: err.stack, IP: userIP }) // <--
-
-    if (err instanceof ZodError) {
-      return res.status(400).json({ message: err.errors.map(e => e.message) })
-    }
-    return res.status(500).json({ message: err.message || 'Internal Server Error' })
+    await endSession(session, false)
+    res.status(400).json({ message: err.message })
   }
 }
-
+// --------------------- LIST ORDERS ---------------------
 export const listOrders = async (req, res) => {
   try {
-    const userIP = req.clientIP // <--
     const orders = await Order.find()
-      .sort({ createdAt: -1 })
-      .populate('customerId', 'name email')
-      .populate('products.productId', 'name price stock')
-
-    logger.info(`Orders listed by IP: ${userIP}`) // <--
     res.json(orders)
   } catch (err) {
-    const userIP = req.clientIP // <--
-    logger.error('Error in listOrders', { message: err.message, stack: err.stack, IP: userIP }) // <--
     res.status(500).json({ message: err.message })
   }
 }
 
+// --------------------- LIST ORDER BY ID ---------------------
 export const listOrderById = async (req, res) => {
   try {
-    const userIP = req.clientIP // <--
     const order = await Order.findById(req.params.id)
-      .populate('customerId', 'name email')
-      .populate('products.productId', 'name price stock')
-
-    if (!order) {
-      logger.warn(`Order not found by ID: ${req.params.id}`, { IP: userIP }) // <--
-      return res.status(404).json({ message: 'Order not found' })
-    }
-
-    logger.info(`Order retrieved by ID: ${req.params.id}, IP: ${userIP}`) // <--
-
+    if (!order) return res.status(404).json({ message: 'Order not found' })
     res.json(order)
   } catch (err) {
-    const userIP = req.clientIP // <--
-    logger.error('Error in listOrderById', { message: err.message, stack: err.stack, IP: userIP }) // <--
     res.status(500).json({ message: err.message })
   }
 }
 
+// --------------------- UPDATE ORDER ---------------------
 export const updateOrder = async (req, res) => {
-  const userIP = req.clientIP // <--
-  logger.info(`Update order request by user ${req.user?.id}, order id: ${req.params.id}, IP: ${userIP}`, { body: req.body })
-
+  let session = null
   try {
-    const validatedData = orderUpdateSchema.parse(req.body)
-    const orderId = req.params.id
+    session = await startSessionIfNeeded()
+    const { id } = req.params
 
-    const order = await Order.findById(orderId)
-    if (!order) {
-      logger.warn(`Order not found in updateOrder: ${req.params.id}`, { IP: userIP })
-      return res.status(404).json({ message: 'Order not found' })
+    const validation = orderUpdateSchema.safeParse(req.body)
+    if (!validation.success) {
+      return res.status(400).json({ message: 'Validation error', errors: validation.error.errors })
     }
 
-    // devolvemos stock a products anteriores
-    const originalStatus = order.status
-    const originalProducts = [...order.products]
+    const order = await Order.findById(id).session(session)
+    if (!order) return res.status(404).json({ message: 'Order not found' })
 
-    // envio de arreglo de product
-    let newTotal = order.totalAmount
-    let updatedProducts = []
+    const { products, status, customerId } = validation.data
 
-    if (validatedData.products) {
-      for (const item of order.products) {
-        const product = await Product.findById(item.productId)
-        if (product) {
-          product.stock += item.quantity
-          await product.save()
-        }
+    // 🔹 Caso: cliente cancela su propia orden
+    if (req.user.role !== 'admin') {
+      if (status === 'cancelled' && order.customerId.toString() === req.user.id) {
+        if (!order.stockRestored) await restoreStock(order.products, session)
+        order.status = 'cancelled'
+        order.stockRestored = true
+        await order.save(session ? { session } : {})
+        await endSession(session, true)
+        return res.json(order)
       }
-      const productIds = validatedData.products.map(p => p.productId)
-      updatedProducts = await Product.find({ _id: { $in: productIds } })
-
-      if (updatedProducts.length !== productIds.length) {
-        return res.status(400).json({ message: 'One or more new products are invalid' })
-      }
-
-      const stockErrors = []
-      newTotal = 0
-
-      // resta de productos nuevos
-      for (const item of validatedData.products) {
-        const product = updatedProducts.find(p => p._id.toString() === item.productId)
-        if (!product || product.stock < item.quantity) {
-          stockErrors.push(`Not enough stock for product: ${product?.name}`)
-        } else {
-          newTotal += product.price * item.quantity
-        }
-      }
-
-      if (stockErrors.length > 0) {
-        return res.status(400).json({ message: stockErrors })
-      }
-
-      for (const item of validatedData.products) {
-        const product = updatedProducts.find(p => p._id.toString() === item.productId)
-        if (product) {
-          product.stock -= item.quantity
-          await product.save()
-        }
-      }
-
-      order.products = validatedData.products.map(item => {
-        const product = updatedProducts.find(p => p._id.toString() === item.productId)
-        return {
-          productId: item.productId,
-          quantity: item.quantity,
-          price: product ? product.price : item.price
-        }
-      })
-
-      order.totalAmount = newTotal
+      return res.status(403).json({ message: 'Only admins can update this order' })
     }
 
-    // validacion de transmicion de estado
-    const validTransitions = {
-      pending: ['processing', 'cancelled'],
-      processing: ['completed', 'cancelled'],
-      completed: [],
-      cancelled: []
-    }
+    // 🔹 Caso: admin actualiza cualquier campo
+    if (products) {
+      if (!order.stockRestored) await restoreStock(order.products, session)
+      let totalAmount = 0
+      const updatedProducts = []
 
-    if (validatedData.status && validatedData.status !== order.status) {
-      const allowedNextStates = validTransitions[order.status] || []
-      if (!allowedNextStates.includes(validatedData.status)) {
-        return res.status(400).json({
-          message: `Invalid status transition from ${order.status}" to "${validatedData.status}`
-        })
-      }
-      // validacion de rol
-      if (req.user.role !== 'admin' && validatedData.status !== 'cancelled') {
-        logger.warn(`Unauthorized status change attempt by user ${req.user.id} on order ${order._id}`, { IP: userIP })
-        return res.status(403).json({ message: 'Only admins can change order status except to cancelled' })
+      for (const item of products) {
+        const product = await Product.findById(item.productId).session(session)
+        if (!product) return res.status(404).json({ message: `Product ${item.productId} not found` })
+        if (product.stock < item.quantity) return res.status(400).json({ message: `Insufficient stock for ${product.name}` })
+
+        product.stock -= item.quantity
+        await product.save(session ? { session } : {})
+
+        totalAmount += product.price * item.quantity
+        updatedProducts.push({ productId: product._id, quantity: item.quantity, price: product.price })
       }
 
-      if (
-        validatedData.status === 'cancelled' &&
-        !validatedData.products &&
-        ['pending', 'processing'].includes(originalStatus)
-      ) {
-        for (const item of originalProducts) {
-          const product = await Product.findById(item.productId)
-          if (product) {
-            product.stock += item.quantity
-            await product.save()
-          }
-        }
-      }
-
-      order.status = validatedData.status
+      order.products = updatedProducts
+      order.totalAmount = totalAmount
+      order.stockRestored = false
     }
 
-    if (validatedData.customerId) {
-      order.customerId = validatedData.customerId
-    }
+    if (status) order.status = status
+    if (customerId) order.customerId = customerId
 
-    order.updatedAt = new Date()
-    const updatedOrder = await order.save()
-
-    logger.info(`Order ${order._id} updated successfully by user ${req.user.id}, IP: ${userIP}`)
-
-    res.json(updatedOrder)
+    await order.save(session ? { session } : {})
+    await endSession(session, true)
+    res.json(order)
   } catch (err) {
-    logger.error('Error in updateOrder', { message: err.message, stack: err.stack, IP: userIP })
-    if (err instanceof ZodError) {
-      return res.status(400).json({ message: err.errors.map(e => e.message) })
-    }
-    res.status(500).json({ message: err.message })
+    await endSession(session, false)
+    res.status(400).json({ message: err.message })
   }
 }
 
+// --------------------- DELETE ORDER ---------------------
 export const deleteOrder = async (req, res) => {
   try {
-    const userIP = req.clientIP // <--
-    const order = await Order.findById(req.params.id)
-    if (!order) {
-      logger.warn(`Order not found in deleteOrder: ${req.params.id}`, { IP: userIP })
-      return res.status(404).json({ message: 'Order not found' })
+    const { id } = req.params
+    const order = await Order.findById(id)
+    if (!order) return res.status(404).json({ message: 'Orden no encontrada' })
+
+    // Restaurar stock solo si no se ha restaurado
+    if (!order.stockRestored) {
+      await restoreStock(order.products)
+      order.stockRestored = true
+      await order.save() // guardar antes de borrar
     }
 
-    // devolvemos el stock a los productos
-    for (const item of order.products) {
-      const product = await Product.findById(item.productId)
-      if (product) {
-        product.stock += item.quantity
-        await product.save()
-      }
-    }
-
-    // eliminamos orden
-    await Order.findByIdAndDelete(req.params.id)
-    logger.info(`Order ${req.params.id} deleted and stock restored successfully, IP: ${userIP}`)
-    res.json({ message: 'Order deleted and stock restored successfully' })
-  } catch (err) {
-    const userIP = req.clientIP
-    logger.error('Error in deleteOrder', { message: err.message, stack: err.stack, IP: userIP })
-    res.status(500).json({ message: err.message })
+    await order.deleteOne()
+    return res.json({ message: 'Orden eliminada y stock restaurado' })
+  } catch (error) {
+    console.error(error)
+    return res.status(500).json({ message: 'Error eliminando la orden' })
   }
 }

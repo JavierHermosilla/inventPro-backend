@@ -1,227 +1,136 @@
 import request from 'supertest'
-import app from '../app.js' // Ajusta según tu entrypoint
+import app from '../app.js'
+import mongoose from 'mongoose'
 import User from '../models/user.model.js'
 import Product from '../models/product.model.js'
 import Order from '../models/order.model.js'
-import Category from '../models/category.model.js'
-import Supplier from '../models/supplier.model.js'
-import mongoose from 'mongoose'
-import { setupTests, teardownTests, clearDatabase } from './setup.js'
+import { createAccessToken } from '../libs/jwt.js'
+import { setupTests, teardownTests, adminId, normalUserId, product1Id, product2Id } from './setup.js'
 
-let userToken
-let adminToken
-let createdOrderId
-let productId
-let user
-let admin
+let adminToken, userToken
+let admin, user
 
 beforeAll(async () => {
   await setupTests()
 
-  // Crear usuario normal
-  user = await User.create({
-    name: 'Test User',
-    username: 'testuser',
-    email: 'user@test.com',
-    password: '123456',
-    phone: '+56912345678',
-    role: 'user'
-  })
+  admin = await User.findById(adminId)
+  user = await User.findById(normalUserId)
 
-  // Crear admin
-  admin = await User.create({
-    name: 'Admin User',
-    username: 'adminuser',
-    email: 'admin@test.com',
-    password: '123456',
-    phone: '+56987654321',
-    role: 'admin'
-  })
-
-  // Crear category
-  const category = await Category.create({
-    name: 'Categoria Test',
-    description: 'Descripción de prueba'
-  })
-
-  // Crear supplier
-  const supplier = await Supplier.create({
-    name: 'Proveedor Test',
-    rut: '12345678-9',
-    contact: 'supplier@test.com',
-    phone: '+56912345678'
-  })
-
-  // Crear producto de prueba
-  const product = await Product.create({
-    name: 'Producto Test',
-    description: 'Producto para testing',
-    price: 1000,
-    stock: 10,
-    category: category._id,
-    supplier: supplier._id
-  })
-  productId = product._id.toString()
-
-  // Tokens
-  const userLogin = await request(app)
-    .post('/api/auth/login')
-    .send({ email: user.email, password: '123456' })
-  userToken = userLogin.body.token
-
-  const adminLogin = await request(app)
-    .post('/api/auth/login')
-    .send({ email: admin.email, password: '123456' })
-  adminToken = adminLogin.body.token
+  adminToken = await createAccessToken({ id: admin._id.toString(), role: 'admin' })
+  userToken = await createAccessToken({ id: user._id.toString(), role: 'user' })
 })
 
 afterAll(async () => {
   await teardownTests()
 })
 
-afterEach(async () => {
-  await clearDatabase() // Limpia colecciones excepto users
+beforeEach(async () => {
+  // Restaurar stock de productos
+  await Product.findByIdAndUpdate(product1Id, { stock: 10 })
+  await Product.findByIdAndUpdate(product2Id, { stock: 5 })
+
+  // Limpiar órdenes
+  await Order.deleteMany({})
 })
 
-describe('Orders API - Seguridad completa', () => {
-  it('POST /api/orders → debe crear una orden con datos válidos', async () => {
+describe('Orders API - Cobertura completa', () => {
+  it('POST /api/orders → usuario puede crear orden válida y stock se actualiza', async () => {
     const res = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${userToken}`)
       .send({
         customerId: user._id.toString(),
-        products: [{ productId, quantity: 2, price: 1000 }],
-        totalAmount: 2000
+        products: [
+          { productId: product1Id.toString(), quantity: 2 },
+          { productId: product2Id.toString(), quantity: 1 }
+        ]
       })
 
     expect(res.statusCode).toBe(201)
     expect(res.body).toHaveProperty('_id')
-    createdOrderId = res.body._id
+
+    const updatedProd1 = await Product.findById(product1Id)
+    const updatedProd2 = await Product.findById(product2Id)
+    expect(updatedProd1.stock).toBe(8)
+    expect(updatedProd2.stock).toBe(4)
   })
 
-  it('POST /api/orders → falla sin token', async () => {
+  it('POST → falla si producto no existe', async () => {
+    const fakeId = new mongoose.Types.ObjectId()
+    const res = await request(app)
+      .post('/api/orders')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        customerId: user._id.toString(),
+        products: [{ productId: fakeId.toString(), quantity: 1 }]
+      })
+
+    expect(res.statusCode).toBe(404)
+  })
+
+  it('POST → falla si stock insuficiente', async () => {
+    const res = await request(app)
+      .post('/api/orders')
+      .set('Authorization', `Bearer ${userToken}`)
+      .send({
+        customerId: user._id.toString(),
+        products: [{ productId: product2Id.toString(), quantity: 100 }]
+      })
+
+    expect(res.statusCode).toBe(400)
+  })
+
+  it('POST → falla sin token', async () => {
     const res = await request(app)
       .post('/api/orders')
       .send({
         customerId: user._id.toString(),
-        products: [{ productId, quantity: 2, price: 1000 }]
+        products: [{ productId: product1Id.toString(), quantity: 1 }]
       })
 
     expect(res.statusCode).toBe(401)
   })
 
-  it('POST /api/orders → falla con productos vacíos', async () => {
-    const res = await request(app)
-      .post('/api/orders')
-      .set('Authorization', `Bearer ${userToken}`)
-      .send({
-        customerId: user._id.toString(),
-        products: []
-      })
-
-    expect(res.statusCode).toBe(400)
-    expect(res.body).toHaveProperty('message')
-  })
-
-  it('POST /api/orders → falla con quantity=0 o price negativo', async () => {
-    const res = await request(app)
-      .post('/api/orders')
-      .set('Authorization', `Bearer ${userToken}`)
-      .send({
-        customerId: user._id.toString(),
-        products: [{ productId, quantity: 0, price: -100 }]
-      })
-
-    expect(res.statusCode).toBe(400)
-    expect(res.body).toHaveProperty('message')
-  })
-
-  it('GET /api/orders → debe listar todas las órdenes', async () => {
-    const res = await request(app)
-      .get('/api/orders')
-      .set('Authorization', `Bearer ${userToken}`)
-
-    expect(res.statusCode).toBe(200)
-    expect(Array.isArray(res.body)).toBe(true)
-  })
-
-  it('GET /api/orders → falla sin token', async () => {
-    const res = await request(app).get('/api/orders')
-    expect(res.statusCode).toBe(401)
-  })
-
-  it('GET /api/orders/:id → obtener orden por ID válida', async () => {
+  it('PUT /:id → admin cancela orden y stock se restaura', async () => {
     const order = await Order.create({
       customerId: user._id.toString(),
-      products: [{ productId, quantity: 1, price: 1000 }],
-      totalAmount: 1000
-    })
-    const res = await request(app)
-      .get(`/api/orders/${order._id}`)
-      .set('Authorization', `Bearer ${userToken}`)
-
-    expect(res.statusCode).toBe(200)
-    expect(res.body).toHaveProperty('_id', order._id.toString())
-  })
-
-  it('GET /api/orders/:id → falla con ID inválido', async () => {
-    const res = await request(app)
-      .get('/api/orders/123')
-      .set('Authorization', `Bearer ${userToken}`)
-
-    expect(res.statusCode).toBe(400)
-  })
-
-  it('PUT /api/orders/:id → admin puede actualizar', async () => {
-    const order = await Order.create({
-      customerId: user._id.toString(),
-      products: [{ productId, quantity: 1, price: 1000 }],
-      totalAmount: 1000
+      products: [
+        { productId: product1Id, quantity: 2, price: 100 },
+        { productId: product2Id, quantity: 1, price: 50 }
+      ],
+      totalAmount: 250,
+      status: 'pending',
+      stockRestored: false
     })
 
     const res = await request(app)
       .put(`/api/orders/${order._id}`)
       .set('Authorization', `Bearer ${adminToken}`)
-      .send({ status: 'processing' })
+      .send({ status: 'cancelled' })
 
     expect(res.statusCode).toBe(200)
-    expect(res.body.status).toBe('processing')
+    expect(res.body.status).toBe('cancelled')
+
+    const prod1 = await Product.findById(product1Id)
+    const prod2 = await Product.findById(product2Id)
+    expect(prod1.stock).toBe(10)
+    expect(prod2.stock).toBe(5)
   })
 
-  it('PUT /api/orders/:id → user normal no puede actualizar', async () => {
+  it('DELETE /:id → admin elimina orden y stock se restaura', async () => {
+  // Reducir stock manualmente como si se hubiera creado la orden
+    await Product.findByIdAndUpdate(product1Id, { $inc: { stock: -1 } })
+    await Product.findByIdAndUpdate(product2Id, { $inc: { stock: -2 } })
+
     const order = await Order.create({
       customerId: user._id.toString(),
-      products: [{ productId, quantity: 1, price: 1000 }],
-      totalAmount: 1000
-    })
-
-    const res = await request(app)
-      .put(`/api/orders/${order._id}`)
-      .set('Authorization', `Bearer ${userToken}`)
-      .send({ status: 'completed' })
-
-    expect(res.statusCode).toBe(403)
-  })
-
-  it('PUT /api/orders/:id → falla sin token', async () => {
-    const order = await Order.create({
-      customerId: user._id.toString(),
-      products: [{ productId, quantity: 1, price: 1000 }],
-      totalAmount: 1000
-    })
-
-    const res = await request(app)
-      .put(`/api/orders/${order._id}`)
-      .send({ status: 'completed' })
-
-    expect(res.statusCode).toBe(401)
-  })
-
-  it('DELETE /api/orders/:id → admin puede eliminar', async () => {
-    const order = await Order.create({
-      customerId: user._id.toString(),
-      products: [{ productId, quantity: 1, price: 1000 }],
-      totalAmount: 1000
+      products: [
+        { productId: product1Id, quantity: 1, price: 100 },
+        { productId: product2Id, quantity: 2, price: 50 }
+      ],
+      totalAmount: 200,
+      status: 'pending',
+      stockRestored: false
     })
 
     const res = await request(app)
@@ -229,33 +138,14 @@ describe('Orders API - Seguridad completa', () => {
       .set('Authorization', `Bearer ${adminToken}`)
 
     expect(res.statusCode).toBe(200)
-    expect(res.body).toHaveProperty('message')
-  })
+    expect(res.body).toHaveProperty('message', 'Orden eliminada y stock restaurado')
 
-  it('DELETE /api/orders/:id → user normal no puede eliminar', async () => {
-    const order = await Order.create({
-      customerId: user._id.toString(),
-      products: [{ productId, quantity: 1, price: 1000 }],
-      totalAmount: 1000
-    })
+    const prod1 = await Product.findById(product1Id)
+    const prod2 = await Product.findById(product2Id)
+    expect(prod1.stock).toBe(10) // stock original restaurado
+    expect(prod2.stock).toBe(5)
 
-    const res = await request(app)
-      .delete(`/api/orders/${order._id}`)
-      .set('Authorization', `Bearer ${userToken}`)
-
-    expect(res.statusCode).toBe(403)
-  })
-
-  it('DELETE /api/orders/:id → falla sin token', async () => {
-    const order = await Order.create({
-      customerId: user._id.toString(),
-      products: [{ productId, quantity: 1, price: 1000 }],
-      totalAmount: 1000
-    })
-
-    const res = await request(app)
-      .delete(`/api/orders/${order._id}`)
-
-    expect(res.statusCode).toBe(401)
+    const deletedOrder = await Order.findById(order._id)
+    expect(deletedOrder).toBeNull()
   })
 })

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-const objectIdRegex = /^[0-9a-fA-F]{24}$/
+const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/
 
 export const productSchema = z.object({
   name: z.string().min(1, { message: 'The name is required.' }).max(100, { message: 'Name too long' }),
@@ -15,10 +15,10 @@ export const productSchema = z.object({
       .int({ message: 'Stock must be an integer' })
       .min(0, { message: 'Stock cannot be negative.' })
   ),
-  category: z.string().min(1, { message: 'Category is required.' }),
+  category: z.string()
+    .regex(uuidRegex, { message: 'Category is required.' }),
   supplier: z.string()
-    .min(1, { message: 'Supplier is required.' })
-    .regex(objectIdRegex, { message: 'Supplier must be a valid ObjectId' })
+    .regex(uuidRegex, { message: 'Supplier must be a valid ObjectId' })
 })
 
 export const productUpdateSchema = productSchema

@@ -738,3 +738,16 @@
 [2025-08-20T13:13:30.702Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:16:26.213Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:18:09.514Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:23:01.368Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:23:02.113Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:26:31.804Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:30:19.438Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:30:34.440Z] ERROR: Token verification failed: jwt malformed
+[2025-08-20T13:30:34.786Z] ERROR: [ERROR] manualInventoryById: Cast to ObjectId failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
+[2025-08-20T13:33:11.606Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:33:23.077Z] ERROR: [ERROR] manualInventoryById: Cast to ObjectId failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
+[2025-08-20T13:36:54.599Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:39:39.271Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:44:49.727Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:48:49.651Z] ERROR: Token verification failed: invalid token
+[2025-08-20T13:59:18.293Z] ERROR: Token verification failed: invalid token

@@ -111,24 +111,28 @@ export const updateOrder = async (req, res) => {
     }
 
     const order = await Order.findById(id).session(session)
-    if (!order) return res.status(404).json({ message: 'Order not found' })
+    if (!order) return res.status(404).json({ message: 'Orden no encontrada' })
 
-    const { products, status, customerId } = validation.data
+    const { status, products, customerId } = validation.data
 
-    // 🔹 Caso: cliente cancela su propia orden
-    if (req.user.role !== 'admin') {
-      if (status === 'cancelled' && order.customerId.toString() === req.user.id) {
-        if (!order.stockRestored) await restoreStock(order.products, session)
-        order.status = 'cancelled'
-        order.stockRestored = true
-        await order.save(session ? { session } : {})
-        await endSession(session, true)
-        return res.json(order)
+    // 🔹 Solo admins o el usuario que creó la orden puede cancelar
+    if (status === 'cancelled') {
+      if (req.user.role !== 'admin' && order.customerId.toString() !== req.user.id) {
+        return res.status(403).json({ message: 'No puedes cancelar esta orden' })
       }
-      return res.status(403).json({ message: 'Only admins can update this order' })
+      if (!order.stockRestored) await restoreStock(order.products, session)
+      order.status = 'cancelled'
+      order.stockRestored = true
+      await order.save(session ? { session } : {})
+      await endSession(session, true)
+      return res.json(order)
     }
 
-    // 🔹 Caso: admin actualiza cualquier campo
+    // 🔹 Solo admins pueden actualizar productos o customerId
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Solo los administradores pueden actualizar esta orden' })
+    }
+
     if (products) {
       if (!order.stockRestored) await restoreStock(order.products, session)
       let totalAmount = 0
@@ -136,8 +140,8 @@ export const updateOrder = async (req, res) => {
 
       for (const item of products) {
         const product = await Product.findById(item.productId).session(session)
-        if (!product) return res.status(404).json({ message: `Product ${item.productId} not found` })
-        if (product.stock < item.quantity) return res.status(400).json({ message: `Insufficient stock for ${product.name}` })
+        if (!product) return res.status(404).json({ message: `Producto ${item.productId} no encontrado` })
+        if (product.stock < item.quantity) return res.status(400).json({ message: `Stock insuficiente para ${product.name}` })
 
         product.stock -= item.quantity
         await product.save(session ? { session } : {})
@@ -151,8 +155,8 @@ export const updateOrder = async (req, res) => {
       order.stockRestored = false
     }
 
-    if (status) order.status = status
     if (customerId) order.customerId = customerId
+    if (status) order.status = status
 
     await order.save(session ? { session } : {})
     await endSession(session, true)
@@ -167,10 +171,16 @@ export const updateOrder = async (req, res) => {
 export const deleteOrder = async (req, res) => {
   try {
     const { id } = req.params
+
+    // Solo admin puede eliminar
+    if (req.user.role !== 'admin') {
+      return res.status(403).json({ message: 'Solo los administradores pueden eliminar órdenes' })
+    }
+
     const order = await Order.findById(id)
     if (!order) return res.status(404).json({ message: 'Orden no encontrada' })
 
-    // Restaurar stock solo si no se ha restaurado
+    // Restaurar stock si no se ha restaurado
     if (!order.stockRestored) {
       await restoreStock(order.products)
       order.stockRestored = true

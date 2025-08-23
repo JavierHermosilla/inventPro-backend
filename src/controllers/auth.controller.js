@@ -1,31 +1,27 @@
-import bcrypt from 'bcryptjs'
 import User from '../models/user.model.js'
 import logger from '../utils/logger.js'
 import pick from 'lodash/pick.js'
 import { createAccessToken } from '../libs/jwt.js'
 import { ZodError } from 'zod'
 
+// Registro de usuario
 export const register = async (req, res) => {
-  console.log('Body recibido:', req.body)
-  console.log('JWT_SECRET:', process.env.JWT_SECRET)
   try {
     const { username, name, email, password, phone, address, avatar, role } = req.body
     const userIP = req.clientIP
 
-    // restricción de creación de rol admin
+    // Solo roles permitidos
     const allowedRoles = ['user', 'manager']
     const safeRole = allowedRoles.includes(role) ? role : 'user'
 
-    // verificación si existe un user con el email
-    const existingUser = await User.findOne({ email })
+    // Verificar si ya existe el email
+    const existingUser = await User.findOne({ where: { email } })
     if (existingUser) {
-      logger.warn(`Registration attempt with duplicate email: ${email} from ip ${userIP}`)
-      return res.status(400).json({
-        errors: [{ path: 'email', message: 'El correo electrónico ya está en uso.' }]
-      })
+      logger.warn(`Duplicate email registration: ${email}, IP: ${userIP}`)
+      return res.status(400).json({ errors: [{ path: 'email', message: 'El correo ya está en uso.' }] })
     }
 
-    const newUser = new User({
+    const userSaved = await User.create({
       username,
       name,
       email,
@@ -36,8 +32,7 @@ export const register = async (req, res) => {
       role: safeRole
     })
 
-    const userSaved = await newUser.save()
-    const token = await createAccessToken({ id: userSaved._id })
+    const token = await createAccessToken({ id: userSaved.id })
 
     res.cookie('token', token, {
       httpOnly: true,
@@ -45,34 +40,17 @@ export const register = async (req, res) => {
       sameSite: 'strict'
     })
 
-    logger.info(`User registered successfully: ${email} from IP ${userIP}`)
+    logger.info(`User registered successfully: ${email}, IP: ${userIP}`)
 
-    res.status(201).json({
-      ...pick(userSaved, [
-        '_id',
-        'username',
-        'name',
-        'email',
-        'role',
-        'phone',
-        'address',
-        'avatar',
-        'createdAt',
-        'updatedAt'
-      ])
-    })
+    res.status(201).json(pick(userSaved, [
+      'id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar', 'createdAt', 'updatedAt'
+    ]))
   } catch (err) {
-    console.error('Error stack:', err.stack)
-
     const userIP = req.clientIP
-    logger.error(`Registration error from IP ${userIP}: ${err.message}`, { stack: err.stack })
+    logger.error(`Registration error: ${err.message}, IP: ${userIP}`, { stack: err.stack })
 
     if (err instanceof ZodError) {
-      const errors = err.errors.map(e => ({
-        path: e.path.join('.'),
-        message: e.message
-      }))
-      logger.warn(`Validation error during register/login from IP ${userIP}: ${errors.map(e => e.message).join('; ')}`)
+      const errors = err.errors.map(e => ({ path: e.path.join('.'), message: e.message }))
       return res.status(400).json({ errors })
     }
 
@@ -80,100 +58,65 @@ export const register = async (req, res) => {
   }
 }
 
+// Login
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body
     const userIP = req.clientIP
-    console.log(`[LOGIN] Email recibido: ${email} desde IP: ${userIP}`)
 
-    const userFound = await User.findOne({ email })
-    console.log(`[LOGIN] Usuario encontrado: ${userFound ? 'Sí' : 'No'}`)
-
+    const userFound = await User.findOne({ where: { email } })
     if (!userFound) {
-      logger.warn(`Login attempt with invalid email: ${email} from IP ${userIP}`)
-      return res.status(401).json({ message: 'Username or password is incorrect.' })
+      logger.warn(`Login failed, email not found: ${email}, IP: ${userIP}`)
+      return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
     }
 
-    // hash de contraseña
-    console.log('Login password plain:', password)
-    console.log('Hash stored in DB:', userFound.password)
-    const isMatch = await bcrypt.compare(password, userFound.password)
-
+    const isMatch = await userFound.comparePassword(password)
     if (!isMatch) {
-      logger.warn(`Incorrect password for: ${email} from IP ${userIP}`)
-      return res.status(401).json({ message: 'Username or password is incorrect.' })
+      logger.warn(`Login failed, wrong password: ${email}, IP: ${userIP}`)
+      return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
     }
 
-    logger.info(`Successful login for: ${email} from IP: ${userIP}`)
-
-    const token = await createAccessToken({ id: userFound._id })
-
+    const token = await createAccessToken({ id: userFound.id })
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict'
     })
 
+    logger.info(`Login successful: ${email}, IP: ${userIP}`)
+
     res.status(200).json({
       token,
       ...pick(userFound, [
-        '_id',
-        'username',
-        'name',
-        'email',
-        'role',
-        'phone',
-        'address',
-        'avatar',
-        'createdAt',
-        'updatedAt'
+        'id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar', 'createdAt', 'updatedAt'
       ])
     })
   } catch (err) {
     const userIP = req.clientIP
-    logger.error(`Login error from IP ${userIP}: ${err.message}`)
-
-    if (err instanceof ZodError) {
-      const errors = err.errors.map(e => ({
-        path: e.path.join('.'),
-        message: e.message
-      }))
-      logger.warn(`Validation error during register/login from IP ${userIP}: ${errors.map(e => e.message).join('; ')}`)
-      return res.status(400).json({ errors })
-    }
-
+    logger.error(`Login error: ${err.message}, IP: ${userIP}`)
     return res.status(500).json({ message: err.message })
   }
 }
 
+// Perfil del usuario
 export const profile = async (req, res) => {
   try {
-    if (!req.userId) {
-      return res.status(401).json({ message: 'Unauthorized' })
-    }
+    if (!req.userId) return res.status(401).json({ message: 'Unauthorized' })
 
-    const user = await User.findById(req.userId).select('-password')
-
-    if (!user) {
-      return res.status(404).json({ message: 'user not found' })
-    }
+    const user = await User.findByPk(req.userId, { attributes: { exclude: ['password'] } })
+    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' })
 
     res.json(user)
   } catch (err) {
-    logger.error(`Profile fetch error for userId ${req.userId}: ${err.message}`)
-    return res.status(500).json({ message: err.message })
+    logger.error(`Profile error: ${err.message}, userId: ${req.userId}`)
+    res.status(500).json({ message: err.message })
   }
 }
 
+// Logout
 export const logout = (req, res) => {
   const userIP = req.clientIP
-  logger.info(`Logout from IP: ${userIP}`)
-  res.cookie('token', '', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'Strict',
-    expires: new Date(0)
-  })
-
-  return res.status(200).json({ message: 'Session closed successfully.' })
+  res.cookie('token', '', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'Strict', expires: new Date(0) })
+  logger.info(`Logout, IP: ${userIP}`)
+  res.status(200).json({ message: 'Sesión cerrada exitosamente.' })
 }

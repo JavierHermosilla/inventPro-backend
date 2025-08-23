@@ -1,43 +1,73 @@
-import mongoose from 'mongoose'
+import { DataTypes } from 'sequelize'
+import sequelize from '../config/database.js'
 
-const manualInventorySchema = new mongoose.Schema({
+const ManualInventory = sequelize.define('ManualInventory', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
+  },
   productId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product',
-    required: true
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'products',
+      key: 'id'
+    },
+    validate: {
+      notNull: { msg: 'Product ID is required' }
+    }
   },
   type: {
-    type: String,
-    enum: ['increase', 'decrease'],
-    required: true
+    type: DataTypes.ENUM('increase', 'decrease'),
+    allowNull: false,
+    validate: {
+      notNull: { msg: 'Type is required' },
+      isIn: { args: [['increase', 'decrease']], msg: 'Type must be increase or decrease' }
+    }
   },
   quantity: {
-    type: Number,
-    required: true,
-    min: [1, 'Quantity must be at least 1']
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    validate: {
+      notNull: { msg: 'Quantity is required' },
+      isInt: { msg: 'Quantity must be an integer' },
+      min: { args: [1], msg: 'Quantity must be at least 1' }
+    }
   },
   reason: {
-    type: String,
-    trim: true,
-    maxlength: [255, 'Reason is too long'],
-    default: ''
+    type: DataTypes.STRING(255),
+    allowNull: true,
+    validate: {
+      len: {
+        args: [0, 255],
+        msg: 'Reason must be at most 255 characters long'
+      }
+    }
   },
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id'
+    },
+    validate: {
+      notNull: { msg: 'User ID is required' }
+    }
   }
-}, { timestamps: true })
-
-manualInventorySchema.index({ productId: 1, userId: 1 })
-
-manualInventorySchema.pre('validate', function (next) {
-  if (this.type === 'decrease' && !this.reason) {
-    this.invalidate('reason', 'Reason is required when decreasing inventory')
-  }
-  next()
+}, {
+  tableName: 'manual_inventories',
+  timestamps: true,
+  indexes: [
+    { fields: ['productId', 'userId'] }
+  ]
 })
 
-const ManualInventory = mongoose.model('ManualInventory', manualInventorySchema)
+// relaciones
+ManualInventory.associate = (models) => {
+  ManualInventory.belongsTo(models.Product, { foreignKey: 'productId', as: 'product' })
+  ManualInventory.belongsTo(models.User, { foreignKey: 'userId', as: 'user' })
+}
 
 export default ManualInventory

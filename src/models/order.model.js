@@ -1,46 +1,64 @@
-import mongoose from 'mongoose'
+import { DataTypes } from 'sequelize'
+import sequelize from '../config/database.js'
 
-const orderSchema = new mongoose.Schema({
-  customerId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
+const Order = sequelize.define('Order', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
   },
-  products: [
-    {
-      productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: true
-      },
-      quantity: {
-        type: Number,
-        required: true,
-        min: 1
-      },
-      price: {
-        type: Number,
-        required: true,
-        min: 0
-      }
+  customerId: {
+    type: DataTypes.UUID,
+    allowNull: false,
+    references: {
+      model: 'users',
+      key: 'id'
+    },
+    validate: {
+      notNull: { msg: 'Customer ID is required' }
     }
-  ],
+  },
   status: {
-    type: String,
-    enum: ['pending', 'processing', 'completed', 'cancelled'],
-    default: 'pending'
+    type: DataTypes.ENUM('pending', 'processing', 'completed', 'cancelled'),
+    defaultValue: 'pending',
+    allowNull: false,
+    validate: {
+      notNull: { msg: 'Order status is required' }
+    }
   },
   totalAmount: {
-    type: Number,
-    required: true,
-    min: 0
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+    validate: {
+      notNull: { msg: 'Total amount is required' },
+      isDecimal: { msg: 'Total amount must be a decimal value' },
+      min: { args: [0], msg: 'Total amount cannot be negative' }
+    }
   },
   stockRestored: {
-    type: Boolean,
-    default: false
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+    allowNull: false
   }
 }, {
-  timestamps: true
+  tableName: 'orders',
+  timestamps: true,
+  paranoid: true,
+  indexes: [
+    {
+      fields: ['customerId']
+    },
+    {
+      fields: ['status']
+    }
+  ]
 })
 
-export default mongoose.model('Order', orderSchema)
+// relaciones
+Order.associate = (models) => {
+  Order.belongsTo(models.User, { foreignKey: 'customerId', as: 'customer' })
+
+  Order.hasMany(models.OrderItem, { foreignKey: 'orderId', as: 'products' })
+}
+
+export default Order

@@ -1,63 +1,90 @@
-import mongoose from 'mongoose'
+import { DataTypes } from 'sequelize'
+import sequelize from '../config/database.js'
 
-const supplierSchema = new mongoose.Schema({
+const supplier = sequelize.define('Supplier', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
+  },
   name: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  contactName: {
-    type: String,
-    trim: true
-  },
-  email: {
-    type: String,
-    trim: true,
-    lowercase: true
-  },
-  phone: {
-    type: String,
-    trim: true
-  },
-  address: {
-    type: String,
-    trim: true
-  },
-  website: {
-    type: String,
-    trim: true
-  },
-  rut: {
-    type: String,
-    trim: true,
-    required: true,
+    type: DataTypes.STRING,
+    allowNull: false,
     unique: true,
     validate: {
-      validator: function (v) {
-        return /^(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK])$/.test(v)
-      },
-      message: props => `${props.value} no es un RUT válido`
+      notNull: { msg: 'Supplier name is required' },
+      notEmpty: { msg: 'Supplier name cannot be empty' }
+    }
+  },
+  contactName: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      isEmail: { msg: 'Email must be a valid email address' }
+    }
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      is: {
+        args: /^\+?\d{7,15}$/,
+        msg: 'Phone must be a valid number (7-15 digits, optional +)'
+      }
+    }
+  },
+  address: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  website: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    validate: {
+      isUrl: { msg: 'Website must be a valid URL' }
+    }
+  },
+  rut: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      notNull: { msg: 'RUT is required' },
+      notEmpty: { msg: 'RUT cannot be empty' },
+      is: {
+        args: /^(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK]|\d{7,8}-[\dkK])$/,
+        msg: 'RUT is invalid'
+      }
     }
   },
   paymentTerms: {
-    type: String,
-    trim: true
+    type: DataTypes.STRING,
+    allowNull: true
   },
-  categories: [{
-    type: String,
-    trim: true
-  }],
   status: {
-    type: String,
-    enum: ['active', 'inactive'],
-    default: 'active'
+    type: DataTypes.ENUM('active', 'inactive'),
+    defaultValue: 'active',
+    allowNull: false,
+    validate: {
+      isIn: {
+        args: [['active', 'inactive']],
+        msg: 'Status must be either active or inactive'
+      }
+    }
   },
   notes: {
-    type: String,
-    trim: true
+    type: DataTypes.STRING,
+    allowNull: true
   }
-}, { timestamps: true })
+}, {
+  tableName: 'suppliers',
+  timestamps: true,
+  paranoid: true,
+  deletedAt: 'deleted_at'
+})
 
-const Supplier = mongoose.model('Supplier', supplierSchema)
-
-export default Supplier
+export default supplier

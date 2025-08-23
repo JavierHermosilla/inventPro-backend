@@ -22,6 +22,7 @@ function validateRUT (rut) {
 const optionalString = (maxLength) =>
   z.string()
     .optional()
+    .nullable()
     .transform(val => (val === undefined || val === null ? '' : val))
     .refine(val => val.length <= maxLength, { message: `Must be at most ${maxLength} characters` })
 
@@ -30,8 +31,7 @@ const optionalEmail = z.string()
   .transform(val => (val === undefined || val === null ? '' : val))
   .refine(val => val === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), { message: 'Invalid email' })
 
-const optionalPhone = z.string()
-  .optional()
+const phone = z.string()
   .transform(val => (val === undefined || val === null ? '' : val))
   .refine(val => val === '' || /^\+?\d{7,15}$/.test(val), { message: 'Invalid phone number' })
 
@@ -53,11 +53,10 @@ export const supplierSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
   contactName: optionalString(100),
   email: optionalEmail,
-  phone: optionalPhone,
+  phone,
   address: optionalString(200),
   website: optionalURL,
-  rut: z
-    .string()
+  rut: z.string()
     .nonempty({ message: 'RUT is required' })
     .regex(/^(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK]|\d{7,8}-[\dkK])$/, { message: 'Invalid RUT format' })
     .refine(validateRUT, { message: 'Invalid RUT' }),

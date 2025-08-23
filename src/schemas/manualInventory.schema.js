@@ -16,6 +16,7 @@ export const createManualInventorySchema = z.object({
   reason: z.string()
     .max(255, { message: 'Reason is too long' })
     .optional()
+    .transform(r => r?.trim())
 }).superRefine((data, ctx) => {
   // validacion de decrease
   if (data.type === 'decrease' && (!data.reason || data.reason.trim() === '')) {

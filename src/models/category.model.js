@@ -1,24 +1,29 @@
-// src/models/category.model.js
-import mongoose from 'mongoose'
+import { DataTypes } from 'sequelize'
+import { sequelize } from '../config/database.js'
 
-const categorySchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, 'El nombre de la categoría es obligatorio'],
-      trim: true,
-      unique: true
-    },
-    description: {
-      type: String,
-      trim: true,
-      default: ''
+const Category = sequelize.define('Category', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      notNull: { msg: 'Category name is required' },
+      notEmpty: { msg: 'Category name should not be empty' }
     }
   },
-  {
-    timestamps: true,
-    versionKey: false
+  description: {
+    type: DataTypes.STRING,
+    allowNull: true
   }
-)
+}, {
+  timestamps: true,
+  paranoid: true,
+  tableName: 'categories'
+})
 
-export default mongoose.model('Category', categorySchema)
+export default Category

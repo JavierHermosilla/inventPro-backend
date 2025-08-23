@@ -17,11 +17,17 @@ export const orderSchema = z.object({
         .min(1, { message: 'Quantity must be greater than 0' })
     })
   ).min(1, { message: 'At least one product is required' }),
-  status: z.enum(['pending', 'processing', 'completed', 'cancelled']).default('pending'),
-  totalAmount: z.number().nonnegative().optional(),
+  status: z.enum(
+    ['pending', 'processing', 'completed', 'cancelled'])
+    .default('pending'),
+  totalAmount: z.number()
+    .nonnegative()
+    .refine(val => Number(val.toFixed(2)) === val, {
+      message: 'Total amount must have at most two decimal places'
+    }).optional(),
   createdAt: z.preprocess(arg => arg ? new Date(arg) : undefined, z.date().optional()),
   updatedAt: z.preprocess(arg => arg ? new Date(arg) : undefined, z.date().optional())
-})
+}).strict()
 
 // Esquema para actualización parcial
 export const orderUpdateSchema = z.object({

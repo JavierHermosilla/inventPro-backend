@@ -2,7 +2,8 @@ import { Router } from 'express'
 import {
   createManualInventory,
   getAllManualInventories,
-  manualInventoryById
+  manualInventoryById,
+  deleteManualInventory
 } from '../controllers/manualInventory.controller.js'
 
 import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
@@ -38,6 +39,14 @@ router.get(
   verifyTokenMiddleware,
   requireRole('admin'),
   manualInventoryById
+)
+
+// Eliminar un ajuste manual de inventario - solo admin
+router.delete(
+  '/:id',
+  verifyTokenMiddleware,
+  requireRole('admin'),
+  deleteManualInventory
 )
 
 export default router

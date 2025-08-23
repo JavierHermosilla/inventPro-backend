@@ -1,43 +1,62 @@
-import mongoose from 'mongoose'
+import { DataTypes } from 'sequelize'
+import sequelize from '../config/database.js'
 
-const productSchema = new mongoose.Schema({
+const Product = sequelize.define('Product', {
+  id: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true
+  },
   name: {
-    type: String,
-    required: [true, 'product name is required'],
-    trim: true,
-    unique: true
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+    validate: {
+      notNull: { msg: 'Product name is required' },
+      notEmpty: { msg: 'Product name cannot be empty' }
+    }
   },
   description: {
-    type: String,
-    trim: true
+    type: DataTypes.STRING,
+    allowNull: true
   },
   price: {
-    type: Number,
-    required: [true, 'Product price is required'],
-    min: [0, 'Price cannot be negative']
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+    validate: {
+      notNull: { msg: 'Product price is required' },
+      min: {
+        args: [0],
+        msg: 'Price cannot be negative number'
+      }
+    }
   },
   stock: {
-    type: Number,
-    required: [true, 'Stock quantity is required'],
-    min: [0, 'Stock cannot be negative'],
-    default: 0
-  },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',
-    required: true
-  },
-  supplier: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Supplier',
-    required: true
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+    validate: {
+      notNull: { msg: 'Stock is required' },
+      min: { args: [0], msg: 'Stock cannot be negative' }
+    }
   }
-},
-{
-  timestamps: true
-}
-)
+}, {
+  tableName: 'products',
+  timestamps: true,
+  paranoid: true,
+  deletedAt: 'deleted_at'
+})
 
-const Product = mongoose.model('Product', productSchema)
+// Relaciones
+Product.associate = (models) => {
+  Product.belongsTo(models.Category, {
+    foreignKey: { name: 'categoryId', allowNull: false },
+    as: 'category'
+  })
+  Product.belongsTo(models.User, {
+    foreignKey: { name: 'supplierId', allowNull: false },
+    as: 'supplier'
+  })
+}
 
 export default Product

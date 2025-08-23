@@ -1,192 +1,185 @@
-import mongoose from 'mongoose'
+import { Op } from 'sequelize'
 import User from '../models/user.model.js'
-import pick from 'lodash/pick.js'
 import logger from '../utils/logger.js'
-import bcrypt from 'bcryptjs'
+import pick from 'lodash/pick.js'
+import { createAccessToken } from '../libs/jwt.js'
 
-// crear nuevo usuario (solo admin)
-export const createUser = async (req, res) => {
+// Registro de usuario
+export const register = async (req, res) => {
   const userIP = req.clientIP
-
   try {
-    const isAdmin = req.user?.role === 'admin'
-    if (!isAdmin) {
-      logger.warn(`User ${req.user.id} attempted to create a user without admin rights, IP: ${userIP}`)
-      return res.status(403).json({ message: 'No tienes permisos para crear usuarios.' })
-    }
-
     const { username, name, email, password, phone, address, avatar, role } = req.body
 
-    // Verificar si el email ya existe
-    const existingUser = await User.findOne({ email })
+    // Solo roles permitidos
+    const allowedRoles = ['user', 'manager']
+    const safeRole = allowedRoles.includes(role) ? role : 'user'
+
+    // Verificar si email ya existe
+    const existingUser = await User.findOne({ where: { email } })
     if (existingUser) {
-      logger.warn(`Email already in use: ${email}, IP: ${userIP}`)
-      return res.status(400).json({ message: 'El email ya está registrado.' })
+      logger.warn(`Duplicate email registration: ${email}, IP: ${userIP}`)
+      return res.status(400).json({ message: 'El correo ya está en uso.' })
     }
 
-    let finalPassword = password
+    const userSaved = await User.create({ username, name, email, password, phone, address, avatar, role: safeRole })
 
-    // Solo hashear si NO parece ser un hash de bcrypt
-    if (!password.startsWith('$2')) {
-      const salt = await bcrypt.genSalt(10)
-      finalPassword = await bcrypt.hash(password, salt)
-    }
+    const token = await createAccessToken({ id: userSaved.id })
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' })
 
-    // Crear usuario
-    const newUser = new User({
-      username,
-      name,
-      email,
-      password: finalPassword,
-      phone,
-      address,
-      avatar,
-      role
-    })
+    logger.info(`User registered successfully: ${email}, IP: ${userIP}`)
 
-    await newUser.save()
-
-    logger.info(`[AUDIT] user ${req.user.id} created user ${newUser._id}, IP: ${userIP}`)
-
-    const userResponse = newUser.toObject()
-    delete userResponse.password
-
-    res.status(201).json({ message: 'Usuario creado exitosamente', user: userResponse })
+    res.status(201).json(pick(userSaved, ['id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar', 'createdAt', 'updatedAt']))
   } catch (err) {
-    logger.error('Error creating user', { message: err.message, stack: err.stack, IP: userIP })
-    res.status(500).json({ message: 'Error al crear el usuario.', error: err.message })
-  }
-}
-
-// Listar todos los usuarios (solo admin)
-export const listUsers = async (req, res) => {
-  const userIP = req.clientIP
-  try {
-    const page = parseInt(req.query.page) || 1
-    const limit = parseInt(req.query.limit) || 10
-    const skip = (page - 1) * limit
-
-    const search = req.query.search || ''
-    const roleFilter = req.query.role
-
-    const filter = {}
-
-    if (search) {
-      filter.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { email: { $regex: search, $options: 'i' } },
-        { username: { $regex: search, $options: 'i' } }
-      ]
-    }
-
-    if (roleFilter) {
-      filter.role = roleFilter
-    }
-
-    const total = await User.countDocuments(filter)
-    const users = await User.find(filter)
-      .select('-password')
-      .skip(skip)
-      .limit(limit)
-      .sort({ createdAt: -1 })
-
-    logger.info(`Listed users, page ${page}, IP: ${userIP}`)
-    res.json({
-      total,
-      page,
-      pages: Math.ceil(total / limit),
-      users
-    })
-  } catch (err) {
-    logger.error('Error fetching users', { message: err.message, stack: err.stack, IP: userIP })
-    res.status(500).json({ message: 'Error fetching users.', error: err.message })
-  }
-}
-
-// Obtener usuario por ID (admin o propio usuario)
-export const userById = async (req, res) => {
-  const userIP = req.clientIP
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    logger.warn(`Invalid user ID: ${req.params.id}, IP: ${userIP}`)
-    return res.status(400).json({ message: 'Invalid user ID.' })
-  }
-
-  try {
-    const user = await User.findById(req.params.id).select('-password')
-    if (!user) {
-      logger.warn(`User not found: ${req.params.id}, IP: ${userIP}`)
-      return res.status(404).json({ message: 'User not found' })
-    }
-    logger.info(`Fetched user by ID: ${req.params.id}, IP: ${userIP}`)
-    res.json(user)
-  } catch (err) {
-    logger.error('Error fetching user by ID', { message: err.message, stack: err.stack, IP: userIP })
+    logger.error(`Registration error: ${err.message}, IP: ${userIP}`, { stack: err.stack })
     res.status(500).json({ message: err.message })
   }
 }
 
-// Actualizar usuario (admin o propio usuario)
-export const updateUser = async (req, res) => {
+// Login
+export const login = async (req, res) => {
   const userIP = req.clientIP
+  try {
+    const { email, password } = req.body
 
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    logger.warn(`Invalid user ID for update: ${req.params.id}, IP: ${userIP}`)
-    return res.status(400).json({ message: 'Invalid user ID.' })
+    const userFound = await User.findOne({ where: { email } })
+    if (!userFound) {
+      logger.warn(`Login failed, email not found: ${email}, IP: ${userIP}`)
+      return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
+    }
+
+    const isMatch = await userFound.comparePassword(password)
+    if (!isMatch) {
+      logger.warn(`Login failed, wrong password: ${email}, IP: ${userIP}`)
+      return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
+    }
+
+    const token = await createAccessToken({ id: userFound.id })
+    res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' })
+
+    logger.info(`Login successful: ${email}, IP: ${userIP}`)
+
+    res.status(200).json({ token, ...pick(userFound, ['id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar', 'createdAt', 'updatedAt']) })
+  } catch (err) {
+    logger.error(`Login error: ${err.message}, IP: ${userIP}`)
+    res.status(500).json({ message: err.message })
   }
+}
+
+// Perfil
+export const profile = async (req, res) => {
+  const userIP = req.clientIP
+  try {
+    if (!req.userId) return res.status(401).json({ message: 'Unauthorized' })
+
+    const user = await User.findByPk(req.userId, { attributes: { exclude: ['password'] } })
+    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' })
+
+    res.json(user)
+  } catch (err) {
+    logger.error(`Profile error: ${err.message}, userId: ${req.userId}, IP: ${userIP}`)
+    res.status(500).json({ message: err.message })
+  }
+}
+
+// Logout
+export const logout = (req, res) => {
+  const userIP = req.clientIP
+  res.cookie('token', '', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'Strict', expires: new Date(0) })
+  logger.info(`Logout, IP: ${userIP}`)
+  res.status(200).json({ message: 'Sesión cerrada exitosamente.' })
+}
+
+// Crear usuario (solo admin)
+export const createUser = async (req, res) => {
+  const userIP = req.clientIP
+  if (req.user?.role !== 'admin') return res.status(403).json({ message: 'No tienes permisos' })
 
   try {
-    const isAdmin = req.user?.role === 'admin'
-    const allowedFields = isAdmin
+    const { username, name, email, password, phone, address, avatar, role } = req.body
+    const existingUser = await User.findOne({ where: { email } })
+    if (existingUser) return res.status(400).json({ message: 'Email ya registrado' })
+
+    const newUser = await User.create({ username, name, email, password, phone, address, avatar, role })
+    logger.info(`User ${req.user.id} creó usuario ${newUser.id}, IP: ${userIP}`)
+
+    res.status(201).json({ message: 'Usuario creado', user: pick(newUser, ['id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar']) })
+  } catch (err) {
+    logger.error(`Error creating user: ${err.message}, IP: ${userIP}`)
+    res.status(500).json({ message: 'Error creando usuario', error: err.message })
+  }
+}
+
+// Listar usuarios (solo admin)
+export const listUsers = async (req, res) => {
+  const userIP = req.clientIP
+  if (req.user?.role !== 'admin') return res.status(403).json({ message: 'No tienes permisos' })
+
+  try {
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 10
+    const offset = (page - 1) * limit
+
+    const search = req.query.search || ''
+    const where = {}
+    if (search) {
+      where[Op.or] = [
+        { username: { [Op.iLike]: `%${search}%` } },
+        { email: { [Op.iLike]: `%${search}%` } },
+        { name: { [Op.iLike]: `%${search}%` } }
+      ]
+    }
+
+    const { count, rows } = await User.findAndCountAll({
+      where,
+      limit,
+      offset,
+      order: [['createdAt', 'DESC']],
+      attributes: { exclude: ['password'] }
+    })
+
+    res.json({ total: count, page, pages: Math.ceil(count / limit), users: rows })
+  } catch (err) {
+    logger.error(`Error listing users: ${err.message}, IP: ${userIP}`)
+    res.status(500).json({ message: 'Error al listar usuarios', error: err.message })
+  }
+}
+
+// Actualizar usuario
+export const updateUser = async (req, res) => {
+  const userIP = req.clientIP
+  const id = req.params.id
+
+  try {
+    const allowedFields = req.user?.role === 'admin'
       ? ['username', 'name', 'email', 'phone', 'address', 'avatar', 'role', 'password']
       : ['username', 'name', 'email', 'phone', 'address', 'avatar', 'password']
 
-    const dataToUpdate = pick(req.body, allowedFields)
+    const data = pick(req.body, allowedFields)
+    const updatedUser = await User.update(data, { where: { id }, returning: true })
 
-    if (dataToUpdate.password) {
-      // Solo hashear si NO parece ser un hash de bcrypt
-      if (!dataToUpdate.password.startsWith('$2')) {
-        const salt = await bcrypt.genSalt(10)
-        dataToUpdate.password = await bcrypt.hash(dataToUpdate.password, salt)
-      }
-    }
+    if (!updatedUser[1].length) return res.status(404).json({ message: 'Usuario no encontrado' })
 
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      dataToUpdate,
-      { new: true, runValidators: true }
-    ).select('-password')
-
-    if (!updatedUser) {
-      logger.warn(`User not found for update: ${req.params.id}, IP: ${userIP}`)
-      return res.status(404).json({ message: 'User not found' })
-    }
-
-    logger.info(`[AUDIT] user ${req.user.id} updated user ${updatedUser._id}, IP: ${userIP}`)
-    res.json({ message: 'User updated successfully', user: updatedUser })
+    res.json({ message: 'Usuario actualizado', user: pick(updatedUser[1][0], ['id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar']) })
   } catch (err) {
-    logger.error('Error updating user', { message: err.message, stack: err.stack, IP: userIP })
-    res.status(500).json({ message: 'Error updating the user.', error: err.message })
+    logger.error(`Error updating user: ${err.message}, IP: ${userIP}`)
+    res.status(500).json({ message: 'Error actualizando usuario', error: err.message })
   }
 }
+
 // Eliminar usuario (solo admin)
 export const deleteUser = async (req, res) => {
   const userIP = req.clientIP
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    logger.warn(`Invalid user ID for delete: ${req.params.id}, IP: ${userIP}`)
-    return res.status(400).json({ message: 'Invalid user ID.' })
-  }
+  if (req.user?.role !== 'admin') return res.status(403).json({ message: 'No tienes permisos' })
 
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id)
-    if (!deletedUser) {
-      logger.warn(`User not found for delete: ${req.params.id}, IP: ${userIP}`)
-      return res.status(404).json({ message: 'User not found.' })
-    }
+    const userToDelete = await User.findByPk(req.params.id)
+    if (!userToDelete) return res.status(404).json({ message: 'Usuario no encontrado' })
 
-    logger.info(`[AUDIT] user ${req.user.id} deleted user ${deletedUser._id}, IP: ${userIP}`)
-    res.json({ message: 'User deleted successfully', user: deletedUser })
+    await userToDelete.destroy()
+    logger.info(`User ${req.user.id} eliminó usuario ${userToDelete.id}, IP: ${userIP}`)
+    res.json({ message: 'Usuario eliminado', user: pick(userToDelete, ['id', 'username', 'email', 'role']) })
   } catch (err) {
-    logger.error('Error deleting user', { message: err.message, stack: err.stack, IP: userIP })
-    res.status(500).json({ message: 'Error deleting the user.', error: err.message })
+    logger.error(`Error deleting user: ${err.message}, IP: ${userIP}`)
+    res.status(500).json({ message: 'Error eliminando usuario', error: err.message })
   }
 }

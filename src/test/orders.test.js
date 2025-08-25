@@ -1,39 +1,46 @@
 import request from 'supertest'
 import app from '../app.js'
-import mongoose from 'mongoose'
+import sequelize, { connectDB } from '../config/db.js'
+
 import User from '../models/user.model.js'
 import Product from '../models/product.model.js'
 import Order from '../models/order.model.js'
 import { createAccessToken } from '../libs/jwt.js'
-import { setupTests, teardownTests, adminId, normalUserId, product1Id, product2Id } from './setup.js'
 
 let adminToken, userToken
 let admin, user
+let product1Id, product2Id
 
 beforeAll(async () => {
-  await setupTests()
+  await connectDB()
 
-  admin = await User.findById(adminId)
-  user = await User.findById(normalUserId)
+  // Obtener usuarios de la DB
+  admin = await User.findOne({ where: { role: 'admin' } })
+  user = await User.findOne({ where: { role: 'user' } })
 
-  adminToken = await createAccessToken({ id: admin._id.toString(), role: 'admin' })
-  userToken = await createAccessToken({ id: user._id.toString(), role: 'user' })
+  adminToken = createAccessToken({ id: admin.id, role: 'admin' })
+  userToken = createAccessToken({ id: user.id, role: 'user' })
+
+  // Productos de prueba
+  const products = await Product.findAll({ limit: 2 })
+  product1Id = products[0].id
+  product2Id = products[1].id
 })
 
 afterAll(async () => {
-  await teardownTests()
+  await sequelize.close()
 })
 
 beforeEach(async () => {
-  // Resetear stock de productos antes de cada test
-  await Product.findByIdAndUpdate(product1Id, { stock: 10 })
-  await Product.findByIdAndUpdate(product2Id, { stock: 5 })
+  // Resetear stock de productos
+  await Product.update({ stock: 10 }, { where: { id: product1Id } })
+  await Product.update({ stock: 5 }, { where: { id: product2Id } })
 
   // Limpiar órdenes
-  await Order.deleteMany({})
+  await Order.destroy({ where: {} })
 })
 
-describe('Orders API - Cobertura completa extendida', () => {
+describe('Orders API - PostgreSQL', () => {
   // ---------------------------
   // CREAR ORDEN
   // ---------------------------
@@ -42,30 +49,29 @@ describe('Orders API - Cobertura completa extendida', () => {
       .post('/api/orders')
       .set('Authorization', `Bearer ${userToken}`)
       .send({
-        customerId: user._id.toString(),
+        customerId: user.id,
         products: [
-          { productId: product1Id.toString(), quantity: 2 },
-          { productId: product2Id.toString(), quantity: 1 }
+          { productId: product1Id, quantity: 2 },
+          { productId: product2Id, quantity: 1 }
         ]
       })
 
     expect(res.statusCode).toBe(201)
-    expect(res.body).toHaveProperty('_id')
+    expect(res.body).toHaveProperty('id')
 
-    const updatedProd1 = await Product.findById(product1Id)
-    const updatedProd2 = await Product.findById(product2Id)
+    const updatedProd1 = await Product.findByPk(product1Id)
+    const updatedProd2 = await Product.findByPk(product2Id)
     expect(updatedProd1.stock).toBe(8)
     expect(updatedProd2.stock).toBe(4)
   })
 
   it('POST → falla si producto no existe', async () => {
-    const fakeId = new mongoose.Types.ObjectId()
     const res = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${userToken}`)
       .send({
-        customerId: user._id.toString(),
-        products: [{ productId: fakeId.toString(), quantity: 1 }]
+        customerId: user.id,
+        products: [{ productId: 999999, quantity: 1 }]
       })
 
     expect(res.statusCode).toBe(404)
@@ -76,8 +82,8 @@ describe('Orders API - Cobertura completa extendida', () => {
       .post('/api/orders')
       .set('Authorization', `Bearer ${userToken}`)
       .send({
-        customerId: user._id.toString(),
-        products: [{ productId: product2Id.toString(), quantity: 100 }]
+        customerId: user.id,
+        products: [{ productId: product2Id, quantity: 100 }]
       })
 
     expect(res.statusCode).toBe(400)
@@ -87,8 +93,8 @@ describe('Orders API - Cobertura completa extendida', () => {
     const res = await request(app)
       .post('/api/orders')
       .send({
-        customerId: user._id.toString(),
-        products: [{ productId: product1Id.toString(), quantity: 1 }]
+        customerId: user.id,
+        products: [{ productId: product1Id, quantity: 1 }]
       })
 
     expect(res.statusCode).toBe(401)
@@ -98,69 +104,67 @@ describe('Orders API - Cobertura completa extendida', () => {
   // CANCELAR ORDEN
   // ---------------------------
   it('PUT /:id → admin cancela orden y stock se restaura', async () => {
-    const order = await request(app)
+    const orderRes = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${userToken}`)
       .send({
-        customerId: user._id.toString(),
+        customerId: user.id,
         products: [
-          { productId: product1Id.toString(), quantity: 2 },
-          { productId: product2Id.toString(), quantity: 1 }
+          { productId: product1Id, quantity: 2 },
+          { productId: product2Id, quantity: 1 }
         ]
       })
 
     const res = await request(app)
-      .put(`/api/orders/${order.body._id}`)
+      .put(`/api/orders/${orderRes.body.id}`)
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ status: 'cancelled' })
 
     expect(res.statusCode).toBe(200)
     expect(res.body.status).toBe('cancelled')
 
-    const prod1 = await Product.findById(product1Id)
-    const prod2 = await Product.findById(product2Id)
+    const prod1 = await Product.findByPk(product1Id)
+    const prod2 = await Product.findByPk(product2Id)
     expect(prod1.stock).toBe(10)
     expect(prod2.stock).toBe(5)
   })
 
   it('PUT /:id → usuario cancela su propia orden y stock se restaura', async () => {
-    const order = await request(app)
+    const orderRes = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${userToken}`)
       .send({
-        customerId: user._id.toString(),
+        customerId: user.id,
         products: [
-          { productId: product1Id.toString(), quantity: 2 },
-          { productId: product2Id.toString(), quantity: 1 }
+          { productId: product1Id, quantity: 2 },
+          { productId: product2Id, quantity: 1 }
         ]
       })
 
     const res = await request(app)
-      .put(`/api/orders/${order.body._id}`)
+      .put(`/api/orders/${orderRes.body.id}`)
       .set('Authorization', `Bearer ${userToken}`)
       .send({ status: 'cancelled' })
 
     expect(res.statusCode).toBe(200)
     expect(res.body.status).toBe('cancelled')
 
-    const prod1 = await Product.findById(product1Id)
-    const prod2 = await Product.findById(product2Id)
+    const prod1 = await Product.findByPk(product1Id)
+    const prod2 = await Product.findByPk(product2Id)
     expect(prod1.stock).toBe(10)
     expect(prod2.stock).toBe(5)
   })
 
   it('PUT → falla si usuario no admin intenta cancelar otra orden', async () => {
-    const otherUserId = new mongoose.Types.ObjectId()
-    const order = await Order.create({
-      customerId: otherUserId.toString(),
-      products: [{ productId: product1Id, quantity: 1, price: 100 }],
+    const otherOrder = await Order.create({
+      customerId: 999999,
       totalAmount: 100,
       status: 'pending',
       stockRestored: false
     })
 
     const res = await request(app)
-      .put(`/api/orders/${order._id}`)
+      .put(`/api/orders/${otherOrder.id}`)
       .set('Authorization', `Bearer ${userToken}`)
       .send({ status: 'cancelled' })
 
@@ -169,7 +173,7 @@ describe('Orders API - Cobertura completa extendida', () => {
 
   it('PUT → falla si id inválido', async () => {
     const res = await request(app)
-      .put('/api/orders/invalidid')
+      .put('/api/orders/abc')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ status: 'cancelled' })
 
@@ -177,9 +181,8 @@ describe('Orders API - Cobertura completa extendida', () => {
   })
 
   it('PUT → falla si orden no existe', async () => {
-    const fakeId = new mongoose.Types.ObjectId()
     const res = await request(app)
-      .put(`/api/orders/${fakeId}`)
+      .put('/api/orders/999999')
       .set('Authorization', `Bearer ${adminToken}`)
       .send({ status: 'cancelled' })
 
@@ -190,44 +193,44 @@ describe('Orders API - Cobertura completa extendida', () => {
   // ELIMINAR ORDEN
   // ---------------------------
   it('DELETE /:id → admin elimina orden y stock se restaura', async () => {
-    const order = await request(app)
+    const orderRes = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${userToken}`)
       .send({
-        customerId: user._id.toString(),
+        customerId: user.id,
         products: [
-          { productId: product1Id.toString(), quantity: 1 },
-          { productId: product2Id.toString(), quantity: 2 }
+          { productId: product1Id, quantity: 1 },
+          { productId: product2Id, quantity: 2 }
         ]
       })
 
     const res = await request(app)
-      .delete(`/api/orders/${order.body._id}`)
+      .delete(`/api/orders/${orderRes.body.id}`)
       .set('Authorization', `Bearer ${adminToken}`)
 
     expect(res.statusCode).toBe(200)
     expect(res.body).toHaveProperty('message', 'Orden eliminada y stock restaurado')
 
-    const prod1 = await Product.findById(product1Id)
-    const prod2 = await Product.findById(product2Id)
+    const prod1 = await Product.findByPk(product1Id)
+    const prod2 = await Product.findByPk(product2Id)
     expect(prod1.stock).toBe(10)
     expect(prod2.stock).toBe(5)
 
-    const deletedOrder = await Order.findById(order.body._id)
+    const deletedOrder = await Order.findByPk(orderRes.body.id)
     expect(deletedOrder).toBeNull()
   })
 
   it('DELETE → falla si usuario no admin', async () => {
-    const order = await request(app)
+    const orderRes = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${userToken}`)
       .send({
-        customerId: user._id.toString(),
-        products: [{ productId: product1Id.toString(), quantity: 1 }]
+        customerId: user.id,
+        products: [{ productId: product1Id, quantity: 1 }]
       })
 
     const res = await request(app)
-      .delete(`/api/orders/${order.body._id}`)
+      .delete(`/api/orders/${orderRes.body.id}`)
       .set('Authorization', `Bearer ${userToken}`)
 
     expect(res.statusCode).toBe(403)
@@ -235,32 +238,31 @@ describe('Orders API - Cobertura completa extendida', () => {
 
   it('DELETE → falla si id inválido', async () => {
     const res = await request(app)
-      .delete('/api/orders/invalidid')
+      .delete('/api/orders/abc')
       .set('Authorization', `Bearer ${adminToken}`)
 
     expect(res.statusCode).toBe(400)
   })
 
   it('DELETE → falla si orden no existe', async () => {
-    const fakeId = new mongoose.Types.ObjectId()
     const res = await request(app)
-      .delete(`/api/orders/${fakeId}`)
+      .delete('/api/orders/999999')
       .set('Authorization', `Bearer ${adminToken}`)
 
     expect(res.statusCode).toBe(404)
   })
 
   it('DELETE → falla sin token', async () => {
-    const order = await request(app)
+    const orderRes = await request(app)
       .post('/api/orders')
       .set('Authorization', `Bearer ${userToken}`)
       .send({
-        customerId: user._id.toString(),
-        products: [{ productId: product1Id.toString(), quantity: 1 }]
+        customerId: user.id,
+        products: [{ productId: product1Id, quantity: 1 }]
       })
 
     const res = await request(app)
-      .delete(`/api/orders/${order.body._id}`)
+      .delete(`/api/orders/${orderRes.body.id}`)
 
     expect(res.statusCode).toBe(401)
   })

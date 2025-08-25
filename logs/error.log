@@ -751,3 +751,15 @@
 [2025-08-20T13:44:49.727Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:48:49.651Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:59:18.293Z] ERROR: Token verification failed: invalid token
+[2025-08-25T17:18:49.177Z] ERROR: Token verification failed: invalid token
+[2025-08-25T17:18:49.184Z] ERROR: Token verification failed: invalid token
+[2025-08-25T17:18:49.191Z] ERROR: Token verification failed: _userModel.default.findByPk is not a function
+[2025-08-25T17:20:21.514Z] ERROR: Token verification failed: invalid token
+[2025-08-25T17:20:21.543Z] ERROR: Token verification failed: invalid token
+[2025-08-25T17:20:21.578Z] ERROR: Token verification failed: _userModel.default.findByPk is not a function
+[2025-08-25T20:32:50.213Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-25T20:37:41.788Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-25T21:06:15.385Z] ERROR: Login error: Illegal arguments: string, undefined, IP: ::1
+[2025-08-25T21:06:29.420Z] ERROR: Login error: Illegal arguments: string, undefined, IP: ::1
+[2025-08-25T21:07:13.796Z] ERROR: Login error: Illegal arguments: string, undefined, IP: ::1
+[2025-08-25T21:24:20.270Z] ERROR: Token verification failed: jwt expired

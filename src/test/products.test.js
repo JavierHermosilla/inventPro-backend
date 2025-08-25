@@ -1,21 +1,19 @@
 import request from 'supertest'
-import mongoose from 'mongoose'
+import app from '../app.js'
+import sequelize, { connectDB } from '../config/db.js'
+
 import User from '../models/user.model.js'
 import Supplier from '../models/supplier.model.js'
 import Category from '../models/category.model.js'
-import app from '../app.js'
-import { setupTests, teardownTests } from './setup.js'
+import Product from '../models/product.model.js'
 
 /** @jest-environment node */
 
 describe('Products API', () => {
-  const adminUser = {
-    email: 'admin@example.com',
-    password: 'admin1234'
-  }
+  const adminUser = { email: 'admin@example.com', password: 'admin1234' }
+
   let token
-  let supplierId
-  let categoryId
+  let supplierId, categoryId
 
   const productData = {
     name: 'Test Product',
@@ -24,23 +22,23 @@ describe('Products API', () => {
     stock: 10
   }
 
+  // ------------------ SETUP ------------------
   beforeAll(async () => {
-    await setupTests()
+    await connectDB()
 
-    // Crear usuario admin solo si no existe
-    let admin = await User.findOne({ email: adminUser.email })
+    let admin = await User.findOne({ where: { email: adminUser.email } })
     if (!admin) {
-      admin = await new User({
+      admin = await User.create({
         username: 'adminuser',
         name: 'Admin User',
         email: adminUser.email,
         password: adminUser.password,
         phone: '+56912345678',
         role: 'admin'
-      }).save()
+      })
     }
 
-    // Login para obtener token
+    // login para token
     const loginRes = await request(app)
       .post('/api/auth/login')
       .send({ email: adminUser.email, password: adminUser.password })
@@ -49,37 +47,34 @@ describe('Products API', () => {
   })
 
   beforeEach(async () => {
-    // Limpiar solo colecciones necesarias (productos, categorías, proveedores)
-    const collections = mongoose.connection.collections
-    for (const key in collections) {
-      if (!['users'].includes(key)) {
-        await collections[key].deleteMany({})
-      }
-    }
+    // Limpiamos las tablas antes de cada test
+    await Product.destroy({ where: {} })
+    await Category.destroy({ where: {} })
+    await Supplier.destroy({ where: {} })
 
-    // Crear categoría fresh
+    // creamos la categoria fresh
     const category = await Category.create({ name: 'Electronics' })
-    categoryId = category._id
+    categoryId = category.id
 
-    // Crear proveedor fresh
+    // creamos proveedor fersh
     const supplier = await Supplier.create({
       name: 'Proveedor Test',
-      contact: 'contacto@proveedor.com',
       rut: '12345678-9'
     })
-    supplierId = supplier._id
+    supplierId = supplier.id
   })
 
   afterAll(async () => {
-    await teardownTests()
+    // cerramos la conexion
+    await sequelize.close()
   })
 
   // ------------------ CREATE ------------------
   it('should create a product', async () => {
     const productToSend = {
       ...productData,
-      category: categoryId,
-      supplier: supplierId
+      categoryId, // ➡ CAMBIO: foreign key en Sequelize
+      supplierId
     }
 
     const res = await request(app)
@@ -97,7 +92,7 @@ describe('Products API', () => {
     const createRes = await request(app)
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
-      .send({ ...productData, category: categoryId, supplier: supplierId })
+      .send({ ...productData, categoryId, supplierId })
 
     const productId = createRes.body.productId
 
@@ -105,7 +100,7 @@ describe('Products API', () => {
       .get(`/api/products/${productId}`)
 
     expect(res.statusCode).toBe(200)
-    expect(res.body).toHaveProperty('_id', productId)
+    expect(res.body).toHaveProperty('id', productId) // ➡ CAMBIO: Sequelize usa id
   })
 
   // ------------------ UPDATE ------------------
@@ -113,7 +108,7 @@ describe('Products API', () => {
     const createRes = await request(app)
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
-      .send({ ...productData, category: categoryId, supplier: supplierId })
+      .send({ ...productData, categoryId, supplierId })
 
     const productId = createRes.body.productId
 
@@ -131,7 +126,7 @@ describe('Products API', () => {
     const createRes = await request(app)
       .post('/api/products')
       .set('Authorization', `Bearer ${token}`)
-      .send({ ...productData, category: categoryId, supplier: supplierId })
+      .send({ ...productData, categoryId, supplierId })
 
     const productId = createRes.body.productId
 

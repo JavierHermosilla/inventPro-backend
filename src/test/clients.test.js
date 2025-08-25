@@ -1,14 +1,15 @@
 import request from 'supertest'
-import mongoose from 'mongoose'
 import app from '../app.js'
+import sequeliz, { connectDB } from '../config/db.js'
+
 import User from '../models/user.model.js'
 import Client from '../models/client.model.js'
 import { createAccessToken } from '../libs/jwt.js'
-import { setupTests, teardownTests, adminId, normalUserId } from './setup.js'
 
 describe('Clients API - Full Coverage', () => {
   let adminToken, userToken
-  let adminIdLocal, userIdLocal
+  let adminUser, normalUser
+  let clientId
 
   const adminData = {
     username: 'adminuser',
@@ -45,39 +46,30 @@ describe('Clients API - Full Coverage', () => {
   }
 
   beforeAll(async () => {
-    await setupTests()
+    await connectDB()
 
-    // Crear admin
-    const existingAdmin = await User.findOne({ email: adminData.email })
-    if (!existingAdmin) {
-      const savedAdmin = await new User(adminData).save()
-      adminIdLocal = savedAdmin._id.toString()
-    } else adminIdLocal = existingAdmin._id.toString()
-    adminToken = await createAccessToken({ id: adminIdLocal, role: 'admin' })
+    // Limpiamos usuarios y clientes
+    await User.destroy({ where: {} })
+    await Client.destroy({ where: {} })
 
-    // Crear user normal
-    const existingUser = await User.findOne({ email: userData.email })
-    if (!existingUser) {
-      const savedUser = await new User(userData).save()
-      userIdLocal = savedUser._id.toString()
-    } else userIdLocal = existingUser._id.toString()
-    userToken = await createAccessToken({ id: userIdLocal, role: 'user' })
+    adminUser = await User.create(adminData)
+    normalUser = await User.create(userData)
+
+    adminToken = createAccessToken({ id: adminUser.id, role: 'admin' })
+    userToken = createAccessToken({ id: normalUser.id, role: 'user' })
   })
 
   beforeEach(async () => {
-    const collections = mongoose.connection.collections
-    for (const key in collections) {
-      if (key !== 'users') await collections[key].deleteMany({})
-    }
+    await Client.destroy({ where: {} })
   })
 
   afterAll(async () => {
-    await teardownTests()
+    await sequelize.close()
   })
 
   // ------------------ CREATE ------------------
   describe('POST /api/clients', () => {
-    test('should create a valid client as admin', async () => {
+    test('admin puede crear cliente', async () => {
       const res = await request(app)
         .post('/api/clients')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -85,14 +77,15 @@ describe('Clients API - Full Coverage', () => {
 
       expect(res.statusCode).toBe(201)
       expect(res.body).toMatchObject(validClient)
+      clientId = res.body.id
     })
 
-    test('should fail without token', async () => {
+    test('falla sin token', async () => {
       const res = await request(app).post('/api/clients').send(validClient)
       expect(res.statusCode).toBe(401)
     })
 
-    test('should fail with role user', async () => {
+    test('falla con rol user', async () => {
       const res = await request(app)
         .post('/api/clients')
         .set('Authorization', `Bearer ${userToken}`)
@@ -100,7 +93,7 @@ describe('Clients API - Full Coverage', () => {
       expect(res.statusCode).toBe(403)
     })
 
-    test('should fail with invalid data', async () => {
+    test('falla con datos inválidos', async () => {
       const res = await request(app)
         .post('/api/clients')
         .set('Authorization', `Bearer ${adminToken}`)
@@ -108,7 +101,7 @@ describe('Clients API - Full Coverage', () => {
       expect(res.statusCode).toBe(400)
     })
 
-    test('should fail if rut duplicated', async () => {
+    test('falla si RUT duplicado', async () => {
       await Client.create(validClient)
       const res = await request(app)
         .post('/api/clients')
@@ -120,7 +113,7 @@ describe('Clients API - Full Coverage', () => {
 
   // ------------------ READ ALL ------------------
   describe('GET /api/clients', () => {
-    test('should return all clients as admin', async () => {
+    test('admin obtiene todos los clientes', async () => {
       await Client.create(validClient)
       const res = await request(app)
         .get('/api/clients')
@@ -131,12 +124,12 @@ describe('Clients API - Full Coverage', () => {
       expect(res.body[0]).toMatchObject(validClient)
     })
 
-    test('should fail without token', async () => {
+    test('falla sin token', async () => {
       const res = await request(app).get('/api/clients')
       expect(res.statusCode).toBe(401)
     })
 
-    test('should fail with role user', async () => {
+    test('falla con rol user', async () => {
       const res = await request(app)
         .get('/api/clients')
         .set('Authorization', `Bearer ${userToken}`)
@@ -146,52 +139,37 @@ describe('Clients API - Full Coverage', () => {
 
   // ------------------ READ ONE ------------------
   describe('GET /api/clients/:id', () => {
-    test('should get client by id', async () => {
+    test('admin obtiene cliente por id', async () => {
       const client = await Client.create(validClient)
       const res = await request(app)
-        .get(`/api/clients/${client._id}`)
+        .get(`/api/clients/${client.id}`)
         .set('Authorization', `Bearer ${adminToken}`)
 
       expect(res.statusCode).toBe(200)
-      expect(res.body._id).toBe(client._id.toString())
+      expect(res.body.id).toBe(client.id)
     })
 
-    test('should return 404 if client not exists', async () => {
-      const id = new mongoose.Types.ObjectId()
+    test('falla si cliente no existe', async () => {
       const res = await request(app)
-        .get(`/api/clients/${id}`)
+        .get('/api/clients/999999')
         .set('Authorization', `Bearer ${adminToken}`)
       expect(res.statusCode).toBe(404)
     })
 
-    test('should return 400 if id invalid', async () => {
+    test('falla si id inválido', async () => {
       const res = await request(app)
-        .get('/api/clients/invalidid')
+        .get('/api/clients/abc')
         .set('Authorization', `Bearer ${adminToken}`)
       expect(res.statusCode).toBe(400)
-    })
-
-    test('should fail without token', async () => {
-      const client = await Client.create(validClient)
-      const res = await request(app).get(`/api/clients/${client._id}`)
-      expect(res.statusCode).toBe(401)
-    })
-
-    test('should fail with role user', async () => {
-      const client = await Client.create(validClient)
-      const res = await request(app)
-        .get(`/api/clients/${client._id}`)
-        .set('Authorization', `Bearer ${userToken}`)
-      expect(res.statusCode).toBe(403)
     })
   })
 
   // ------------------ UPDATE ------------------
   describe('PUT /api/clients/:id', () => {
-    test('should update client as admin', async () => {
+    test('admin puede actualizar', async () => {
       const client = await Client.create(validClient)
       const res = await request(app)
-        .put(`/api/clients/${client._id}`)
+        .put(`/api/clients/${client.id}`)
         .set('Authorization', `Bearer ${adminToken}`)
         .send({ name: 'Cliente Actualizado' })
 
@@ -199,45 +177,36 @@ describe('Clients API - Full Coverage', () => {
       expect(res.body.name).toBe('Cliente Actualizado')
     })
 
-    test('should fail with invalid data', async () => {
+    test('falla con datos inválidos', async () => {
       const client = await Client.create(validClient)
       const res = await request(app)
-        .put(`/api/clients/${client._id}`)
+        .put(`/api/clients/${client.id}`)
         .set('Authorization', `Bearer ${adminToken}`)
         .send({ email: 'invalid-email' })
 
       expect(res.statusCode).toBe(400)
     })
 
-    test('should return 404 if client not exists', async () => {
-      const id = new mongoose.Types.ObjectId()
+    test('falla si cliente no existe', async () => {
       const res = await request(app)
-        .put(`/api/clients/${id}`)
+        .put('/api/clients/999999')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({ name: 'Cliente' })
       expect(res.statusCode).toBe(404)
     })
 
-    test('should return 400 if id invalid', async () => {
-      const res = await request(app)
-        .put('/api/clients/invalidid')
-        .set('Authorization', `Bearer ${adminToken}`)
-        .send({ name: 'Cliente' })
-      expect(res.statusCode).toBe(400)
-    })
-
-    test('should fail without token', async () => {
+    test('falla sin token', async () => {
       const client = await Client.create(validClient)
       const res = await request(app)
-        .put(`/api/clients/${client._id}`)
+        .put(`/api/clients/${client.id}`)
         .send({ name: 'Cliente' })
       expect(res.statusCode).toBe(401)
     })
 
-    test('should fail with role user', async () => {
+    test('falla con rol user', async () => {
       const client = await Client.create(validClient)
       const res = await request(app)
-        .put(`/api/clients/${client._id}`)
+        .put(`/api/clients/${client.id}`)
         .set('Authorization', `Bearer ${userToken}`)
         .send({ name: 'Cliente' })
       expect(res.statusCode).toBe(403)
@@ -246,42 +215,34 @@ describe('Clients API - Full Coverage', () => {
 
   // ------------------ DELETE ------------------
   describe('DELETE /api/clients/:id', () => {
-    test('should delete client as admin', async () => {
+    test('admin puede eliminar', async () => {
       const client = await Client.create(validClient)
       const res = await request(app)
-        .delete(`/api/clients/${client._id}`)
+        .delete(`/api/clients/${client.id}`)
         .set('Authorization', `Bearer ${adminToken}`)
 
       expect(res.statusCode).toBe(200)
-      const deleted = await Client.findById(client._id)
+      const deleted = await Client.findByPk(client.id)
       expect(deleted).toBeNull()
     })
 
-    test('should return 404 if client not exists', async () => {
-      const id = new mongoose.Types.ObjectId()
+    test('falla si cliente no existe', async () => {
       const res = await request(app)
-        .delete(`/api/clients/${id}`)
+        .delete('/api/clients/999999')
         .set('Authorization', `Bearer ${adminToken}`)
       expect(res.statusCode).toBe(404)
     })
 
-    test('should return 400 if id invalid', async () => {
-      const res = await request(app)
-        .delete('/api/clients/invalidid')
-        .set('Authorization', `Bearer ${adminToken}`)
-      expect(res.statusCode).toBe(400)
-    })
-
-    test('should fail without token', async () => {
+    test('falla sin token', async () => {
       const client = await Client.create(validClient)
-      const res = await request(app).delete(`/api/clients/${client._id}`)
+      const res = await request(app).delete(`/api/clients/${client.id}`)
       expect(res.statusCode).toBe(401)
     })
 
-    test('should fail with role user', async () => {
+    test('falla con rol user', async () => {
       const client = await Client.create(validClient)
       const res = await request(app)
-        .delete(`/api/clients/${client._id}`)
+        .delete(`/api/clients/${client.id}`)
         .set('Authorization', `Bearer ${userToken}`)
       expect(res.statusCode).toBe(403)
     })

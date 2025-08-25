@@ -1,27 +1,19 @@
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../config/config.js'
 
-export function createAccessToken (payload) {
+function promisifyJWT (fn, ...args) {
   return new Promise((resolve, reject) => {
-    jwt.sign(
-      payload,
-      JWT_SECRET,
-      {
-        expiresIn: '1d'
-      },
-      (err, token) => {
-        if (err) reject(err)
-        resolve(token)
-      }
-    )
+    fn(...args, (err, result) => {
+      if (err) reject(err)
+      else resolve(result)
+    })
   })
 }
 
+export function createAccessToken (payload) {
+  return promisifyJWT(jwt.sign, payload, JWT_SECRET, { expiresIn: '1d' })
+}
+
 export function verifyToken (token) {
-  return new Promise((resolve, reject) => {
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
-      if (err) reject(err)
-      else resolve(decoded)
-    })
-  })
+  return promisifyJWT(jwt.verify, token, JWT_SECRET)
 }

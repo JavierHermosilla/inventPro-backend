@@ -10268,3 +10268,47 @@
 [2025-08-20T13:59:27.651Z] INFO: Product updated successfully: 68a5d4bfdbb96db4c8376e53, IP: ::ffff:127.0.0.1
 [2025-08-20T13:59:27.721Z] INFO: [AUDIT] user 68a5d4bfdbb96db4c8376e1a created product 68a5d4bfdbb96db4c8376e6a (Test Product), IP: ::ffff:127.0.0.1
 [2025-08-20T13:59:27.745Z] INFO: [AUDIT] user 68a5d4bfdbb96db4c8376e1a deleted product 68a5d4bfdbb96db4c8376e6a (Test Product), IP: ::ffff:127.0.0.1
+[2025-08-25T17:18:49.153Z] WARN: Authorization denied: no token provided
+[2025-08-25T17:18:49.177Z] ERROR: Token verification failed: invalid token
+[2025-08-25T17:18:49.184Z] ERROR: Token verification failed: invalid token
+[2025-08-25T17:18:49.191Z] ERROR: Token verification failed: _userModel.default.findByPk is not a function
+[2025-08-25T17:20:21.471Z] WARN: Authorization denied: no token provided
+[2025-08-25T17:20:21.514Z] ERROR: Token verification failed: invalid token
+[2025-08-25T17:20:21.543Z] ERROR: Token verification failed: invalid token
+[2025-08-25T17:20:21.578Z] ERROR: Token verification failed: _userModel.default.findByPk is not a function
+[2025-08-25T20:32:50.213Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-25T20:37:41.788Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-25T21:05:31.835Z] INFO: User registered successfully: javier@test.com, IP: ::1
+[2025-08-25T21:06:15.385Z] ERROR: Login error: Illegal arguments: string, undefined, IP: ::1
+[2025-08-25T21:06:29.420Z] ERROR: Login error: Illegal arguments: string, undefined, IP: ::1
+[2025-08-25T21:07:02.645Z] WARN: Login failed, email not found: javier@test.com, IP: ::1
+[2025-08-25T21:07:09.660Z] INFO: User registered successfully: javier@test.com, IP: ::1
+[2025-08-25T21:07:13.796Z] ERROR: Login error: Illegal arguments: string, undefined, IP: ::1
+[2025-08-25T21:21:01.465Z] WARN: Login failed, email not found: javier@test.com, IP: ::1
+[2025-08-25T21:21:05.382Z] INFO: User registered successfully: javier@test.com, IP: ::1
+[2025-08-25T21:21:08.597Z] WARN: Login failed, wrong password: javier@test.com, IP: ::1
+[2025-08-25T21:21:52.356Z] INFO: User registered successfully: javier@test.com, IP: ::1
+[2025-08-25T21:21:55.992Z] WARN: Login failed, wrong password: javier@test.com, IP: ::1
+[2025-08-25T21:23:57.372Z] WARN: Login failed, email not found: javier@test.com, IP: ::1
+[2025-08-25T21:24:01.140Z] INFO: User registered successfully: javier@test.com, IP: ::1
+[2025-08-25T21:24:10.896Z] INFO: Login successful: javier@test.com, IP: ::1
+[2025-08-25T21:24:20.270Z] ERROR: Token verification failed: jwt expired
+[2025-08-25T21:26:01.910Z] INFO: Logout, IP: ::1
+[2025-08-25T21:28:07.569Z] INFO: User registered successfully: ADMIN@test.com, IP: ::1
+[2025-08-25T21:34:11.844Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-08-25T22:04:49.954Z] INFO: Login successful: javier@test.com, IP: ::1
+[2025-08-25T22:36:24.931Z] INFO: User 4a5c3fa5-ceea-4dfc-a405-08847fefe162 creó usuario 672e7d6d-1010-4738-bc12-7502ab97d77e, IP: ::1
+[2025-08-25T22:36:47.929Z] WARN: Invalid UUID format for parameter id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhNWMzZmE1LWNlZWEtNGRmYy1hNDA1LTA4ODQ3ZmVmZTE2MiIsImlhdCI6MTc1NjE1NzA1MCwiZXhwIjoxNzU2MjQzNDUwfQ.8R7_QP1Gh4ZgyTBpelZmLERF2bl2dSb2Mu5SWQEShb0
+[2025-08-25T22:37:43.989Z] WARN: Invalid UUID format for parameter id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhNWMzZmE1LWNlZWEtNGRmYy1hNDA1LTA4ODQ3ZmVmZTE2MiIsImlhdCI6MTc1NjE1NzA1MCwiZXhwIjoxNzU2MjQzNDUwfQ.8R7_QP1Gh4ZgyTBpelZmLERF2bl2dSb2Mu5SWQEShb0
+[2025-08-25T22:41:00.781Z] WARN: Authorization denied: user not found for decoded id 4a5c3fa5-ceea-4dfc-a405-08847fefe162
+[2025-08-25T22:41:21.236Z] WARN: Authorization denied: user not found for decoded id 4a5c3fa5-ceea-4dfc-a405-08847fefe162
+[2025-08-25T22:41:27.346Z] WARN: Authorization denied: user not found for decoded id 4a5c3fa5-ceea-4dfc-a405-08847fefe162
+[2025-08-25T22:41:50.384Z] WARN: Authorization denied: user not found for decoded id 4a5c3fa5-ceea-4dfc-a405-08847fefe162
+[2025-08-25T22:49:35.116Z] WARN: Authorization denied: user not found for decoded id 4a5c3fa5-ceea-4dfc-a405-08847fefe162
+[2025-08-25T22:50:25.887Z] WARN: Login failed, email not found: javier@test.com, IP: ::1
+[2025-08-25T22:57:08.907Z] WARN: Login failed, email not found: javier@test.com, IP: ::1
+[2025-08-25T22:58:05.119Z] INFO: User registered successfully: JAVIER1@test.com, IP: ::1
+[2025-08-25T22:58:21.526Z] WARN: Login failed, email not found: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:03:09.541Z] WARN: Login failed, email not found: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:03:38.296Z] INFO: User registered successfully: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:03:42.810Z] WARN: Login failed, email not found: JAVIER1@test.com, IP: ::1

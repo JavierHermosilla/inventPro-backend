@@ -1,17 +1,14 @@
-import mongoose from 'mongoose'
 import { z } from 'zod'
 
-// 🔹 Validador para Mongo ObjectId
-const objectIdSchema = z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
-  message: 'Invalid ObjectId format'
-})
+// 🔹 Validador para UUID
+const uuidSchema = z.string().uuid({ message: 'Invalid UUID format' })
 
 // Esquema principal para creación de orden
 export const orderSchema = z.object({
-  customerId: objectIdSchema,
+  customerId: uuidSchema,
   products: z.array(
     z.object({
-      productId: objectIdSchema,
+      productId: uuidSchema,
       quantity: z.number()
         .int({ message: 'Quantity must be an integer' })
         .min(1, { message: 'Quantity must be greater than 0' })

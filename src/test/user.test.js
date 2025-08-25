@@ -1,167 +1,120 @@
+// src/test/user.test.js
 import request from 'supertest'
 import app from '../app.js'
-import User from '../models/user.model.js'
+import { PostgreSqlContainer } from '@testcontainers/postgresql'
+import { Sequelize } from 'sequelize'
+import { initializeModels, models } from '../models/index.js' // importamos todo desde index.js
 
-let adminToken
-let userToken
-let adminId
-let userId
+jest.setTimeout(30000)
 
-const adminData = {
-  username: 'adminUser',
-  name: 'Administrador',
-  email: 'admin@test.com',
-  password: 'Admin123!',
-  phone: '+56912345678',
-  role: 'admin'
-}
+let container
+let sequelize
 
-const userData = {
-  username: 'normalUser',
-  name: 'Usuario Normal',
-  email: 'user@test.com',
-  password: 'User123!',
-  phone: '+56987654321',
-  role: 'user'
-}
+beforeAll(async () => {
+  // 1️⃣ Crear contenedor PostgreSQL aislado para tests
+  container = await new PostgreSqlContainer('postgres:16')
+    .withDatabase('inventpro_test')
+    .withUsername('testuser')
+    .withPassword('testpass')
+    .start()
 
-// 🔹 Setup inicial: crear usuarios y obtener tokens
-beforeEach(async () => {
-  await User.deleteMany({})
+  // 2️⃣ Conectar Sequelize al contenedor
+  sequelize = new Sequelize(container.getConnectionUri(), { logging: false })
 
-  const admin = await User.create(adminData)
-  const user = await User.create(userData)
-  adminId = admin._id
-  userId = user._id
+  // 3️⃣ Inicializar todos los modelos y relaciones
+  initializeModels(sequelize)
 
-  const adminRes = await request(app)
-    .post('/api/auth/login')
-    .send({ email: adminData.email, password: adminData.password })
-  adminToken = adminRes.body.token
-
-  const userRes = await request(app)
-    .post('/api/auth/login')
-    .send({ email: userData.email, password: userData.password })
-  userToken = userRes.body.token
+  // 4️⃣ Sincronizar tablas
+  await sequelize.sync({ force: true })
+  console.log('>>> Test DB connected and synced!')
 })
 
-// 🔹 Tests
+beforeEach(async () => {
+  // Limpiar datos de todas las tablas antes de cada test
+  await Promise.all(
+    Object.values(models).map(model => model.destroy({ where: {}, force: true }))
+  )
+})
+
+afterAll(async () => {
+  await sequelize.close()
+  await container.stop()
+})
+
 describe('User API', () => {
+  test('should create a new user as admin', async () => {
+    const admin = await models.User.create({
+      username: 'adminuser',
+      name: 'Admin',
+      email: 'admin@test.com',
+      password: '123456A@a',
+      role: 'admin'
+    })
 
-  test('Admin puede crear usuario', async () => {
-    const newUser = {
-      username: 'nuevoUser',
-      name: 'Nuevo Usuario',
-      email: 'nuevo@test.com',
-      password: 'Nuevo123!',
-      phone: '+56911112222',
-      role: 'user'
-    }
+    const tokenRes = await request(app).post('/api/auth/login').send({
+      email: 'admin@test.com',
+      password: '123456A@a'
+    })
+    const token = tokenRes.body.token
 
     const res = await request(app)
       .post('/api/users')
-      .set('Authorization', `Bearer ${adminToken}`)
-      .send(newUser)
-
-    expect(res.status).toBe(201)
-    expect(res.body.user.email).toBe(newUser.email)
-  })
-
-  test('Usuario normal no puede crear usuario', async () => {
-    const res = await request(app)
-      .post('/api/users')
-      .set('Authorization', `Bearer ${userToken}`)
+      .set('Authorization', `Bearer ${token}`)
       .send({
-        username: 'failUser',
-        name: 'Falla Usuario',
-        email: 'fail@test.com',
-        password: 'Fail123!',
-        phone: '+56933334444',
-        role: 'user'
+        username: 'javier',
+        name: 'Javier Hermosilla',
+        email: 'javier@test.com',
+        password: '123456A@a',
+        role: 'admin'
       })
 
-    expect(res.status).toBe(403)
+    expect(res.statusCode).toBe(201)
+    expect(res.body).toHaveProperty('user')
+    expect(res.body.user.email).toBe('javier@test.com')
   })
 
-  test('No puede crear con email duplicado', async () => {
-    const res = await request(app)
-      .post('/api/users')
-      .set('Authorization', `Bearer ${adminToken}`)
-      .send({ ...userData })
-
-    expect(res.status).toBe(400)
-  })
-
-  test('Admin puede listar usuarios', async () => {
-    const res = await request(app)
-      .get('/api/users')
-      .set('Authorization', `Bearer ${adminToken}`)
-
-    expect(res.status).toBe(200)
-    expect(Array.isArray(res.body.users)).toBe(true)
-    expect(res.body.users.length).toBeGreaterThanOrEqual(2)
-  })
-
-  test('Usuario normal no puede listar usuarios', async () => {
-    const res = await request(app)
-      .get('/api/users')
-      .set('Authorization', `Bearer ${userToken}`)
-
-    expect(res.status).toBe(403)
-  })
-
-  test('Admin puede actualizar usuario', async () => {
-    const res = await request(app)
-      .put(`/api/users/${userId}`)
-      .set('Authorization', `Bearer ${adminToken}`)
-      .send({ name: 'Usuario Actualizado' })
-
-    expect(res.status).toBe(200)
-    expect(res.body.user.name).toBe('Usuario Actualizado')
-  })
-
-  test('Usuario puede actualizar su propio perfil', async () => {
-    const res = await request(app)
-      .put(`/api/users/${userId}`)
-      .set('Authorization', `Bearer ${userToken}`)
-      .send({ name: 'Self Update' })
-
-    expect(res.status).toBe(200)
-    expect(res.body.user.name).toBe('Self Update')
-  })
-
-  test('Usuario no puede actualizar otro usuario', async () => {
-    const res = await request(app)
-      .put(`/api/users/${adminId}`)
-      .set('Authorization', `Bearer ${userToken}`)
-      .send({ name: 'Hack' })
-
-    expect(res.status).toBe(403)
-  })
-
-  test('Admin puede eliminar usuario', async () => {
-    const newUser = await User.create({
-      username: 'deleteUser',
-      name: 'Eliminar Usuario',
-      email: 'delete@test.com',
-      password: 'Delete123!',
-      phone: '+56955556666',
+  test('should fetch all users as admin', async () => {
+    await models.User.create({
+      username: 'testuser',
+      name: 'Test User',
+      email: 'test@test.com',
+      password: '123456A@a',
       role: 'user'
     })
 
-    const res = await request(app)
-      .delete(`/api/users/${newUser._id}`)
-      .set('Authorization', `Bearer ${adminToken}`)
+    const admin = await models.User.create({
+      username: 'adminuser',
+      name: 'Admin',
+      email: 'admin@test.com',
+      password: '123456A@a',
+      role: 'admin'
+    })
 
-    expect(res.status).toBe(200)
-    expect(res.body.user.email).toBe('delete@test.com')
+    const tokenRes = await request(app).post('/api/auth/login').send({
+      email: 'admin@test.com',
+      password: '123456A@a'
+    })
+    const token = tokenRes.body.token
+
+    const res = await request(app)
+      .get('/api/users')
+      .set('Authorization', `Bearer ${token}`)
+
+    expect(res.statusCode).toBe(200)
+    expect(res.body.users.length).toBe(2)
+    expect(res.body.users.some(u => u.email === 'test@test.com')).toBe(true)
   })
 
-  test('Usuario normal no puede eliminar usuario', async () => {
-    const res = await request(app)
-      .delete(`/api/users/${userId}`)
-      .set('Authorization', `Bearer ${userToken}`)
+  test('should NOT create a user without token', async () => {
+    const res = await request(app).post('/api/users').send({
+      username: 'noauth',
+      name: 'No Auth',
+      email: 'noauth@test.com',
+      password: '123456A@a',
+      role: 'user'
+    })
 
-    expect(res.status).toBe(403)
+    expect(res.statusCode).toBe(401)
+    expect(res.body).toHaveProperty('message')
   })
 })

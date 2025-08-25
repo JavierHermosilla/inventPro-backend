@@ -7,7 +7,7 @@ import {
   deleteOrder
 } from '../controllers/order.controller.js'
 import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
-import { validateObjectId } from '../middleware/validateObjectId.js'
+import { validateUUID } from '../middleware/validateUUID.middleware.js'
 import { canUpdateOrder } from '../middleware/order.middleware.js'
 
 const router = Router()
@@ -23,7 +23,7 @@ router.get(
 router.get(
   '/:id',
   verifyTokenMiddleware,
-  validateObjectId('id'),
+  validateUUID('id'),
   listOrderById
 )
 
@@ -45,7 +45,7 @@ router.post(
 router.put(
   '/:id',
   verifyTokenMiddleware,
-  validateObjectId('id'),
+  validateUUID('id'),
   canUpdateOrder,
   updateOrder
 )
@@ -55,7 +55,7 @@ router.delete(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
-  validateObjectId('id'),
+  validateUUID('id'),
   deleteOrder
 )
 

@@ -1,14 +1,11 @@
 import { z } from 'zod'
-import mongoose from 'mongoose'
 
 // Validación para ObjectId válida de MongoDB
-const objectIdSchema = z.string().refine(val => mongoose.Types.ObjectId.isValid(val), {
-  message: 'Invalid ObjectId'
-})
+const uuidSchema = z.string().uuid({ message: 'Invalid UUID' })
 
 // Schema para crear un ajuste manual de inventario
 export const createManualInventorySchema = z.object({
-  productId: objectIdSchema,
+  productId: uuidSchema,
   type: z.enum(['increase', 'decrease']),
   quantity: z.number({ invalid_type_error: 'Quantity must be a number' })
     .int()
@@ -32,5 +29,6 @@ export const createManualInventorySchema = z.object({
 export const updateManualInventorySchema = z.object({
   quantity: z.number().int().min(1).optional(),
   reason: z.string().max(255).optional(),
-  type: z.enum(['increase', 'decrease']).optional()
+  type: z.enum(['increase', 'decrease']).optional(),
+  productId: uuidSchema.optional()
 })

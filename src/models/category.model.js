@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize'
-import { sequelize } from '../config/database.js'
+import sequelize from '../config/db.js'
 
 const Category = sequelize.define('Category', {
   id: {
@@ -18,12 +18,23 @@ const Category = sequelize.define('Category', {
   },
   description: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
+    set (value) {
+      this.setDataValue('description', value?.trim() || '')
+    }
   }
 }, {
   timestamps: true,
   paranoid: true,
-  tableName: 'categories'
+  tableName: 'categories',
+  hooks: {
+    beforeCreate: (category) => {
+      category.name = category.name.trim()
+    },
+    beforeUpdate: (category) => {
+      category.name = category.name.trim()
+    }
+  }
 })
 
 export default Category

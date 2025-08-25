@@ -12,10 +12,11 @@
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit"
   },
   "jest": {
-    "setupFilesAfterEnv": ["<rootDir>/jest.setup.js"],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
     "testEnvironment": "node"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JavierHermosilla/inventpro.git"
@@ -35,7 +36,6 @@
     "panel-administrativo",
     "jwt"
   ],
-
   "author": "Javier Hermosilla",
   "license": "MIT",
   "bugs": {
@@ -53,9 +53,9 @@
     "jsonwebtoken": "9.0.2",
     "lodash": "4.17.21",
     "morgan": "1.10.1",
-    "sequelize": "^6.37.3",
-    "pg": "^8.12.0",
+    "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7",
     "swagger-jsdoc": "6.2.8",
     "swagger-ui-express": "5.0.1",
     "winston": "3.17.0",
@@ -63,7 +63,6 @@
     "xss-clean": "0.1.4",
     "zod": "4.0.8"
   },
-
   "devDependencies": {
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
@@ -74,7 +73,6 @@
     "standard": "17.1.2",
     "supertest": "7.1.4"
   },
-
   "eslintConfig": {
     "extends": "standard"
   }

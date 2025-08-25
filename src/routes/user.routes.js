@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import {
   listUsers,
-  userById,
+  profile,
   updateUser,
   deleteUser,
   createUser
@@ -10,7 +10,7 @@ import {
 import { verifyTokenMiddleware, requireRole, requireRoleOrSelf } from '../middleware/auth.middleware.js'
 import { createUserSchema, updateUserSchema } from '../schemas/user.schema.js'
 import { validateSchema } from '../middleware/validator.middleware.js'
-import { validateObjectId } from '../middleware/validateObjectId.js'
+import { validateUUID } from '../middleware/validateUUID.middleware.js'
 import { checkUserUniqueness } from '../middleware/checkUserUniqueness.js'
 
 const router = Router()
@@ -37,8 +37,8 @@ router.get(
   '/:id',
   verifyTokenMiddleware,
   requireRoleOrSelf('admin'),
-  validateObjectId('id'),
-  userById
+  validateUUID('id'),
+  profile
 )
 
 // Actualizar usuario (admin o el propio usuario)
@@ -46,7 +46,7 @@ router.put(
   '/:id',
   verifyTokenMiddleware,
   requireRoleOrSelf('admin'),
-  validateObjectId('id'),
+  validateUUID('id'),
   validateSchema(updateUserSchema),
   checkUserUniqueness,
   updateUser
@@ -57,7 +57,7 @@ router.delete(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
-  validateObjectId('id'),
+  validateUUID('id'),
   deleteUser
 )
 

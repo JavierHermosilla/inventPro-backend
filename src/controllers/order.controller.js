@@ -1,86 +1,81 @@
-import mongoose from 'mongoose'
+import sequelize from '../config/db.js'
 import Order from '../models/order.model.js'
+import OrderItem from '../models/orderItem.js'
 import Product from '../models/product.model.js'
 import { orderSchema, orderUpdateSchema } from '../schemas/order.schema.js'
 
-// --------------------- Auxiliares ---------------------
-const startSessionIfNeeded = async () => {
-  if (process.env.NODE_ENV === 'test') return null
-  const session = await mongoose.startSession()
-  session.startTransaction()
-  return session
-}
-
-const endSession = async (session, success = true) => {
-  if (!session) return
-  if (success) await session.commitTransaction()
-  else await session.abortTransaction()
-  session.endSession()
-}
-
-const restoreStock = async (products, session) => {
-  for (const item of products) {
-    const product = await Product.findById(item.productId).session(session)
-    if (product) {
-      product.stock += item.quantity
-      await product.save(session ? { session } : {})
-    }
-  }
-}
-
 // --------------------- CREATE ORDER ---------------------
 export const createOrder = async (req, res) => {
-  let session = null
+  const t = await sequelize.transaction()
   try {
-    session = await startSessionIfNeeded()
+    const { customerId, products } = orderSchema.parse(req.body)
 
-    const validation = orderSchema.safeParse(req.body)
-    if (!validation.success) {
-      return res.status(400).json({ message: 'Validation error', errors: validation.error.errors })
+    if (!products || products.length === 0) {
+      await t.rollback()
+      return res.status(400).json({ message: 'At least one product is required' })
     }
 
-    const { customerId, products } = validation.data
-
-    // 🔹 Clientes solo pueden crear órdenes para sí mismos
     if (req.user.role !== 'admin' && req.user.id !== customerId) {
+      await t.rollback()
       return res.status(403).json({ message: 'You can only create orders for yourself' })
     }
 
     let totalAmount = 0
-    const orderProducts = []
+    const orderItems = []
 
     for (const item of products) {
-      const product = await Product.findById(item.productId).session(session)
-      if (!product) return res.status(404).json({ message: `Product ${item.productId} not found` })
-      if (product.stock < item.quantity) return res.status(400).json({ message: `Insufficient stock for ${product.name}` })
+      const product = await Product.findByPk(item.productId, { transaction: t })
+      if (!product) {
+        await t.rollback()
+        return res.status(404).json({ message: `Product ${item.productId} not found` })
+      }
+
+      if (product.stock < item.quantity) {
+        await t.rollback()
+        return res.status(400).json({ message: `Insufficient stock for ${product.name}` })
+      }
 
       product.stock -= item.quantity
-      await product.save(session ? { session } : {})
+      await product.save({ transaction: t })
 
-      totalAmount += product.price * item.quantity
-      orderProducts.push({ productId: product._id, quantity: item.quantity, price: product.price })
+      totalAmount += parseFloat(product.price) * item.quantity
+
+      orderItems.push({
+        productId: product.id,
+        quantity: item.quantity,
+        price: product.price
+      })
     }
 
-    const order = new Order({
-      customerId,
-      products: orderProducts,
-      totalAmount,
-      stockRestored: false
-    })
+    const order = await Order.create(
+      { customerId, totalAmount, status: 'pending', stockRestored: false },
+      { transaction: t }
+    )
 
-    await order.save(session ? { session } : {})
-    await endSession(session, true)
+    for (const oi of orderItems) {
+      await OrderItem.create(
+        { ...oi, orderId: order.id },
+        { transaction: t }
+      )
+    }
 
-    res.status(201).json(order)
+    await t.commit()
+    res.status(201).json({ orderId: order.id, totalAmount, status: order.status, products: orderItems })
   } catch (err) {
-    await endSession(session, false)
-    res.status(400).json({ message: err.message })
+    await t.rollback()
+    res.status(500).json({ message: err.message })
   }
 }
+
 // --------------------- LIST ORDERS ---------------------
 export const listOrders = async (req, res) => {
   try {
-    const orders = await Order.find()
+    const orders = await Order.findAll({
+      include: [
+        { model: OrderItem, as: 'products', include: [{ model: Product, as: 'product' }] }
+      ],
+      order: [['createdAt', 'DESC']]
+    })
     res.json(orders)
   } catch (err) {
     res.status(500).json({ message: err.message })
@@ -90,7 +85,12 @@ export const listOrders = async (req, res) => {
 // --------------------- LIST ORDER BY ID ---------------------
 export const listOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id)
+    const order = await Order.findByPk(req.params.id,
+      {
+        include: [
+          { model: OrderItem, as: 'products', include: [{ model: Product, as: 'product' }] }
+        ]
+      })
     if (!order) return res.status(404).json({ message: 'Order not found' })
     res.json(order)
   } catch (err) {
@@ -100,97 +100,87 @@ export const listOrderById = async (req, res) => {
 
 // --------------------- UPDATE ORDER ---------------------
 export const updateOrder = async (req, res) => {
-  let session = null
+  const t = await sequelize.transaction()
   try {
-    session = await startSessionIfNeeded()
-    const { id } = req.params
-
-    const validation = orderUpdateSchema.safeParse(req.body)
-    if (!validation.success) {
-      return res.status(400).json({ message: 'Validation error', errors: validation.error.errors })
+    const order = await Order.findByPk(req.params.id, { include: [{ model: OrderItem, as: 'products' }], transaction: t })
+    if (!order) {
+      await t.rollback()
+      return res.status(404).json({ message: 'Order not found' })
     }
 
-    const order = await Order.findById(id).session(session)
-    if (!order) return res.status(404).json({ message: 'Orden no encontrada' })
+    const { status, products } = orderUpdateSchema.parse(req.body)
 
-    const { status, products, customerId } = validation.data
-
-    // 🔹 Solo admins o el usuario que creó la orden puede cancelar
-    if (status === 'cancelled') {
-      if (req.user.role !== 'admin' && order.customerId.toString() !== req.user.id) {
-        return res.status(403).json({ message: 'No puedes cancelar esta orden' })
-      }
-      if (!order.stockRestored) await restoreStock(order.products, session)
-      order.status = 'cancelled'
-      order.stockRestored = true
-      await order.save(session ? { session } : {})
-      await endSession(session, true)
-      return res.json(order)
+    // solo admin puede cambiar productos o customers
+    if (products && req.user.role !== 'admin') {
+      await t.rollback()
+      return res.status(403).json({ message: 'Only admins can change order products' })
     }
 
-    // 🔹 Solo admins pueden actualizar productos o customerId
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Solo los administradores pueden actualizar esta orden' })
-    }
-
+    // restaurar stock si se actualizan productos
     if (products) {
-      if (!order.stockRestored) await restoreStock(order.products, session)
-      let totalAmount = 0
-      const updatedProducts = []
+      for (const item of order.products) {
+        const product = await Product.findByPk(item.productId, { transaction: t })
+        product.stock += item.quantity
+        await product.save({ transaction: t })
+        await item.destroy({ transaction: t })
+      }
 
+      let totalAmount = 0
       for (const item of products) {
-        const product = await Product.findById(item.productId).session(session)
-        if (!product) return res.status(404).json({ message: `Producto ${item.productId} no encontrado` })
-        if (product.stock < item.quantity) return res.status(400).json({ message: `Stock insuficiente para ${product.name}` })
+        const product = await Product.findByPk(item.productId, { transaction: t })
+        if (!product || product.stock < item.quantity) {
+          await t.rollback()
+          return res.status(400).json({ message: `Invalid product or insufficient stock for ${item.productId}` })
+        }
 
         product.stock -= item.quantity
-        await product.save(session ? { session } : {})
+        await product.save({ transaction: t })
 
-        totalAmount += product.price * item.quantity
-        updatedProducts.push({ productId: product._id, quantity: item.quantity, price: product.price })
+        totalAmount += parseFloat(product.price) * item.quantity
+
+        await OrderItem.create({
+          orderId: order.id,
+          productId: product.id,
+          quantity: item.quantity,
+          price: product.price
+        }, { transaction: t })
+        order.totalAmount = totalAmount
       }
-
-      order.products = updatedProducts
-      order.totalAmount = totalAmount
-      order.stockRestored = false
     }
-
-    if (customerId) order.customerId = customerId
     if (status) order.status = status
-
-    await order.save(session ? { session } : {})
-    await endSession(session, true)
-    res.json(order)
+    await order.save({ transaction: t })
+    await t.commit()
+    res.json({ message: 'Order updated', order })
   } catch (err) {
-    await endSession(session, false)
-    res.status(400).json({ message: err.message })
+    await t.rollback()
+    res.status(500).json({ message: err.message })
   }
 }
 
 // --------------------- DELETE ORDER ---------------------
 export const deleteOrder = async (req, res) => {
+  const t = await Order.sequelize.transaction()
   try {
-    const { id } = req.params
-
-    // Solo admin puede eliminar
-    if (req.user.role !== 'admin') {
-      return res.status(403).json({ message: 'Solo los administradores pueden eliminar órdenes' })
+    const order = await Order.findByPk(req.params.id, { include: [{ model: OrderItem, as: 'products' }], transaction: t })
+    if (!order) {
+      await t.rollback()
+      return res.status(404).json({ message: 'Order not found' })
     }
 
-    const order = await Order.findById(id)
-    if (!order) return res.status(404).json({ message: 'Orden no encontrada' })
-
-    // Restaurar stock si no se ha restaurado
-    if (!order.stockRestored) {
-      await restoreStock(order.products)
-      order.stockRestored = true
-      await order.save() // guardar antes de borrar
+    // Restaurar stock
+    for (const item of order.products) {
+      const product = await Product.findByPk(item.productId, { transaction: t })
+      product.stock += item.quantity
+      await product.save({ transaction: t })
     }
 
-    await order.deleteOne()
-    return res.json({ message: 'Orden eliminada y stock restaurado' })
-  } catch (error) {
-    console.error(error)
-    return res.status(500).json({ message: 'Error eliminando la orden' })
+    await OrderItem.destroy({ where: { orderId: order.id }, transaction: t })
+    await order.destroy({ transaction: t })
+
+    await t.commit()
+    res.json({ message: 'Order deleted and stock restored' })
+  } catch (err) {
+    await t.rollback()
+    res.status(500).json({ message: err.message })
   }
 }

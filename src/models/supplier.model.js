@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize'
-import sequelize from '../config/database.js'
+import sequelize from '../config/db.js'
 
-const supplier = sequelize.define('Supplier', {
+const Supplier = sequelize.define('Supplier', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -16,38 +16,17 @@ const supplier = sequelize.define('Supplier', {
       notEmpty: { msg: 'Supplier name cannot be empty' }
     }
   },
-  contactName: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    validate: {
-      isEmail: { msg: 'Email must be a valid email address' }
-    }
-  },
+  contactName: { type: DataTypes.STRING, allowNull: true },
+  email: { type: DataTypes.STRING, allowNull: true, validate: { isEmail: { msg: 'Invalid email' } } },
   phone: {
     type: DataTypes.STRING,
     allowNull: true,
     validate: {
-      is: {
-        args: /^\+?\d{7,15}$/,
-        msg: 'Phone must be a valid number (7-15 digits, optional +)'
-      }
+      is: { args: /^\+?\d{7,15}$/, msg: 'Phone must be valid (7-15 digits, optional +)' }
     }
   },
-  address: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  website: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    validate: {
-      isUrl: { msg: 'Website must be a valid URL' }
-    }
-  },
+  address: { type: DataTypes.STRING, allowNull: true },
+  website: { type: DataTypes.STRING, allowNull: true, validate: { isUrl: { msg: 'Website must be a valid URL' } } },
   rut: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -55,31 +34,16 @@ const supplier = sequelize.define('Supplier', {
     validate: {
       notNull: { msg: 'RUT is required' },
       notEmpty: { msg: 'RUT cannot be empty' },
-      is: {
-        args: /^(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK]|\d{7,8}-[\dkK])$/,
-        msg: 'RUT is invalid'
-      }
+      is: { args: /^(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK]|\d{7,8}-[\dkK])$/, msg: 'Invalid RUT format' }
     }
   },
-  paymentTerms: {
-    type: DataTypes.STRING,
-    allowNull: true
-  },
+  paymentTerms: { type: DataTypes.STRING, allowNull: true },
   status: {
     type: DataTypes.ENUM('active', 'inactive'),
     defaultValue: 'active',
-    allowNull: false,
-    validate: {
-      isIn: {
-        args: [['active', 'inactive']],
-        msg: 'Status must be either active or inactive'
-      }
-    }
+    allowNull: false
   },
-  notes: {
-    type: DataTypes.STRING,
-    allowNull: true
-  }
+  notes: { type: DataTypes.STRING, allowNull: true }
 }, {
   tableName: 'suppliers',
   timestamps: true,
@@ -87,4 +51,4 @@ const supplier = sequelize.define('Supplier', {
   deletedAt: 'deleted_at'
 })
 
-export default supplier
+export default Supplier

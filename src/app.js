@@ -2,7 +2,6 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
 import morgan from 'morgan'
-import mongoSanitize from 'mongo-sanitize'
 import cors from 'cors'
 import setupSwagger from './config/swagger.js'
 
@@ -25,14 +24,12 @@ const app = express()
 
 app.disable('x-powered-by')
 
-// Middleware para pruebas: simular req.clientIP
 if (process.env.NODE_ENV === 'test') {
   app.use((req, res, next) => {
-    req.clientIP = '127.0.0.1' // Valor fijo en tests
+    req.clientIP = '127.0.0.1'
     next()
   })
 } else {
-  // Middleware real en producción/desarrollo
   app.use(attachClientIP)
 }
 
@@ -42,15 +39,13 @@ app.use(helmet())
 app.use(morgan('dev'))
 app.use(cookieParser())
 app.use((req, res, next) => {
-  console.log('REQ.BODY (antes de Zod):', req.body)
-  if (!req.body) req.body = {} // evita undefined para Zod
+  if (!req.body) req.body = {}
   next()
 })
 
 const whitelist = [
   'http://localhost:3000',
   'http://localhost:5173'
-  // 'https://midominio.com' // Cambia esto por tu dominio real de producción
 ]
 
 const corsOptions = {
@@ -63,17 +58,9 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
-
-app.use((req, res, next) => {
-  if (req.body) req.body = mongoSanitize(req.body)
-  if (req.params) req.params = mongoSanitize(req.params)
-  // NO tocar req.query para evitar error
-  next()
-})
-
 setupSwagger(app)
-
 app.use(setClientIP)
+
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)

@@ -1,20 +1,22 @@
+import { Op } from 'sequelize'
 import Category from '../models/category.model.js'
 
+// Crear categoría
 export const createCategory = async (req, res) => {
   try {
     const { name, description } = req.body
 
-    const categoryExists = await Category.findOne({ name: name.trim() })
+    // Verificar si ya existe
+    const categoryExists = await Category.findOne({ where: { name: name.trim().toLowerCase() } })
     if (categoryExists) {
       return res.status(400).json({ message: 'La categoría ya existe' })
     }
 
-    const newCategory = new Category({
-      name: name.trim(),
+    // Crear directamente (Sequelize ya guarda)
+    const newCategory = await Category.create({
+      name: name.trim().toLowerCase(),
       description: description?.trim() || ''
     })
-
-    await newCategory.save()
 
     res.status(201).json({
       message: 'Categoría creada correctamente',
@@ -25,24 +27,26 @@ export const createCategory = async (req, res) => {
   }
 }
 
+// Listar categorías con paginación y búsqueda
 export const listCategories = async (req, res) => {
   try {
     const { page = 1, limit = 10, search = '' } = req.query
+    const offset = (Number(page) - 1) * Number(limit)
 
-    const query = search
-      ? { name: { $regex: search, $options: 'i' } }
+    const whereClause = search
+      ? { name: { [Op.iLike]: `%${search.toLowerCase()}%` } }
       : {}
 
-    const categories = await Category.find(query)
-      .skip((page - 1) * limit)
-      .limit(parseInt(limit))
-      .sort({ createdAt: -1 })
-
-    const total = await Category.countDocuments(query)
+    const { rows: categories, count: total } = await Category.findAndCountAll({
+      where: whereClause,
+      offset,
+      limit: Number(limit),
+      order: [['createdAt', 'DESC']]
+    })
 
     res.json({
       total,
-      page: parseInt(page),
+      page: Number(page),
       pages: Math.ceil(total / limit),
       categories
     })
@@ -51,9 +55,10 @@ export const listCategories = async (req, res) => {
   }
 }
 
+// Obtener categoría por ID
 export const listCategoryById = async (req, res) => {
   try {
-    const category = await Category.findById(req.params.id)
+    const category = await Category.findByPk(req.params.id)
 
     if (!category) {
       return res.status(404).json({ message: 'Categoría no encontrada' })
@@ -65,48 +70,48 @@ export const listCategoryById = async (req, res) => {
   }
 }
 
+// Actualizar categoría
 export const updateCategory = async (req, res) => {
   try {
-    const updates = {}
+    const { name, description } = req.body
+    const category = await Category.findByPk(req.params.id)
 
-    if (req.body.name !== undefined) {
-      updates.name = req.body.name.trim()
-    }
-
-    if (req.body.description !== undefined) {
-      updates.description = req.body.description.trim() || ''
-    }
-
-    if (Object.keys(updates).length === 0) {
-      return res.status(400).json({ message: 'No hay campos para actualizar' })
-    }
-
-    const updatedCategory = await Category.findByIdAndUpdate(
-      req.params.id,
-      updates,
-      { new: true }
-    )
-
-    if (!updatedCategory) {
+    if (!category) {
       return res.status(404).json({ message: 'Categoría no encontrada' })
     }
 
+    if (name) {
+      const exists = await Category.findOne({
+        where: { name: name.trim(), id: { [Op.ne]: req.params.id } }
+      })
+      if (exists) {
+        return res.status(400).json({ message: 'El nombre ya está en uso por otra categoría' })
+      }
+      category.name = name.trim()
+    }
+    if (description !== undefined) category.description = description.trim()
+
+    await category.save()
+
     res.json({
       message: 'Categoría actualizada correctamente',
-      category: updatedCategory
+      category
     })
   } catch (error) {
     res.status(500).json({ message: 'Error al actualizar categoría', error: error.message })
   }
 }
 
+// Eliminar categoría (soft delete por paranoid: true)
 export const deleteCategory = async (req, res) => {
   try {
-    const deletedCategory = await Category.findByIdAndDelete(req.params.id)
+    const category = await Category.findByPk(req.params.id)
 
-    if (!deletedCategory) {
+    if (!category) {
       return res.status(404).json({ message: 'Categoría no encontrada' })
     }
+
+    await category.destroy()
 
     res.json({ message: 'Categoría eliminada correctamente' })
   } catch (error) {

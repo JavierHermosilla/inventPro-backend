@@ -56,7 +56,10 @@ User.init({
   },
   role: {
     type: DataTypes.ENUM(...Object.values(ROLES)),
-    defaultValue: ROLES.USER
+    defaultValue: ROLES.USER,
+    validate: {
+      isIn: [Object.values(ROLES)]
+    }
   }
 }, {
   sequelize,
@@ -64,6 +67,9 @@ User.init({
   tableName: 'users',
   timestamps: true,
   paranoid: true,
+  defaultScope: {
+    attributes: { exclude: ['password'] } // Exclude password by default
+  },
   hooks: {
     async beforeCreate (user) {
       const salt = await bcrypt.genSalt(10)

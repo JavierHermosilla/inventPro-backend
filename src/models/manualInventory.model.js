@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize'
-import sequelize from '../config/database.js'
+import sequelize from '../config/db.js'
+import Product from './product.model.js'
+import User from './user.model.js'
 
 const ManualInventory = sequelize.define('ManualInventory', {
   id: {
@@ -65,9 +67,6 @@ const ManualInventory = sequelize.define('ManualInventory', {
 })
 
 // relaciones
-ManualInventory.associate = (models) => {
-  ManualInventory.belongsTo(models.Product, { foreignKey: 'productId', as: 'product' })
-  ManualInventory.belongsTo(models.User, { foreignKey: 'userId', as: 'user' })
-}
-
+ManualInventory.belongsTo(Product, { foreignKey: 'productId', as: 'product' })
+ManualInventory.belongsTo(User, { foreignKey: 'userId', as: 'user' })
 export default ManualInventory

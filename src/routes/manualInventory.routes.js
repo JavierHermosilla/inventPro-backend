@@ -9,6 +9,7 @@ import {
 import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
 import { validateSchema } from '../middleware/validator.middleware.js'
 import { createManualInventorySchema } from '../schemas/manualInventory.schema.js'
+import { validateUUID } from '../middleware/validateUUID.middleware.js'
 
 const router = Router()
 
@@ -19,7 +20,7 @@ router.post(
   requireRole('admin'),
   validateSchema(createManualInventorySchema),
   (req, res, next) => {
-    console.log('💡 Entré a manualInventoryRoutes') // <-- Aquí justo antes del controlador
+    console.log('Entré a manualInventoryRoutes')
     next()
   },
   createManualInventory
@@ -38,6 +39,7 @@ router.get(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
+  validateUUID('id'),
   manualInventoryById
 )
 
@@ -46,6 +48,7 @@ router.delete(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
+  validateUUID('id'),
   deleteManualInventory
 )
 

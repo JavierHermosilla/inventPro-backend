@@ -1,21 +1,27 @@
-import app from './app.js'
-import { connectDB } from './config/database.js'
+// config/database.js
+import { Sequelize } from 'sequelize'
 import dotenv from 'dotenv'
 
 dotenv.config()
 
-const PORT = process.env.PORT || 3000
+export const sequelize = new Sequelize(
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
+  {
+    host: process.env.DB_HOST,
+    dialect: 'postgres',
+    logging: false
+  }
+)
 
-const startServer = async () => {
+export const connectDB = async () => {
   try {
-    await connectDB()
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`)
-      console.log('JWT_SECRET:', process.env.JWT_SECRET) // para verificar que se carga bien
-    })
-  } catch (err) {
-    console.error('Failed to start server:', err)
-    process.exit(1)
+    await sequelize.authenticate()
+    console.log('PostgreSQL connected successfully')
+    await sequelize.sync({ alter: true }) // ajusta tablas automáticamente
+  } catch (error) {
+    console.error('Unable to connect to PostgreSQL:', error)
+    throw error
   }
 }
-startServer()

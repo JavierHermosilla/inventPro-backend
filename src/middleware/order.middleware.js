@@ -1,17 +1,27 @@
 import Order from '../models/order.model.js'
 
+// Middleware para verificar si el usuario puede actualizar la orden
 export const canUpdateOrder = async (req, res, next) => {
-  const order = await Order.findById(req.params.id)
-  if (!order) return res.status(404).json({ message: 'Order not found' })
+  try {
+    const orderId = req.params.id
+    const order = await Order.findByPk(orderId)
 
-  // Cliente puede cancelar su propia orden
-  if (req.user.role !== 'admin') {
-    if (req.body.status === 'cancelled' && order.customerId.toString() === req.user.id) {
-      return next()
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' })
     }
-    return res.status(403).json({ message: 'Only admins can update this order' })
-  }
 
-  // Admin puede continuar
-  next()
+    // Clientes pueden cancelar solo sus propias órdenes
+    if (req.user.role !== 'admin') {
+      if (req.body.status === 'cancelled' && order.customerId === req.user.id) {
+        return next()
+      }
+      return res.status(403).json({ message: 'Only admins can update this order' })
+    }
+
+    // Admin puede continuar
+    next()
+  } catch (err) {
+    console.error('Error in canUpdateOrder middleware:', err)
+    res.status(500).json({ message: 'Internal server error', error: err.message })
+  }
 }

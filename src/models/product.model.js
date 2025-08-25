@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize'
-import sequelize from '../config/database.js'
+import sequelize from '../config/db.js'
+import Category from './category.model.js'
+import User from './user.model.js'
 
 const Product = sequelize.define('Product', {
   id: {
@@ -25,10 +27,7 @@ const Product = sequelize.define('Product', {
     allowNull: false,
     validate: {
       notNull: { msg: 'Product price is required' },
-      min: {
-        args: [0],
-        msg: 'Price cannot be negative number'
-      }
+      min: { args: [0], msg: 'Price cannot be negative' }
     }
   },
   stock: {
@@ -48,15 +47,7 @@ const Product = sequelize.define('Product', {
 })
 
 // Relaciones
-Product.associate = (models) => {
-  Product.belongsTo(models.Category, {
-    foreignKey: { name: 'categoryId', allowNull: false },
-    as: 'category'
-  })
-  Product.belongsTo(models.User, {
-    foreignKey: { name: 'supplierId', allowNull: false },
-    as: 'supplier'
-  })
-}
+Product.belongsTo(Category, { foreignKey: { name: 'categoryId', allowNull: false }, as: 'category' })
+Product.belongsTo(User, { foreignKey: { name: 'supplierId', allowNull: false }, as: 'supplier' })
 
 export default Product

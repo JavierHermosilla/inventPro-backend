@@ -1,129 +1,92 @@
-import mongoose from 'mongoose'
-import pick from 'lodash/pick.js'
 import Supplier from '../models/supplier.model.js'
+import pick from 'lodash/pick.js'
 import logger from '../utils/logger.js'
 import { supplierAllowedFields } from '../config/allowedFields.js'
 import { supplierSchema, updateSupplierSchema } from '../schemas/supplier.schema.js'
+import { Op } from 'sequelize'
 
+// Crear Supplier
 export const createSupplier = async (req, res) => {
   const userIP = req.clientIP
   try {
-    // Validar req.body con Zod
     const parsed = supplierSchema.safeParse(req.body)
-    if (!parsed.success) {
-      logger.warn(`[AUDIT] user ${req.user.id} failed supplier validation, IP: ${userIP}`)
-      return res.status(400).json({ message: 'Validation error', errors: parsed.error.errors })
-    }
+    if (!parsed.success) return res.status(400).json({ message: 'Validation error', errors: parsed.error.errors })
 
-    const { rut } = parsed.data
+    const exists = await Supplier.findOne({ where: { rut: parsed.data.rut } })
+    if (exists) return res.status(400).json({ message: 'Supplier with this RUT already exists.' })
 
-    // Verificar si ya existe un supplier con el mismo RUT
-    const existingSupplier = await Supplier.findOne({ rut })
-    if (existingSupplier) {
-      logger.warn(`[AUDIT] user ${req.user.id} tried to create duplicate supplier with RUT ${rut}, IP: ${userIP}`)
-      return res.status(400).json({ message: 'Supplier with this RUT already exists.' })
-    }
-
-    const newSupplier = new Supplier(parsed.data)
-    await newSupplier.save()
-
-    logger.info(`[AUDIT] user ${req.user.id} created supplier ${newSupplier._id} (${newSupplier.name || ''}), IP: ${userIP}`)
-    res.status(201).json({ message: 'Supplier created successfully.', supplier: newSupplier })
+    const supplier = await Supplier.create(parsed.data)
+    logger.info(`[AUDIT] user ${req.user.id} created supplier ${supplier.id}, IP: ${userIP}`)
+    res.status(201).json({ message: 'Supplier created successfully.', supplier })
   } catch (err) {
     logger.error('Error creating supplier', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({ message: 'Error creating supplier.', error: err.message })
   }
 }
 
+// Actualizar Supplier
 export const updateSupplier = async (req, res) => {
+  const { id } = req.params
   const userIP = req.clientIP
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    logger.warn(`Invalid supplier ID for update: ${req.params.id}, IP: ${userIP}`)
-    return res.status(400).json({ message: 'Invalid supplier ID.' })
-  }
   try {
-    // Validar datos de actualización
     const parsed = updateSupplierSchema.safeParse(req.body)
-    if (!parsed.success) {
-      logger.warn(`[AUDIT] user ${req.user.id} failed supplier update validation, IP: ${userIP}`)
-      return res.status(400).json({ message: 'Validation error', errors: parsed.error.errors })
-    }
+    if (!parsed.success) return res.status(400).json({ message: 'Validation error', errors: parsed.error.errors })
 
-    // Evitar duplicar RUT en actualización
     if (parsed.data.rut) {
-      const duplicate = await Supplier.findOne({ rut: parsed.data.rut, _id: { $ne: req.params.id } })
-      if (duplicate) {
-        logger.warn(`[AUDIT] user ${req.user.id} tried to update supplier with duplicate RUT ${parsed.data.rut}, IP: ${userIP}`)
-        return res.status(400).json({ message: 'Another supplier with this RUT already exists.' })
-      }
+      const duplicate = await Supplier.findOne({ where: { rut: parsed.data.rut, id: { [Op.ne]: id } } })
+      if (duplicate) return res.status(400).json({ message: 'Another supplier with this RUT already exists.' })
     }
 
-    const updatedSupplier = await Supplier.findByIdAndUpdate(
-      req.params.id,
-      pick(parsed.data, supplierAllowedFields),
-      { new: true, runValidators: true }
-    )
+    const supplier = await Supplier.findByPk(id)
+    if (!supplier) return res.status(404).json({ message: 'Supplier not found.' })
 
-    if (!updatedSupplier) {
-      logger.warn(`Supplier not found for update: ${req.params.id}, IP: ${userIP}`)
-      return res.status(404).json({ message: 'Supplier not found.' })
-    }
-
-    logger.info(`[AUDIT] user ${req.user.id} updated supplier ${updatedSupplier._id} (${updatedSupplier.name || ''}), IP: ${userIP}`)
-    res.json({ message: 'Supplier updated.', supplier: updatedSupplier })
+    await supplier.update(pick(parsed.data, supplierAllowedFields))
+    logger.info(`[AUDIT] user ${req.user.id} updated supplier ${supplier.id}, IP: ${userIP}`)
+    res.json({ message: 'Supplier updated.', supplier })
   } catch (err) {
     logger.error('Error updating supplier', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({ message: 'Error updating supplier.', error: err.message })
   }
 }
 
-// Listado, obtención por ID y eliminación se mantienen igual
+// Listar Suppliers
 export const listSuppliers = async (req, res) => {
   const userIP = req.clientIP
   try {
-    const suppliers = await Supplier.find()
+    const suppliers = await Supplier.findAll()
     logger.info(`Suppliers listed, IP: ${userIP}`)
-    res.json({ suppliers }) // ✅ ahora devuelve { suppliers: [...] }
+    res.json({ suppliers })
   } catch (err) {
     logger.error('Error fetching suppliers', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({ message: 'Error fetching suppliers.', error: err.message })
   }
 }
 
+// Obtener Supplier por ID
 export const supplierById = async (req, res) => {
+  const { id } = req.params
   const userIP = req.clientIP
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    logger.warn(`Invalid supplier ID: ${req.params.id}, IP: ${userIP}`)
-    return res.status(400).json({ message: 'Invalid supplier ID.' })
-  }
   try {
-    const supplier = await Supplier.findById(req.params.id)
-    if (!supplier) {
-      logger.warn(`Supplier not found: ${req.params.id}, IP: ${userIP}`)
-      return res.status(404).json({ message: 'Supplier not found.' })
-    }
-    logger.info(`Supplier retrieved by ID: ${req.params.id}, IP: ${userIP}`)
-    res.json({ supplier }) // ✅ ahora devuelve { supplier: ... }
+    const supplier = await Supplier.findByPk(id)
+    if (!supplier) return res.status(404).json({ message: 'Supplier not found.' })
+    res.json({ supplier })
   } catch (err) {
-    logger.error('Error fetching supplier by ID', { message: err.message, stack: err.stack, IP: userIP })
+    logger.error('Error fetching supplier', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({ message: 'Error fetching supplier.', error: err.message })
   }
 }
 
+// Eliminar Supplier
 export const deleteSupplier = async (req, res) => {
+  const { id } = req.params
   const userIP = req.clientIP
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    logger.warn(`Invalid supplier ID for delete: ${req.params.id}, IP: ${userIP}`)
-    return res.status(400).json({ message: 'Invalid supplier ID.' })
-  }
   try {
-    const deletedSupplier = await Supplier.findByIdAndDelete(req.params.id)
-    if (!deletedSupplier) {
-      logger.warn(`Supplier not found for delete: ${req.params.id}, IP: ${userIP}`)
-      return res.status(404).json({ message: 'Supplier not found.' })
-    }
-    logger.info(`[AUDIT] user ${req.user.id} deleted supplier ${deletedSupplier._id} (${deletedSupplier.name || ''}), IP: ${userIP}`)
-    res.json({ message: 'Supplier deleted successfully.', supplier: deletedSupplier }) // ✅ coincide con test
+    const supplier = await Supplier.findByPk(id)
+    if (!supplier) return res.status(404).json({ message: 'Supplier not found.' })
+
+    await supplier.destroy()
+    logger.info(`[AUDIT] user ${req.user.id} deleted supplier ${supplier.id}, IP: ${userIP}`)
+    res.json({ message: 'Supplier deleted successfully.', supplier })
   } catch (err) {
     logger.error('Error deleting supplier', { message: err.message, stack: err.stack, IP: userIP })
     res.status(500).json({ message: 'Error deleting supplier.', error: err.message })

@@ -1,68 +1,70 @@
-import mongoose from 'mongoose'
 import Product from '../models/product.model.js'
+import Category from '../models/category.model.js'
+import User from '../models/user.model.js'
+import { Op } from 'sequelize'
 import pick from 'lodash/pick.js'
-import Supplier from '../models/supplier.model.js'
 import logger from '../utils/logger.js'
 
-// creacion de productos
+// --------------------- CREATE PRODUCT ---------------------
 export const createProduct = async (req, res) => {
-  const userIP = req.clientIP // <--
+  const userIP = req.clientIP
   try {
-    const allowedFields = ['name', 'description', 'price', 'stock', 'category', 'supplier']
+    const allowedFields = ['name', 'description', 'price', 'stock', 'categoryId', 'supplierId']
     const productData = pick(req.body, allowedFields)
-    if (productData.supplier) {
-      const supplierExists = await Supplier.findById(productData.supplier)
+
+    // Verificar que el proveedor exista
+    if (productData.supplierId) {
+      const supplierExists = await User.findByPk(productData.supplierId)
       if (!supplierExists) {
         return res.status(400).json({ message: 'Supplier not found.' })
       }
     }
 
-    const existingProduct = await Product.findOne({ name: productData.name })
-    if (existingProduct) {
-      return res.status(400).json({
-        message: 'A product with this name already exists.',
-        field: 'name'
-      })
+    // Verificar que la categoría exista
+    if (productData.categoryId) {
+      const categoryExists = await Category.findByPk(productData.categoryId)
+      if (!categoryExists) {
+        return res.status(400).json({ message: 'Category not found.' })
+      }
     }
 
-    const newProduct = new Product(productData)
-    await newProduct.save()
+    // Verificar que no exista producto con mismo nombre
+    const existingProduct = await Product.findOne({ where: { name: productData.name } })
+    if (existingProduct) {
+      return res.status(400).json({ message: 'A product with this name already exists.', field: 'name' })
+    }
 
-    // auditoria desarrollo
-    logger.info(`[AUDIT] user ${req.user.id} created product ${newProduct._id} (${newProduct.name}), IP: ${userIP}`)
+    const newProduct = await Product.create(productData)
+
+    logger.info(`[AUDIT] user ${req.user.id} created product ${newProduct.id} (${newProduct.name}), IP: ${userIP}`)
 
     res.status(201).json({
       message: 'Product created successfully.',
-      productId: newProduct._id
+      productId: newProduct.id
     })
   } catch (err) {
-    if (err.code === 11000 && err.keyPattern && err.keyPattern.name) {
-      return res.status(400).json({
-        message: 'A product with this name already exists.',
-        field: 'name'
-      })
-    }
     logger.error('Error creating product', { message: err.message, stack: err.stack, IP: userIP })
-    res.status(500).json({
-      message: 'An error occurred while creating the product.',
-      error: err.message
-    })
+    res.status(500).json({ message: 'An error occurred while creating the product.', error: err.message })
   }
 }
 
-// obtencion de todos los productos
+// --------------------- LIST PRODUCTS ---------------------
 export const products = async (req, res) => {
-  const userIP = req.clientIP // <--
+  const userIP = req.clientIP
   try {
-    // obtiene page y el limit de la query params
     const page = parseInt(req.query.page) || 1
     const limit = parseInt(req.query.limit) || 10
+    const offset = (page - 1) * limit
 
-    // calcula cuantos doc saltar
-    const skip = (page - 1) * limit
-
-    const total = await Product.countDocuments()
-    const products = await Product.find().sort({ createdAt: -1 }).skip(skip).limit(limit)
+    const { count: total, rows } = await Product.findAndCountAll({
+      include: [
+        { model: Category, as: 'category' },
+        { model: User, as: 'supplier' }
+      ],
+      order: [['createdAt', 'DESC']],
+      limit,
+      offset
+    })
 
     logger.info(`Products listed, page ${page}, limit ${limit}, IP: ${userIP}`)
 
@@ -71,7 +73,7 @@ export const products = async (req, res) => {
       limit,
       total,
       totalPages: Math.ceil(total / limit),
-      products
+      products: rows
     })
   } catch (err) {
     logger.error('Error fetching products', { message: err.message, stack: err.stack, IP: userIP })
@@ -79,130 +81,96 @@ export const products = async (req, res) => {
   }
 }
 
-// obtencion de productos por id
+// --------------------- GET PRODUCT BY ID ---------------------
 export const productById = async (req, res) => {
-  const userIP = req.clientIP // <--
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    logger.warn(`Invalid product ID request: ${req.params.id}, IP: ${userIP}`)
-    return res.status(400).json({ message: 'Invalid product ID.' })
-  }
+  const userIP = req.clientIP
+  const { id } = req.params
+
   try {
-    const product = await Product.findById(req.params.id)
+    const product = await Product.findByPk(id, {
+      include: [
+        { model: Category, as: 'category' },
+        { model: User, as: 'supplier' }
+      ]
+    })
+
     if (!product) {
-      logger.warn(`Product not found by ID: ${req.params.id}, IP: ${userIP}`)
+      logger.warn(`Product not found by ID: ${id}, IP: ${userIP}`)
       return res.status(404).json({ message: 'Product not found.' })
     }
 
-    logger.info(`Product retrieved by ID: ${req.params.id}, IP: ${userIP}`)
+    logger.info(`Product retrieved by ID: ${id}, IP: ${userIP}`)
     res.json(product)
   } catch (err) {
     logger.error('Error searching product by ID', { message: err.message, stack: err.stack, IP: userIP })
-    res.status(500).json({
-      message: 'An error occurred while searching for the product.',
-      error: err.message
-    })
+    res.status(500).json({ message: 'An error occurred while searching for the product.', error: err.message })
   }
 }
 
-// actualizacion de productos (solo admin)
+// --------------------- UPDATE PRODUCT ---------------------
 export const updateProduct = async (req, res) => {
-  const userIP = req.clientIP // <--
+  const userIP = req.clientIP
   const { id } = req.params
 
-  if (!mongoose.Types.ObjectId.isValid(id)) {
-    logger.warn(`Invalid product ID update request: ${id}, IP: ${userIP}`)
-    return res.status(400).json({ message: 'Invalid product ID.' })
-  }
   try {
-    const allowedFields = ['name', 'description', 'price', 'stock', 'category']
+    const allowedFields = ['name', 'description', 'price', 'stock', 'categoryId', 'supplierId']
     const updateData = pick(req.body, allowedFields)
 
-    if (updateData.name) {
-      const existingProduct = await Product.findOne({ name: updateData.name })
-      if (existingProduct && existingProduct._id.toString() !== id) {
-        return res.status(400).json({
-          message: 'Another product with this name already exists.',
-          field: 'name'
-        })
-      }
-    }
-
-    const replaceStock = Object.prototype.hasOwnProperty.call(req.body, 'replaceStock')
-      ? ['true', true, '1', 1].includes(req.body.replaceStock)
-      : false
-
-    const product = await Product.findById(id).lean()
+    const product = await Product.findByPk(id)
     if (!product) {
       logger.warn(`Product not found in updateProduct: ${id}, IP: ${userIP}`)
       return res.status(404).json({ message: 'Product not found.' })
     }
 
+    // Validación de nombre único
+    if (updateData.name) {
+      const existingProduct = await Product.findOne({ where: { name: updateData.name, id: { [Op.ne]: id } } })
+      if (existingProduct) {
+        return res.status(400).json({ message: 'Another product with this name already exists.', field: 'name' })
+      }
+    }
+
+    // Validar stock
+    const replaceStock = ['true', true, '1', 1].includes(req.body.replaceStock)
     if (updateData.stock !== undefined) {
       if (!Number.isInteger(updateData.stock) || updateData.stock < 0) {
-        logger.warn(`Invalid stock value in updateProduct for product ${id}, IP: ${userIP}`)
         return res.status(400).json({ message: 'Stock must be a non-negative integer.' })
       }
-      if (replaceStock) {
-        // aquí el stock es reemplazado tal cual viene
-        logger.info(`[AUDIT] user ${req.user.id} replaced the stock of ${product.name} with ${updateData.stock}, IP: ${userIP}`)
-      } else {
-        // aquí se suma el stock existente con el nuevo
+
+      if (!replaceStock) {
         updateData.stock = product.stock + updateData.stock
-        logger.info(`[AUDIT] user ${req.user.id} added ${req.body.stock} units to ${product.name}, total stock now: ${updateData.stock}, IP: ${userIP}`)
       }
     }
 
-    const updateProduct = await Product.findByIdAndUpdate(
-      id,
-      updateData,
-      {
-        new: true,
-        runValidators: true
-      }
-    )
-    if (!updateProduct) {
-      logger.warn(`Product not found after update attempt: ${id}, IP: ${userIP}`)
-      return res.status(404).json({ message: 'Product not found.' })
-    }
+    await product.update(updateData)
 
-    logger.info(`Product updated successfully: ${updateProduct._id}, IP: ${userIP}`)
+    logger.info(`[AUDIT] user ${req.user.id} updated product ${product.id} (${product.name}), IP: ${userIP}`)
 
-    res.json({
-      message: 'Product updated successfully.',
-      product: updateProduct
-    })
+    res.json({ message: 'Product updated successfully.', product })
   } catch (err) {
     logger.error('Error updating product', { message: err.message, stack: err.stack, IP: userIP })
-    res.status(500).json({
-      message: 'An error occurred while updating the product.',
-      error: err.message
-    })
+    res.status(500).json({ message: 'An error occurred while updating the product.', error: err.message })
   }
 }
 
-// eliminacion de prodcto (solo admin)
+// --------------------- DELETE PRODUCT ---------------------
 export const deleteProduct = async (req, res) => {
-  const userIP = req.clientIP // <--
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    logger.warn(`Invalid product ID delete request: ${req.params.id}, IP: ${userIP}`)
-    return res.status(400).json({ message: 'Invalid product ID.' })
-  }
+  const userIP = req.clientIP
+  const { id } = req.params
+
   try {
-    const deleteProduct = await Product.findByIdAndDelete(req.params.id)
-    if (!deleteProduct) {
-      logger.warn(`Product not found in deleteProduct: ${req.params.id}, IP: ${userIP}`)
+    const product = await Product.findByPk(id)
+    if (!product) {
+      logger.warn(`Product not found in deleteProduct: ${id}, IP: ${userIP}`)
       return res.status(404).json({ message: 'Product not found.' })
     }
 
-    // auditoria simple de desarrollo
-    logger.info(`[AUDIT] user ${req.user.id} deleted product ${deleteProduct._id} (${deleteProduct.name}), IP: ${userIP}`)
+    await product.destroy()
+    logger.info(`[AUDIT] user ${req.user.id} deleted product ${product.id} (${product.name}), IP: ${userIP}`)
 
-    res.json({ message: 'Product deleted successfully.', product: deleteProduct })
+    res.json({ message: 'Product deleted successfully.', product })
   } catch (err) {
     logger.error('Error deleting product', { message: err.message, stack: err.stack, IP: userIP })
-    res.status(500).json({
-      message: 'Error deleting product.',
-      error: err.message
-    })
+    res.status(500).json({ message: 'Error deleting product.', error: err.message })
   }
 }

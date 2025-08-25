@@ -9,7 +9,7 @@ import {
 import { validateSchema } from '../middleware/validator.middleware.js'
 import { createClientSchema, updateClientSchema } from '../schemas/client.schema.js'
 import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
-import { validateObjectId } from '../middleware/validateObjectId.js'
+import { validateUUID } from '../middleware/validateUUID.middleware.js'
 
 const router = Router()
 // Crear cliente -> solo admin
@@ -34,7 +34,7 @@ router.get(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin', 'bodeguero'),
-  validateObjectId('id'),
+  validateUUID('id'),
   listClientById
 )
 
@@ -43,7 +43,7 @@ router.put(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
-  validateObjectId('id'),
+  validateUUID('id'),
   validateSchema(updateClientSchema),
   updateClient
 )
@@ -53,7 +53,7 @@ router.delete(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
-  validateObjectId('id'),
+  validateUUID('id'),
   deleteClient
 )
 

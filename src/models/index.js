@@ -5,15 +5,19 @@ import Category from './category.model.js'
 import Order from './order.model.js'
 import ManualInventory from './manualInventory.model.js'
 import Supplier from './supplier.model.js'
+import Client from './client.model.js'
 
 export const initializeModels = () => {
-  // Inicializar modelos
+  // Inicializar modelos existentes
   User.initialize(sequelize)
   Product.initialize(sequelize)
   Category.initialize(sequelize)
   Order.initialize(sequelize)
   ManualInventory.initialize(sequelize)
-  Supplier.initialize?.(sequelize) // Si Supplier usa define(), no necesita init
+  Supplier.initialize(sequelize)
+
+  // Inicializar Client
+  Client.initialize(sequelize)
 
   // Relaciones
   Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'category' })

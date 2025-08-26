@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 // Función para validar RUT chileno
-function validateRUT (rut) {
+const validateRUT = (rut) => {
   const cleanRut = rut.replace(/\./g, '').replace('-', '')
   const body = cleanRut.slice(0, -1)
   const dv = cleanRut.slice(-1).toUpperCase()

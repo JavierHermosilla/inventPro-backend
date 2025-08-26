@@ -763,3 +763,19 @@
 [2025-08-25T21:06:29.420Z] ERROR: Login error: Illegal arguments: string, undefined, IP: ::1
 [2025-08-25T21:07:13.796Z] ERROR: Login error: Illegal arguments: string, undefined, IP: ::1
 [2025-08-25T21:24:20.270Z] ERROR: Token verification failed: jwt expired
+[2025-08-25T23:16:43.483Z] ERROR: Error creating supplier Validation error: Website must be valid URL
+[2025-08-25T23:17:20.939Z] ERROR: Error creating supplier Validation error: Website must be valid URL
+[2025-08-25T23:34:30.831Z] ERROR: Registration error: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-08-25T23:34:40.066Z] ERROR: Registration error: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-08-25T23:39:58.996Z] ERROR: Token verification failed: jwt malformed
+[2025-08-25T23:40:51.218Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:41:01.630Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:43:37.304Z] ERROR: Token verification failed: jwt malformed
+[2025-08-25T23:44:17.112Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:49:12.727Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:51:52.841Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:57:40.578Z] ERROR: Token verification failed: jwt malformed
+[2025-08-26T00:00:06.639Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
+[2025-08-26T00:03:02.816Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
+[2025-08-26T00:23:38.790Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
+[2025-08-26T00:24:59.274Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»

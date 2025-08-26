@@ -1,6 +1,6 @@
 import Product from '../models/product.model.js'
 import Category from '../models/category.model.js'
-import User from '../models/user.model.js'
+import Supplier from '../models/supplier.model.js'
 import { Op } from 'sequelize'
 import pick from 'lodash/pick.js'
 import logger from '../utils/logger.js'
@@ -14,7 +14,7 @@ export const createProduct = async (req, res) => {
 
     // Verificar que el proveedor exista
     if (productData.supplierId) {
-      const supplierExists = await User.findByPk(productData.supplierId)
+      const supplierExists = await Supplier.findByPk(productData.supplierId)
       if (!supplierExists) {
         return res.status(400).json({ message: 'Supplier not found.' })
       }
@@ -59,7 +59,7 @@ export const products = async (req, res) => {
     const { count: total, rows } = await Product.findAndCountAll({
       include: [
         { model: Category, as: 'category' },
-        { model: User, as: 'supplier' }
+        { model: Supplier, as: 'supplier' }
       ],
       order: [['createdAt', 'DESC']],
       limit,
@@ -90,7 +90,7 @@ export const productById = async (req, res) => {
     const product = await Product.findByPk(id, {
       include: [
         { model: Category, as: 'category' },
-        { model: User, as: 'supplier' }
+        { model: Supplier, as: 'supplier' }
       ]
     })
 

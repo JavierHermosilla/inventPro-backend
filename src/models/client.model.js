@@ -10,7 +10,7 @@ class Client extends Model {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: { is: /^[0-9]+-[0-9kK]{1}$/ }
+        validate: { is: /^\d{1,2}\.?\d{3}\.?\d{3}-[0-9Kk]$/ }
       },
       address: { type: DataTypes.STRING, allowNull: false },
       phone: { type: DataTypes.STRING, allowNull: false },

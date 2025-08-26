@@ -50,9 +50,10 @@ class Product extends Model {
   }
 
   static associate (models) {
-    // Relaciones
+    // Relación con Category
     Product.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category' })
-    Product.belongsTo(models.User, { foreignKey: 'supplierId', as: 'supplier' })
+    // Relación con Supplier (antes era User)
+    Product.belongsTo(models.Supplier, { foreignKey: 'supplierId', as: 'supplier' })
   }
 }
 

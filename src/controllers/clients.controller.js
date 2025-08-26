@@ -1,10 +1,13 @@
 import { Op } from 'sequelize'
 import Client from '../models/client.model.js'
+import { createClientSchema, updateClientSchema } from '../schemas/client.schema.js'
 
 // Crear cliente
 export const createClient = async (req, res) => {
   try {
-    const { rut, email } = req.body
+    const validatedData = createClientSchema.parse(req.body) // ✅ valida campos
+
+    const { rut, email } = validatedData
 
     // Validar duplicados
     const existing = await Client.findOne({
@@ -14,9 +17,12 @@ export const createClient = async (req, res) => {
       return res.status(409).json({ message: 'Cliente con este RUT o email ya existe' })
     }
 
-    const client = await Client.create(req.body)
+    const client = await Client.create(validatedData)
     res.status(201).json(client)
   } catch (err) {
+    if (err.name === 'ZodError') {
+      return res.status(400).json({ message: 'Datos inválidos', errors: err.errors })
+    }
     res.status(500).json({ message: 'Error interno', error: err.message })
   }
 }
@@ -48,9 +54,13 @@ export const updateClient = async (req, res) => {
     const client = await Client.findByPk(req.params.id)
     if (!client) return res.status(404).json({ message: 'Cliente no encontrado' })
 
-    await client.update(req.body)
+    const validatedData = updateClientSchema.parse(req.body) // ✅ valida campos opcionales
+    await client.update(validatedData)
     res.json(client)
   } catch (err) {
+    if (err.name === 'ZodError') {
+      return res.status(400).json({ message: 'Datos inválidos', errors: err.errors })
+    }
     res.status(500).json({ message: 'Error interno', error: err.message })
   }
 }

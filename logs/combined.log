@@ -10312,3 +10312,99 @@
 [2025-08-25T23:03:09.541Z] WARN: Login failed, email not found: JAVIER1@test.com, IP: ::1
 [2025-08-25T23:03:38.296Z] INFO: User registered successfully: JAVIER1@test.com, IP: ::1
 [2025-08-25T23:03:42.810Z] WARN: Login failed, email not found: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:07:51.890Z] WARN: Login failed, email not found: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:07:54.708Z] INFO: User registered successfully: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:08:04.623Z] INFO: Login successful: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:08:17.081Z] WARN: Login failed, email not found: javier@test.com, IP: ::1
+[2025-08-25T23:08:33.221Z] WARN: Authorization denied: user not found for decoded id 4a5c3fa5-ceea-4dfc-a405-08847fefe162
+[2025-08-25T23:10:36.262Z] WARN: Duplicate email registration: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:11:48.742Z] INFO: Login successful: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:12:12.816Z] INFO: User 0794e6f6-43e2-441f-bcd6-6f7d6a38dba8 creó usuario ce742c34-94b8-4987-96fc-f77806916fd3, IP: ::1
+[2025-08-25T23:12:26.991Z] WARN: Invalid UUID format for parameter id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhNWMzZmE1LWNlZWEtNGRmYy1hNDA1LTA4ODQ3ZmVmZTE2MiIsImlhdCI6MTc1NjE1NzA1MCwiZXhwIjoxNzU2MjQzNDUwfQ.8R7_QP1Gh4ZgyTBpelZmLERF2bl2dSb2Mu5SWQEShb0
+[2025-08-25T23:13:00.465Z] INFO: User 0794e6f6-43e2-441f-bcd6-6f7d6a38dba8 eliminó usuario ce742c34-94b8-4987-96fc-f77806916fd3, IP: ::1
+[2025-08-25T23:13:32.008Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-08-25T23:16:05.565Z] WARN: Schema validation failed for POST /api/products
+[2025-08-25T23:16:43.483Z] ERROR: Error creating supplier Validation error: Website must be valid URL
+[2025-08-25T23:17:20.939Z] ERROR: Error creating supplier Validation error: Website must be valid URL
+[2025-08-25T23:22:49.615Z] WARN: Authorization denied: user not found for decoded id 0794e6f6-43e2-441f-bcd6-6f7d6a38dba8
+[2025-08-25T23:32:53.416Z] WARN: Authorization denied: user not found for decoded id 0794e6f6-43e2-441f-bcd6-6f7d6a38dba8
+[2025-08-25T23:33:05.202Z] WARN: Authorization denied: user not found for decoded id 0794e6f6-43e2-441f-bcd6-6f7d6a38dba8
+[2025-08-25T23:33:09.266Z] WARN: Login failed, email not found: JAVIER1@test.com, IP: ::1
+[2025-08-25T23:33:26.326Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-25T23:34:24.332Z] WARN: Duplicate email registration: JAVIER13@test.com, IP: ::1
+[2025-08-25T23:34:30.831Z] ERROR: Registration error: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-08-25T23:34:40.066Z] ERROR: Registration error: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-08-25T23:34:48.130Z] INFO: User registered successfully: JAVIER132@test.com, IP: ::1
+[2025-08-25T23:35:09.189Z] INFO: Login successful: JAVIER132@test.com, IP: ::1
+[2025-08-25T23:36:48.862Z] WARN: Authorization denied: user not found for decoded id 0794e6f6-43e2-441f-bcd6-6f7d6a38dba8
+[2025-08-25T23:37:02.972Z] WARN: Forbidden access attempt by user b79bfad0-760a-4aea-8f02-819858275cbd with role user
+[2025-08-25T23:37:38.096Z] INFO: Login successful: javier13@test.com, IP: ::1
+[2025-08-25T23:38:07.870Z] WARN: Schema validation failed for POST /api/users/
+[2025-08-25T23:38:16.816Z] INFO: User 9cf680c6-509f-40de-9136-b938c6a5dce4 creó usuario 99601b13-499a-48b1-9344-2c58717625f5, IP: ::1
+[2025-08-25T23:38:33.002Z] INFO: [AUDIT] user 9cf680c6-509f-40de-9136-b938c6a5dce4 created supplier 091128b7-c2af-4c7e-b433-9ea95b441f21, IP: ::1
+[2025-08-25T23:39:17.572Z] WARN: Authorization denied: user not found for decoded id 0794e6f6-43e2-441f-bcd6-6f7d6a38dba8
+[2025-08-25T23:39:58.996Z] ERROR: Token verification failed: jwt malformed
+[2025-08-25T23:40:34.451Z] INFO: [AUDIT] user 9cf680c6-509f-40de-9136-b938c6a5dce4 created product 26f29b90-866b-4385-85bd-4fb00ac623d1 (Camiseta deportiva2), IP: ::1
+[2025-08-25T23:40:51.218Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:41:01.630Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:43:37.304Z] ERROR: Token verification failed: jwt malformed
+[2025-08-25T23:44:17.112Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:49:12.727Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:51:52.841Z] ERROR: Error fetching products User is not associated to Product!
+[2025-08-25T23:55:13.688Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-25T23:55:23.143Z] WARN: Authorization denied: user not found for decoded id 9cf680c6-509f-40de-9136-b938c6a5dce4
+[2025-08-25T23:55:29.361Z] WARN: Login failed, email not found: javier13@test.com, IP: ::1
+[2025-08-25T23:56:35.354Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-25T23:56:56.694Z] INFO: Login successful: javier13@test.com, IP: ::1
+[2025-08-25T23:57:16.791Z] INFO: [AUDIT] user 167836dc-ecb2-48b9-a7ca-b62277fd80fb created product c03012dd-b633-46ba-bc4f-315d5f4438ee (Camiseta deportiva2), IP: ::1
+[2025-08-25T23:57:21.207Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-25T23:57:32.863Z] INFO: Product retrieved by ID: c03012dd-b633-46ba-bc4f-315d5f4438ee, IP: ::1
+[2025-08-25T23:57:40.578Z] ERROR: Token verification failed: jwt malformed
+[2025-08-25T23:58:09.052Z] WARN: Authorization denied: user not found for decoded id 9cf680c6-509f-40de-9136-b938c6a5dce4
+[2025-08-25T23:58:31.637Z] INFO: Product retrieved by ID: c03012dd-b633-46ba-bc4f-315d5f4438ee, IP: ::1
+[2025-08-25T23:58:52.533Z] INFO: [AUDIT] user 167836dc-ecb2-48b9-a7ca-b62277fd80fb deleted product c03012dd-b633-46ba-bc4f-315d5f4438ee (Camiseta deportiva2), IP: ::1
+[2025-08-26T00:00:06.639Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
+[2025-08-26T00:00:11.017Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-26T00:00:36.244Z] INFO: Suppliers listed, IP: ::1
+[2025-08-26T00:01:01.291Z] INFO: [AUDIT] user 167836dc-ecb2-48b9-a7ca-b62277fd80fb created supplier 6a5bb077-da0a-4caf-8b9e-b323301672c1, IP: ::1
+[2025-08-26T00:01:09.280Z] INFO: Suppliers listed, IP: ::1
+[2025-08-26T00:03:02.816Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
+[2025-08-26T00:04:34.020Z] INFO: [AUDIT] user 167836dc-ecb2-48b9-a7ca-b62277fd80fb created product cc7216ee-24b2-4db4-939f-d89b665899fb (Camiseta deportiva21), IP: ::1
+[2025-08-26T00:04:59.228Z] WARN: Authorization denied: user not found for decoded id 9cf680c6-509f-40de-9136-b938c6a5dce4
+[2025-08-26T00:11:55.869Z] WARN: Authorization denied: user not found for decoded id 167836dc-ecb2-48b9-a7ca-b62277fd80fb
+[2025-08-26T00:12:02.249Z] WARN: Login failed, email not found: javier13@test.com, IP: ::1
+[2025-08-26T00:12:07.816Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-26T00:12:28.990Z] INFO: Login successful: javier13@test.com, IP: ::1
+[2025-08-26T00:13:02.002Z] WARN: Authorization denied: user not found for decoded id 9cf680c6-509f-40de-9136-b938c6a5dce4
+[2025-08-26T00:13:11.627Z] WARN: Authorization denied: user not found for decoded id 9cf680c6-509f-40de-9136-b938c6a5dce4
+[2025-08-26T00:13:22.460Z] WARN: Duplicate email registration: JAVIER13@test.com, IP: ::1
+[2025-08-26T00:13:41.887Z] INFO: User 49a15bc6-a81f-473d-a20f-da49f7f55d51 creó usuario 5ce7bd4a-47c8-4ee9-8b9d-1afd86de0f0a, IP: ::1
+[2025-08-26T00:14:05.374Z] WARN: Authorization denied: user not found for decoded id 167836dc-ecb2-48b9-a7ca-b62277fd80fb
+[2025-08-26T00:15:26.413Z] WARN: Authorization denied: user not found for decoded id 167836dc-ecb2-48b9-a7ca-b62277fd80fb
+[2025-08-26T00:15:44.230Z] INFO: [AUDIT] user 49a15bc6-a81f-473d-a20f-da49f7f55d51 created product facfae5d-51f3-496e-a2b6-e87add8361be (Camiseta deportiva21), IP: ::1
+[2025-08-26T00:15:53.453Z] WARN: Invalid UUID format for parameter id: 68934f507ad510e51695668f
+[2025-08-26T00:16:24.298Z] INFO: [AUDIT] user 49a15bc6-a81f-473d-a20f-da49f7f55d51 updated product facfae5d-51f3-496e-a2b6-e87add8361be (Camiseta deportiva21), IP: ::1
+[2025-08-26T00:16:31.956Z] INFO: [AUDIT] user 49a15bc6-a81f-473d-a20f-da49f7f55d51 deleted product facfae5d-51f3-496e-a2b6-e87add8361be (Camiseta deportiva21), IP: ::1
+[2025-08-26T00:16:44.255Z] INFO: Suppliers listed, IP: ::1
+[2025-08-26T00:16:53.668Z] INFO: [AUDIT] user 49a15bc6-a81f-473d-a20f-da49f7f55d51 created supplier 622c0410-27b2-4ad0-b0e5-fcfdd705ce4e, IP: ::1
+[2025-08-26T00:16:59.358Z] INFO: Suppliers listed, IP: ::1
+[2025-08-26T00:19:07.327Z] INFO: Suppliers listed, IP: ::1
+[2025-08-26T00:19:32.623Z] INFO: [AUDIT] user 49a15bc6-a81f-473d-a20f-da49f7f55d51 updated supplier 622c0410-27b2-4ad0-b0e5-fcfdd705ce4e, IP: ::1
+[2025-08-26T00:23:38.790Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
+[2025-08-26T00:24:31.069Z] INFO: Suppliers listed, IP: ::1
+[2025-08-26T00:24:59.274Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
+[2025-08-26T00:25:04.269Z] INFO: [AUDIT] user 49a15bc6-a81f-473d-a20f-da49f7f55d51 created product a7b25875-6667-41d7-ad89-aca147b513f9 (Camiseta deportiva212), IP: ::1
+[2025-08-26T00:25:17.563Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-26T00:27:08.896Z] WARN: Schema validation failed for POST /api/manual-inventory
+[2025-08-26T00:32:56.973Z] WARN: Authorization denied: user not found for decoded id 49a15bc6-a81f-473d-a20f-da49f7f55d51
+[2025-08-26T00:33:06.448Z] WARN: Login failed, email not found: javier13@test.com, IP: ::1
+[2025-08-26T00:33:12.275Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-26T00:33:41.268Z] INFO: Login successful: javier13@test.com, IP: ::1
+[2025-08-26T00:36:15.070Z] WARN: Authorization denied: user not found for decoded id ba8cd1d3-8df9-4303-ae26-b1d92a6ca8e0
+[2025-08-26T00:36:23.517Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-26T00:38:35.163Z] WARN: Authorization denied: user not found for decoded id fb8c4a3e-428a-4416-b60a-5fead6ee764d
+[2025-08-26T00:38:41.049Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-26T00:38:55.175Z] INFO: Login successful: javier13@test.com, IP: ::1
+[2025-08-26T00:45:03.272Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-26T00:45:17.632Z] INFO: Login successful: javier13@test.com, IP: ::1
+[2025-08-26T00:45:35.212Z] WARN: Schema validation failed for POST /api/clients/

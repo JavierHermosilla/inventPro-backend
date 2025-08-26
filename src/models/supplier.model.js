@@ -4,13 +4,62 @@ import { DataTypes, Model } from 'sequelize'
 class Supplier extends Model {
   static initialize (sequelize) {
     Supplier.init({
-      id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-      name: { type: DataTypes.STRING, allowNull: false, unique: true },
-      contactName: { type: DataTypes.STRING, allowNull: true },
-      email: { type: DataTypes.STRING, allowNull: true, validate: { isEmail: { msg: 'Invalid email' } } },
-      phone: { type: DataTypes.STRING, allowNull: true, validate: { is: { args: /^\+?\d{7,15}$/, msg: 'Phone must be valid' } } },
-      address: { type: DataTypes.STRING, allowNull: true },
-      website: { type: DataTypes.STRING, allowNull: true, validate: { isUrl: { msg: 'Website must be valid URL' } } },
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        set (value) {
+          this.setDataValue('name', value?.trim() || '')
+        }
+      },
+      contactName: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        set (value) {
+          this.setDataValue('contactName', value?.trim() || '')
+        }
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: { isEmail: { msg: 'Invalid email' } },
+        set (value) {
+          this.setDataValue('email', value?.trim().toLowerCase() || null)
+        }
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          is: {
+            args: /^\+?[0-9()\-\s]{7,20}$/,
+            msg: 'Phone must be valid'
+          }
+        },
+        set (value) {
+          this.setDataValue('phone', value?.trim() || null)
+        }
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        set (value) {
+          this.setDataValue('address', value?.trim() || null)
+        }
+      },
+      website: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: { isUrl: { msg: 'Website must be valid URL' } },
+        set (value) {
+          this.setDataValue('website', value?.trim().toLowerCase() || null)
+        }
+      },
       rut: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -19,18 +68,51 @@ class Supplier extends Model {
           notNull: { msg: 'RUT is required' },
           notEmpty: { msg: 'RUT cannot be empty' },
           is: { args: /^(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK]|\d{7,8}-[\dkK])$/, msg: 'Invalid RUT format' }
+        },
+        set (value) {
+          this.setDataValue('rut', value?.trim() || '')
         }
       },
-      paymentTerms: { type: DataTypes.STRING, allowNull: true },
-      status: { type: DataTypes.ENUM('active', 'inactive'), defaultValue: 'active', allowNull: false },
-      notes: { type: DataTypes.STRING, allowNull: true }
+      paymentTerms: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        set (value) {
+          this.setDataValue('paymentTerms', value?.trim() || null)
+        }
+      },
+      status: {
+        type: DataTypes.ENUM('active', 'inactive'),
+        defaultValue: 'active',
+        allowNull: false
+      },
+      notes: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        set (value) {
+          this.setDataValue('notes', value?.trim() || null)
+        }
+      }
     }, {
       sequelize,
       modelName: 'Supplier',
       tableName: 'suppliers',
       timestamps: true,
       paranoid: true,
-      deletedAt: 'deleted_at'
+      deletedAt: 'deleted_at',
+      indexes: [
+        { unique: true, fields: ['name'] },
+        { unique: true, fields: ['rut'] }
+      ],
+      hooks: {
+        beforeCreate: (supplier) => {
+          supplier.name = supplier.name.trim()
+          supplier.rut = supplier.rut.trim()
+        },
+        beforeUpdate: (supplier) => {
+          if (supplier.name) supplier.name = supplier.name.trim()
+          if (supplier.rut) supplier.rut = supplier.rut.trim()
+        }
+      }
     })
   }
 

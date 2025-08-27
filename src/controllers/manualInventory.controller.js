@@ -8,11 +8,9 @@ export const createManualInventory = async (req, res) => {
     const { productId, type, quantity, reason } = req.body
     const userId = req.user.id
 
-    // Verificar producto
     const product = await Product.findByPk(productId)
     if (!product) return res.status(404).json({ message: 'Product not found' })
 
-    // Ajuste de stock
     if (type === 'decrease' && product.stock < quantity) {
       return res.status(400).json({ message: 'Insufficient stock to decrease' })
     }
@@ -20,7 +18,6 @@ export const createManualInventory = async (req, res) => {
     product.stock += type === 'increase' ? quantity : -quantity
     await product.save()
 
-    // Crear ajuste
     const adjustment = await ManualInventory.create({
       productId,
       type,
@@ -55,7 +52,7 @@ export const getAllManualInventories = async (req, res) => {
       where,
       include: [
         { model: Product, as: 'product', attributes: ['id', 'name'] },
-        { model: User, as: 'user', attributes: ['id', 'name', 'email', 'role'] }
+        { model: User, as: 'performedBy', attributes: ['id', 'name', 'email', 'role'] }
       ],
       order: [['createdAt', 'DESC']],
       limit: Number(limit),
@@ -82,7 +79,7 @@ export const manualInventoryById = async (req, res) => {
     const adjustment = await ManualInventory.findByPk(id, {
       include: [
         { model: Product, as: 'product', attributes: ['id', 'name'] },
-        { model: User, as: 'user', attributes: ['id', 'name', 'email', 'role'] }
+        { model: User, as: 'performedBy', attributes: ['id', 'name', 'email', 'role'] }
       ]
     })
 

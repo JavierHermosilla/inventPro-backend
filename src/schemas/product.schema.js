@@ -15,14 +15,10 @@ export const productSchema = z.object({
       .int({ message: 'Stock must be an integer' })
       .min(0, { message: 'Stock cannot be negative.' })
   ),
-  category: z.string()
-    .regex(uuidRegex, { message: 'Category is required.' }),
-  supplier: z.string()
-    .regex(uuidRegex, { message: 'Supplier must be a valid ObjectId' })
+  categoryId: z.string().regex(uuidRegex, { message: 'Category ID must be a valid UUID' }),
+  supplierId: z.string().regex(uuidRegex, { message: 'Supplier ID must be a valid UUID' })
 })
 
-export const productUpdateSchema = productSchema
-  .partial()
-  .extend({
-    replaceStock: z.boolean().optional()
-  })
+export const productUpdateSchema = productSchema.partial().extend({
+  replaceStock: z.boolean().optional()
+})

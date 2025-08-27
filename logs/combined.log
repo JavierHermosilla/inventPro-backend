@@ -10408,3 +10408,140 @@
 [2025-08-26T00:45:03.272Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
 [2025-08-26T00:45:17.632Z] INFO: Login successful: javier13@test.com, IP: ::1
 [2025-08-26T00:45:35.212Z] WARN: Schema validation failed for POST /api/clients/
+[2025-08-26T00:58:11.225Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-26T00:58:34.724Z] INFO: Login successful: javier13@test.com, IP: ::1
+[2025-08-26T01:01:01.926Z] WARN: Duplicate email registration: JAVIER13@test.com, IP: ::1
+[2025-08-26T16:51:11.893Z] WARN: Login failed, email not found: admin@example.com, IP: ::1
+[2025-08-26T16:57:11.867Z] INFO: Login successful: admin@example.com, IP: ::1
+[2025-08-26T16:57:33.107Z] WARN: Authorization denied: user not found for decoded id 167836dc-ecb2-48b9-a7ca-b62277fd80fb
+[2025-08-26T16:57:55.513Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-26T16:58:01.884Z] WARN: Authorization denied: user not found for decoded id 167836dc-ecb2-48b9-a7ca-b62277fd80fb
+[2025-08-26T16:58:07.145Z] INFO: Suppliers listed, IP: ::1
+[2025-08-26T16:59:45.265Z] ERROR: Token verification failed: no existe la columna «createdAt»
+[2025-08-26T16:59:50.296Z] ERROR: Login error: no existe la columna «createdAt», IP: ::1
+[2025-08-26T17:00:02.690Z] ERROR: Login error: no existe la columna «createdAt», IP: ::1
+[2025-08-26T17:03:08.005Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-26T17:04:09.608Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T17:05:02.608Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T17:37:35.497Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T17:38:41.399Z] WARN: Login failed, email not found: admin@example.com, IP: ::1
+[2025-08-26T17:38:52.991Z] WARN: Login failed, email not found: admin@example.com, IP: ::1
+[2025-08-26T17:48:29.661Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T17:49:01.630Z] WARN: Login failed, email not found: admin@example.com, IP: ::1
+[2025-08-26T18:01:15.907Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T18:01:20.211Z] WARN: Authorization denied: user not found for decoded id 4a5c3fa5-ceea-4dfc-a405-08847fefe162
+[2025-08-26T18:03:40.245Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T18:06:55.539Z] WARN: Login failed, email not found: admin@example.com, IP: ::1
+[2025-08-26T18:07:14.384Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T18:07:23.359Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T18:23:47.736Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T18:25:11.090Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T18:42:43.389Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T18:44:00.418Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-26T18:44:05.907Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T18:51:22.925Z] WARN: Login failed, wrong password: admin@example.com, IP: ::1
+[2025-08-26T20:57:26.110Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:41.003Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:46.280Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:47.478Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:48.459Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:49.369Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:58.262Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:58:12.821Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:58:17.921Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:58:25.633Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T21:01:39.609Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T23:19:10.449Z] INFO: User registered successfully: ADMIN@test.com, IP: ::1
+[2025-08-26T23:21:13.581Z] ERROR: Token verification failed: jwt expired
+[2025-08-26T23:21:40.472Z] WARN: Login failed, wrong password: ADMIN@test.com, IP: ::1
+[2025-08-26T23:31:08.590Z] WARN: Login failed, email not found: ADMIN@test.com, IP: ::1
+[2025-08-26T23:31:12.093Z] INFO: User registered successfully: ADMIN@test.com, IP: ::1
+[2025-08-26T23:31:15.998Z] WARN: Login failed, wrong password: ADMIN@test.com, IP: ::1
+[2025-08-26T23:31:40.814Z] WARN: Duplicate email registration: ADMIN@test.com, IP: ::1
+[2025-08-26T23:31:47.611Z] WARN: Login failed, wrong password: ADMIN@test.com, IP: ::1
+[2025-08-26T23:32:09.271Z] ERROR: Registration error: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-08-26T23:32:17.182Z] INFO: User registered successfully: ADMI1@test.com, IP: ::1
+[2025-08-26T23:32:28.331Z] WARN: Login failed, wrong password: ADMI1@test.com, IP: ::1
+[2025-08-26T23:33:03.589Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-26T23:33:11.412Z] WARN: Schema validation failed for POST /api/auth/register
+[2025-08-26T23:33:21.468Z] INFO: User registered successfully: test@test.com, IP: ::1
+[2025-08-26T23:33:39.797Z] INFO: Login successful: test@test.com, IP: ::1
+[2025-08-26T23:35:34.315Z] ERROR: Token verification failed: jwt expired
+[2025-08-26T23:38:05.736Z] WARN: Login failed, wrong password: ADMIN@test.com, IP: ::1
+[2025-08-26T23:38:07.287Z] WARN: Login failed, wrong password: ADMIN@test.com, IP: ::1
+[2025-08-26T23:38:31.876Z] WARN: Rate limit exceeded on /api/auth/login from IP ::1
+[2025-08-26T23:38:52.790Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-08-26T23:39:09.440Z] ERROR: Token verification failed: jwt expired
+[2025-08-26T23:39:22.776Z] WARN: Forbidden access attempt by user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a with role user
+[2025-08-26T23:39:40.101Z] WARN: Authorization denied: user not found for decoded id 49a15bc6-a81f-473d-a20f-da49f7f55d51
+[2025-08-26T23:40:09.127Z] WARN: Authorization denied: user not found for decoded id 49a15bc6-a81f-473d-a20f-da49f7f55d51
+[2025-08-26T23:40:13.383Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-08-26T23:40:16.578Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-08-26T23:40:32.293Z] WARN: Forbidden access attempt by user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a with role user
+[2025-08-26T23:40:42.117Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-26T23:40:48.390Z] WARN: Authorization denied: user not found for decoded id 167836dc-ecb2-48b9-a7ca-b62277fd80fb
+[2025-08-26T23:40:53.923Z] INFO: Suppliers listed, IP: ::1
+[2025-08-26T23:40:58.087Z] WARN: Forbidden access attempt by user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a with role user
+[2025-08-26T23:41:08.640Z] WARN: Authorization denied: user not found for decoded id 49a15bc6-a81f-473d-a20f-da49f7f55d51
+[2025-08-26T23:41:13.793Z] WARN: Forbidden access attempt by user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a with role user
+[2025-08-26T23:49:55.686Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-08-26T23:50:00.980Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-26T23:50:08.759Z] WARN: Authorization denied: user not found for decoded id 49a15bc6-a81f-473d-a20f-da49f7f55d51
+[2025-08-26T23:50:13.315Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-08-26T23:50:31.290Z] ERROR: Error creating user: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-08-26T23:50:59.690Z] WARN: Schema validation failed for POST /api/users/
+[2025-08-26T23:51:05.210Z] INFO: User bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a creó usuario 48400b11-57dd-4309-b02f-fb4ebd3ff7e9, IP: ::1
+[2025-08-26T23:51:15.743Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-26T23:52:40.612Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-08-26T23:53:04.093Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-26T23:53:16.862Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-26T23:54:27.491Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-26T23:58:26.430Z] INFO: User bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a eliminó usuario 48400b11-57dd-4309-b02f-fb4ebd3ff7e9, IP: ::1
+[2025-08-26T23:58:38.387Z] WARN: Authorization denied: user not found for decoded id 49a15bc6-a81f-473d-a20f-da49f7f55d51
+[2025-08-26T23:58:55.669Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a created product 4081b328-68b3-4d7f-a6de-f24ecfec6330 (Camiseta deportiva212), IP: ::1
+[2025-08-26T23:59:07.696Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-26T23:59:33.302Z] INFO: Product retrieved by ID: 4081b328-68b3-4d7f-a6de-f24ecfec6330, IP: ::1
+[2025-08-26T23:59:59.988Z] INFO: Suppliers listed, IP: ::1
+[2025-08-27T00:03:06.747Z] WARN: Authorization denied: user not found for decoded id 49a15bc6-a81f-473d-a20f-da49f7f55d51
+[2025-08-27T00:03:19.141Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a deleted product 4081b328-68b3-4d7f-a6de-f24ecfec6330 (Camiseta deportiva212), IP: ::1
+[2025-08-27T00:05:12.383Z] WARN: Authorization denied: user not found for decoded id 49a15bc6-a81f-473d-a20f-da49f7f55d51
+[2025-08-27T00:06:06.192Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a created supplier 994edc64-488a-4618-a8f2-7388de34a910, IP: ::1
+[2025-08-27T00:06:58.909Z] INFO: Suppliers listed, IP: ::1
+[2025-08-27T00:09:21.297Z] WARN: Schema validation failed for POST /api/products
+[2025-08-27T00:11:28.705Z] WARN: Schema validation failed for POST /api/products
+[2025-08-27T00:12:12.243Z] WARN: Schema validation failed for POST /api/products
+[2025-08-27T00:12:13.725Z] WARN: Schema validation failed for POST /api/products
+[2025-08-27T00:13:04.172Z] WARN: Schema validation failed for POST /api/products
+[2025-08-27T00:19:08.097Z] WARN: Schema validation failed for POST /api/products
+[2025-08-27T00:20:08.800Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key15»
+[2025-08-27T00:20:46.216Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-27T00:20:52.305Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a created product b97a9f96-0927-4eb2-b8f7-b9cdb5a7cc33 (Camiseta deportiva2122), IP: ::1
+[2025-08-27T00:20:57.653Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-27T00:21:47.506Z] ERROR: Token verification failed: jwt expired
+[2025-08-27T00:22:28.179Z] INFO: User registered successfully: JAVIER13@test.com, IP: ::1
+[2025-08-27T00:23:27.520Z] INFO: Login successful: JAVIER13@test.com, IP: ::1
+[2025-08-27T00:30:13.635Z] WARN: Forbidden access attempt by user c6fa6355-ecfd-4647-8565-2e0d9d3b6c86 with role user
+[2025-08-27T00:30:24.375Z] WARN: Forbidden access attempt by user c6fa6355-ecfd-4647-8565-2e0d9d3b6c86 with role user
+[2025-08-27T00:30:49.524Z] WARN: Forbidden access attempt by user c6fa6355-ecfd-4647-8565-2e0d9d3b6c86 with role user
+[2025-08-27T00:32:01.214Z] WARN: Forbidden access attempt by user c6fa6355-ecfd-4647-8565-2e0d9d3b6c86 with role user
+[2025-08-27T00:33:32.802Z] WARN: Forbidden access attempt by user c6fa6355-ecfd-4647-8565-2e0d9d3b6c86 with role user
+[2025-08-27T00:43:26.435Z] WARN: Forbidden access attempt by user c6fa6355-ecfd-4647-8565-2e0d9d3b6c86 with role user
+[2025-08-27T00:44:07.550Z] WARN: Forbidden access attempt by user c6fa6355-ecfd-4647-8565-2e0d9d3b6c86 with role user
+[2025-08-27T00:46:21.752Z] WARN: Forbidden access attempt by user c6fa6355-ecfd-4647-8565-2e0d9d3b6c86 with role user
+[2025-08-27T00:47:10.698Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-08-27T00:52:09.443Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T00:52:18.337Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-08-27T00:53:17.718Z] INFO: User registered successfully: JAVIER1@test.com, IP: ::1
+[2025-08-27T00:53:32.770Z] WARN: Forbidden access attempt by user b436aaef-9e43-47f3-91a2-937cf60433b0 with role user
+[2025-08-27T00:53:52.964Z] WARN: Forbidden access attempt by user b436aaef-9e43-47f3-91a2-937cf60433b0 with role user
+[2025-08-27T00:55:04.214Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-08-27T00:55:32.932Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T00:58:20.789Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T00:59:37.336Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:01:39.109Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:03:33.761Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:05:55.475Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:06:07.146Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:11:37.688Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:11:51.204Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:12:25.434Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')

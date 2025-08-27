@@ -9,23 +9,28 @@ import logger from '../utils/logger.js'
 export const createProduct = async (req, res) => {
   const userIP = req.clientIP
   try {
+    // Solo tomar los campos permitidos
     const allowedFields = ['name', 'description', 'price', 'stock', 'categoryId', 'supplierId']
     const productData = pick(req.body, allowedFields)
 
+    // Validar que se envíen categoryId y supplierId
+    if (!productData.categoryId) {
+      return res.status(400).json({ message: 'Category ID is required.' })
+    }
+    if (!productData.supplierId) {
+      return res.status(400).json({ message: 'Supplier ID is required.' })
+    }
+
     // Verificar que el proveedor exista
-    if (productData.supplierId) {
-      const supplierExists = await Supplier.findByPk(productData.supplierId)
-      if (!supplierExists) {
-        return res.status(400).json({ message: 'Supplier not found.' })
-      }
+    const supplierExists = await Supplier.findByPk(productData.supplierId)
+    if (!supplierExists) {
+      return res.status(400).json({ message: 'Supplier not found.' })
     }
 
     // Verificar que la categoría exista
-    if (productData.categoryId) {
-      const categoryExists = await Category.findByPk(productData.categoryId)
-      if (!categoryExists) {
-        return res.status(400).json({ message: 'Category not found.' })
-      }
+    const categoryExists = await Category.findByPk(productData.categoryId)
+    if (!categoryExists) {
+      return res.status(400).json({ message: 'Category not found.' })
     }
 
     // Verificar que no exista producto con mismo nombre
@@ -34,6 +39,7 @@ export const createProduct = async (req, res) => {
       return res.status(400).json({ message: 'A product with this name already exists.', field: 'name' })
     }
 
+    // Crear producto
     const newProduct = await Product.create(productData)
 
     logger.info(`[AUDIT] user ${req.user.id} created product ${newProduct.id} (${newProduct.name}), IP: ${userIP}`)
@@ -47,7 +53,6 @@ export const createProduct = async (req, res) => {
     res.status(500).json({ message: 'An error occurred while creating the product.', error: err.message })
   }
 }
-
 // --------------------- LIST PRODUCTS ---------------------
 export const products = async (req, res) => {
   const userIP = req.clientIP
@@ -113,7 +118,7 @@ export const updateProduct = async (req, res) => {
   const { id } = req.params
 
   try {
-    const allowedFields = ['name', 'description', 'price', 'stock', 'categoryId', 'supplierId']
+    const allowedFields = ['name', 'description', 'price', 'stock', 'category', 'supplier']
     const updateData = pick(req.body, allowedFields)
 
     const product = await Product.findByPk(id)

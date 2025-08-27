@@ -13,6 +13,7 @@ import supplierRoutes from './routes/supplier.routes.js'
 import manualInventoryRoutes from './routes/manualInventory.routes.js'
 import categoryRoutes from './routes/category.routes.js'
 import clientRoutes from './routes/client.routes.js'
+import reportsRoutes from './routes/reports.routes.js'
 
 import { sanitizeInput } from './middleware/sanitizeInput.js'
 import { zodErrorHandler } from './middleware/zodErrorHandler.js'
@@ -54,6 +55,7 @@ app.use('/api/suppliers', supplierRoutes)
 app.use('/api/manual-inventory', manualInventoryRoutes)
 app.use('/api/categories', categoryRoutes)
 app.use('/api/clients', clientRoutes)
+app.use('/api/reports', reportsRoutes)
 
 // Error handler Zod
 app.use(zodErrorHandler)

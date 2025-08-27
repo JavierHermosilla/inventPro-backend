@@ -41,7 +41,9 @@ export const login = async (req, res) => {
   try {
     const { email, password } = req.body
 
-    const userFound = await User.findOne({ where: { email } })
+    // 👉 Aquí el cambio importante
+    const userFound = await User.scope('withPassword').findOne({ where: { email } })
+
     if (!userFound) {
       logger.warn(`Login failed, email not found: ${email}, IP: ${userIP}`)
       return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
@@ -58,7 +60,22 @@ export const login = async (req, res) => {
 
     logger.info(`Login successful: ${email}, IP: ${userIP}`)
 
-    res.status(200).json({ token, ...pick(userFound, ['id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar', 'createdAt', 'updatedAt']) })
+    // 👉 no retornamos la password jamás
+    res.status(200).json({
+      token,
+      ...pick(userFound, [
+        'id',
+        'username',
+        'name',
+        'email',
+        'role',
+        'phone',
+        'address',
+        'avatar',
+        'createdat', // <-- aquí
+        'updatedat' // <-- y aquí
+      ])
+    })
   } catch (err) {
     logger.error(`Login error: ${err.message}, IP: ${userIP}`)
     res.status(500).json({ message: err.message })
@@ -150,22 +167,26 @@ export const updateUser = async (req, res) => {
   const id = req.params.id
 
   try {
+    const user = await User.findByPk(id)
+    if (!user) return res.status(404).json({ message: 'Usuario no encontrado' })
+
     const allowedFields = req.user?.role === 'admin'
       ? ['username', 'name', 'email', 'phone', 'address', 'avatar', 'role', 'password']
       : ['username', 'name', 'email', 'phone', 'address', 'avatar', 'password']
 
-    const data = pick(req.body, allowedFields)
-    const updatedUser = await User.update(data, { where: { id }, returning: true })
+    Object.assign(user, pick(req.body, allowedFields))
 
-    if (!updatedUser[1].length) return res.status(404).json({ message: 'Usuario no encontrado' })
+    await user.save() // 👉 aquí se ejecutan los hooks (hash password, updatedAt, etc.)
 
-    res.json({ message: 'Usuario actualizado', user: pick(updatedUser[1][0], ['id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar']) })
+    res.json({
+      message: 'Usuario actualizado',
+      user: pick(user, ['id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar'])
+    })
   } catch (err) {
     logger.error(`Error updating user: ${err.message}, IP: ${userIP}`)
     res.status(500).json({ message: 'Error actualizando usuario', error: err.message })
   }
 }
-
 // Eliminar usuario (solo admin)
 export const deleteUser = async (req, res) => {
   const userIP = req.clientIP

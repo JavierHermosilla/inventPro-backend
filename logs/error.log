@@ -779,3 +779,40 @@
 [2025-08-26T00:03:02.816Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
 [2025-08-26T00:23:38.790Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
 [2025-08-26T00:24:59.274Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key»
+[2025-08-26T16:59:45.265Z] ERROR: Token verification failed: no existe la columna «createdAt»
+[2025-08-26T16:59:50.296Z] ERROR: Login error: no existe la columna «createdAt», IP: ::1
+[2025-08-26T17:00:02.690Z] ERROR: Login error: no existe la columna «createdAt», IP: ::1
+[2025-08-26T20:57:26.110Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:41.003Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:46.280Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:47.478Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:48.459Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:49.369Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:57:58.262Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:58:12.821Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:58:17.921Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T20:58:25.633Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T21:01:39.609Z] ERROR: Registration error: Cannot read properties of undefined (reading 'constructor'), IP: ::1
+[2025-08-26T23:21:13.581Z] ERROR: Token verification failed: jwt expired
+[2025-08-26T23:32:09.271Z] ERROR: Registration error: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-08-26T23:35:34.315Z] ERROR: Token verification failed: jwt expired
+[2025-08-26T23:39:09.440Z] ERROR: Token verification failed: jwt expired
+[2025-08-26T23:50:00.980Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-26T23:50:31.290Z] ERROR: Error creating user: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-08-26T23:51:15.743Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-26T23:53:04.093Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-26T23:53:16.862Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-26T23:54:27.491Z] ERROR: Error listing users: no existe la columna User.createdAt, IP: ::1
+[2025-08-27T00:20:08.800Z] ERROR: Error creating product llave duplicada viola restricción de unicidad «products_name_key15»
+[2025-08-27T00:21:47.506Z] ERROR: Token verification failed: jwt expired
+[2025-08-27T00:52:09.443Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T00:55:32.932Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T00:58:20.789Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T00:59:37.336Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:01:39.109Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:03:33.761Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:05:55.475Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:06:07.146Z] ERROR: Error creating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:11:37.688Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:11:51.204Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:12:25.434Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')

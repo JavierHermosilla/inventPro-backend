@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import {
   listUsers,
-  profile,
   updateUser,
   deleteUser,
-  createUser
+  createUser,
+  getUserById
 } from '../controllers/user.controller.js'
 
 import { verifyTokenMiddleware, requireRole, requireRoleOrSelf } from '../middleware/auth.middleware.js'
@@ -24,7 +24,8 @@ router.post(
   checkUserUniqueness,
   createUser
 )
-// Listar todos los usuarios (solo admin)
+
+// Listar todos (solo admin)
 router.get(
   '/',
   verifyTokenMiddleware,
@@ -32,32 +33,32 @@ router.get(
   listUsers
 )
 
-// Obtener usuario por id (admin o el propio usuario)
+// 👇 Ver usuario por id (admin o el mismo usuario)
 router.get(
   '/:id',
   verifyTokenMiddleware,
-  requireRoleOrSelf('admin'),
   validateUUID('id'),
-  profile
+  requireRoleOrSelf('admin'),
+  getUserById
 )
 
-// Actualizar usuario (admin o el propio usuario)
+// 👇 Actualizar usuario (admin o el mismo usuario)
 router.put(
   '/:id',
   verifyTokenMiddleware,
-  requireRoleOrSelf('admin'),
   validateUUID('id'),
+  requireRoleOrSelf('admin'),
   validateSchema(updateUserSchema),
   checkUserUniqueness,
   updateUser
 )
 
-// Eliminar usuario (solo admin)
+// Eliminar (solo admin)
 router.delete(
   '/:id',
   verifyTokenMiddleware,
-  requireRole('admin'),
   validateUUID('id'),
+  requireRole('admin'),
   deleteUser
 )
 

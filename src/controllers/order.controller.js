@@ -26,10 +26,8 @@ export const createOrder = async (req, res) => {
         await t.rollback()
         return res.status(404).json({ message: `Product ${item.productId} not found` })
       }
-      if (product.stock < item.quantity) {
-        await t.rollback()
-        return res.status(400).json({ message: `Insufficient stock for ${product.name}` })
-      }
+      product.stock -= item.quantity
+      await product.save({ transaction: t })
 
       product.stock -= item.quantity
       await product.save({ transaction: t })
@@ -64,7 +62,11 @@ export const listOrders = async (req, res) => {
   try {
     const orders = await Order.findAll({
       include: [
-        { model: OrderProduct, as: 'products', include: [{ model: Product, as: 'product' }] }
+        {
+          model: OrderProduct,
+          as: 'orderItems',
+          include: [{ model: Product, as: 'orderedProduct' }]
+        }
       ],
       order: [['createdAt', 'DESC']]
     })
@@ -73,13 +75,16 @@ export const listOrders = async (req, res) => {
     res.status(500).json({ message: err.message })
   }
 }
-
 // --------------------- LIST ORDER BY ID ---------------------
 export const listOrderById = async (req, res) => {
   try {
     const order = await Order.findByPk(req.params.id, {
       include: [
-        { model: OrderProduct, as: 'products', include: [{ model: Product, as: 'product' }] }
+        {
+          model: OrderProduct,
+          as: 'orderItems',
+          include: [{ model: Product, as: 'orderedProduct' }]
+        }
       ]
     })
     if (!order) return res.status(404).json({ message: 'Order not found' })
@@ -94,7 +99,7 @@ export const updateOrder = async (req, res) => {
   const t = await sequelize.transaction()
   try {
     const order = await Order.findByPk(req.params.id, {
-      include: [{ model: OrderProduct, as: 'products' }],
+      include: [{ model: OrderProduct, as: 'orderItems' }],
       transaction: t
     })
     if (!order) {
@@ -110,8 +115,8 @@ export const updateOrder = async (req, res) => {
     }
 
     if (products) {
-      // Restaurar stock de productos antiguos
-      for (const item of order.products) {
+      // Restaurar stock de items antiguos
+      for (const item of order.orderItems) {
         const product = await Product.findByPk(item.productId, { transaction: t })
         product.stock += item.quantity
         await product.save({ transaction: t })
@@ -121,9 +126,9 @@ export const updateOrder = async (req, res) => {
       let totalAmount = 0
       for (const item of products) {
         const product = await Product.findByPk(item.productId, { transaction: t })
-        if (!product || product.stock < item.quantity) {
+        if (!product) {
           await t.rollback()
-          return res.status(400).json({ message: `Invalid product or insufficient stock for ${item.productId}` })
+          return res.status(404).json({ message: `Product ${item.productId} not found` })
         }
         product.stock -= item.quantity
         await product.save({ transaction: t })
@@ -143,7 +148,16 @@ export const updateOrder = async (req, res) => {
     if (status) order.status = status
     await order.save({ transaction: t })
     await t.commit()
-    res.json({ message: 'Order updated', order })
+
+    // devolver con include correcto
+    const full = await Order.findByPk(order.id, {
+      include: [{
+        model: OrderProduct,
+        as: 'orderItems',
+        include: [{ model: Product, as: 'orderedProduct' }]
+      }]
+    })
+    res.json({ message: 'Order updated', order: full })
   } catch (err) {
     await t.rollback()
     res.status(500).json({ message: err.message })
@@ -155,7 +169,7 @@ export const deleteOrder = async (req, res) => {
   const t = await sequelize.transaction()
   try {
     const order = await Order.findByPk(req.params.id, {
-      include: [{ model: OrderProduct, as: 'products' }],
+      include: [{ model: OrderProduct, as: 'orderItems' }],
       transaction: t
     })
     if (!order) {
@@ -163,7 +177,7 @@ export const deleteOrder = async (req, res) => {
       return res.status(404).json({ message: 'Order not found' })
     }
 
-    for (const item of order.products) {
+    for (const item of order.orderItems) {
       const product = await Product.findByPk(item.productId, { transaction: t })
       product.stock += item.quantity
       await product.save({ transaction: t })

@@ -1,30 +1,24 @@
 import dotenv from 'dotenv'
 import app from './app.js'
-import { sequelize, initializeModels } from './models/index.js'
+import { sequelize, models } from './db/db.js'
 
 dotenv.config()
 const PORT = process.env.PORT || 3000
 
-const startServer = async () => {
+;(async () => {
   try {
-    // 🔹 Inicializa modelos y relaciones
-    initializeModels()
-
-    // Conexión a PostgreSQL
     await sequelize.authenticate()
-    console.log('✅ PostgreSQL connected successfully!')
-
-    // Sincronización de tablas
-    await sequelize.sync({ alter: true })
-
-    // Inicia el servidor
+    if (process.env.NODE_ENV !== 'production') {
+      await sequelize.sync({ alter: true })
+    } else {
+      await sequelize.sync() // o migraciones si las usas
+    }
     app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`)
+      console.log('>>> PostgreSQL connected successfully!')
+      console.log(`✅ Server running on port 127.0.0.1:${PORT}`)
     })
   } catch (err) {
-    console.error('❌ Failed to start server:', err)
+    console.error('Failed to start server:', err)
     process.exit(1)
   }
-}
-
-startServer()
+})()

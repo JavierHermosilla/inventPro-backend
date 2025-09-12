@@ -6,10 +6,10 @@
 [2025-08-08T20:10:11.633Z] ERROR: Token verification failed: jwt malformed
 [2025-08-08T20:10:11.655Z] ERROR: Token verification failed: jwt malformed
 [2025-08-08T20:10:11.670Z] ERROR: Token verification failed: jwt malformed
-[2025-08-08T20:38:08.755Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
-[2025-08-08T20:38:08.809Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
-[2025-08-08T20:38:08.853Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
-[2025-08-08T20:38:08.898Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.755Z] ERROR: Error creating product Cast to UUID v4 failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.809Z] ERROR: Error creating product Cast to UUID v4 failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.853Z] ERROR: Error creating product Cast to UUID v4 failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.898Z] ERROR: Error creating product Cast to UUID v4 failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
 [2025-08-09T15:31:34.046Z] ERROR: Token verification failed: jwt malformed
 [2025-08-09T15:31:34.204Z] ERROR: Token verification failed: jwt malformed
 [2025-08-09T15:31:34.338Z] ERROR: Token verification failed: jwt malformed
@@ -207,18 +207,18 @@
 [2025-08-11T14:40:12.818Z] ERROR: Token verification failed: jwt malformed
 [2025-08-11T14:40:12.990Z] ERROR: Token verification failed: jwt malformed
 [2025-08-11T14:40:15.234Z] ERROR: Token verification failed: jwt malformed
-[2025-08-11T19:37:12.394Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:37:12.634Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:37:12.863Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:37:13.086Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:40:23.532Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:40:23.810Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:40:24.055Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:40:24.306Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:46:57.391Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:46:57.689Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:46:57.921Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
-[2025-08-11T19:46:58.150Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.394Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.634Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.863Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:13.086Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:23.532Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:23.810Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:24.055Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:24.306Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.391Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.689Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.921Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:58.150Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T20:14:22.504Z] ERROR: Token verification failed: jwt malformed
 [2025-08-11T20:17:54.507Z] ERROR: Token verification failed: jwt malformed
 [2025-08-11T20:33:03.347Z] ERROR: Token verification failed: jwt malformed
@@ -247,12 +247,12 @@
 [2025-08-11T21:05:49.864Z] ERROR: Token verification failed: jwt malformed
 [2025-08-11T21:05:49.908Z] ERROR: Token verification failed: jwt malformed
 [2025-08-11T21:12:42.511Z] ERROR: Token verification failed: jwt malformed
-[2025-08-11T21:33:21.434Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:33:34.526Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:34:49.379Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:35:08.577Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:36:04.308Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:36:17.150Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:33:21.434Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:33:34.526Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:34:49.379Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:35:08.577Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:36:04.308Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:36:17.150Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
 [2025-08-12T13:31:31.976Z] ERROR: Token verification failed: jwt malformed
 [2025-08-12T14:05:27.117Z] ERROR: Token verification failed: jwt malformed
 [2025-08-13T12:59:42.109Z] ERROR: Token verification failed: jwt malformed
@@ -383,7 +383,7 @@
 [2025-08-15T18:31:30.013Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
 [2025-08-15T18:31:54.487Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
 [2025-08-15T18:32:20.377Z] ERROR: Unexpected error in validateSchema middleware Cannot read properties of undefined (reading 'length')
-[2025-08-18T13:40:51.627Z] ERROR: Error in createOrder Cast to ObjectId failed for value "customer123" (type string) at path "_id" for model "User"
+[2025-08-18T13:40:51.627Z] ERROR: Error in createOrder Cast to UUID v4 failed for value "customer123" (type string) at path "_id" for model "User"
 [2025-08-19T17:28:11.615Z] ERROR: Token verification failed: invalid token
 [2025-08-19T17:29:53.976Z] ERROR: Token verification failed: invalid token
 [2025-08-19T17:30:06.595Z] ERROR: Token verification failed: invalid token
@@ -743,9 +743,9 @@
 [2025-08-20T13:26:31.804Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:30:19.438Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:30:34.440Z] ERROR: Token verification failed: jwt malformed
-[2025-08-20T13:30:34.786Z] ERROR: [ERROR] manualInventoryById: Cast to ObjectId failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
+[2025-08-20T13:30:34.786Z] ERROR: [ERROR] manualInventoryById: Cast to UUID v4 failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
 [2025-08-20T13:33:11.606Z] ERROR: Token verification failed: invalid token
-[2025-08-20T13:33:23.077Z] ERROR: [ERROR] manualInventoryById: Cast to ObjectId failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
+[2025-08-20T13:33:23.077Z] ERROR: [ERROR] manualInventoryById: Cast to UUID v4 failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
 [2025-08-20T13:36:54.599Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:39:39.271Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:44:49.727Z] ERROR: Token verification failed: invalid token
@@ -816,3 +816,10 @@
 [2025-08-27T01:11:37.688Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
 [2025-08-27T01:11:51.204Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
 [2025-08-27T01:12:25.434Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
+[2025-09-09T22:37:41.834Z] ERROR: Token verification failed: jwt expired
+[2025-09-09T22:38:40.729Z] ERROR: Registration error: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-09-09T22:46:34.373Z] ERROR: Error creating user: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-09-09T22:51:35.785Z] ERROR: Error creating supplier llave duplicada viola restricción de unicidad «suppliers_name_key49»
+[2025-09-09T22:54:55.943Z] ERROR: Token verification failed: jwt expired
+[2025-09-10T16:39:33.500Z] ERROR: Error creating supplier llave duplicada viola restricción de unicidad «suppliers_name_key68»
+[2025-09-10T16:40:39.500Z] ERROR: Error updating supplier llave duplicada viola restricción de unicidad «suppliers_name_key68»

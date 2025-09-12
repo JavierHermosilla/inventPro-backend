@@ -48,7 +48,7 @@
  *           example: https://example.com/avatar.jpg
  *         role:
  *           type: string
- *           enum: [admin, user, manager]
+ *           enum: [admin, user, vendedor]
  *           description: User role in the system
  *           example: user
  *         createdAt:
@@ -97,7 +97,7 @@
  *           example: https://example.com/avatar.jpg
  *         role:
  *           type: string
- *           enum: [admin, user, manager]
+ *           enum: [admin, user, vendedor]
  *           example: user
  *
  *     UserUpdate:
@@ -125,6 +125,6 @@
  *           example: https://example.com/avatar.jpg
  *         role:
  *           type: string
- *           enum: [admin, user, manager]
+ *           enum: [admin, user, vendedor]
  *           example: user
  */

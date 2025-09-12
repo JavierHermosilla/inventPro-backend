@@ -27,13 +27,13 @@ class Order extends Model {
   }
 
   // 🔹 Relaciones
-  static associate (models, schema) {
-    // Order -> User (cliente)
-    this.belongsTo(models.User, { foreignKey: 'customerId', as: 'customerDetail', schema })
+  // static associate (models, schema) {
+  //   // Order -> User (cliente)
+  //   this.belongsTo(models.User, { foreignKey: 'customerId', as: 'customerDetail', schema })
 
-    // Order -> OrderProduct
-    this.hasMany(models.OrderProduct, { foreignKey: 'orderId', as: 'orderItems', schema })
-  }
+  //   // Order -> OrderProduct
+  //   this.hasMany(models.OrderProduct, { foreignKey: 'orderId', as: 'orderItems', schema })
+  // }
 }
 
 export default Order

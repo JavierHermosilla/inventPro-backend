@@ -36,7 +36,7 @@ InventPro es un backend REST API para gestionar inventarios, órdenes de compra,
 
 - Autenticación JWT
 
-- Control de roles (admin, manager, user)
+- Control de roles (admin, bodeguero, user)
 
 - Auditoría de IP
 
@@ -202,11 +202,11 @@ Content-Type: application/json
 Authorization: Bearer <JWT>
 
 {
-  "username": "manager1",
-  "name": "Manager Uno",
-  "email": "manager1@inventpro.com",
-  "password": "manager123",
-  "role": "manager"
+  "username": "bodeguero1",
+  "name": "bodeguero Uno",
+  "email": "bodeguero1@inventpro.com",
+  "password": "bodeguero123",
+  "role": "bodeguero"
 }
 
 
@@ -216,10 +216,10 @@ Authorization: Bearer <JWT>
   "message": "Usuario creado",
   "user": {
     "id": "uuid",
-    "username": "manager1",
-    "name": "Manager Uno",
-    "email": "manager1@inventpro.com",
-    "role": "manager"
+    "username": "bodeguero1",
+    "name": "bodeguero Uno",
+    "email": "bodeguero1@inventpro.com",
+    "role": "bodeguero"
   }
 }
 

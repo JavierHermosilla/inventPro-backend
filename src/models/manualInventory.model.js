@@ -52,13 +52,13 @@ class ManualInventory extends Model {
   }
 
   // 🔹 Definición de relaciones
-  static associate (models, schema) {
-    // ManualInventory -> Product
-    this.belongsTo(models.Product, { foreignKey: 'productId', as: 'product', schema })
+  // static associate (models, schema) {
+  //   // ManualInventory -> Product
+  //   this.belongsTo(models.Product, { foreignKey: 'productId', as: 'product', schema })
 
-    // ManualInventory -> User
-    this.belongsTo(models.User, { foreignKey: 'userId', as: 'performedBy', schema })
-  }
+  //   // ManualInventory -> User
+  //   this.belongsTo(models.User, { foreignKey: 'userId', as: 'performedBy', schema })
+  // }
 }
 
 export default ManualInventory

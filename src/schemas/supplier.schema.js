@@ -1,22 +1,29 @@
+// src/schemas/supplier.schema.js
 import { z } from 'zod'
 
-// Función para validar RUT chileno
+// Normaliza: quita puntos y deja DV en mayúscula
+const normalizeRut = (rut) => String(rut ?? '').toUpperCase().replace(/\./g, '')
+
+// Valida DV (módulo 11) sobre un RUT normalizado con guion
 const validateRUT = (rut) => {
-  const cleanRut = rut.replace(/\./g, '').replace('-', '')
-  const body = cleanRut.slice(0, -1)
-  const dv = cleanRut.slice(-1).toUpperCase()
+  const clean = String(rut ?? '')
+  const [body, dvRaw] = clean.split('-')
+  if (!body || !dvRaw) return false
+  const dv = dvRaw.toUpperCase()
 
   let sum = 0
-  let multiplier = 2
+  let mul = 2
   for (let i = body.length - 1; i >= 0; i--) {
-    sum += parseInt(body[i], 10) * multiplier
-    multiplier = multiplier < 7 ? multiplier + 1 : 2
+    sum += parseInt(body[i], 10) * mul
+    mul = mul === 7 ? 2 : mul + 1
   }
-
-  const dvCalc = 11 - (sum % 11)
-  const dvExpected = dvCalc === 11 ? '0' : dvCalc === 10 ? 'K' : dvCalc.toString()
-  return dv === dvExpected
+  const mod = 11 - (sum % 11)
+  const expected = mod === 11 ? '0' : mod === 10 ? 'K' : String(mod)
+  return dv === expected
 }
+
+// Formato esperado *después* de normalizar: ########-DV (sin puntos)
+const isNormalizedRutFormat = (value) => /^(\d{7,8}-[\dK])$/i.test(String(value ?? ''))
 
 // Helpers para strings opcionales que aceptan '' o null y limitan longitud
 const optionalString = (maxLength) =>
@@ -58,13 +65,13 @@ export const supplierSchema = z.object({
   website: optionalURL,
   rut: z.string()
     .nonempty({ message: 'RUT is required' })
-    .regex(/^(\d{1,2}\.?\d{3}\.?\d{3}-[\dkK]|\d{7,8}-[\dkK])$/, { message: 'Invalid RUT format' })
-    .refine(validateRUT, { message: 'Invalid RUT' }),
+    .transform(normalizeRut) // 1) normaliza
+    .refine(isNormalizedRutFormat, { message: 'Invalid RUT format' }) // 2) formato (sin puntos, con guion)
+    .refine(validateRUT, { message: 'Invalid RUT' }), // 3) dígito verificador
   paymentTerms: optionalString(200),
   categories: z.array(z.string().min(1)).optional().default([]),
   status: optionalStatus,
   notes: optionalString(1000)
 })
 
-// Para actualizaciones parciales
 export const updateSupplierSchema = supplierSchema.partial()

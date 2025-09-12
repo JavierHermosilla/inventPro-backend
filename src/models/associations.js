@@ -1,15 +1,15 @@
-import {
-  Supplier,
-  Category,
-  Product,
-  User,
-  Order,
-  OrderProduct,
-  ManualInventory,
-  Client,
-  Report
-} from './index.js'
+// src/models/associations.js
+import Supplier from './supplier.model.js'
+import Category from './category.model.js'
+import Product from './product.model.js'
+import User from './user.model.js'
+import Order from './order.model.js'
+import OrderProduct from './orderProduct.model.js'
+import ManualInventory from './manualInventory.model.js'
+import Client from './client.model.js'
+import Report from './reports.model.js'
 
+// Si usas un schema distinto en test
 const schema = process.env.NODE_ENV === 'test' ? 'test' : undefined
 
 // ====== Muchos a muchos: Supplier ↔ Category ======
@@ -50,7 +50,7 @@ Product.hasMany(OrderProduct, { foreignKey: 'productId', as: 'orderProducts', sc
 OrderProduct.belongsTo(Product, { foreignKey: 'productId', as: 'orderedProduct', schema })
 
 // ====== Uno a muchos: ManualInventory ↔ Product ======
-ManualInventory.belongsTo(Product, { foreignKey: 'productId', as: 'inventoryProduct', schema })
+ManualInventory.belongsTo(Product, { foreignKey: 'productId', as: 'product', schema }) // <- alias correcto
 Product.hasMany(ManualInventory, { foreignKey: 'productId', as: 'inventoryAdjustments', schema })
 
 // ====== Uno a muchos: ManualInventory ↔ User ======

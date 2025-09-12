@@ -14,7 +14,7 @@ export const register = async (req, res) => {
     const userIP = req.clientIP || req.ip || 'unknown'
 
     // Roles permitidos
-    const allowedRoles = ['user', 'manager']
+    const allowedRoles = ['user', 'vendedor']
     const safeRole = allowedRoles.includes(role) ? role : 'user'
 
     // Verificar si email ya existe
@@ -120,14 +120,11 @@ export const login = async (req, res) => {
 // ==========================
 export const profile = async (req, res) => {
   try {
-    if (!req.userId) return res.status(401).json({ message: 'Unauthorized' })
-
-    const user = await User.findByPk(req.userId, { attributes: { exclude: ['password'] } })
+    if (!req.user?.id) return res.status(401).json({ message: 'Unauthorized' })
+    const user = await User.findByPk(req.user.id, { attributes: { exclude: ['password'] } })
     if (!user) return res.status(404).json({ message: 'Usuario no encontrado' })
-
     return res.json(user)
   } catch (err) {
-    logger.error(`Profile error: ${err.message}, userId: ${req.userId}`)
     return res.status(500).json({ message: err.message })
   }
 }

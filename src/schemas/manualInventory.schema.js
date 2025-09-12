@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-// Validación para ObjectId válida de MongoDB
+// Validación para UUID v4 válida de MongoDB
 const uuidSchema = z.string().uuid({ message: 'Invalid UUID' })
 
 // Schema para crear un ajuste manual de inventario

@@ -39,7 +39,7 @@ class Product extends Model {
           defaultValue: 0,
           validate: {
             notNull: { msg: 'Stock is required' },
-            min: { args: [0], msg: 'Stock cannot be negative' }
+            isIInt: { msg: 'Stock musty be an integer' }
           }
         }
       },
@@ -55,19 +55,19 @@ class Product extends Model {
   }
 
   // 🔹 Relaciones
-  static associate (models, schema) {
-    // Product -> Category
-    this.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category', schema })
+  // static associate (models, schema) {
+  //   // Product -> Category
+  //   this.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category', schema })
 
-    // Product -> Supplier
-    this.belongsTo(models.Supplier, { foreignKey: 'supplierId', as: 'supplier', schema })
+  //   // Product -> Supplier
+  //   this.belongsTo(models.Supplier, { foreignKey: 'supplierId', as: 'supplier', schema })
 
-    // Product -> OrderProduct
-    this.hasMany(models.OrderProduct, { foreignKey: 'productId', as: 'orderProducts', schema })
+  //   // Product -> OrderProduct
+  //   this.hasMany(models.OrderProduct, { foreignKey: 'productId', as: 'orderProducts', schema })
 
-    // Product -> ManualInventory (1:N)
-    this.hasMany(models.ManualInventory, { foreignKey: 'productId', as: 'inventoryAdjustments', schema })
-  }
+  //   // Product -> ManualInventory (1:N)
+  //   this.hasMany(models.ManualInventory, { foreignKey: 'productId', as: 'inventoryAdjustments', schema })
+  // }
 }
 
 export default Product

@@ -1,17 +1,24 @@
+// src/middleware/auth.middleware.js
 import User from '../models/user.model.js'
 import { verifyToken } from '../libs/jwt.js'
 import logger from '../utils/logger.js'
+
+// Configurable: acepta cookie solo si ALLOW_COOKIE_AUTH=true en .env
+const allowCookieAuth = (process.env.ALLOW_COOKIE_AUTH || 'false') === 'true'
 
 // Middleware para verificar token y cargar usuario en req.user
 export const verifyTokenMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization
-    const token = authHeader?.startsWith('Bearer ')
+    const headerToken = authHeader?.startsWith('Bearer ')
       ? authHeader.split(' ')[1]
-      : req.cookies?.token
+      : null
+
+    const cookieToken = allowCookieAuth ? req.cookies?.token : null
+    const token = headerToken || cookieToken
 
     if (!token) {
-      logger.warn('Authorization denied: no token provided')
+      logger.warn(`Authorization denied: no token provided (URL=${req.method} ${req.originalUrl})`)
       return res.status(401).json({ message: 'No token provided, authorization denied' })
     }
 
@@ -27,7 +34,7 @@ export const verifyTokenMiddleware = async (req, res, next) => {
       return res.status(404).json({ message: 'User not found' })
     }
 
-    // Guardar rol en minúsculas para evitar errores de comparación
+    // Guardar rol en minúsculas
     req.user = { id: user.id, role: user.role?.toLowerCase() }
     next()
   } catch (err) {
@@ -53,7 +60,9 @@ export const requireRole = (...roles) => (req, res, next) => {
 export const requireRoleOrSelf = (role) => (req, res, next) => {
   const user = req.user
   const paramId = req.params?.id?.toString()
-  if (!user?.id || !user?.role) return res.status(401).json({ message: 'Unauthorized: missing user info' })
+  if (!user?.id || !user?.role) {
+    return res.status(401).json({ message: 'Unauthorized: missing user info' })
+  }
 
   if (user.role === role.toLowerCase() || user.id === paramId) return next()
 

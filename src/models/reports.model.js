@@ -46,10 +46,10 @@ class Report extends Model {
   }
 
   // 🔹 Relaciones
-  static associate (models, schema) {
-    // Report -> User (creador)
-    this.belongsTo(models.User, { foreignKey: 'createdBy', as: 'creator', schema })
-  }
+  // static associate (models, schema) {
+  //   // Report -> User (creador)
+  //   this.belongsTo(models.User, { foreignKey: 'createdBy', as: 'creator', schema })
+  // }
 }
 
 export default Report

@@ -35,7 +35,7 @@
 [2025-08-08T20:10:11.480Z] WARN: Login attempt with invalid email: admin@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:10:11.507Z] ERROR: Token verification failed: jwt malformed
 [2025-08-08T20:10:11.579Z] ERROR: Token verification failed: jwt malformed
-[2025-08-08T20:10:11.594Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:10:11.594Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:10:11.617Z] ERROR: Token verification failed: jwt malformed
 [2025-08-08T20:10:11.633Z] ERROR: Token verification failed: jwt malformed
 [2025-08-08T20:10:11.655Z] ERROR: Token verification failed: jwt malformed
@@ -47,7 +47,7 @@
 [2025-08-08T20:15:23.321Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T20:15:23.351Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
 [2025-08-08T20:15:23.409Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
-[2025-08-08T20:15:23.420Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:15:23.420Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:15:23.450Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
 [2025-08-08T20:15:23.474Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
 [2025-08-08T20:15:23.497Z] WARN: Unauthorized access attempt by user 68965adb703fa156ff99af72 with role user
@@ -61,11 +61,11 @@
 [2025-08-08T20:32:13.685Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T20:32:13.785Z] WARN: Schema validation failed (parsed error) for /api/products
 [2025-08-08T20:32:13.848Z] WARN: Schema validation failed (parsed error) for /api/products
-[2025-08-08T20:32:13.865Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:32:13.865Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:32:13.913Z] WARN: Schema validation failed (parsed error) for /api/products
-[2025-08-08T20:32:13.944Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:32:13.944Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:32:13.998Z] WARN: Schema validation failed (parsed error) for /api/products
-[2025-08-08T20:32:14.030Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:32:14.030Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:32:17.180Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:32:17.343Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:32:17.466Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
@@ -78,19 +78,19 @@
 [2025-08-08T20:35:48.491Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T20:35:48.524Z] WARN: Schema validation failed (parsed error) for /api/products
 [2025-08-08T20:35:48.575Z] WARN: Schema validation failed (parsed error) for /api/products
-[2025-08-08T20:35:48.586Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:35:48.586Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:35:48.614Z] WARN: Schema validation failed (parsed error) for /api/products
-[2025-08-08T20:35:48.634Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:35:48.634Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:35:48.655Z] WARN: Schema validation failed (parsed error) for /api/products
-[2025-08-08T20:35:48.675Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:35:48.675Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:38:08.702Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
-[2025-08-08T20:38:08.755Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
-[2025-08-08T20:38:08.809Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
-[2025-08-08T20:38:08.822Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T20:38:08.853Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
-[2025-08-08T20:38:08.875Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T20:38:08.898Z] ERROR: Error creating product Cast to ObjectId failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
-[2025-08-08T20:38:08.917Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:38:08.755Z] ERROR: Error creating product Cast to UUID v4 failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.809Z] ERROR: Error creating product Cast to UUID v4 failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.822Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:38:08.853Z] ERROR: Error creating product Cast to UUID v4 failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.875Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:38:08.898Z] ERROR: Error creating product Cast to UUID v4 failed for value "proveedor test" (type string) at path "_id" for model "Supplier"
+[2025-08-08T20:38:08.917Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:38:10.445Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:38:10.546Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:38:10.640Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
@@ -99,25 +99,25 @@
 [2025-08-08T20:48:05.731Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T20:50:46.297Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T20:50:46.360Z] INFO: [AUDIT] user 68966325b2b51f4648ace2f8 created product 68966326b2b51f4648ace304 (Test Product)
-[2025-08-08T20:50:46.438Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T20:50:46.490Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T20:50:46.535Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:50:46.438Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:50:46.490Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:50:46.535Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:50:48.044Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:50:48.142Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:50:48.233Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T20:55:30.487Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T20:55:30.541Z] INFO: [AUDIT] user 689664424c33070ac0d37889 created product 689664424c33070ac0d37895 (Test Product)
-[2025-08-08T20:55:30.618Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T20:55:30.665Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T20:55:30.708Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:55:30.618Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:55:30.665Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:55:30.708Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:55:32.225Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:55:32.331Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:55:32.425Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T20:57:07.296Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T20:57:07.354Z] INFO: [AUDIT] user 689664a25f5dc3d61a3dcaf5 created product 689664a35f5dc3d61a3dcb01 (Test Product)
-[2025-08-08T20:57:07.428Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T20:57:07.474Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T20:57:07.515Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T20:57:07.428Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:57:07.474Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:57:07.515Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T20:57:09.025Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:57:09.129Z] INFO: User registered successfully: newuser@example.com from IP ::ffff:127.0.0.1
 [2025-08-08T20:57:09.226Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
@@ -129,9 +129,9 @@
 [2025-08-08T21:07:25.019Z] INFO: Successful login for: testuser@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T21:07:26.789Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T21:07:26.834Z] INFO: [AUDIT] user 6896670e34b2721e935996ce created product 6896670e34b2721e935996da (Test Product)
-[2025-08-08T21:07:26.899Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T21:07:26.951Z] WARN: Invalid ObjectId detected for param "id": undefined
-[2025-08-08T21:07:26.992Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-08T21:07:26.899Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T21:07:26.951Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T21:07:26.992Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-08T21:16:10.067Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-08T21:16:10.123Z] INFO: [AUDIT] user 6896691969c97cbc11cddb09 created product 6896691a69c97cbc11cddb15 (Test Product)
 [2025-08-08T21:16:11.765Z] INFO: User registered successfully: testuser@example.com from IP ::ffff:127.0.0.1
@@ -812,13 +812,13 @@
 [2025-08-11T19:37:10.363Z] WARN: Authorization denied: no token provided
 [2025-08-11T19:37:10.396Z] INFO: Logout from IP: 127.0.0.1
 [2025-08-11T19:37:12.341Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:37:12.394Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.394Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:37:12.604Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:37:12.634Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.634Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:37:12.832Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:37:12.863Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:12.863Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:37:13.057Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:37:13.086Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:37:13.086Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:40:20.910Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
 [2025-08-11T19:40:21.035Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
 [2025-08-11T19:40:21.145Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
@@ -830,13 +830,13 @@
 [2025-08-11T19:40:21.449Z] WARN: Authorization denied: no token provided
 [2025-08-11T19:40:21.487Z] INFO: Logout from IP: 127.0.0.1
 [2025-08-11T19:40:23.484Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:40:23.532Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:23.532Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:40:23.760Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:40:23.810Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:23.810Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:40:24.021Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:40:24.055Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:24.055Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:40:24.276Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:40:24.306Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:40:24.306Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:46:55.129Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
 [2025-08-11T19:46:55.232Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
 [2025-08-11T19:46:55.338Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
@@ -848,13 +848,13 @@
 [2025-08-11T19:46:55.625Z] WARN: Authorization denied: no token provided
 [2025-08-11T19:46:55.659Z] INFO: Logout from IP: 127.0.0.1
 [2025-08-11T19:46:57.351Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:46:57.391Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.391Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:46:57.656Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:46:57.689Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.689Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:46:57.891Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:46:57.921Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:57.921Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:46:58.121Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
-[2025-08-11T19:46:58.150Z] ERROR: Error creating product Product validation failed: category: Cast to ObjectId failed for value "Electronics" (type string) at path "category" because of "BSONError"
+[2025-08-11T19:46:58.150Z] ERROR: Error creating product Product validation failed: category: Cast to UUID v4 failed for value "Electronics" (type string) at path "category" because of "BSONError"
 [2025-08-11T19:53:03.038Z] INFO: User registered successfully: testuser@example.com from IP 127.0.0.1
 [2025-08-11T19:53:03.146Z] INFO: Successful login for: testuser@example.com from IP: 127.0.0.1
 [2025-08-11T19:53:03.249Z] INFO: User registered successfully: newuser@example.com from IP 127.0.0.1
@@ -1225,12 +1225,12 @@
 [2025-08-11T21:31:56.063Z] WARN: Schema validation failed for POST /api/manual-inventory
 [2025-08-11T21:32:28.551Z] WARN: Schema validation failed for POST /api/manual-inventory
 [2025-08-11T21:32:47.556Z] WARN: Schema validation failed for POST /api/manual-inventory
-[2025-08-11T21:33:21.434Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:33:34.526Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:34:49.379Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:35:08.577Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:36:04.308Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
-[2025-08-11T21:36:17.150Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to ObjectId failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:33:21.434Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:33:34.526Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:34:49.379Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:35:08.577Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:36:04.308Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
+[2025-08-11T21:36:17.150Z] ERROR: [ERROR] createManualInventory: Product validation failed: category: Cast to UUID v4 failed for value "ropa deportiva" (type string) at path "category" because of "BSONError"
 [2025-08-11T21:42:23.291Z] INFO: [AUDIT] user 6897a55ca1ca32330b22b260 created product 689a63bf52c9e78b208ab778 (Camiseta deportiva), IP: ::1
 [2025-08-11T21:43:19.588Z] INFO: [AUDIT] Admin undefined (6897a55ca1ca32330b22b260) removed 3 units of Camiseta deportiva (ID: 689a63bf52c9e78b208ab778). New stock: 47. IP: ::1
 [2025-08-11T21:43:56.796Z] INFO: [AUDIT] Admin undefined (689a641c00ce529728273a8d) added 5 units of Producto prueba (ID: 689a641c00ce529728273a8f). New stock: 15. IP: 127.0.0.1
@@ -5698,13 +5698,13 @@
 [2025-08-18T13:39:19.415Z] INFO: Listed users, page 1, IP: 127.0.0.1
 [2025-08-18T13:40:51.431Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
 [2025-08-18T13:40:51.554Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
-[2025-08-18T13:40:51.627Z] ERROR: Error in createOrder Cast to ObjectId failed for value "customer123" (type string) at path "_id" for model "User"
+[2025-08-18T13:40:51.627Z] ERROR: Error in createOrder Cast to UUID v4 failed for value "customer123" (type string) at path "_id" for model "User"
 [2025-08-18T13:40:51.679Z] WARN: Authorization denied: no token provided
 [2025-08-18T13:40:51.730Z] WARN: Validation failed in createOrder
 [2025-08-18T13:40:51.774Z] WARN: Validation failed in createOrder
 [2025-08-18T13:40:51.821Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-18T13:40:51.858Z] WARN: Authorization denied: no token provided
-[2025-08-18T13:40:51.942Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-18T13:40:51.942Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-18T13:40:53.763Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
 [2025-08-18T13:40:53.854Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
 [2025-08-18T13:40:54.049Z] INFO: [AUDIT] user 68a32d658ee31980f31aa45b created user 68a32d658ee31980f31aa469, IP: 127.0.0.1
@@ -5720,7 +5720,7 @@
 [2025-08-18T13:48:21.253Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-18T13:48:21.290Z] WARN: Authorization denied: no token provided
 [2025-08-18T13:48:21.396Z] INFO: Order retrieved by ID: 68a32f255567bdcda20ac2de, IP: 127.0.0.1
-[2025-08-18T13:48:21.441Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-18T13:48:21.441Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-18T13:48:21.494Z] INFO: Update order request by user 68a32f245567bdcda20ac27d, order id: 68a32f255567bdcda20ac2ff, IP: 127.0.0.1
 [2025-08-18T13:48:21.509Z] INFO: Order 68a32f255567bdcda20ac2ff updated successfully by user 68a32f245567bdcda20ac27d, IP: 127.0.0.1
 [2025-08-18T13:48:21.559Z] WARN: Forbidden access attempt by user 68a32f245567bdcda20ac279 with role user
@@ -5826,7 +5826,7 @@
 [2025-08-18T13:52:41.475Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-18T13:52:41.511Z] WARN: Authorization denied: no token provided
 [2025-08-18T13:52:41.594Z] INFO: Order retrieved by ID: 68a3302923a70c1dd76a052d, IP: 127.0.0.1
-[2025-08-18T13:52:41.636Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-18T13:52:41.636Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-18T13:52:41.688Z] INFO: Update order request by user 68a3302823a70c1dd76a04cc, order id: 68a3302923a70c1dd76a054e, IP: 127.0.0.1
 [2025-08-18T13:52:41.705Z] INFO: Order 68a3302923a70c1dd76a054e updated successfully by user 68a3302823a70c1dd76a04cc, IP: 127.0.0.1
 [2025-08-18T13:52:41.753Z] WARN: Forbidden access attempt by user 68a3302823a70c1dd76a04c8 with role user
@@ -5881,11 +5881,11 @@
 [2025-08-19T16:07:04.370Z] WARN: Authorization denied: no token provided
 [2025-08-19T16:07:04.413Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T16:07:04.520Z] WARN: Authorization denied: no token provided
-[2025-08-19T16:07:04.607Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:07:04.607Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:07:04.721Z] WARN: Forbidden access attempt by user 68a4a12720f53850f09307f8 with role user
-[2025-08-19T16:07:04.757Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:07:04.757Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:07:04.846Z] WARN: Forbidden access attempt by user 68a4a12720f53850f09307f8 with role user
-[2025-08-19T16:07:04.882Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:07:04.882Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:07:06.868Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
 [2025-08-19T16:07:06.966Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
 [2025-08-19T16:07:07.187Z] INFO: [AUDIT] user 68a4a12a72adf5778da138f1 created user 68a4a12b72adf5778da138ff, IP: 127.0.0.1
@@ -5946,7 +5946,7 @@
 [2025-08-19T16:07:16.362Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T16:07:16.410Z] WARN: Authorization denied: no token provided
 [2025-08-19T16:07:16.540Z] INFO: Order retrieved by ID: 68a4a134b6b899a8c2822509, IP: 127.0.0.1
-[2025-08-19T16:07:16.594Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:07:16.594Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:07:16.659Z] INFO: Update order request by user 68a4a133b6b899a8c28224a9, order id: 68a4a134b6b899a8c282252a, IP: 127.0.0.1
 [2025-08-19T16:07:16.678Z] INFO: Order 68a4a134b6b899a8c282252a updated successfully by user 68a4a133b6b899a8c28224a9, IP: 127.0.0.1
 [2025-08-19T16:07:16.738Z] WARN: Forbidden access attempt by user 68a4a133b6b899a8c28224a4 with role user
@@ -5968,11 +5968,11 @@
 [2025-08-19T16:40:32.359Z] WARN: Authorization denied: no token provided
 [2025-08-19T16:40:32.403Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T16:40:32.478Z] WARN: Authorization denied: no token provided
-[2025-08-19T16:40:32.561Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:40:32.561Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:40:32.751Z] WARN: Forbidden access attempt by user 68a4a9007b447b7290ab44f1 with role user
-[2025-08-19T16:40:32.786Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:40:32.786Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:40:32.864Z] WARN: Forbidden access attempt by user 68a4a9007b447b7290ab44f1 with role user
-[2025-08-19T16:40:32.898Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:40:32.898Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:40:34.570Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
 [2025-08-19T16:40:34.661Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
 [2025-08-19T16:40:34.842Z] INFO: [AUDIT] user 68a4a90270521ce5f30cf8c5 created user 68a4a90270521ce5f30cf8d3, IP: 127.0.0.1
@@ -6010,7 +6010,7 @@
 [2025-08-19T16:40:40.597Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T16:40:40.642Z] WARN: Authorization denied: no token provided
 [2025-08-19T16:40:40.733Z] INFO: Order retrieved by ID: 68a4a908f55ae481267ceb0d, IP: 127.0.0.1
-[2025-08-19T16:40:40.782Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:40:40.782Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:40:40.844Z] INFO: Update order request by user 68a4a908f55ae481267ceaad, order id: 68a4a908f55ae481267ceb2e, IP: 127.0.0.1
 [2025-08-19T16:40:40.859Z] INFO: Order 68a4a908f55ae481267ceb2e updated successfully by user 68a4a908f55ae481267ceaad, IP: 127.0.0.1
 [2025-08-19T16:40:40.919Z] WARN: Forbidden access attempt by user 68a4a907f55ae481267ceaa8 with role user
@@ -6088,7 +6088,7 @@
 [2025-08-19T16:44:50.359Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T16:44:50.400Z] WARN: Authorization denied: no token provided
 [2025-08-19T16:44:50.488Z] INFO: Order retrieved by ID: 68a4aa027dffc527f8e515c0, IP: 127.0.0.1
-[2025-08-19T16:44:50.533Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:44:50.533Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:44:50.585Z] INFO: Update order request by user 68a4aa017dffc527f8e51560, order id: 68a4aa027dffc527f8e515e1, IP: 127.0.0.1
 [2025-08-19T16:44:50.600Z] INFO: Order 68a4aa027dffc527f8e515e1 updated successfully by user 68a4aa017dffc527f8e51560, IP: 127.0.0.1
 [2025-08-19T16:44:50.650Z] WARN: Forbidden access attempt by user 68a4aa017dffc527f8e5155b with role user
@@ -6133,13 +6133,13 @@
 [2025-08-19T16:48:02.251Z] WARN: Authorization denied: no token provided
 [2025-08-19T16:48:02.295Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T16:48:02.369Z] WARN: Authorization denied: no token provided
-[2025-08-19T16:48:02.449Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:48:02.449Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:48:02.572Z] WARN: Forbidden access attempt by user 68a4aac20f90c0ef5335c830 with role bodeguero
 [2025-08-19T16:48:02.609Z] WARN: Forbidden access attempt by user 68a4aac20f90c0ef5335c830 with role bodeguero
 [2025-08-19T16:48:02.694Z] WARN: Forbidden access attempt by user 68a4aac10f90c0ef5335c82e with role user
-[2025-08-19T16:48:02.729Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:48:02.729Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:48:02.807Z] WARN: Forbidden access attempt by user 68a4aac10f90c0ef5335c82e with role user
-[2025-08-19T16:48:02.842Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:48:02.842Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:48:04.692Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
 [2025-08-19T16:48:04.800Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
 [2025-08-19T16:48:04.982Z] INFO: [AUDIT] user 68a4aac454dd0569b7d88306 created user 68a4aac454dd0569b7d88312, IP: 127.0.0.1
@@ -6177,7 +6177,7 @@
 [2025-08-19T16:48:10.613Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T16:48:10.659Z] WARN: Authorization denied: no token provided
 [2025-08-19T16:48:10.754Z] INFO: Order retrieved by ID: 68a4aaca97415589febc7336, IP: 127.0.0.1
-[2025-08-19T16:48:10.803Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T16:48:10.803Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T16:48:10.861Z] INFO: Update order request by user 68a4aac997415589febc72d4, order id: 68a4aaca97415589febc7357, IP: 127.0.0.1
 [2025-08-19T16:48:10.877Z] INFO: Order 68a4aaca97415589febc7357 updated successfully by user 68a4aac997415589febc72d4, IP: 127.0.0.1
 [2025-08-19T16:48:10.933Z] WARN: Forbidden access attempt by user 68a4aac997415589febc72d1 with role user
@@ -6250,13 +6250,13 @@
 [2025-08-19T17:23:30.729Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:23:30.776Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:23:30.849Z] WARN: Authorization denied: no token provided
-[2025-08-19T17:23:30.936Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:23:30.936Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:23:31.057Z] WARN: Forbidden access attempt by user 68a4b31227151de2892bd18e with role bodeguero
 [2025-08-19T17:23:31.095Z] WARN: Forbidden access attempt by user 68a4b31227151de2892bd18e with role bodeguero
 [2025-08-19T17:23:31.178Z] WARN: Forbidden access attempt by user 68a4b31227151de2892bd18c with role user
-[2025-08-19T17:23:31.215Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:23:31.215Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:23:31.292Z] WARN: Forbidden access attempt by user 68a4b31227151de2892bd18c with role user
-[2025-08-19T17:23:31.328Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:23:31.328Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:23:33.126Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
 [2025-08-19T17:23:33.222Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
 [2025-08-19T17:23:33.273Z] INFO: Order created successfully for customer 68a4b31462b654b9c916b6f3, totalAmount: 2000, IP: 127.0.0.1
@@ -6266,7 +6266,7 @@
 [2025-08-19T17:23:33.467Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:23:33.508Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:23:33.598Z] INFO: Order retrieved by ID: 68a4b31562b654b9c916b758, IP: 127.0.0.1
-[2025-08-19T17:23:33.648Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:23:33.648Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:23:33.729Z] INFO: Update order request by user 68a4b31462b654b9c916b6f7, order id: 68a4b31562b654b9c916b779, IP: 127.0.0.1
 [2025-08-19T17:23:33.745Z] INFO: Order 68a4b31562b654b9c916b779 updated successfully by user 68a4b31462b654b9c916b6f7, IP: 127.0.0.1
 [2025-08-19T17:23:33.796Z] WARN: Forbidden access attempt by user 68a4b31462b654b9c916b6f3 with role user
@@ -6312,14 +6312,14 @@
 [2025-08-19T17:23:42.509Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:23:42.692Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:23:42.747Z] WARN: Forbidden access attempt by user 68a4b31ead944b3e93d1d2f7 with role user
-[2025-08-19T17:23:42.912Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:23:42.912Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:23:42.961Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:23:43.022Z] WARN: Forbidden access attempt by user 68a4b31ead944b3e93d1d2f7 with role user
 [2025-08-19T17:23:43.129Z] WARN: Schema validation failed for PUT /api/clients/68a4b31fad944b3e93d1d3c7
-[2025-08-19T17:23:43.232Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:23:43.232Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:23:43.287Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:23:43.347Z] WARN: Forbidden access attempt by user 68a4b31ead944b3e93d1d2f7 with role user
-[2025-08-19T17:23:43.507Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:23:43.507Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:23:43.554Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:23:43.612Z] WARN: Forbidden access attempt by user 68a4b31ead944b3e93d1d2f7 with role user
 [2025-08-19T17:24:48.236Z] WARN: Authorization denied: no token provided
@@ -6327,14 +6327,14 @@
 [2025-08-19T17:24:48.344Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:24:48.509Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:24:48.561Z] WARN: Forbidden access attempt by user 68a4b36067ca2a5565cb1d4b with role user
-[2025-08-19T17:24:48.711Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:24:48.711Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:24:48.756Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:24:48.814Z] WARN: Forbidden access attempt by user 68a4b36067ca2a5565cb1d4b with role user
 [2025-08-19T17:24:48.919Z] WARN: Schema validation failed for PUT /api/clients/68a4b36067ca2a5565cb1e1b
-[2025-08-19T17:24:49.021Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:24:49.021Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:24:49.069Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:24:49.122Z] WARN: Forbidden access attempt by user 68a4b36067ca2a5565cb1d4b with role user
-[2025-08-19T17:24:49.269Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:24:49.269Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:24:49.312Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:24:49.368Z] WARN: Forbidden access attempt by user 68a4b36067ca2a5565cb1d4b with role user
 [2025-08-19T17:24:51.183Z] INFO: Successful login for: admin@test.com from IP: 127.0.0.1
@@ -6374,7 +6374,7 @@
 [2025-08-19T17:24:57.346Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:24:57.385Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:24:57.475Z] INFO: Order retrieved by ID: 68a4b369f9150d0ec387d687, IP: 127.0.0.1
-[2025-08-19T17:24:57.518Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:24:57.518Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:24:57.570Z] INFO: Update order request by user 68a4b368f9150d0ec387d627, order id: 68a4b369f9150d0ec387d6a8, IP: 127.0.0.1
 [2025-08-19T17:24:57.585Z] INFO: Order 68a4b369f9150d0ec387d6a8 updated successfully by user 68a4b368f9150d0ec387d627, IP: 127.0.0.1
 [2025-08-19T17:24:57.638Z] WARN: Forbidden access attempt by user 68a4b368f9150d0ec387d622 with role user
@@ -6386,13 +6386,13 @@
 [2025-08-19T17:24:59.634Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:24:59.675Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:24:59.746Z] WARN: Authorization denied: no token provided
-[2025-08-19T17:24:59.828Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:24:59.828Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:24:59.953Z] WARN: Forbidden access attempt by user 68a4b36bb1cf413ca939fd9e with role bodeguero
 [2025-08-19T17:24:59.993Z] WARN: Forbidden access attempt by user 68a4b36bb1cf413ca939fd9e with role bodeguero
 [2025-08-19T17:25:00.079Z] WARN: Forbidden access attempt by user 68a4b36bb1cf413ca939fd9c with role user
-[2025-08-19T17:25:00.114Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:25:00.114Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:25:00.193Z] WARN: Forbidden access attempt by user 68a4b36bb1cf413ca939fd9c with role user
-[2025-08-19T17:25:00.229Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:25:00.229Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:25:01.932Z] INFO: [AUDIT] user 68a4b36ddc337afdd0f50991 created supplier 68a4b36ddc337afdd0f5099b (Proveedor 1), IP: 127.0.0.1
 [2025-08-19T17:25:01.971Z] WARN: Forbidden access attempt by user 68a4b36ddc337afdd0f50996 with role user
 [2025-08-19T17:25:02.019Z] INFO: [AUDIT] user 68a4b36ddc337afdd0f50991 created supplier 68a4b36edc337afdd0f509ae (Proveedor K), IP: 127.0.0.1
@@ -6459,14 +6459,14 @@
 [2025-08-19T17:28:01.991Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:28:02.157Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:28:02.209Z] WARN: Forbidden access attempt by user 68a4b4211e770ad05d6585df with role user
-[2025-08-19T17:28:02.353Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:28:02.353Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:28:02.399Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:28:02.458Z] WARN: Forbidden access attempt by user 68a4b4211e770ad05d6585df with role user
 [2025-08-19T17:28:02.566Z] WARN: Schema validation failed for PUT /api/clients/68a4b4221e770ad05d6586af
-[2025-08-19T17:28:02.660Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:28:02.660Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:28:02.708Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:28:02.760Z] WARN: Forbidden access attempt by user 68a4b4211e770ad05d6585df with role user
-[2025-08-19T17:28:02.903Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:28:02.903Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:28:02.950Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:28:03.008Z] WARN: Forbidden access attempt by user 68a4b4211e770ad05d6585df with role user
 [2025-08-19T17:28:04.749Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
@@ -6478,7 +6478,7 @@
 [2025-08-19T17:28:05.086Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:28:05.126Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:28:05.211Z] INFO: Order retrieved by ID: 68a4b425a8a7dc5d8b9dba53, IP: 127.0.0.1
-[2025-08-19T17:28:05.260Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:28:05.260Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:28:05.310Z] INFO: Update order request by user 68a4b424a8a7dc5d8b9db9f2, order id: 68a4b425a8a7dc5d8b9dba74, IP: 127.0.0.1
 [2025-08-19T17:28:05.327Z] INFO: Order 68a4b425a8a7dc5d8b9dba74 updated successfully by user 68a4b424a8a7dc5d8b9db9f2, IP: 127.0.0.1
 [2025-08-19T17:28:05.379Z] WARN: Forbidden access attempt by user 68a4b424a8a7dc5d8b9db9ee with role user
@@ -6513,11 +6513,11 @@
 [2025-08-19T17:28:10.849Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:28:10.901Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:28:10.998Z] WARN: Authorization denied: no token provided
-[2025-08-19T17:28:11.104Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:28:11.104Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:28:11.274Z] WARN: Forbidden access attempt by user 68a4b42a3b82016faa41c164 with role user
-[2025-08-19T17:28:11.317Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:28:11.317Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:28:11.467Z] WARN: Forbidden access attempt by user 68a4b42a3b82016faa41c164 with role user
-[2025-08-19T17:28:11.514Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:28:11.514Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:28:11.615Z] ERROR: Token verification failed: invalid token
 [2025-08-19T17:28:13.350Z] INFO: Successful login for: admin@example.com from IP: 127.0.0.1
 [2025-08-19T17:28:13.420Z] INFO: [AUDIT] user 68a4b42d0166f711bc144ec1 created product 68a4b42d0166f711bc144ed6 (Test Product), IP: 127.0.0.1
@@ -6561,25 +6561,25 @@
 [2025-08-19T17:29:53.373Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:29:53.419Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:29:53.490Z] WARN: Authorization denied: no token provided
-[2025-08-19T17:29:53.573Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:29:53.573Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:29:53.700Z] WARN: Forbidden access attempt by user 68a4b491bb415a883a069aa9 with role user
-[2025-08-19T17:29:53.736Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:29:53.736Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:29:53.855Z] WARN: Forbidden access attempt by user 68a4b491bb415a883a069aa9 with role user
-[2025-08-19T17:29:53.889Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:29:53.889Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:29:53.976Z] ERROR: Token verification failed: invalid token
 [2025-08-19T17:29:55.665Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:29:55.713Z] WARN: Forbidden access attempt by user 68a4b49342f1446c523910b8 with role user
 [2025-08-19T17:29:55.759Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:29:55.965Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:29:56.013Z] WARN: Forbidden access attempt by user 68a4b49342f1446c523910b8 with role user
-[2025-08-19T17:29:56.152Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:29:56.152Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:29:56.196Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:29:56.249Z] WARN: Forbidden access attempt by user 68a4b49342f1446c523910b8 with role user
 [2025-08-19T17:29:56.349Z] WARN: Schema validation failed for PUT /api/clients/68a4b49442f1446c52391188
-[2025-08-19T17:29:56.440Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:29:56.440Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:29:56.487Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:29:56.538Z] WARN: Forbidden access attempt by user 68a4b49342f1446c523910b8 with role user
-[2025-08-19T17:29:56.679Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:29:56.679Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:29:56.721Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:29:56.774Z] WARN: Forbidden access attempt by user 68a4b49342f1446c523910b8 with role user
 [2025-08-19T17:29:58.508Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
@@ -6591,7 +6591,7 @@
 [2025-08-19T17:29:58.892Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:29:58.954Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:29:59.045Z] INFO: Order retrieved by ID: 68a4b496cf645300c7ec9595, IP: 127.0.0.1
-[2025-08-19T17:29:59.098Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:29:59.098Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:29:59.155Z] INFO: Update order request by user 68a4b496cf645300c7ec9534, order id: 68a4b497cf645300c7ec95b6, IP: 127.0.0.1
 [2025-08-19T17:29:59.171Z] INFO: Order 68a4b497cf645300c7ec95b6 updated successfully by user 68a4b496cf645300c7ec9534, IP: 127.0.0.1
 [2025-08-19T17:29:59.233Z] WARN: Forbidden access attempt by user 68a4b496cf645300c7ec9530 with role user
@@ -6687,14 +6687,14 @@
 [2025-08-19T17:31:53.354Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:31:53.530Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:31:53.581Z] WARN: Forbidden access attempt by user 68a4b509e73f9e5f7acdd8e1 with role user
-[2025-08-19T17:31:53.731Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:31:53.731Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:31:53.784Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:31:53.842Z] WARN: Forbidden access attempt by user 68a4b509e73f9e5f7acdd8e1 with role user
 [2025-08-19T17:31:53.953Z] WARN: Schema validation failed for PUT /api/clients/68a4b509e73f9e5f7acdd9b1
-[2025-08-19T17:31:54.062Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:31:54.062Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:31:54.112Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:31:54.170Z] WARN: Forbidden access attempt by user 68a4b509e73f9e5f7acdd8e1 with role user
-[2025-08-19T17:31:54.329Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:31:54.329Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:31:54.379Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:31:54.442Z] WARN: Forbidden access attempt by user 68a4b509e73f9e5f7acdd8e1 with role user
 [2025-08-19T17:31:56.189Z] INFO: Successful login for: user@test.com from IP: 127.0.0.1
@@ -6706,7 +6706,7 @@
 [2025-08-19T17:31:56.552Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:31:56.597Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:31:56.689Z] INFO: Order retrieved by ID: 68a4b50cba61957b8262f673, IP: 127.0.0.1
-[2025-08-19T17:31:56.739Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:31:56.739Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:31:56.798Z] INFO: Update order request by user 68a4b50bba61957b8262f613, order id: 68a4b50cba61957b8262f694, IP: 127.0.0.1
 [2025-08-19T17:31:56.812Z] INFO: Order 68a4b50cba61957b8262f694 updated successfully by user 68a4b50bba61957b8262f613, IP: 127.0.0.1
 [2025-08-19T17:31:56.867Z] WARN: Forbidden access attempt by user 68a4b50bba61957b8262f60e with role user
@@ -6718,11 +6718,11 @@
 [2025-08-19T17:31:59.029Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:31:59.196Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:31:59.280Z] WARN: Authorization denied: no token provided
-[2025-08-19T17:31:59.370Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:31:59.370Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:31:59.493Z] WARN: Forbidden access attempt by user 68a4b50eb17fe6f4013b3e27 with role user
-[2025-08-19T17:31:59.530Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:31:59.530Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:31:59.656Z] WARN: Forbidden access attempt by user 68a4b50eb17fe6f4013b3e27 with role user
-[2025-08-19T17:31:59.694Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:31:59.694Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:31:59.775Z] ERROR: Token verification failed: invalid token
 [2025-08-19T17:32:01.455Z] INFO: [AUDIT] user 68a4b511eb9a259b023b848b created supplier 68a4b511eb9a259b023b8495 (Proveedor 1), IP: 127.0.0.1
 [2025-08-19T17:32:01.494Z] WARN: Forbidden access attempt by user 68a4b511eb9a259b023b8490 with role user
@@ -6800,25 +6800,25 @@
 [2025-08-19T17:34:28.678Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:34:29.033Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:34:29.086Z] WARN: Forbidden access attempt by user 68a4b5a424f3f4f9b99af5ef with role user
-[2025-08-19T17:34:29.244Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:34:29.244Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:34:29.299Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:34:29.357Z] WARN: Forbidden access attempt by user 68a4b5a424f3f4f9b99af5ef with role user
 [2025-08-19T17:34:29.476Z] WARN: Schema validation failed for PUT /api/clients/68a4b5a524f3f4f9b99af6bf
-[2025-08-19T17:34:29.591Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:34:29.591Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:34:29.647Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:34:29.723Z] WARN: Forbidden access attempt by user 68a4b5a424f3f4f9b99af5ef with role user
-[2025-08-19T17:34:29.921Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:34:29.921Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:34:29.980Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:34:30.041Z] WARN: Forbidden access attempt by user 68a4b5a424f3f4f9b99af5ef with role user
 [2025-08-19T17:34:32.674Z] WARN: Forbidden access attempt by user 68a4b5a83fbfc59cab6a86ba with role user
 [2025-08-19T17:34:32.715Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:34:32.769Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:34:32.903Z] WARN: Authorization denied: no token provided
-[2025-08-19T17:34:33.025Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:34:33.025Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:34:33.252Z] WARN: Forbidden access attempt by user 68a4b5a83fbfc59cab6a86ba with role user
-[2025-08-19T17:34:33.297Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:34:33.297Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:34:33.524Z] WARN: Forbidden access attempt by user 68a4b5a83fbfc59cab6a86ba with role user
-[2025-08-19T17:34:33.582Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:34:33.582Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:34:33.689Z] ERROR: Token verification failed: invalid token
 [2025-08-19T17:34:36.093Z] INFO: Order created successfully for customer 68a4b5aba50278fe325c3e0b, totalAmount: 2500, IP: 127.0.0.1
 [2025-08-19T17:34:36.168Z] WARN: One or more products are invalid in createOrder
@@ -6828,7 +6828,7 @@
 [2025-08-19T17:34:36.385Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:34:36.418Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:34:36.485Z] INFO: Order retrieved by ID: 68a4b5aca50278fe325c3e63, IP: 127.0.0.1
-[2025-08-19T17:34:36.529Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:34:36.529Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:34:36.576Z] INFO: Update order request by user 68a4b5aba50278fe325c3e09, order id: 68a4b5aca50278fe325c3e7a, IP: 127.0.0.1
 [2025-08-19T17:34:36.591Z] INFO: Order 68a4b5aca50278fe325c3e7a updated successfully by user 68a4b5aba50278fe325c3e09, IP: 127.0.0.1
 [2025-08-19T17:34:36.643Z] WARN: Forbidden access attempt by user 68a4b5aba50278fe325c3e0b with role user
@@ -6891,7 +6891,7 @@
 [2025-08-19T17:37:40.316Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:37:40.355Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:37:40.436Z] INFO: Order retrieved by ID: 68a4b6649e5fd6d96b1efd54, IP: 127.0.0.1
-[2025-08-19T17:37:40.491Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:37:40.491Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:37:40.561Z] INFO: Update order request by user 68a4b6639e5fd6d96b1efcfa, order id: 68a4b6649e5fd6d96b1efd6b, IP: 127.0.0.1
 [2025-08-19T17:37:40.580Z] INFO: Order 68a4b6649e5fd6d96b1efd6b updated successfully by user 68a4b6639e5fd6d96b1efcfa, IP: 127.0.0.1
 [2025-08-19T17:37:40.630Z] WARN: Forbidden access attempt by user 68a4b6639e5fd6d96b1efcfc with role user
@@ -6947,25 +6947,25 @@
 [2025-08-19T17:37:49.354Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:37:49.394Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:37:49.463Z] WARN: Authorization denied: no token provided
-[2025-08-19T17:37:49.539Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:37:49.539Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:37:49.648Z] WARN: Forbidden access attempt by user 68a4b66dd69f4b9a0904c727 with role user
-[2025-08-19T17:37:49.679Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:37:49.679Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:37:49.784Z] WARN: Forbidden access attempt by user 68a4b66dd69f4b9a0904c727 with role user
-[2025-08-19T17:37:49.818Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:37:49.818Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:37:49.891Z] ERROR: Token verification failed: invalid token
 [2025-08-19T17:37:52.045Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:37:52.118Z] WARN: Forbidden access attempt by user 68a4b66f6914a75019eea604 with role user
 [2025-08-19T17:37:52.195Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:37:52.404Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:37:52.463Z] WARN: Forbidden access attempt by user 68a4b66f6914a75019eea604 with role user
-[2025-08-19T17:37:52.624Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:37:52.624Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:37:52.670Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:37:52.728Z] WARN: Forbidden access attempt by user 68a4b66f6914a75019eea604 with role user
 [2025-08-19T17:37:52.868Z] WARN: Schema validation failed for PUT /api/clients/68a4b6706914a75019eea6d4
-[2025-08-19T17:37:53.014Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:37:53.014Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:37:53.060Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:37:53.116Z] WARN: Forbidden access attempt by user 68a4b66f6914a75019eea604 with role user
-[2025-08-19T17:37:53.322Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:37:53.322Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:37:53.368Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:37:53.446Z] WARN: Forbidden access attempt by user 68a4b66f6914a75019eea604 with role user
 [2025-08-19T17:37:56.124Z] INFO: [AUDIT] user 68a4b673e0fa943c9fedbd36 created supplier 68a4b674e0fa943c9fedbd40 (Proveedor 1), IP: 127.0.0.1
@@ -7078,7 +7078,7 @@
 [2025-08-19T17:41:26.265Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:41:26.300Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:41:26.362Z] INFO: Order retrieved by ID: 68a4b746d3db1d87778042e9, IP: 127.0.0.1
-[2025-08-19T17:41:26.396Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:41:26.396Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:41:26.447Z] INFO: Update order request by user 68a4b745d3db1d877780428f, order id: 68a4b746d3db1d8777804300, IP: 127.0.0.1
 [2025-08-19T17:41:26.461Z] INFO: Order 68a4b746d3db1d8777804300 updated successfully by user 68a4b745d3db1d877780428f, IP: 127.0.0.1
 [2025-08-19T17:41:26.504Z] WARN: Forbidden access attempt by user 68a4b745d3db1d8777804291 with role user
@@ -7119,25 +7119,25 @@
 [2025-08-19T17:41:30.771Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:41:30.948Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:41:31.014Z] WARN: Forbidden access attempt by user 68a4b74a81684dd7c502c036 with role user
-[2025-08-19T17:41:31.175Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:41:31.175Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:41:31.228Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:41:31.286Z] WARN: Forbidden access attempt by user 68a4b74a81684dd7c502c036 with role user
 [2025-08-19T17:41:31.398Z] WARN: Schema validation failed for PUT /api/clients/68a4b74b81684dd7c502c106
-[2025-08-19T17:41:31.506Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:41:31.506Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:41:31.559Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:41:31.621Z] WARN: Forbidden access attempt by user 68a4b74a81684dd7c502c036 with role user
-[2025-08-19T17:41:31.781Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:41:31.781Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:41:31.842Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:41:31.900Z] WARN: Forbidden access attempt by user 68a4b74a81684dd7c502c036 with role user
 [2025-08-19T17:41:33.894Z] WARN: Forbidden access attempt by user 68a4b74d85d3804d4586cca7 with role user
 [2025-08-19T17:41:33.933Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:41:33.980Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:41:34.064Z] WARN: Authorization denied: no token provided
-[2025-08-19T17:41:34.156Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:41:34.156Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:41:34.282Z] WARN: Forbidden access attempt by user 68a4b74d85d3804d4586cca7 with role user
-[2025-08-19T17:41:34.330Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:41:34.330Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:41:34.465Z] WARN: Forbidden access attempt by user 68a4b74d85d3804d4586cca7 with role user
-[2025-08-19T17:41:34.504Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:41:34.504Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:41:34.596Z] ERROR: Token verification failed: invalid token
 [2025-08-19T17:43:36.131Z] INFO: Order created successfully for customer 68a4b7c7f3614c2f9e401f92, totalAmount: 2500, IP: 127.0.0.1
 [2025-08-19T17:43:36.199Z] WARN: One or more products not found
@@ -7147,7 +7147,7 @@
 [2025-08-19T17:43:36.407Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:43:36.439Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:43:36.503Z] INFO: Order retrieved by ID: 68a4b7c8f3614c2f9e401fea, IP: 127.0.0.1
-[2025-08-19T17:43:36.539Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:43:36.539Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:43:36.603Z] INFO: Update order request by user 68a4b7c7f3614c2f9e401f8f, order id: 68a4b7c8f3614c2f9e402001, IP: 127.0.0.1
 [2025-08-19T17:43:36.620Z] INFO: Order 68a4b7c8f3614c2f9e402001 updated successfully by user 68a4b7c7f3614c2f9e401f8f, IP: 127.0.0.1
 [2025-08-19T17:43:36.663Z] WARN: Forbidden access attempt by user 68a4b7c7f3614c2f9e401f92 with role user
@@ -7204,25 +7204,25 @@
 [2025-08-19T17:43:44.563Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:43:44.727Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:43:44.783Z] WARN: Forbidden access attempt by user 68a4b7d01ca8fd29023565d4 with role user
-[2025-08-19T17:43:44.949Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:43:44.949Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:43:45.005Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:43:45.065Z] WARN: Forbidden access attempt by user 68a4b7d01ca8fd29023565d4 with role user
 [2025-08-19T17:43:45.182Z] WARN: Schema validation failed for PUT /api/clients/68a4b7d11ca8fd29023566a4
-[2025-08-19T17:43:45.284Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:43:45.284Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:43:45.335Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:43:45.397Z] WARN: Forbidden access attempt by user 68a4b7d01ca8fd29023565d4 with role user
-[2025-08-19T17:43:45.559Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:43:45.559Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:43:45.625Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:43:45.685Z] WARN: Forbidden access attempt by user 68a4b7d01ca8fd29023565d4 with role user
 [2025-08-19T17:43:47.546Z] WARN: Forbidden access attempt by user 68a4b7d3db4b51376402d3c3 with role user
 [2025-08-19T17:43:47.581Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:43:47.631Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:43:47.704Z] WARN: Authorization denied: no token provided
-[2025-08-19T17:43:47.785Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:43:47.785Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:43:47.906Z] WARN: Forbidden access attempt by user 68a4b7d3db4b51376402d3c3 with role user
-[2025-08-19T17:43:47.943Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:43:47.943Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:43:48.076Z] WARN: Forbidden access attempt by user 68a4b7d3db4b51376402d3c3 with role user
-[2025-08-19T17:43:48.113Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:43:48.113Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:43:48.199Z] ERROR: Token verification failed: invalid token
 [2025-08-19T17:43:52.387Z] INFO: [AUDIT] user 68a4b7d85a61af9a8f0ec843 created supplier 68a4b7d85a61af9a8f0ec84f (Proveedor 1), IP: 127.0.0.1
 [2025-08-19T17:43:52.472Z] WARN: Forbidden access attempt by user 68a4b7d85a61af9a8f0ec847 with role user
@@ -7275,7 +7275,7 @@
 [2025-08-19T17:47:21.909Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:47:21.941Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:47:22.003Z] INFO: Order retrieved by ID: 68a4b8a9176f9187973e4c11, IP: 127.0.0.1
-[2025-08-19T17:47:22.038Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:47:22.038Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:47:22.084Z] INFO: Update order request by user 68a4b8a9176f9187973e4bb7, order id: 68a4b8aa176f9187973e4c28, IP: 127.0.0.1
 [2025-08-19T17:47:22.100Z] INFO: Order 68a4b8aa176f9187973e4c28 updated successfully by user 68a4b8a9176f9187973e4bb7, IP: 127.0.0.1
 [2025-08-19T17:47:22.142Z] WARN: Forbidden access attempt by user 68a4b8a9176f9187973e4bb9 with role user
@@ -7318,7 +7318,7 @@
 [2025-08-19T17:48:39.077Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:48:39.108Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:48:39.170Z] INFO: Order retrieved by ID: 68a4b8f7afbee6232593c17a, IP: 127.0.0.1
-[2025-08-19T17:48:39.207Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:48:39.207Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:48:39.254Z] INFO: Update order request by user 68a4b8f6afbee6232593c120, order id: 68a4b8f7afbee6232593c191, IP: 127.0.0.1
 [2025-08-19T17:48:39.269Z] INFO: Order 68a4b8f7afbee6232593c191 updated successfully by user 68a4b8f6afbee6232593c120, IP: 127.0.0.1
 [2025-08-19T17:48:39.311Z] WARN: Forbidden access attempt by user 68a4b8f6afbee6232593c122 with role user
@@ -7418,14 +7418,14 @@
 [2025-08-19T17:48:54.252Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T17:48:54.404Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:48:54.455Z] WARN: Forbidden access attempt by user 68a4b9059b759ac25065bb7c with role user
-[2025-08-19T17:48:54.620Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:48:54.620Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:48:54.666Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:48:54.731Z] WARN: Forbidden access attempt by user 68a4b9059b759ac25065bb7c with role user
 [2025-08-19T17:48:54.840Z] WARN: Schema validation failed for PUT /api/clients/68a4b9069b759ac25065bc4c
-[2025-08-19T17:48:54.937Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:48:54.937Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:48:54.986Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:48:55.042Z] WARN: Forbidden access attempt by user 68a4b9059b759ac25065bb7c with role user
-[2025-08-19T17:48:55.188Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T17:48:55.188Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T17:48:55.239Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:48:55.302Z] WARN: Forbidden access attempt by user 68a4b9059b759ac25065bb7c with role user
 [2025-08-19T17:50:22.698Z] INFO: Order created successfully for customer 68a4b95e128eaa4ee77dcf09, totalAmount: 2500, IP: 127.0.0.1
@@ -7436,7 +7436,7 @@
 [2025-08-19T17:50:22.983Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:50:23.015Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:50:23.080Z] INFO: Order retrieved by ID: 68a4b95f128eaa4ee77dcf61, IP: 127.0.0.1
-[2025-08-19T17:50:23.123Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:50:23.123Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:50:23.168Z] INFO: Update order request by user 68a4b95e128eaa4ee77dcf07, order id: 68a4b95f128eaa4ee77dcf78, IP: 127.0.0.1
 [2025-08-19T17:50:23.182Z] INFO: Order 68a4b95f128eaa4ee77dcf78 updated successfully by user 68a4b95e128eaa4ee77dcf07, IP: 127.0.0.1
 [2025-08-19T17:50:23.227Z] WARN: Forbidden access attempt by user 68a4b95e128eaa4ee77dcf09 with role user
@@ -7468,7 +7468,7 @@
 [2025-08-19T17:52:00.850Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:52:00.881Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:52:00.944Z] INFO: Order retrieved by ID: 68a4b9c08bd7691c0b51013d, IP: 127.0.0.1
-[2025-08-19T17:52:00.979Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:52:00.979Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:52:01.025Z] INFO: Update order request by user 68a4b9c08bd7691c0b5100e3, order id: 68a4b9c18bd7691c0b510154, IP: 127.0.0.1
 [2025-08-19T17:52:01.039Z] INFO: Order 68a4b9c18bd7691c0b510154 updated successfully by user 68a4b9c08bd7691c0b5100e3, IP: 127.0.0.1
 [2025-08-19T17:52:01.082Z] WARN: Forbidden access attempt by user 68a4b9c08bd7691c0b5100e5 with role user
@@ -7503,7 +7503,7 @@
 [2025-08-19T17:53:17.742Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:53:17.772Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:53:17.836Z] INFO: Order retrieved by ID: 68a4ba0d2fada95c9377280b, IP: 127.0.0.1
-[2025-08-19T17:53:17.876Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:53:17.876Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:53:17.932Z] INFO: Update order request by user 68a4ba0d2fada95c937727b1, order id: 68a4ba0d2fada95c93772822, IP: 127.0.0.1
 [2025-08-19T17:53:17.945Z] INFO: Order 68a4ba0d2fada95c93772822 updated successfully by user 68a4ba0d2fada95c937727b1, IP: 127.0.0.1
 [2025-08-19T17:53:17.992Z] WARN: Forbidden access attempt by user 68a4ba0d2fada95c937727b3 with role user
@@ -7535,7 +7535,7 @@
 [2025-08-19T17:54:09.161Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:54:09.191Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:54:09.253Z] INFO: Order retrieved by ID: 68a4ba4152f7ec057b4c0ccd, IP: 127.0.0.1
-[2025-08-19T17:54:09.292Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:54:09.292Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:54:09.337Z] INFO: Update order request by user 68a4ba4052f7ec057b4c0c73, order id: 68a4ba4152f7ec057b4c0ce4, IP: 127.0.0.1
 [2025-08-19T17:54:09.353Z] INFO: Order 68a4ba4152f7ec057b4c0ce4 updated successfully by user 68a4ba4052f7ec057b4c0c73, IP: 127.0.0.1
 [2025-08-19T17:54:09.397Z] WARN: Forbidden access attempt by user 68a4ba4052f7ec057b4c0c75 with role user
@@ -7581,7 +7581,7 @@
 [2025-08-19T17:56:23.312Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T17:56:23.342Z] WARN: Authorization denied: no token provided
 [2025-08-19T17:56:23.415Z] INFO: Order retrieved by ID: 68a4bac739561b736220ef91, IP: 127.0.0.1
-[2025-08-19T17:56:23.453Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T17:56:23.453Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T17:56:23.499Z] INFO: Update order request by user 68a4bac639561b736220ef37, order id: 68a4bac739561b736220efa8, IP: 127.0.0.1
 [2025-08-19T17:56:23.512Z] INFO: Order 68a4bac739561b736220efa8 updated successfully by user 68a4bac639561b736220ef37, IP: 127.0.0.1
 [2025-08-19T17:56:23.553Z] WARN: Forbidden access attempt by user 68a4bac639561b736220ef39 with role user
@@ -7623,7 +7623,7 @@
 [2025-08-19T18:41:51.350Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T18:41:51.378Z] WARN: Authorization denied: no token provided
 [2025-08-19T18:41:51.433Z] INFO: Order retrieved by ID: 68a4c56f6f6847dd929ab796, IP: 127.0.0.1
-[2025-08-19T18:41:51.466Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T18:41:51.466Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T18:41:51.517Z] INFO: Update order request by user 68a4c56e6f6847dd929ab73b, order id: 68a4c56f6f6847dd929ab7ad, IP: 127.0.0.1
 [2025-08-19T18:41:51.530Z] INFO: Order 68a4c56f6f6847dd929ab7ad updated successfully by user 68a4c56e6f6847dd929ab73b, IP: 127.0.0.1
 [2025-08-19T18:41:51.569Z] WARN: Forbidden access attempt by user 68a4c56e6f6847dd929ab73e with role user
@@ -7656,7 +7656,7 @@
 [2025-08-19T18:45:40.342Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T18:45:40.370Z] WARN: Authorization denied: no token provided
 [2025-08-19T18:45:40.426Z] INFO: Order retrieved by ID: 68a4c654cceb9dcf545fd169, IP: 127.0.0.1
-[2025-08-19T18:45:40.460Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T18:45:40.460Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T18:45:40.502Z] INFO: Update order request by user 68a4c653cceb9dcf545fd10f, order id: 68a4c654cceb9dcf545fd180, IP: 127.0.0.1
 [2025-08-19T18:45:40.515Z] INFO: Order 68a4c654cceb9dcf545fd180 updated successfully by user 68a4c653cceb9dcf545fd10f, IP: 127.0.0.1
 [2025-08-19T18:45:40.554Z] WARN: Forbidden access attempt by user 68a4c653cceb9dcf545fd111 with role user
@@ -7751,7 +7751,7 @@
 [2025-08-19T18:53:06.488Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T18:53:06.516Z] WARN: Authorization denied: no token provided
 [2025-08-19T18:53:06.573Z] INFO: Order retrieved by ID: 68a4c812514e7e80690d1033, IP: 127.0.0.1
-[2025-08-19T18:53:06.606Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T18:53:06.606Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T18:53:06.650Z] INFO: Update order request by user 68a4c811514e7e80690d0fd9, order id: 68a4c812514e7e80690d104a, IP: 127.0.0.1
 [2025-08-19T18:53:06.663Z] INFO: Order 68a4c812514e7e80690d104a updated successfully by user 68a4c811514e7e80690d0fd9, IP: 127.0.0.1
 [2025-08-19T18:53:06.704Z] WARN: Forbidden access attempt by user 68a4c812514e7e80690d0fdb with role user
@@ -7790,7 +7790,7 @@
 [2025-08-19T18:58:49.033Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T18:58:49.061Z] WARN: Authorization denied: no token provided
 [2025-08-19T18:58:49.117Z] INFO: Order retrieved by ID: 68a4c969e15d00ee17becc18, IP: 127.0.0.1
-[2025-08-19T18:58:49.150Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T18:58:49.150Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T18:58:49.193Z] INFO: Update order request by user 68a4c968e15d00ee17becbbe, order id: 68a4c969e15d00ee17becc2f, IP: 127.0.0.1
 [2025-08-19T18:58:49.206Z] INFO: Order 68a4c969e15d00ee17becc2f updated successfully by user 68a4c968e15d00ee17becbbe, IP: 127.0.0.1
 [2025-08-19T18:58:49.245Z] WARN: Forbidden access attempt by user 68a4c968e15d00ee17becbc0 with role user
@@ -7823,7 +7823,7 @@
 [2025-08-19T19:03:27.421Z] INFO: Orders listed by IP: 127.0.0.1
 [2025-08-19T19:03:27.450Z] WARN: Authorization denied: no token provided
 [2025-08-19T19:03:27.508Z] INFO: Order retrieved by ID: 68a4ca7f77299bec7d721f2c, IP: 127.0.0.1
-[2025-08-19T19:03:27.553Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T19:03:27.553Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T19:03:27.598Z] INFO: Update order request by user 68a4ca7e77299bec7d721ed1, order id: 68a4ca7f77299bec7d721f43, IP: 127.0.0.1
 [2025-08-19T19:03:27.613Z] INFO: Order 68a4ca7f77299bec7d721f43 updated successfully by user 68a4ca7e77299bec7d721ed1, IP: 127.0.0.1
 [2025-08-19T19:03:27.653Z] WARN: Forbidden access attempt by user 68a4ca7e77299bec7d721ed4 with role user
@@ -8035,25 +8035,25 @@
 [2025-08-19T19:32:49.697Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T19:32:49.856Z] WARN: Authorization denied: no token provided
 [2025-08-19T19:32:49.917Z] WARN: Forbidden access attempt by user 68a4d1615454e551e8c26032 with role user
-[2025-08-19T19:32:50.082Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T19:32:50.082Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T19:32:50.143Z] WARN: Authorization denied: no token provided
 [2025-08-19T19:32:50.215Z] WARN: Forbidden access attempt by user 68a4d1615454e551e8c26032 with role user
 [2025-08-19T19:32:50.342Z] WARN: Schema validation failed for PUT /api/clients/68a4d1625454e551e8c26102
-[2025-08-19T19:32:50.443Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T19:32:50.443Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T19:32:50.493Z] WARN: Authorization denied: no token provided
 [2025-08-19T19:32:50.549Z] WARN: Forbidden access attempt by user 68a4d1615454e551e8c26032 with role user
-[2025-08-19T19:32:50.715Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T19:32:50.715Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T19:32:50.780Z] WARN: Authorization denied: no token provided
 [2025-08-19T19:32:50.834Z] WARN: Forbidden access attempt by user 68a4d1615454e551e8c26032 with role user
 [2025-08-19T19:32:52.924Z] WARN: Forbidden access attempt by user 68a4d1645f772caa15a439e3 with role user
 [2025-08-19T19:32:52.961Z] WARN: Authorization denied: no token provided
 [2025-08-19T19:32:53.015Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T19:32:53.093Z] WARN: Authorization denied: no token provided
-[2025-08-19T19:32:53.179Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T19:32:53.179Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T19:32:53.316Z] WARN: Forbidden access attempt by user 68a4d1645f772caa15a439e3 with role user
-[2025-08-19T19:32:53.354Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T19:32:53.354Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T19:32:53.480Z] WARN: Forbidden access attempt by user 68a4d1645f772caa15a439e3 with role user
-[2025-08-19T19:32:53.517Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T19:32:53.517Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T19:32:53.616Z] ERROR: Token verification failed: invalid token
 [2025-08-19T19:37:29.562Z] INFO: Order created successfully for customer 68a4d279a8b9829fff5e07b5, totalAmount: 2500, IP: 127.0.0.1
 [2025-08-19T19:37:29.635Z] WARN: Total amount mismatch
@@ -8168,25 +8168,25 @@
 [2025-08-19T20:51:59.076Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T20:51:59.218Z] WARN: Authorization denied: no token provided
 [2025-08-19T20:51:59.266Z] WARN: Forbidden access attempt by user 68a4e3eee0c3abebd0f3433f with role user
-[2025-08-19T20:51:59.404Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T20:51:59.404Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T20:51:59.449Z] WARN: Authorization denied: no token provided
 [2025-08-19T20:51:59.668Z] WARN: Forbidden access attempt by user 68a4e3eee0c3abebd0f3433f with role user
 [2025-08-19T20:51:59.770Z] WARN: Schema validation failed for PUT /api/clients/68a4e3efe0c3abebd0f343e5
-[2025-08-19T20:51:59.860Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T20:51:59.860Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T20:51:59.902Z] WARN: Authorization denied: no token provided
 [2025-08-19T20:51:59.953Z] WARN: Forbidden access attempt by user 68a4e3eee0c3abebd0f3433f with role user
-[2025-08-19T20:52:00.093Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T20:52:00.093Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T20:52:00.140Z] WARN: Authorization denied: no token provided
 [2025-08-19T20:52:00.191Z] WARN: Forbidden access attempt by user 68a4e3eee0c3abebd0f3433f with role user
 [2025-08-19T20:52:02.095Z] WARN: Forbidden access attempt by user 68a4e3f1decb65048bae2aea with role user
 [2025-08-19T20:52:02.128Z] WARN: Authorization denied: no token provided
 [2025-08-19T20:52:02.172Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T20:52:02.230Z] WARN: Authorization denied: no token provided
-[2025-08-19T20:52:02.303Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T20:52:02.303Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T20:52:02.418Z] WARN: Forbidden access attempt by user 68a4e3f1decb65048bae2aea with role user
-[2025-08-19T20:52:02.450Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T20:52:02.450Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T20:52:02.554Z] WARN: Forbidden access attempt by user 68a4e3f1decb65048bae2aea with role user
-[2025-08-19T20:52:02.585Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T20:52:02.585Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T20:52:02.655Z] ERROR: Token verification failed: invalid token
 [2025-08-19T20:52:04.367Z] INFO: [AUDIT] user 68a4e3f49132793e11f8a8ae created supplier 68a4e3f49132793e11f8a8b8 (Proveedor 1), IP: ::ffff:127.0.0.1
 [2025-08-19T20:52:04.397Z] WARN: Forbidden access attempt by user 68a4e3f49132793e11f8a8b3 with role user
@@ -8298,7 +8298,7 @@
 [2025-08-19T21:01:55.215Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-19T21:01:55.283Z] INFO: [AUDIT] user 68a4e6428516e2f7ffc28450 created product 68a4e6438516e2f7ffc28463 (Test Product), IP: ::ffff:127.0.0.1
 [2025-08-19T21:01:55.348Z] WARN: Authorization denied: user not found for decoded id 68a4e6428516e2f7ffc28450
-[2025-08-19T21:01:55.362Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-19T21:01:55.362Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-19T21:01:55.447Z] WARN: Authorization denied: user not found for decoded id 68a4e6428516e2f7ffc28450
 [2025-08-19T21:01:55.468Z] WARN: Authorization denied: user not found for decoded id 68a4e6428516e2f7ffc28450
 [2025-08-19T21:01:55.533Z] WARN: Authorization denied: user not found for decoded id 68a4e6428516e2f7ffc28450
@@ -8399,7 +8399,7 @@
 [2025-08-19T21:08:34.623Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-19T21:08:34.687Z] INFO: [AUDIT] user 68a4e7d2293776dd9628d89e created product 68a4e7d2293776dd9628d8ae (Test Product), IP: ::ffff:127.0.0.1
 [2025-08-19T21:08:34.743Z] WARN: Authorization denied: user not found for decoded id 68a4e7d2293776dd9628d89e
-[2025-08-19T21:08:34.757Z] WARN: Invalid ObjectId detected for param "id": undefined
+[2025-08-19T21:08:34.757Z] WARN: Invalid UUID v4 detected for param "id": undefined
 [2025-08-19T21:08:34.825Z] WARN: Authorization denied: user not found for decoded id 68a4e7d2293776dd9628d89e
 [2025-08-19T21:08:34.841Z] WARN: Authorization denied: user not found for decoded id 68a4e7d2293776dd9628d89e
 [2025-08-19T21:08:34.897Z] WARN: Authorization denied: user not found for decoded id 68a4e7d2293776dd9628d89e
@@ -8440,25 +8440,25 @@
 [2025-08-19T21:13:14.867Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T21:13:15.015Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:13:15.070Z] WARN: Forbidden access attempt by user 68a4e8eaee317a1aa22b4032 with role user
-[2025-08-19T21:13:15.228Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T21:13:15.228Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T21:13:15.277Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:13:15.329Z] WARN: Forbidden access attempt by user 68a4e8eaee317a1aa22b4032 with role user
 [2025-08-19T21:13:15.445Z] WARN: Schema validation failed for PUT /api/clients/68a4e8ebee317a1aa22b4115
-[2025-08-19T21:13:15.538Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T21:13:15.538Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T21:13:15.583Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:13:15.639Z] WARN: Forbidden access attempt by user 68a4e8eaee317a1aa22b4032 with role user
-[2025-08-19T21:13:15.789Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T21:13:15.789Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T21:13:15.834Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:13:15.889Z] WARN: Forbidden access attempt by user 68a4e8eaee317a1aa22b4032 with role user
 [2025-08-19T21:13:17.982Z] WARN: Forbidden access attempt by user 68a4e8ed4f783bb06b174044 with role user
 [2025-08-19T21:13:18.015Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:13:18.057Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T21:13:18.129Z] WARN: Authorization denied: no token provided
-[2025-08-19T21:13:18.211Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T21:13:18.211Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T21:13:18.333Z] WARN: Forbidden access attempt by user 68a4e8ed4f783bb06b174044 with role user
-[2025-08-19T21:13:18.369Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T21:13:18.369Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T21:13:18.493Z] WARN: Forbidden access attempt by user 68a4e8ed4f783bb06b174044 with role user
-[2025-08-19T21:13:18.528Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T21:13:18.528Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T21:13:18.607Z] ERROR: Token verification failed: invalid token
 [2025-08-19T21:13:20.528Z] INFO: [AUDIT] user 68a4e8f04b1e91e52450469d created supplier 68a4e8f04b1e91e5245046a4 (Proveedor 1), IP: ::ffff:127.0.0.1
 [2025-08-19T21:13:20.564Z] WARN: Forbidden access attempt by user 68a4e8f04b1e91e52450469f with role user
@@ -8552,14 +8552,14 @@
 [2025-08-19T21:16:29.174Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T21:16:29.466Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:16:29.528Z] WARN: Forbidden access attempt by user 68a4e9ac152c718fc0924a78 with role user
-[2025-08-19T21:16:29.675Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T21:16:29.675Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T21:16:29.723Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:16:29.777Z] WARN: Forbidden access attempt by user 68a4e9ac152c718fc0924a78 with role user
 [2025-08-19T21:16:29.883Z] WARN: Schema validation failed for PUT /api/clients/68a4e9ad152c718fc0924b5b
-[2025-08-19T21:16:29.982Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T21:16:29.982Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T21:16:30.032Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:16:30.092Z] WARN: Forbidden access attempt by user 68a4e9ac152c718fc0924a78 with role user
-[2025-08-19T21:16:30.238Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T21:16:30.238Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T21:16:30.289Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:16:30.344Z] WARN: Forbidden access attempt by user 68a4e9ac152c718fc0924a78 with role user
 [2025-08-19T21:16:32.470Z] INFO: [AUDIT] user 68a4e9b0bcda7c1a0d2119d6 created supplier 68a4e9b0bcda7c1a0d2119dd (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -8589,11 +8589,11 @@
 [2025-08-19T21:16:36.297Z] WARN: Authorization denied: no token provided
 [2025-08-19T21:16:36.341Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T21:16:36.419Z] WARN: Authorization denied: no token provided
-[2025-08-19T21:16:36.500Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T21:16:36.500Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T21:16:36.622Z] WARN: Forbidden access attempt by user 68a4e9b38d9236ad1a3af338 with role user
-[2025-08-19T21:16:36.662Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T21:16:36.662Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T21:16:36.787Z] WARN: Forbidden access attempt by user 68a4e9b38d9236ad1a3af338 with role user
-[2025-08-19T21:16:36.826Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T21:16:36.826Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T21:16:36.911Z] ERROR: Token verification failed: invalid token
 [2025-08-19T21:16:39.282Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
 [2025-08-19T21:16:39.346Z] INFO: [AUDIT] user 68a4e9b7b374c29fca04ea99 created product 68a4e9b7b374c29fca04eaa9 (Test Product), IP: ::ffff:127.0.0.1
@@ -8652,11 +8652,11 @@
 [2025-08-19T22:37:35.327Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:37:35.387Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T22:37:35.455Z] WARN: Authorization denied: no token provided
-[2025-08-19T22:37:35.534Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T22:37:35.534Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T22:37:35.668Z] WARN: Forbidden access attempt by user 68a4fcaedfc0132ac0ac7fdb with role user
-[2025-08-19T22:37:35.704Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T22:37:35.704Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T22:37:35.820Z] WARN: Forbidden access attempt by user 68a4fcaedfc0132ac0ac7fdb with role user
-[2025-08-19T22:37:35.854Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T22:37:35.854Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T22:37:35.931Z] ERROR: Token verification failed: invalid token
 [2025-08-19T22:37:38.858Z] INFO: [AUDIT] user 68a4fcb24ac1d8b16ed5f37c created supplier 68a4fcb24ac1d8b16ed5f383 (Proveedor 1), IP: ::ffff:127.0.0.1
 [2025-08-19T22:37:38.896Z] WARN: Forbidden access attempt by user 68a4fcb24ac1d8b16ed5f37e with role user
@@ -8727,14 +8727,14 @@
 [2025-08-19T22:37:55.778Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T22:37:55.936Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:37:55.990Z] WARN: Forbidden access attempt by user 68a4fcc36e29cadb61a97100 with role user
-[2025-08-19T22:37:56.144Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T22:37:56.144Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T22:37:56.193Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:37:56.261Z] WARN: Forbidden access attempt by user 68a4fcc36e29cadb61a97100 with role user
 [2025-08-19T22:37:56.374Z] WARN: Schema validation failed for PUT /api/clients/68a4fcc46e29cadb61a971c5
-[2025-08-19T22:37:56.470Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T22:37:56.470Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T22:37:56.519Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:37:56.628Z] WARN: Forbidden access attempt by user 68a4fcc36e29cadb61a97100 with role user
-[2025-08-19T22:37:56.808Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T22:37:56.808Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T22:37:56.857Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:37:56.920Z] WARN: Forbidden access attempt by user 68a4fcc36e29cadb61a97100 with role user
 [2025-08-19T22:40:06.671Z] INFO: Successful login for: admin@test.com from IP: ::ffff:127.0.0.1
@@ -8769,25 +8769,25 @@
 [2025-08-19T22:40:14.033Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:40:14.081Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T22:40:14.163Z] WARN: Authorization denied: no token provided
-[2025-08-19T22:40:14.259Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T22:40:14.259Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T22:40:14.594Z] WARN: Forbidden access attempt by user 68a4fd4d99dfa40ee246ae9e with role user
-[2025-08-19T22:40:14.628Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T22:40:14.628Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T22:40:14.740Z] WARN: Forbidden access attempt by user 68a4fd4d99dfa40ee246ae9e with role user
-[2025-08-19T22:40:14.774Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T22:40:14.774Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T22:40:14.869Z] ERROR: Token verification failed: invalid token
 [2025-08-19T22:40:16.943Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:40:16.988Z] WARN: Forbidden access attempt by user 68a4fd501ac2f2e4622ebc6c with role user
 [2025-08-19T22:40:17.036Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T22:40:17.171Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:40:17.219Z] WARN: Forbidden access attempt by user 68a4fd501ac2f2e4622ebc6c with role user
-[2025-08-19T22:40:17.362Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T22:40:17.362Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T22:40:17.404Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:40:17.462Z] WARN: Forbidden access attempt by user 68a4fd501ac2f2e4622ebc6c with role user
 [2025-08-19T22:40:17.565Z] WARN: Schema validation failed for PUT /api/clients/68a4fd511ac2f2e4622ebd31
-[2025-08-19T22:40:17.669Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T22:40:17.669Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T22:40:17.721Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:40:17.773Z] WARN: Forbidden access attempt by user 68a4fd501ac2f2e4622ebc6c with role user
-[2025-08-19T22:40:17.929Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T22:40:17.929Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T22:40:17.971Z] WARN: Authorization denied: no token provided
 [2025-08-19T22:40:18.029Z] WARN: Forbidden access attempt by user 68a4fd501ac2f2e4622ebc6c with role user
 [2025-08-19T22:40:20.286Z] INFO: [AUDIT] user 68a4fd548401055afd66b921 created supplier 68a4fd548401055afd66b928 (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -8864,25 +8864,25 @@
 [2025-08-19T23:43:50.582Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:43:50.626Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T23:43:50.701Z] WARN: Authorization denied: no token provided
-[2025-08-19T23:43:50.782Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T23:43:50.782Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T23:43:50.909Z] WARN: Forbidden access attempt by user 68a50c365e94470ab91ed3f4 with role user
-[2025-08-19T23:43:50.946Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T23:43:50.946Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T23:43:51.073Z] WARN: Forbidden access attempt by user 68a50c365e94470ab91ed3f4 with role user
-[2025-08-19T23:43:51.109Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T23:43:51.109Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T23:43:51.190Z] ERROR: Token verification failed: invalid token
 [2025-08-19T23:43:53.081Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:43:53.132Z] WARN: Forbidden access attempt by user 68a50c38164e78d451867ad7 with role user
 [2025-08-19T23:43:53.180Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T23:43:53.329Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:43:53.380Z] WARN: Forbidden access attempt by user 68a50c38164e78d451867ad7 with role user
-[2025-08-19T23:43:53.527Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T23:43:53.527Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T23:43:53.575Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:43:53.632Z] WARN: Forbidden access attempt by user 68a50c38164e78d451867ad7 with role user
 [2025-08-19T23:43:53.737Z] WARN: Schema validation failed for PUT /api/clients/68a50c39164e78d451867bb3
-[2025-08-19T23:43:53.828Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T23:43:53.828Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T23:43:53.873Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:43:53.929Z] WARN: Forbidden access attempt by user 68a50c38164e78d451867ad7 with role user
-[2025-08-19T23:43:54.074Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T23:43:54.074Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T23:43:54.127Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:43:54.184Z] WARN: Forbidden access attempt by user 68a50c38164e78d451867ad7 with role user
 [2025-08-19T23:43:56.193Z] INFO: [AUDIT] user 68a50c3b946243792b1f107b created supplier 68a50c3c946243792b1f1082 (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -8974,25 +8974,25 @@
 [2025-08-19T23:55:28.461Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T23:55:28.610Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:55:28.658Z] WARN: Forbidden access attempt by user 68a50ef06290ec50bff8e455 with role user
-[2025-08-19T23:55:28.796Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T23:55:28.796Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T23:55:28.844Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:55:28.895Z] WARN: Forbidden access attempt by user 68a50ef06290ec50bff8e455 with role user
 [2025-08-19T23:55:28.995Z] WARN: Schema validation failed for PUT /api/clients/68a50ef06290ec50bff8e534
-[2025-08-19T23:55:29.083Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T23:55:29.083Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T23:55:29.130Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:55:29.183Z] WARN: Forbidden access attempt by user 68a50ef06290ec50bff8e455 with role user
-[2025-08-19T23:55:29.323Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-19T23:55:29.323Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-19T23:55:29.368Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:55:29.423Z] WARN: Forbidden access attempt by user 68a50ef06290ec50bff8e455 with role user
 [2025-08-19T23:55:31.527Z] WARN: Forbidden access attempt by user 68a50ef3069aac85bd364390 with role user
 [2025-08-19T23:55:31.563Z] WARN: Authorization denied: no token provided
 [2025-08-19T23:55:31.609Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-19T23:55:31.694Z] WARN: Authorization denied: no token provided
-[2025-08-19T23:55:31.784Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T23:55:31.784Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T23:55:31.913Z] WARN: Forbidden access attempt by user 68a50ef3069aac85bd364390 with role user
-[2025-08-19T23:55:31.956Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T23:55:31.956Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T23:55:32.091Z] WARN: Forbidden access attempt by user 68a50ef3069aac85bd364390 with role user
-[2025-08-19T23:55:32.133Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-19T23:55:32.133Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-19T23:55:32.216Z] ERROR: Token verification failed: invalid token
 [2025-08-19T23:55:34.132Z] INFO: [AUDIT] user 68a50ef5eff777ba5fa8a8ba created supplier 68a50ef6eff777ba5fa8a8c1 (Proveedor 1), IP: ::ffff:127.0.0.1
 [2025-08-19T23:55:34.171Z] WARN: Forbidden access attempt by user 68a50ef6eff777ba5fa8a8bc with role user
@@ -9057,25 +9057,25 @@
 [2025-08-20T11:32:24.099Z] WARN: Authorization denied: no token provided
 [2025-08-20T11:32:24.147Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T11:32:24.226Z] WARN: Authorization denied: no token provided
-[2025-08-20T11:32:24.307Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T11:32:24.307Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T11:32:24.432Z] WARN: Forbidden access attempt by user 68a5b247c4914b9439f72bf1 with role user
-[2025-08-20T11:32:24.470Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T11:32:24.470Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T11:32:24.585Z] WARN: Forbidden access attempt by user 68a5b247c4914b9439f72bf1 with role user
-[2025-08-20T11:32:24.622Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T11:32:24.622Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T11:32:24.700Z] ERROR: Token verification failed: invalid token
 [2025-08-20T11:32:26.648Z] WARN: Authorization denied: no token provided
 [2025-08-20T11:32:26.697Z] WARN: Forbidden access attempt by user 68a5b24a3b07eb78306c1ab8 with role user
 [2025-08-20T11:32:26.745Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T11:32:26.886Z] WARN: Authorization denied: no token provided
 [2025-08-20T11:32:26.935Z] WARN: Forbidden access attempt by user 68a5b24a3b07eb78306c1ab8 with role user
-[2025-08-20T11:32:27.072Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T11:32:27.072Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T11:32:27.114Z] WARN: Authorization denied: no token provided
 [2025-08-20T11:32:27.175Z] WARN: Forbidden access attempt by user 68a5b24a3b07eb78306c1ab8 with role user
 [2025-08-20T11:32:27.278Z] WARN: Schema validation failed for PUT /api/clients/68a5b24b3b07eb78306c1b89
-[2025-08-20T11:32:27.366Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T11:32:27.366Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T11:32:27.413Z] WARN: Authorization denied: no token provided
 [2025-08-20T11:32:27.468Z] WARN: Forbidden access attempt by user 68a5b24a3b07eb78306c1ab8 with role user
-[2025-08-20T11:32:27.620Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T11:32:27.620Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T11:32:27.669Z] WARN: Authorization denied: no token provided
 [2025-08-20T11:32:27.719Z] WARN: Forbidden access attempt by user 68a5b24a3b07eb78306c1ab8 with role user
 [2025-08-20T11:32:29.812Z] INFO: [AUDIT] user 68a5b24db22b702d60558bc4 created supplier 68a5b24db22b702d60558bcb (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -9155,11 +9155,11 @@
 [2025-08-20T13:13:30.042Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:13:30.090Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:13:30.161Z] WARN: Authorization denied: no token provided
-[2025-08-20T13:13:30.244Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:13:30.244Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:13:30.425Z] WARN: Forbidden access attempt by user 68a5c9f9e4bd6c0030a51adc with role user
-[2025-08-20T13:13:30.460Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:13:30.460Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:13:30.581Z] WARN: Forbidden access attempt by user 68a5c9f9e4bd6c0030a51adc with role user
-[2025-08-20T13:13:30.616Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:13:30.616Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:13:30.702Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:13:34.923Z] INFO: [AUDIT] user 68a5c9fe2152f75e144da01b created supplier 68a5c9fe2152f75e144da022 (Proveedor 1), IP: ::ffff:127.0.0.1
 [2025-08-20T13:13:34.961Z] WARN: Forbidden access attempt by user 68a5c9fe2152f75e144da01d with role user
@@ -9222,25 +9222,25 @@
 [2025-08-20T13:16:25.602Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:16:25.647Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:16:25.727Z] WARN: Authorization denied: no token provided
-[2025-08-20T13:16:25.808Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:16:25.808Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:16:25.931Z] WARN: Forbidden access attempt by user 68a5caa901db4110086d5d07 with role user
-[2025-08-20T13:16:25.971Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:16:25.971Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:16:26.093Z] WARN: Forbidden access attempt by user 68a5caa901db4110086d5d07 with role user
-[2025-08-20T13:16:26.134Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:16:26.134Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:16:26.213Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:16:28.388Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:16:28.442Z] WARN: Forbidden access attempt by user 68a5caac4ad5bf6f1e30f034 with role user
 [2025-08-20T13:16:28.493Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:16:28.644Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:16:28.695Z] WARN: Forbidden access attempt by user 68a5caac4ad5bf6f1e30f034 with role user
-[2025-08-20T13:16:28.850Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:16:28.850Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:16:28.897Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:16:28.952Z] WARN: Forbidden access attempt by user 68a5caac4ad5bf6f1e30f034 with role user
 [2025-08-20T13:16:29.066Z] WARN: Schema validation failed for PUT /api/clients/68a5caad4ad5bf6f1e30f114
-[2025-08-20T13:16:29.172Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:16:29.172Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:16:29.217Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:16:29.286Z] WARN: Forbidden access attempt by user 68a5caac4ad5bf6f1e30f034 with role user
-[2025-08-20T13:16:29.434Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:16:29.434Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:16:29.477Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:16:29.532Z] WARN: Forbidden access attempt by user 68a5caac4ad5bf6f1e30f034 with role user
 [2025-08-20T13:16:31.415Z] INFO: [AUDIT] user 68a5caaff13c88481b11a511 created supplier 68a5caaff13c88481b11a518 (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -9304,25 +9304,25 @@
 [2025-08-20T13:18:08.884Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:18:08.929Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:18:09.009Z] WARN: Authorization denied: no token provided
-[2025-08-20T13:18:09.092Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:18:09.092Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:18:09.227Z] WARN: Forbidden access attempt by user 68a5cb10d1d1f302e8fa2414 with role user
-[2025-08-20T13:18:09.268Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:18:09.268Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:18:09.397Z] WARN: Forbidden access attempt by user 68a5cb10d1d1f302e8fa2414 with role user
-[2025-08-20T13:18:09.436Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:18:09.436Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:18:09.514Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:18:11.509Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:18:11.566Z] WARN: Forbidden access attempt by user 68a5cb13e96651a3b47e8674 with role user
 [2025-08-20T13:18:11.616Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:18:11.766Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:18:11.815Z] WARN: Forbidden access attempt by user 68a5cb13e96651a3b47e8674 with role user
-[2025-08-20T13:18:11.996Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:18:11.996Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:18:12.054Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:18:12.119Z] WARN: Forbidden access attempt by user 68a5cb13e96651a3b47e8674 with role user
 [2025-08-20T13:18:12.225Z] WARN: Schema validation failed for PUT /api/clients/68a5cb14e96651a3b47e8754
-[2025-08-20T13:18:12.325Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:18:12.325Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:18:12.376Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:18:12.438Z] WARN: Forbidden access attempt by user 68a5cb13e96651a3b47e8674 with role user
-[2025-08-20T13:18:12.602Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:18:12.602Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:18:12.648Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:18:12.705Z] WARN: Forbidden access attempt by user 68a5cb13e96651a3b47e8674 with role user
 [2025-08-20T13:18:14.650Z] INFO: [AUDIT] user 68a5cb16899db0da0298aeac created supplier 68a5cb16899db0da0298aeb3 (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -9390,14 +9390,14 @@
 [2025-08-20T13:22:57.982Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:22:58.118Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:22:58.168Z] WARN: Forbidden access attempt by user 68a5cc3168aca4d642a995ac with role user
-[2025-08-20T13:22:58.302Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:22:58.302Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:22:58.349Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:22:58.409Z] WARN: Forbidden access attempt by user 68a5cc3168aca4d642a995ac with role user
 [2025-08-20T13:22:58.502Z] WARN: Schema validation failed for PUT /api/clients/68a5cc3268aca4d642a9968c
-[2025-08-20T13:22:58.593Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:22:58.593Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:22:58.634Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:22:58.689Z] WARN: Forbidden access attempt by user 68a5cc3168aca4d642a995ac with role user
-[2025-08-20T13:22:58.824Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:22:58.824Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:22:58.865Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:22:58.916Z] WARN: Forbidden access attempt by user 68a5cc3168aca4d642a995ac with role user
 [2025-08-20T13:23:01.259Z] WARN: Forbidden access attempt by user 68a5cc3447b5361796760d22 with role user
@@ -9406,15 +9406,15 @@
 [2025-08-20T13:23:01.368Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:23:01.436Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:23:01.474Z] WARN: Forbidden access attempt by user 68a5cc3447b5361796760d22 with role user
-[2025-08-20T13:23:01.546Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:23:01.546Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:23:01.612Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:23:01.652Z] WARN: Forbidden access attempt by user 68a5cc3447b5361796760d22 with role user
 [2025-08-20T13:23:01.732Z] WARN: Forbidden access attempt by user 68a5cc3447b5361796760d22 with role user
-[2025-08-20T13:23:01.771Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:23:01.771Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:23:01.846Z] WARN: Schema validation failed for PUT /api/clients/68a5cc3547b5361796760dba
 [2025-08-20T13:23:01.880Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:23:01.961Z] WARN: Forbidden access attempt by user 68a5cc3447b5361796760d22 with role user
-[2025-08-20T13:23:01.995Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:23:01.995Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:23:02.075Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:23:02.113Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:26:01.169Z] INFO: Successful login for: admin@test.com from IP: ::ffff:127.0.0.1
@@ -9479,14 +9479,14 @@
 [2025-08-20T13:26:28.311Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:26:28.446Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:26:28.494Z] WARN: Forbidden access attempt by user 68a5cd03165b3e149193dc5f with role user
-[2025-08-20T13:26:28.730Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:26:28.730Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:26:28.772Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:26:28.824Z] WARN: Forbidden access attempt by user 68a5cd03165b3e149193dc5f with role user
 [2025-08-20T13:26:28.918Z] WARN: Schema validation failed for PUT /api/clients/68a5cd04165b3e149193dd3f
-[2025-08-20T13:26:29.011Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:26:29.011Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:26:29.053Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:26:29.105Z] WARN: Forbidden access attempt by user 68a5cd03165b3e149193dc5f with role user
-[2025-08-20T13:26:29.239Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:26:29.239Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:26:29.281Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:26:29.332Z] WARN: Forbidden access attempt by user 68a5cd03165b3e149193dc5f with role user
 [2025-08-20T13:26:31.681Z] WARN: Forbidden access attempt by user 68a5cd07c1ef6b8f68a615ab with role user
@@ -9495,15 +9495,15 @@
 [2025-08-20T13:26:31.804Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:26:31.879Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:26:31.925Z] WARN: Forbidden access attempt by user 68a5cd07c1ef6b8f68a615ab with role user
-[2025-08-20T13:26:32.013Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:26:32.013Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:26:32.086Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:26:32.134Z] WARN: Forbidden access attempt by user 68a5cd07c1ef6b8f68a615ab with role user
 [2025-08-20T13:26:32.220Z] WARN: Forbidden access attempt by user 68a5cd07c1ef6b8f68a615ab with role user
-[2025-08-20T13:26:32.254Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:26:32.254Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:26:32.337Z] WARN: Schema validation failed for PUT /api/clients/68a5cd08c1ef6b8f68a61643
 [2025-08-20T13:26:32.373Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:26:32.457Z] WARN: Forbidden access attempt by user 68a5cd07c1ef6b8f68a615ab with role user
-[2025-08-20T13:26:32.490Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:26:32.490Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:26:32.560Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:26:34.524Z] INFO: [AUDIT] user 68a5cd0ad4ee7fb18870f13d created supplier 68a5cd0ad4ee7fb18870f144 (Proveedor 1), IP: ::ffff:127.0.0.1
 [2025-08-20T13:26:34.562Z] WARN: Forbidden access attempt by user 68a5cd0ad4ee7fb18870f13f with role user
@@ -9575,29 +9575,29 @@
 [2025-08-20T13:30:19.438Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:30:19.508Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:30:19.548Z] WARN: Forbidden access attempt by user 68a5cdeaea3c08553d2de7d1 with role user
-[2025-08-20T13:30:19.628Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:30:19.628Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:30:19.700Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:30:19.750Z] WARN: Forbidden access attempt by user 68a5cdeaea3c08553d2de7d1 with role user
 [2025-08-20T13:30:19.844Z] WARN: Forbidden access attempt by user 68a5cdeaea3c08553d2de7d1 with role user
-[2025-08-20T13:30:19.881Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:30:19.881Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:30:19.957Z] WARN: Schema validation failed for PUT /api/clients/68a5cdebea3c08553d2de869
 [2025-08-20T13:30:20.005Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:30:20.692Z] WARN: Forbidden access attempt by user 68a5cdeaea3c08553d2de7d1 with role user
-[2025-08-20T13:30:20.777Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:30:20.777Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:30:20.978Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:30:23.359Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:30:23.407Z] WARN: Forbidden access attempt by user 68a5cdefdf60cdad0f38c534 with role user
 [2025-08-20T13:30:23.452Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:30:23.590Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:30:23.639Z] WARN: Forbidden access attempt by user 68a5cdefdf60cdad0f38c534 with role user
-[2025-08-20T13:30:23.788Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:30:23.788Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:30:23.946Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:30:24.028Z] WARN: Forbidden access attempt by user 68a5cdefdf60cdad0f38c534 with role user
 [2025-08-20T13:30:24.139Z] WARN: Schema validation failed for PUT /api/clients/68a5cdf0df60cdad0f38c614
-[2025-08-20T13:30:24.246Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:30:24.246Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:30:24.297Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:30:24.359Z] WARN: Forbidden access attempt by user 68a5cdefdf60cdad0f38c534 with role user
-[2025-08-20T13:30:24.538Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:30:24.538Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:30:24.617Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:30:24.679Z] WARN: Forbidden access attempt by user 68a5cdefdf60cdad0f38c534 with role user
 [2025-08-20T13:30:27.576Z] INFO: [AUDIT] user 68a5cdf3ff7411d1d393d566 created supplier 68a5cdf3ff7411d1d393d56d (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -9643,7 +9643,7 @@
 [2025-08-20T13:30:34.528Z] WARN: Forbidden access attempt by user 68a5cdf97c946db5168e5ef8 with role user
 [2025-08-20T13:30:34.592Z] WARN: Forbidden access attempt by user 68a5cdf97c946db5168e5efc with role bodeguero
 [2025-08-20T13:30:34.641Z] WARN: Authorization denied: no token provided
-[2025-08-20T13:30:34.786Z] ERROR: [ERROR] manualInventoryById: Cast to ObjectId failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
+[2025-08-20T13:30:34.786Z] ERROR: [ERROR] manualInventoryById: Cast to UUID v4 failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
 [2025-08-20T13:33:05.183Z] INFO: Successful login for: admin@test.com from IP: ::ffff:127.0.0.1
 [2025-08-20T13:33:05.297Z] INFO: Successful login for: user@test.com from IP: ::ffff:127.0.0.1
 [2025-08-20T13:33:05.490Z] INFO: [AUDIT] user 68a5ce902bac7c2df7171cee created user 68a5ce912bac7c2df7171cf8, IP: ::ffff:127.0.0.1
@@ -9678,29 +9678,29 @@
 [2025-08-20T13:33:11.606Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:33:11.682Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:33:11.719Z] WARN: Forbidden access attempt by user 68a5ce97b7aab2f01a973a8c with role user
-[2025-08-20T13:33:11.795Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:33:11.795Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:33:11.864Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:33:11.907Z] WARN: Forbidden access attempt by user 68a5ce97b7aab2f01a973a8c with role user
 [2025-08-20T13:33:11.985Z] WARN: Forbidden access attempt by user 68a5ce97b7aab2f01a973a8c with role user
-[2025-08-20T13:33:12.022Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:33:12.022Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:33:12.098Z] WARN: Schema validation failed for PUT /api/clients/68a5ce98b7aab2f01a973b24
 [2025-08-20T13:33:12.134Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:33:12.219Z] WARN: Forbidden access attempt by user 68a5ce97b7aab2f01a973a8c with role user
-[2025-08-20T13:33:12.255Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:33:12.255Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:33:12.324Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:33:14.396Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:33:14.449Z] WARN: Forbidden access attempt by user 68a5ce9a46f178f1e4e96792 with role user
 [2025-08-20T13:33:14.492Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:33:14.630Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:33:14.679Z] WARN: Forbidden access attempt by user 68a5ce9a46f178f1e4e96792 with role user
-[2025-08-20T13:33:14.812Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:33:14.812Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:33:14.857Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:33:14.915Z] WARN: Forbidden access attempt by user 68a5ce9a46f178f1e4e96792 with role user
 [2025-08-20T13:33:15.019Z] WARN: Schema validation failed for PUT /api/clients/68a5ce9b46f178f1e4e96872
-[2025-08-20T13:33:15.107Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:33:15.107Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:33:15.151Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:33:15.204Z] WARN: Forbidden access attempt by user 68a5ce9a46f178f1e4e96792 with role user
-[2025-08-20T13:33:15.341Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:33:15.341Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:33:15.382Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:33:15.431Z] WARN: Forbidden access attempt by user 68a5ce9a46f178f1e4e96792 with role user
 [2025-08-20T13:33:17.429Z] INFO: [AUDIT] user 68a5ce9da064c1a49d3c28c2 created supplier 68a5ce9da064c1a49d3c28c9 (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -9741,7 +9741,7 @@
 [2025-08-20T13:33:22.771Z] WARN: Schema validation failed for POST /api/manual-inventory
 [2025-08-20T13:33:22.824Z] WARN: Forbidden access attempt by user 68a5cea2323273e4eec76544 with role user
 [2025-08-20T13:33:22.878Z] WARN: Forbidden access attempt by user 68a5cea2323273e4eec76547 with role bodeguero
-[2025-08-20T13:33:23.077Z] ERROR: [ERROR] manualInventoryById: Cast to ObjectId failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
+[2025-08-20T13:33:23.077Z] ERROR: [ERROR] manualInventoryById: Cast to UUID v4 failed for value "invalidid" (type string) at path "_id" for model "ManualInventory"
 [2025-08-20T13:36:48.595Z] INFO: Successful login for: admin@test.com from IP: ::ffff:127.0.0.1
 [2025-08-20T13:36:48.699Z] INFO: Successful login for: user@test.com from IP: ::ffff:127.0.0.1
 [2025-08-20T13:36:48.884Z] INFO: [AUDIT] user 68a5cf700cee1aa3d79462c6 created user 68a5cf700cee1aa3d79462d0, IP: ::ffff:127.0.0.1
@@ -9776,29 +9776,29 @@
 [2025-08-20T13:36:54.599Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:36:54.671Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:36:54.712Z] WARN: Forbidden access attempt by user 68a5cf76110f0994ea28ded4 with role user
-[2025-08-20T13:36:54.785Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:36:54.785Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:36:54.854Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:36:54.898Z] WARN: Forbidden access attempt by user 68a5cf76110f0994ea28ded4 with role user
 [2025-08-20T13:36:54.978Z] WARN: Forbidden access attempt by user 68a5cf76110f0994ea28ded4 with role user
-[2025-08-20T13:36:55.014Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:36:55.014Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:36:55.091Z] WARN: Schema validation failed for PUT /api/clients/68a5cf77110f0994ea28df6c
 [2025-08-20T13:36:55.128Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:36:55.207Z] WARN: Forbidden access attempt by user 68a5cf76110f0994ea28ded4 with role user
-[2025-08-20T13:36:55.243Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:36:55.243Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:36:55.310Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:36:57.280Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:36:57.327Z] WARN: Forbidden access attempt by user 68a5cf783af4a62997b3996a with role user
 [2025-08-20T13:36:57.371Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:36:57.504Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:36:57.551Z] WARN: Forbidden access attempt by user 68a5cf783af4a62997b3996a with role user
-[2025-08-20T13:36:57.683Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:36:57.683Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:36:57.724Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:36:57.779Z] WARN: Forbidden access attempt by user 68a5cf783af4a62997b3996a with role user
 [2025-08-20T13:36:57.875Z] WARN: Schema validation failed for PUT /api/clients/68a5cf793af4a62997b39a4a
-[2025-08-20T13:36:57.963Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:36:57.963Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:36:58.004Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:36:58.060Z] WARN: Forbidden access attempt by user 68a5cf783af4a62997b3996a with role user
-[2025-08-20T13:36:58.195Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:36:58.195Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:36:58.235Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:36:58.287Z] WARN: Forbidden access attempt by user 68a5cf783af4a62997b3996a with role user
 [2025-08-20T13:37:00.226Z] INFO: [AUDIT] user 68a5cf7cbcfd3c1cd1eb3f2a created supplier 68a5cf7cbcfd3c1cd1eb3f31 (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -9876,14 +9876,14 @@
 [2025-08-20T13:39:35.603Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:39:35.753Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:39:35.804Z] WARN: Forbidden access attempt by user 68a5d01716938a11ba584cb8 with role user
-[2025-08-20T13:39:35.956Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:39:35.956Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:39:36.005Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:39:36.063Z] WARN: Forbidden access attempt by user 68a5d01716938a11ba584cb8 with role user
 [2025-08-20T13:39:36.173Z] WARN: Schema validation failed for PUT /api/clients/68a5d01816938a11ba584d98
-[2025-08-20T13:39:36.322Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:39:36.322Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:39:36.371Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:39:36.426Z] WARN: Forbidden access attempt by user 68a5d01716938a11ba584cb8 with role user
-[2025-08-20T13:39:36.584Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:39:36.584Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:39:36.630Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:39:36.682Z] WARN: Forbidden access attempt by user 68a5d01716938a11ba584cb8 with role user
 [2025-08-20T13:39:39.140Z] WARN: Forbidden access attempt by user 68a5d01a71b47c368b6e76ef with role user
@@ -9892,15 +9892,15 @@
 [2025-08-20T13:39:39.271Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:39:39.361Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:39:39.403Z] WARN: Forbidden access attempt by user 68a5d01a71b47c368b6e76ef with role user
-[2025-08-20T13:39:39.491Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:39:39.491Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:39:39.575Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:39:39.627Z] WARN: Forbidden access attempt by user 68a5d01a71b47c368b6e76ef with role user
 [2025-08-20T13:39:39.727Z] WARN: Forbidden access attempt by user 68a5d01a71b47c368b6e76ef with role user
-[2025-08-20T13:39:39.763Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:39:39.763Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:39:39.858Z] WARN: Schema validation failed for PUT /api/clients/68a5d01b71b47c368b6e7787
 [2025-08-20T13:39:39.899Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:39:40.002Z] WARN: Forbidden access attempt by user 68a5d01a71b47c368b6e76ef with role user
-[2025-08-20T13:39:40.044Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:39:40.044Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:39:40.127Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:39:42.194Z] INFO: [AUDIT] Admin undefined (68a5d01d1d1c8123474acb9e) added 5 units of Producto prueba 1755697182131 (ID: 68a5d01e1d1c8123474acbce). New stock: 15. IP: ::ffff:127.0.0.1
 [2025-08-20T13:39:42.272Z] INFO: [AUDIT] Admin undefined (68a5d01d1d1c8123474acb9e) removed 3 units of Producto prueba 1755697182235 (ID: 68a5d01e1d1c8123474acbe0). New stock: 7. IP: ::ffff:127.0.0.1
@@ -9944,9 +9944,9 @@
 [2025-08-20T13:39:48.477Z] INFO: [AUDIT] user 68a5d023e598fe518474e44a created product 68a5d024e598fe518474e49a (Test Product), IP: ::ffff:127.0.0.1
 [2025-08-20T13:39:48.498Z] INFO: [AUDIT] user 68a5d023e598fe518474e44a deleted product 68a5d024e598fe518474e49a (Test Product), IP: ::ffff:127.0.0.1
 [2025-08-20T13:39:50.936Z] WARN: Authorization denied: no token provided
-[2025-08-20T13:39:51.206Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:39:51.206Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:39:51.463Z] WARN: Forbidden access attempt by user 68a5d026e345b7a6ab3d1476 with role user
-[2025-08-20T13:39:51.523Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:39:51.523Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:39:51.648Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:44:37.803Z] INFO: Successful login for: admin@test.com from IP: ::ffff:127.0.0.1
 [2025-08-20T13:44:37.916Z] INFO: Successful login for: user@test.com from IP: ::ffff:127.0.0.1
@@ -9981,14 +9981,14 @@
 [2025-08-20T13:44:45.323Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:44:45.477Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:44:45.532Z] WARN: Forbidden access attempt by user 68a5d14c6d2590c0292cd383 with role user
-[2025-08-20T13:44:45.692Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:44:45.692Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:44:45.741Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:44:45.824Z] WARN: Forbidden access attempt by user 68a5d14c6d2590c0292cd383 with role user
 [2025-08-20T13:44:45.928Z] WARN: Schema validation failed for PUT /api/clients/68a5d14d6d2590c0292cd463
-[2025-08-20T13:44:46.024Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:44:46.024Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:44:46.072Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:44:46.129Z] WARN: Forbidden access attempt by user 68a5d14c6d2590c0292cd383 with role user
-[2025-08-20T13:44:46.293Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:44:46.293Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:44:46.344Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:44:46.404Z] WARN: Forbidden access attempt by user 68a5d14c6d2590c0292cd383 with role user
 [2025-08-20T13:44:49.607Z] WARN: Forbidden access attempt by user 68a5d1511ad3aaca622fd294 with role user
@@ -9997,15 +9997,15 @@
 [2025-08-20T13:44:49.727Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:44:49.898Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:44:49.944Z] WARN: Forbidden access attempt by user 68a5d1511ad3aaca622fd294 with role user
-[2025-08-20T13:44:50.045Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:44:50.045Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:44:50.195Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:44:50.256Z] WARN: Forbidden access attempt by user 68a5d1511ad3aaca622fd294 with role user
 [2025-08-20T13:44:50.383Z] WARN: Forbidden access attempt by user 68a5d1511ad3aaca622fd294 with role user
-[2025-08-20T13:44:50.429Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:44:50.429Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:44:50.516Z] WARN: Schema validation failed for PUT /api/clients/68a5d1521ad3aaca622fd32c
 [2025-08-20T13:44:50.552Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:44:50.700Z] WARN: Forbidden access attempt by user 68a5d1511ad3aaca622fd294 with role user
-[2025-08-20T13:44:50.739Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:44:50.739Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:44:50.833Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:44:52.882Z] INFO: [AUDIT] Admin undefined (68a5d154b58484969b7f75eb) added 5 units of Producto prueba 1755697492827 (ID: 68a5d154b58484969b7f761b). New stock: 15. IP: ::ffff:127.0.0.1
 [2025-08-20T13:44:52.981Z] INFO: [AUDIT] Admin undefined (68a5d154b58484969b7f75eb) removed 3 units of Producto prueba 1755697492926 (ID: 68a5d154b58484969b7f762d). New stock: 7. IP: ::ffff:127.0.0.1
@@ -10049,9 +10049,9 @@
 [2025-08-20T13:45:01.383Z] INFO: [AUDIT] user 68a5d15c43f1cf79c14aaff0 created product 68a5d15d43f1cf79c14ab040 (Test Product), IP: ::ffff:127.0.0.1
 [2025-08-20T13:45:01.406Z] INFO: [AUDIT] user 68a5d15c43f1cf79c14aaff0 deleted product 68a5d15d43f1cf79c14ab040 (Test Product), IP: ::ffff:127.0.0.1
 [2025-08-20T13:45:03.812Z] WARN: Authorization denied: no token provided
-[2025-08-20T13:45:04.141Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:45:04.141Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:45:04.420Z] WARN: Forbidden access attempt by user 68a5d15feea63076d64ac5d6 with role user
-[2025-08-20T13:45:04.492Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:45:04.492Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:45:04.627Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:48:39.898Z] INFO: Successful login for: admin@test.com from IP: ::ffff:127.0.0.1
 [2025-08-20T13:48:40.013Z] INFO: Successful login for: user@test.com from IP: ::ffff:127.0.0.1
@@ -10086,14 +10086,14 @@
 [2025-08-20T13:48:46.240Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:48:46.383Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:48:46.430Z] WARN: Forbidden access attempt by user 68a5d23d338e29d37b443a28 with role user
-[2025-08-20T13:48:46.576Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:48:46.576Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:48:46.622Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:48:46.677Z] WARN: Forbidden access attempt by user 68a5d23d338e29d37b443a28 with role user
 [2025-08-20T13:48:46.782Z] WARN: Schema validation failed for PUT /api/clients/68a5d23e338e29d37b443b08
-[2025-08-20T13:48:46.884Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:48:46.884Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:48:46.927Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:48:46.989Z] WARN: Forbidden access attempt by user 68a5d23d338e29d37b443a28 with role user
-[2025-08-20T13:48:47.134Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:48:47.134Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:48:47.177Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:48:47.231Z] WARN: Forbidden access attempt by user 68a5d23d338e29d37b443a28 with role user
 [2025-08-20T13:48:49.537Z] WARN: Forbidden access attempt by user 68a5d2418aeb8a19c2aee3b9 with role user
@@ -10102,15 +10102,15 @@
 [2025-08-20T13:48:49.651Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:48:49.725Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:48:49.770Z] WARN: Forbidden access attempt by user 68a5d2418aeb8a19c2aee3b9 with role user
-[2025-08-20T13:48:49.849Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:48:49.849Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:48:49.922Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:48:49.965Z] WARN: Forbidden access attempt by user 68a5d2418aeb8a19c2aee3b9 with role user
 [2025-08-20T13:48:50.055Z] WARN: Forbidden access attempt by user 68a5d2418aeb8a19c2aee3b9 with role user
-[2025-08-20T13:48:50.090Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:48:50.090Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:48:50.169Z] WARN: Schema validation failed for PUT /api/clients/68a5d2428aeb8a19c2aee451
 [2025-08-20T13:48:50.204Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:48:50.292Z] WARN: Forbidden access attempt by user 68a5d2418aeb8a19c2aee3b9 with role user
-[2025-08-20T13:48:50.326Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:48:50.326Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:48:50.399Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:48:52.593Z] INFO: [AUDIT] Admin undefined (68a5d244d41bf57a75dbcffd) added 5 units of Producto prueba 1755697732533 (ID: 68a5d244d41bf57a75dbd02e). New stock: 15. IP: ::ffff:127.0.0.1
 [2025-08-20T13:48:52.659Z] INFO: [AUDIT] Admin undefined (68a5d244d41bf57a75dbcffd) removed 3 units of Producto prueba 1755697732628 (ID: 68a5d244d41bf57a75dbd040). New stock: 7. IP: ::ffff:127.0.0.1
@@ -10154,19 +10154,19 @@
 [2025-08-20T13:48:59.104Z] INFO: [AUDIT] user 68a5d24afb2e1bc4ea6d657e created product 68a5d24bfb2e1bc4ea6d65ce (Test Product), IP: ::ffff:127.0.0.1
 [2025-08-20T13:48:59.131Z] INFO: [AUDIT] user 68a5d24afb2e1bc4ea6d657e deleted product 68a5d24bfb2e1bc4ea6d65ce (Test Product), IP: ::ffff:127.0.0.1
 [2025-08-20T13:49:01.305Z] WARN: Authorization denied: no token provided
-[2025-08-20T13:49:01.583Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:49:01.583Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:49:01.845Z] WARN: Forbidden access attempt by user 68a5d24c91a58159db4c6f4a with role user
-[2025-08-20T13:49:01.900Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:49:01.900Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:49:02.025Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:56:23.721Z] WARN: Authorization denied: no token provided
-[2025-08-20T13:56:24.034Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:56:24.034Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:56:24.239Z] WARN: Forbidden access attempt by user 68a5d407055d90c349809b02 with role user
-[2025-08-20T13:56:24.283Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:56:24.283Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:56:24.381Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:05.121Z] WARN: Authorization denied: no token provided
-[2025-08-20T13:59:05.506Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:59:05.506Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:59:05.766Z] WARN: Forbidden access attempt by user 68a5d4a8edd7d3d474a3fa16 with role user
-[2025-08-20T13:59:05.814Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:59:05.814Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:59:05.937Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:08.226Z] INFO: Successful login for: admin@test.com from IP: ::ffff:127.0.0.1
 [2025-08-20T13:59:08.337Z] INFO: Successful login for: user@test.com from IP: ::ffff:127.0.0.1
@@ -10212,29 +10212,29 @@
 [2025-08-20T13:59:18.293Z] ERROR: Token verification failed: invalid token
 [2025-08-20T13:59:18.382Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:18.426Z] WARN: Forbidden access attempt by user 68a5d4b5cef2eaaf4d0e3d09 with role user
-[2025-08-20T13:59:18.514Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:59:18.514Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:59:18.589Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:18.639Z] WARN: Forbidden access attempt by user 68a5d4b5cef2eaaf4d0e3d09 with role user
 [2025-08-20T13:59:18.738Z] WARN: Forbidden access attempt by user 68a5d4b5cef2eaaf4d0e3d09 with role user
-[2025-08-20T13:59:18.781Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:59:18.781Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:59:18.881Z] WARN: Schema validation failed for PUT /api/clients/68a5d4b6cef2eaaf4d0e3da1
 [2025-08-20T13:59:18.918Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:19.014Z] WARN: Forbidden access attempt by user 68a5d4b5cef2eaaf4d0e3d09 with role user
-[2025-08-20T13:59:19.051Z] WARN: Invalid ObjectId detected for param "id": 123
+[2025-08-20T13:59:19.051Z] WARN: Invalid UUID v4 detected for param "id": 123
 [2025-08-20T13:59:19.131Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:21.194Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:21.250Z] WARN: Forbidden access attempt by user 68a5d4b8cdc5f048434fdb3d with role user
 [2025-08-20T13:59:21.301Z] WARN: Schema validation failed for POST /api/clients
 [2025-08-20T13:59:21.461Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:21.516Z] WARN: Forbidden access attempt by user 68a5d4b8cdc5f048434fdb3d with role user
-[2025-08-20T13:59:21.682Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:59:21.682Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:59:21.733Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:21.793Z] WARN: Forbidden access attempt by user 68a5d4b8cdc5f048434fdb3d with role user
 [2025-08-20T13:59:21.905Z] WARN: Schema validation failed for PUT /api/clients/68a5d4b9cdc5f048434fdc1d
-[2025-08-20T13:59:22.012Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:59:22.012Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:59:22.062Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:22.121Z] WARN: Forbidden access attempt by user 68a5d4b8cdc5f048434fdb3d with role user
-[2025-08-20T13:59:22.288Z] WARN: Invalid ObjectId detected for param "id": invalidid
+[2025-08-20T13:59:22.288Z] WARN: Invalid UUID v4 detected for param "id": invalidid
 [2025-08-20T13:59:22.338Z] WARN: Authorization denied: no token provided
 [2025-08-20T13:59:22.397Z] WARN: Forbidden access attempt by user 68a5d4b8cdc5f048434fdb3d with role user
 [2025-08-20T13:59:24.512Z] INFO: [AUDIT] user 68a5d4bccab0e31b5e7b36e1 created supplier 68a5d4bccab0e31b5e7b36e8 (Proveedor 1), IP: ::ffff:127.0.0.1
@@ -10545,3 +10545,74 @@
 [2025-08-27T01:11:37.688Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
 [2025-08-27T01:11:51.204Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
 [2025-08-27T01:12:25.434Z] ERROR: Error updating report: Cannot read properties of undefined (reading '_zod')
+[2025-08-27T01:17:37.576Z] INFO: Report deleted successfully: id 61ad9748-beb7-4fe9-9951-eff04e4a1e78, by user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a
+[2025-09-09T22:35:12.658Z] WARN: Duplicate email registration: JAVIER1@test.com, IP: ::1
+[2025-09-09T22:35:16.715Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-09-09T22:37:41.834Z] ERROR: Token verification failed: jwt expired
+[2025-09-09T22:38:40.729Z] ERROR: Registration error: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-09-09T22:38:46.549Z] INFO: User registered successfully: JAVIER12@test.com, IP: ::1
+[2025-09-09T22:39:11.807Z] INFO: Login successful: javier12@test.com, IP: ::1
+[2025-09-09T22:42:01.268Z] WARN: Forbidden access attempt by user f0376afe-a5c5-4a1a-8395-d9ff3b1cdebc with role user
+[2025-09-09T22:43:54.030Z] WARN: Forbidden access attempt by user f0376afe-a5c5-4a1a-8395-d9ff3b1cdebc with role user
+[2025-09-09T22:45:36.485Z] WARN: Forbidden access attempt by user f0376afe-a5c5-4a1a-8395-d9ff3b1cdebc with role user
+[2025-09-09T22:46:34.373Z] ERROR: Error creating user: llave duplicada viola restricción de unicidad «users_username_key», IP: ::1
+[2025-09-09T22:46:42.699Z] INFO: User bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a creó usuario 4c3d1faf-6e7f-403e-beeb-d00e3991b18e, IP: ::1
+[2025-09-09T22:47:48.414Z] WARN: Invalid UUID format for parameter id: 688cd8c107ae98c387a820b1
+[2025-09-09T22:48:51.055Z] WARN: Forbidden access attempt by user f0376afe-a5c5-4a1a-8395-d9ff3b1cdebc with role user
+[2025-09-09T22:49:59.580Z] WARN: Forbidden access attempt by user f0376afe-a5c5-4a1a-8395-d9ff3b1cdebc with role user
+[2025-09-09T22:50:10.467Z] WARN: Forbidden access attempt by user f0376afe-a5c5-4a1a-8395-d9ff3b1cdebc with role user
+[2025-09-09T22:50:30.386Z] WARN: Login failed, wrong password: javier12@test.com, IP: ::1
+[2025-09-09T22:50:40.846Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-09-09T22:51:17.437Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-09-09T22:51:35.785Z] ERROR: Error creating supplier llave duplicada viola restricción de unicidad «suppliers_name_key49»
+[2025-09-09T22:51:42.892Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a created supplier 539cb7b6-b641-4667-a7f1-41231585b23c, IP: ::1
+[2025-09-09T22:51:50.994Z] INFO: Suppliers listed, IP: ::1
+[2025-09-09T22:52:16.981Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a updated supplier 994edc64-488a-4618-a8f2-7388de34a910, IP: ::1
+[2025-09-09T22:52:24.321Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a deleted supplier 994edc64-488a-4618-a8f2-7388de34a910, IP: ::1
+[2025-09-09T22:52:42.081Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-09-09T22:54:55.943Z] ERROR: Token verification failed: jwt expired
+[2025-09-09T22:59:09.871Z] INFO: Report deleted successfully: id 6b12d242-27bc-4860-824a-37788e1a0b9e, by user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a
+[2025-09-09T23:05:15.005Z] WARN: Login failed, email not found: JAVIER@test.com, IP: ::1
+[2025-09-09T23:05:18.205Z] INFO: Login successful: JAVIER1@test.com, IP: ::1
+[2025-09-09T23:05:49.971Z] WARN: Forbidden access attempt by user b436aaef-9e43-47f3-91a2-937cf60433b0 with role user
+[2025-09-09T23:08:44.298Z] WARN: Forbidden access attempt by user b436aaef-9e43-47f3-91a2-937cf60433b0 with role user
+[2025-09-09T23:13:17.362Z] WARN: Forbidden access attempt by user b436aaef-9e43-47f3-91a2-937cf60433b0 with role user
+[2025-09-09T23:13:25.044Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-09-09T23:13:45.987Z] INFO: User bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a eliminó usuario c6fa6355-ecfd-4647-8565-2e0d9d3b6c86, IP: ::1
+[2025-09-09T23:14:50.272Z] INFO: Login successful: JAVIER1@test.com, IP: ::1
+[2025-09-09T23:28:21.207Z] INFO: Login successful: JAVIER1@test.com, IP: ::1
+[2025-09-10T15:06:09.222Z] INFO: User bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a eliminó usuario 5b932a7f-822e-4ebf-a456-76671505f95c, IP: ::1
+[2025-09-10T15:16:31.242Z] WARN: Authorization denied: no token provided
+[2025-09-10T15:16:52.320Z] WARN: Authorization denied: no token provided
+[2025-09-10T15:17:55.762Z] WARN: Forbidden access attempt by user b436aaef-9e43-47f3-91a2-937cf60433b0 with role user
+[2025-09-10T15:30:08.402Z] WARN: Authorization denied: no token provided
+[2025-09-10T15:30:32.054Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-09-10T15:31:24.583Z] WARN: Schema validation failed for POST /api/clients/
+[2025-09-10T15:31:38.241Z] WARN: Schema validation failed for POST /api/clients/
+[2025-09-10T15:44:43.321Z] WARN: Schema validation failed for POST /api/users/
+[2025-09-10T15:44:52.671Z] INFO: User bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a creó usuario 1bb5eddb-3432-40e9-8502-25cdfd8296f9, IP: ::1
+[2025-09-10T15:45:27.338Z] WARN: Login failed, email not found: BODEGA@test.com, IP: ::1
+[2025-09-10T15:45:49.156Z] WARN: Login failed, wrong password: bodega@example.com, IP: ::1
+[2025-09-10T15:46:05.985Z] INFO: Login successful: bodega@example.com, IP: ::1
+[2025-09-10T15:47:08.253Z] WARN: Forbidden access attempt by user 1bb5eddb-3432-40e9-8502-25cdfd8296f9 with role bodeguero
+[2025-09-10T15:47:25.273Z] INFO: Products listed, page 1, limit 10, IP: ::1
+[2025-09-10T15:47:44.652Z] WARN: Forbidden access attempt by user 1bb5eddb-3432-40e9-8502-25cdfd8296f9 with role bodeguero
+[2025-09-10T16:38:54.973Z] WARN: Forbidden access attempt by user 1bb5eddb-3432-40e9-8502-25cdfd8296f9 with role bodeguero
+[2025-09-10T16:39:10.650Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-09-10T16:39:33.500Z] ERROR: Error creating supplier llave duplicada viola restricción de unicidad «suppliers_name_key68»
+[2025-09-10T16:39:42.601Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a created supplier 9cbae5d6-8f83-4b31-9116-cf3329aebfea, IP: ::1
+[2025-09-10T16:40:13.062Z] WARN: Schema validation failed for POST /api/suppliers/
+[2025-09-10T16:40:30.573Z] INFO: Suppliers listed, IP: ::1
+[2025-09-10T16:40:39.500Z] ERROR: Error updating supplier llave duplicada viola restricción de unicidad «suppliers_name_key68»
+[2025-09-10T16:40:47.405Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a updated supplier 539cb7b6-b641-4667-a7f1-41231585b23c, IP: ::1
+[2025-09-10T17:31:05.958Z] INFO: Login successful: ADMIN@test.com, IP: ::1
+[2025-09-10T17:38:56.245Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a updated supplier 539cb7b6-b641-4667-a7f1-41231585b23c, IP: ::1
+[2025-09-10T20:18:19.634Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a updated supplier 539cb7b6-b641-4667-a7f1-41231585b23c, IP: ::1
+[2025-09-10T20:43:03.559Z] WARN: Authorization denied: no token provided (URL=PUT /api/suppliers/539cb7b6-b641-4667-a7f1-41231585b23c)
+[2025-09-10T20:43:23.013Z] INFO: [AUDIT] user bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a updated supplier 539cb7b6-b641-4667-a7f1-41231585b23c, IP: ::1
+[2025-09-10T20:44:03.422Z] WARN: Forbidden access attempt by user 1bb5eddb-3432-40e9-8502-25cdfd8296f9 with role bodeguero
+[2025-09-10T20:46:00.186Z] WARN: Login failed, email not found: JAVIER@test.com, IP: ::1
+[2025-09-10T20:46:03.904Z] INFO: Login successful: JAVIER1@test.com, IP: ::1
+[2025-09-10T21:04:09.387Z] WARN: Schema validation failed for POST /api/users/
+[2025-09-10T21:04:18.169Z] INFO: User bf31e0c6-0d58-45ac-b901-0c80bd4dfd5a creó usuario cbfca86f-43bf-405f-a9f2-86e148a093d3, IP: ::1
+[2025-09-10T21:04:58.630Z] INFO: Login successful: vendedor@example.com, IP: ::1

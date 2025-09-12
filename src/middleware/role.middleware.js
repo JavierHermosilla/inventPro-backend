@@ -2,7 +2,7 @@ import logger from '../utils/logger.js'
 
 /**
  * Middleware para verificar que el usuario tenga uno de los roles permitidos
- * @param {string[]} allowedRoles - Array con roles permitidos (ej: ['admin', 'manager'])
+ * @param {string[]} allowedRoles - Array con roles permitidos (ej: ['admin', 'vendedor'])
  */
 export const checkRole = (allowedRoles = []) => {
   return (req, res, next) => {

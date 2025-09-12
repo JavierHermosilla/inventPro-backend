@@ -1,8 +1,5 @@
-import dotenv from 'dotenv'
 import bcrypt from 'bcrypt'
 import { sequelize, models, initializeModels } from '../src/models/index.js'
-
-dotenv.config()
 
 const createAdmin = async () => {
   try {

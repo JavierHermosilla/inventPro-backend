@@ -1,6 +1,5 @@
 // src/db/db.js
 import { Sequelize } from 'sequelize'
-import dotenv from 'dotenv'
 
 // Importar modelos
 import User from '../models/user.model.js'
@@ -11,8 +10,7 @@ import Category from '../models/category.model.js'
 import Supplier from '../models/supplier.model.js'
 import ManualInventory from '../models/manualInventory.model.js'
 import Report from '../models/reports.model.js'
-
-dotenv.config()
+import Client from '../models/client.model.js'
 
 // Instancia de Sequelize
 const sequelize = new Sequelize(
@@ -41,19 +39,15 @@ const models = {
   Category,
   Supplier,
   ManualInventory,
-  Report
+  Report,
+  Client
 }
 
 // Inicializar modelos
 Object.values(models).forEach(model => model.initialize(sequelize))
 
 // Asociaciones
-Object.values(models).forEach(model => {
-  if (typeof model.associate === 'function') {
-    model.associate(models)
-  }
-}
-)
+await import('../models/associations.js')
 
 // Helpers de DB
 export const syncDB = async () => {

@@ -91,16 +91,16 @@ class User extends Model {
   }
 
   // 🔹 Relaciones
-  static associate (models, schema) {
-    this.hasMany(models.Order, { foreignKey: 'customerId', as: 'customerOrders', schema })
-    this.hasMany(models.ManualInventory, { foreignKey: 'userId', as: 'userInventoryAdjustments', schema })
-    this.hasMany(models.Report, { foreignKey: 'createdBy', as: 'createdReports', schema })
-  }
+  // static associate (models, schema) {
+  //   this.hasMany(models.Order, { foreignKey: 'customerId', as: 'customerOrders', schema })
+  //   this.hasMany(models.ManualInventory, { foreignKey: 'userId', as: 'userInventoryAdjustments', schema })
+  //   this.hasMany(models.Report, { foreignKey: 'createdBy', as: 'createdReports', schema })
+  // }
 
-  // 🔹 Método para comparar contraseñas
-  async comparePassword (candidatePassword) {
-    return bcrypt.compare(candidatePassword, this.password)
-  }
+  // // 🔹 Método para comparar contraseñas
+  // async comparePassword (candidatePassword) {
+  //   return bcrypt.compare(candidatePassword, this.password)
+  // }
 }
 
 export default User

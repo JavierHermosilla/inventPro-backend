@@ -46,17 +46,17 @@ class Category extends Model {
   }
 
   // 🔹 Definición de relaciones
-  static associate (models, schema) {
-    // Uno a muchos: Category -> Product
-    this.hasMany(models.Product, { foreignKey: 'categoryId', as: 'categoryProducts', schema })
+  // static associate (models, schema) {
+  //   // Uno a muchos: Category -> Product
+  //   this.hasMany(models.Product, { foreignKey: 'categoryId', as: 'categoryProducts', schema })
 
-    // Muchos a muchos: Category <-> Supplier
-    this.belongsToMany(models.Supplier, {
-      through: { model: 'SupplierCategories', schema }, // tabla intermedia normalizada
-      as: 'suppliedBy', // alias según tabla de normalización
-      foreignKey: 'categoryId'
-    })
-  }
+  //   // Muchos a muchos: Category <-> Supplier
+  //   this.belongsToMany(models.Supplier, {
+  //     through: { model: 'SupplierCategories', schema }, // tabla intermedia normalizada
+  //     as: 'suppliedBy', // alias según tabla de normalización
+  //     foreignKey: 'categoryId'
+  //   })
+  // }
 }
 
 export default Category

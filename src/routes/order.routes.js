@@ -1,3 +1,4 @@
+// src/routes/order.routes.js
 import { Router } from 'express'
 import {
   listOrders,
@@ -27,21 +28,14 @@ router.get(
   listOrderById
 )
 
-// Crear orden - usuario autenticado
+// Crear orden - validación de "self vs admin" la hace el controlador
 router.post(
   '/',
   verifyTokenMiddleware,
-  async (req, res, next) => {
-    // Garantizar que el cliente solo cree orden para sí mismo
-    if (req.body.customerId !== req.user.id) {
-      return res.status(403).json({ message: 'Cannot create order for another user' })
-    }
-    next()
-  },
   createOrder
 )
 
-// Actualizar orden
+// Actualizar orden - reglas en canUpdateOrder (admin o dueño según estado)
 router.put(
   '/:id',
   verifyTokenMiddleware,

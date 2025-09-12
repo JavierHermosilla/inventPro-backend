@@ -88,10 +88,10 @@ class Client extends Model {
   }
 
   // 🔹 Definición de relaciones
-  static associate (models, schema) {
-    // Uno a muchos: Client -> Order
-    this.hasMany(models.Order, { foreignKey: 'clientId', as: 'clientOrders', schema })
-  }
+  // static associate (models, schema) {
+  //   // Uno a muchos: Client -> Order
+  //   this.hasMany(models.Order, { foreignKey: 'clientId', as: 'clientOrders', schema })
+  // }
 }
 
 export default Client

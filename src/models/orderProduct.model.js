@@ -19,13 +19,13 @@ class OrderProduct extends Model {
     )
   }
 
-  static associate (models, schema) {
-    // OrderProduct -> Order
-    this.belongsTo(models.Order, { foreignKey: 'orderId', as: 'parentOrder', schema })
+  // static associate (models, schema) {
+  //   // OrderProduct -> Order
+  //   this.belongsTo(models.Order, { foreignKey: 'orderId', as: 'parentOrder', schema })
 
-    // OrderProduct -> Product
-    this.belongsTo(models.Product, { foreignKey: 'productId', as: 'orderedProduct', schema })
-  }
+  //   // OrderProduct -> Product
+  //   this.belongsTo(models.Product, { foreignKey: 'productId', as: 'orderedProduct', schema })
+  // }
 }
 
 export default OrderProduct

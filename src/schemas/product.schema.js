@@ -13,7 +13,6 @@ export const productSchema = z.object({
     val => Number(val),
     z.number({ invalid_type_error: 'Stock must be a number' })
       .int({ message: 'Stock must be an integer' })
-      .min(0, { message: 'Stock cannot be negative.' })
   ),
   categoryId: z.string().regex(uuidRegex, { message: 'Category ID must be a valid UUID' }),
   supplierId: z.string().regex(uuidRegex, { message: 'Supplier ID must be a valid UUID' })

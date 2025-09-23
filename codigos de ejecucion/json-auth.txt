@@ -1,0 +1,14 @@
+  "password": miClaveSegura123,
+  "email": javi1233@inventpro.cl
+
+json escrito
+{
+  "username": "javihermosilla",
+  "name": "Javier Hermosilla",
+  "email": "javi1233@inventpro.cl",
+  "password": "miClaveSegura123",
+  "phone": "+56912345600",
+  "address": "Conchalí, Santiago, Chile",
+  "avatar": "https://ui-avatars.com/api/?name=Javier+Hermosilla",
+  "role": "user"
+}

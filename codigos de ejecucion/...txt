@@ -1,0 +1,26 @@
+el profile despues de logout me da 404
+export const profile = (req, res) => {
+  res.cookies('token', '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    expires: new Date(0) // Expira la cookie inmediatamente
+  })
+
+  return res.status(200).json({ message: 'Sesion cerrada correctamente' })
+}
+auth.routes
+import { Router } from 'express'
+import { login, register, logout, profile } from '../controllers/auth.controller.js'
+import { validateSchema } from '../middleware/validator.middleware.js'
+import { registerSchema, loginSchema } from '../schemas/auth.schema.js'
+import { verifyToken } from '../middleware/auth.middleware.js'
+
+const router = Router()
+// autentificacion
+router.post('/register', validateSchema(registerSchema), register)
+router.post('/login', validateSchema(loginSchema), login)
+router.post('/logout', logout) // con front end hecho
+router.get('/profile', verifyToken, profile) // con front en hecho
+
+export default router

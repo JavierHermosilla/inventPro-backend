@@ -1,3 +1,8 @@
 node_modules/
 .env
-codigos de ejecucion
+codigos de ejecucionnode_modules/
+.env
+*.log
+coverage/
+dist/
+.DS_Store

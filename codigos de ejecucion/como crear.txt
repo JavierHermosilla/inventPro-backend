@@ -1,0 +1,7 @@
+{
+  "name": "notebook acer 200",
+  "description": "El mejor notebook del mundo mundial",
+  "price": "120000",
+  "stock": "300",
+  "category": "Electrónica"
+}

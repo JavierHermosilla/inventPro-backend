@@ -1,0 +1,26 @@
+usuarios
+{
+  "username": "javiertest1",
+  "name": "Javier Hermosilla",
+  "email": "javiertest1@test.com",
+  "password": "test12",
+  "role": "user",
+  "phone": "+5690000000",
+  "address": "Conchalí, Santiago, Chile",
+  "avatar": "https://i.pravatar.cc/150?img=3"
+}
+admin
+{
+  "email": "admin1@test.com",
+  "password": "adminpass"
+}
+user
+{
+  "email": "javiertest1@test.com",
+  "password": "test12"
+}
+user 2
+{
+  "email": "javiertest123@test.com",
+  "password": "test123"
+}

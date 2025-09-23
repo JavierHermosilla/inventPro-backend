@@ -1,0 +1,17 @@
+[2025-08-08T20:26:24.789Z] WARN: Incorrect password for: admin@example.com from IP ::ffff:127.0.0.1
+[2025-08-08T20:26:24.917Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:26:24.976Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:26:24.993Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:26:25.020Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:26:25.038Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:26:25.058Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:26:25.078Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:30:14.571Z] INFO: Successful login for: admin@example.com from IP: ::ffff:127.0.0.1
+[2025-08-08T20:30:14.576Z] ERROR: Login error from IP ::ffff:127.0.0.1: secretOrPrivateKey must have a value
+[2025-08-08T20:30:14.618Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:30:14.675Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:30:14.693Z] WARN: Invalid UUID v4 detected for param "id": undefined
+[2025-08-08T20:30:14.722Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:30:14.739Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:30:14.759Z] ERROR: Token verification failed: jwt malformed
+[2025-08-08T20:30:14.778Z] ERROR: Token verification failed: jwt malformed

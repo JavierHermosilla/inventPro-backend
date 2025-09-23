@@ -1,7 +1,6 @@
 import { DataTypes, Model } from 'sequelize'
 
 class Category extends Model {
-  // 🔹 Inicialización del modelo
   static initialize (sequelize) {
     super.init(
       {
@@ -10,6 +9,7 @@ class Category extends Model {
           defaultValue: DataTypes.UUIDV4,
           primaryKey: true
         },
+
         name: {
           type: DataTypes.STRING,
           allowNull: false,
@@ -19,14 +19,16 @@ class Category extends Model {
             notEmpty: { msg: 'El nombre de la categoría no puede estar vacío' }
           },
           set (value) {
-            this.setDataValue('name', value?.trim().toLowerCase() || '')
+            this.setDataValue('name', String(value ?? '').trim().toLowerCase())
           }
         },
+
         description: {
           type: DataTypes.STRING,
           allowNull: true,
           set (value) {
-            this.setDataValue('description', value?.trim() || '')
+            const v = value == null ? null : String(value).trim()
+            this.setDataValue('description', v || null)
           }
         }
       },
@@ -34,29 +36,30 @@ class Category extends Model {
         sequelize,
         modelName: 'Category',
         tableName: 'categories',
+
         timestamps: true,
         paranoid: true,
-        indexes: [{ unique: true, fields: ['name'] }],
+        underscored: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        deletedAt: 'deleted_at',
+
+        indexes: [
+          { unique: true, fields: ['name'] },
+          { fields: ['created_at'] }
+        ],
+
         hooks: {
-          beforeCreate: (category) => { category.name = category.name.trim() },
-          beforeUpdate: (category) => { category.name = category.name.trim() }
+          beforeCreate: (category) => {
+            if (category.name) category.name = String(category.name).trim()
+          },
+          beforeUpdate: (category) => {
+            if (category.name) category.name = String(category.name).trim()
+          }
         }
       }
     )
   }
-
-  // 🔹 Definición de relaciones
-  // static associate (models, schema) {
-  //   // Uno a muchos: Category -> Product
-  //   this.hasMany(models.Product, { foreignKey: 'categoryId', as: 'categoryProducts', schema })
-
-  //   // Muchos a muchos: Category <-> Supplier
-  //   this.belongsToMany(models.Supplier, {
-  //     through: { model: 'SupplierCategories', schema }, // tabla intermedia normalizada
-  //     as: 'suppliedBy', // alias según tabla de normalización
-  //     foreignKey: 'categoryId'
-  //   })
-  // }
 }
 
 export default Category

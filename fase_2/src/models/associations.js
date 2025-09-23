@@ -9,8 +9,11 @@ import ManualInventory from './manualInventory.model.js'
 import Client from './client.model.js'
 import Report from './reports.model.js'
 
-// Si usas un schema distinto en test
-const schema = process.env.NODE_ENV === 'test' ? 'test' : undefined
+// Schema dinámico (test vs prod)
+const schema =
+  process.env.NODE_ENV === 'test'
+    ? 'test'
+    : process.env.DB_SCHEMA || undefined
 
 // ====== Muchos a muchos: Supplier ↔ Category ======
 Supplier.belongsToMany(Category, {
@@ -34,32 +37,32 @@ Product.belongsTo(Supplier, { foreignKey: 'supplierId', as: 'supplier', schema }
 Supplier.hasMany(Product, { foreignKey: 'supplierId', as: 'supplierProducts', schema })
 
 // ====== Uno a muchos: Order ↔ User ======
-Order.belongsTo(User, { foreignKey: 'customerId', as: 'customerDetail', schema })
-User.hasMany(Order, { foreignKey: 'customerId', as: 'customerOrders', schema })
+Order.belongsTo(User, { foreignKey: 'customerId', as: 'customer', schema })
+User.hasMany(Order, { foreignKey: 'customerId', as: 'orders', schema })
 
 // ====== Uno a muchos: Order ↔ Client ======
 Order.belongsTo(Client, { foreignKey: 'clientId', as: 'client', schema })
-Client.hasMany(Order, { foreignKey: 'clientId', as: 'clientOrders', schema })
+Client.hasMany(Order, { foreignKey: 'clientId', as: 'orders', schema })
 
 // ====== Uno a muchos: Order ↔ OrderProduct ======
-Order.hasMany(OrderProduct, { foreignKey: 'orderId', as: 'orderItems', schema })
-OrderProduct.belongsTo(Order, { foreignKey: 'orderId', as: 'parentOrder', schema })
+Order.hasMany(OrderProduct, { foreignKey: 'orderId', as: 'items', schema })
+OrderProduct.belongsTo(Order, { foreignKey: 'orderId', as: 'order', schema })
 
 // ====== Uno a muchos: Product ↔ OrderProduct ======
-Product.hasMany(OrderProduct, { foreignKey: 'productId', as: 'orderProducts', schema })
-OrderProduct.belongsTo(Product, { foreignKey: 'productId', as: 'orderedProduct', schema })
+Product.hasMany(OrderProduct, { foreignKey: 'productId', as: 'orderLines', schema })
+OrderProduct.belongsTo(Product, { foreignKey: 'productId', as: 'product', schema })
 
 // ====== Uno a muchos: ManualInventory ↔ Product ======
-ManualInventory.belongsTo(Product, { foreignKey: 'productId', as: 'product', schema }) // <- alias correcto
+ManualInventory.belongsTo(Product, { foreignKey: 'productId', as: 'product', schema })
 Product.hasMany(ManualInventory, { foreignKey: 'productId', as: 'inventoryAdjustments', schema })
 
 // ====== Uno a muchos: ManualInventory ↔ User ======
 ManualInventory.belongsTo(User, { foreignKey: 'userId', as: 'performedBy', schema })
-User.hasMany(ManualInventory, { foreignKey: 'userId', as: 'userInventoryAdjustments', schema })
+User.hasMany(ManualInventory, { foreignKey: 'userId', as: 'inventoryAdjustments', schema })
 
-// ====== Uno a muchos: Report ↔ User (creador) ======
+// ====== Uno a muchos: Report ↔ User ======
 Report.belongsTo(User, { foreignKey: 'createdBy', as: 'creator', schema })
-User.hasMany(Report, { foreignKey: 'createdBy', as: 'createdReports', schema })
+User.hasMany(Report, { foreignKey: 'createdBy', as: 'reports', schema })
 
 export {
   Supplier,

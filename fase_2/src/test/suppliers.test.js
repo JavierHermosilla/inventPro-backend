@@ -4,7 +4,7 @@ import app from '../app.js'
 import sequelize, { connectDB } from '../config/db.js'
 
 import User from '../models/user.model.js'
-import { createAccessToken } from '../libs/jwt.js'
+import { signAccessToken } from '../libs/jwt.js'
 
 /** @jest-environment node */
 

@@ -2,14 +2,7 @@
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 
-// Importa todos los archivos de documentación
-import '../docs/products.docs.js'
-import '../docs/manualInventory.docs.js'
-import '../docs/suppliers.docs.js'
-import '../docs/users.docs.js'
-// import '../docs/users.docs.js' // <-- agrégalo cuando lo tengas
-
-const swaggerDefinition = {
+const definition = {
   openapi: '3.0.0',
   info: {
     title: 'InventPro API',
@@ -31,22 +24,30 @@ const swaggerDefinition = {
       }
     }
   },
-  security: [
-    {
-      bearerAuth: []
-    }
-  ]
+  security: [{ bearerAuth: [] }]
 }
 
 const options = {
-  swaggerDefinition,
-  apis: ['./src/routes/*.js', './src/docs/*.js']
+  definition,
+  apis: [
+    './src/docs/**/*.{yml,yaml}',
+    './src/docs/**/*.docs.js'
+  ]
 }
 
 const swaggerSpec = swaggerJSDoc(options)
 
-function setupSwagger (app) {
-  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+export default function setupSwagger (app) {
+  app.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerSpec, {
+      explorer: true,
+      swaggerOptions: {
+        persistAuthorization: true, // mantiene el JWT después de recargar
+        tagsSorter: 'alpha', // ordena los TAGS alfabéticamente
+        operationsSorter: 'alpha' // ordena las operaciones dentro de cada tag
+      }
+    })
+  )
 }
-
-export default setupSwagger

@@ -4,7 +4,7 @@ import sequelize, { connectDB } from '../config/db.js'
 
 import User from '../models/user.model.js'
 import Client from '../models/client.model.js'
-import { createAccessToken } from '../libs/jwt.js'
+import { signAccessToken } from '../libs/jwt.js'
 
 describe('Clients API - Cobertura completa', () => {
   let adminToken, userToken, bodegueroToken
@@ -62,9 +62,9 @@ describe('Clients API - Cobertura completa', () => {
     bodegueroUser = await User.create(bodegueroData)
 
     // generamos tokens
-    adminToken = createAccessToken({ id: adminUser.id })
-    userToken = createAccessToken({ id: normalUser.id })
-    bodegueroToken = createAccessToken({ id: bodegueroUser.id })
+    adminToken = signAccessToken({ id: adminUser.id })
+    userToken = signAccessToken({ id: normalUser.id })
+    bodegueroToken = signAccessToken({ id: bodegueroUser.id })
   })
 
   beforeEach(async () => {

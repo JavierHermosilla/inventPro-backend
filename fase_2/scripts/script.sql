@@ -1,183 +1,213 @@
--- =========================================
--- DROP DE TODO (reinicialización)
--- =========================================
-DROP TABLE IF EXISTS reports CASCADE;
-DROP TABLE IF EXISTS manual_inventories CASCADE;
-DROP TABLE IF EXISTS orders CASCADE;
-DROP TABLE IF EXISTS products CASCADE;
-DROP TABLE IF EXISTS suppliers CASCADE;
-DROP TABLE IF EXISTS categories CASCADE;
-DROP TABLE IF EXISTS clients CASCADE;
-DROP TABLE IF EXISTS users CASCADE;
+-- ==========================================================
+-- InventPro DDL (ALINEADO A SEQUELIZE underscored: true)
+-- ==========================================================
 
-DROP TYPE IF EXISTS enum_users_role;
-DROP TYPE IF EXISTS enum_orders_status;
-DROP TYPE IF EXISTS enum_manual_inventories_type;
-DROP TYPE IF EXISTS enum_reports_status;
-DROP TYPE IF EXISTS enum_reports_format;
+DROP SCHEMA IF EXISTS inventpro_user CASCADE;
 
--- =========================================
--- Extensiones
--- =========================================
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- =========================================
+CREATE SCHEMA inventpro_user;
+SET search_path TO inventpro_user, public;
+
 -- ENUMs
--- =========================================
-CREATE TYPE enum_users_role AS ENUM ('user','admin');
-CREATE TYPE enum_orders_status AS ENUM ('pending','completed','cancelled');
-CREATE TYPE enum_manual_inventories_type AS ENUM ('increase','decrease');
-CREATE TYPE enum_reports_status AS ENUM ('active','archived','draft');
-CREATE TYPE enum_reports_format AS ENUM ('pdf','xls','dashboard');
+CREATE TYPE enum_users_role               AS ENUM ('user','admin','vendedor','bodeguero');
+CREATE TYPE enum_orders_status            AS ENUM ('pending','processing','completed','cancelled');
+CREATE TYPE enum_manual_inventories_type  AS ENUM ('increase','decrease');
+CREATE TYPE enum_reports_status           AS ENUM ('active','archived','draft');
+CREATE TYPE enum_reports_format           AS ENUM ('pdf','xls','dashboard');
+CREATE TYPE enum_suppliers_status         AS ENUM ('active','inactive');
 
--- =========================================
--- TABLAS
--- =========================================
-
--- USERS
+-- USERS (paranoid)
 CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    username VARCHAR(50) NOT NULL UNIQUE,
-    name VARCHAR(255) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    phone VARCHAR(20),
-    address VARCHAR(255),
-    avatar VARCHAR(255) DEFAULT '',
-    role enum_users_role DEFAULT 'user',
-    createdAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    updatedAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    deletedAt TIMESTAMP WITH TIME ZONE
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  username    VARCHAR(50)  NOT NULL UNIQUE,
+  name        VARCHAR(255) NOT NULL,
+  email       VARCHAR(100) NOT NULL UNIQUE,
+  password    VARCHAR(255) NOT NULL,
+  phone       VARCHAR(20),
+  address     VARCHAR(255),
+  avatar      VARCHAR(255) DEFAULT '',
+  role        enum_users_role NOT NULL DEFAULT 'user',
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at  TIMESTAMPTZ
 );
 
--- CLIENTS
+-- CLIENTS (paranoid)
 CREATE TABLE clients (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(100) NOT NULL,
-    rut VARCHAR(12) NOT NULL UNIQUE,
-    address VARCHAR(255) NOT NULL,
-    phone VARCHAR(20) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    avatar VARCHAR(255),
-    createdAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    updatedAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    deletedAt TIMESTAMP WITH TIME ZONE
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name        VARCHAR(100) NOT NULL,
+  rut         VARCHAR(12)  NOT NULL UNIQUE,
+  address     VARCHAR(255) NOT NULL,
+  phone       VARCHAR(20)  NOT NULL,
+  email       VARCHAR(100) NOT NULL UNIQUE,
+  avatar      VARCHAR(255),
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at  TIMESTAMPTZ
 );
 
--- CATEGORIES
+-- CATEGORIES (paranoid)
 CREATE TABLE categories (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(100) NOT NULL UNIQUE,
-    description TEXT,
-    createdAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    updatedAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name        VARCHAR(100) NOT NULL UNIQUE,
+  description TEXT,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at  TIMESTAMPTZ
 );
 
--- SUPPLIERS
+-- SUPPLIERS (paranoid)
 CREATE TABLE suppliers (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(100) NOT NULL UNIQUE,
-    contact VARCHAR(100),
-    phone VARCHAR(20),
-    createdAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    updatedAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+  id            UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name          VARCHAR(100) NOT NULL UNIQUE,
+  rut           VARCHAR(20)  NOT NULL UNIQUE,
+  contact_name  VARCHAR(100),
+  email         VARCHAR(255),
+  phone         VARCHAR(20),
+  address       VARCHAR(255),
+  website       VARCHAR(255),
+  payment_terms VARCHAR(200),
+  status        enum_suppliers_status NOT NULL DEFAULT 'active',
+  notes         VARCHAR(1000),
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at    TIMESTAMPTZ
 );
 
--- PRODUCTS
+-- PRODUCTS (paranoid)
 CREATE TABLE products (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL UNIQUE,
-    description VARCHAR(255),
-    price NUMERIC(10,2) NOT NULL,
-    stock INTEGER NOT NULL DEFAULT 0,
-    categoryId UUID REFERENCES categories(id) ON UPDATE CASCADE ON DELETE SET NULL,
-    supplierId UUID REFERENCES suppliers(id) ON UPDATE CASCADE ON DELETE SET NULL,
-    createdAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    updatedAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    deletedAt TIMESTAMP WITH TIME ZONE
+  id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name         VARCHAR(255) NOT NULL UNIQUE,
+  description  VARCHAR(500),
+  price        NUMERIC(10,2) NOT NULL CHECK (price >= 0),
+  stock        INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0),
+  category_id  UUID REFERENCES categories(id) ON UPDATE CASCADE ON DELETE SET NULL,
+  supplier_id  UUID REFERENCES suppliers(id) ON UPDATE CASCADE ON DELETE SET NULL,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at   TIMESTAMPTZ
 );
 
--- ORDERS
+-- ORDERS (paranoid)
 CREATE TABLE orders (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    customerId UUID NOT NULL REFERENCES users(id) ON UPDATE CASCADE,
-    status enum_orders_status NOT NULL DEFAULT 'pending',
-    totalAmount NUMERIC(10,2) NOT NULL,
-    stockRestored BOOLEAN NOT NULL DEFAULT FALSE,
-    createdAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    updatedAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    deletedAt TIMESTAMP WITH TIME ZONE
+  id             UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  customer_id    UUID NOT NULL REFERENCES users(id) ON UPDATE CASCADE ON DELETE RESTRICT,
+  client_id      UUID REFERENCES clients(id) ON UPDATE CASCADE ON DELETE SET NULL,
+  status         enum_orders_status NOT NULL DEFAULT 'pending',
+  total_amount   NUMERIC(10,2) NOT NULL CHECK (total_amount >= 0),
+  stock_restored BOOLEAN NOT NULL DEFAULT FALSE,
+  is_backorder   BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at     TIMESTAMPTZ
 );
 
--- MANUAL INVENTORIES
+-- ORDER_PRODUCTS (si quieres sin paranoid, deja sin deleted_at)
+CREATE TABLE order_products (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  order_id    UUID NOT NULL,
+  product_id  UUID NOT NULL,
+  quantity    INTEGER NOT NULL CHECK (quantity >= 1),
+  price       NUMERIC(10,2) NOT NULL CHECK (price >= 0),
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT uq_order_products UNIQUE (order_id, product_id),
+  CONSTRAINT order_products_order_id_fkey
+    FOREIGN KEY (order_id) REFERENCES orders(id)
+    ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT order_products_product_id_fkey
+    FOREIGN KEY (product_id) REFERENCES products(id)
+    ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+-- MANUAL INVENTORIES (paranoid)
 CREATE TABLE manual_inventories (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    productId UUID NOT NULL REFERENCES products(id) ON UPDATE CASCADE,
-    userId UUID NOT NULL REFERENCES users(id) ON UPDATE CASCADE,
-    type enum_manual_inventories_type NOT NULL,
-    quantity INTEGER NOT NULL,
-    reason VARCHAR(255),
-    createdAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    updatedAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  product_id  UUID NOT NULL REFERENCES products(id) ON UPDATE CASCADE,
+  user_id     UUID NOT NULL REFERENCES users(id) ON UPDATE CASCADE,
+  type        enum_manual_inventories_type NOT NULL,
+  quantity    INTEGER NOT NULL CHECK (quantity >= 1),
+  reason      VARCHAR(255),
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at  TIMESTAMPTZ
 );
 
--- REPORTS
+-- REPORTS (paranoid)
 CREATE TABLE reports (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    type VARCHAR(50) NOT NULL,
-    filters JSONB,
-    format enum_reports_format NOT NULL,
-    status enum_reports_status DEFAULT 'active',
-    schedule JSONB,
-    deliveryMethod VARCHAR(50),
-    sharedWith JSONB,
-    lastRunAt TIMESTAMP,
-    executionTimeMs INTEGER,
-    createdBy UUID REFERENCES users(id),
-    createdAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
-    updatedAt TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
+  id               UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name             VARCHAR(100) NOT NULL,
+  description      TEXT,
+  type             VARCHAR(50) NOT NULL,
+  filters          JSONB,
+  format           enum_reports_format NOT NULL,
+  status           enum_reports_status NOT NULL DEFAULT 'active',
+  schedule         JSONB,
+  delivery_method  VARCHAR(50),
+  shared_with      JSONB,
+  last_run_at      TIMESTAMPTZ,
+  execution_time_ms INTEGER,
+  created_by        UUID REFERENCES users(id) ON UPDATE CASCADE,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  deleted_at        TIMESTAMPTZ
 );
 
--- =========================================
--- DATOS DE PRUEBA
--- =========================================
+-- SUPPLIER CATEGORIES (N:M)
+CREATE TABLE "SupplierCategories" (
+  supplier_id UUID NOT NULL REFERENCES suppliers(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  category_id UUID NOT NULL REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY (supplier_id, category_id)
+);
 
--- Usuarios
-INSERT INTO users (username, name, email, password)
-VALUES 
-('admin', 'Admin User', 'admin@example.com', 'admin123'),
-('tester', 'Test User', 'test@example.com', '1234');
+-- Trigger de inmutabilidad en order_products (opcional si además ya lo bloqueas en modelo)
+CREATE OR REPLACE FUNCTION prevent_order_product_mods()
+RETURNS trigger LANGUAGE plpgsql AS $$
+BEGIN
+  IF NEW.price      IS DISTINCT FROM OLD.price     THEN RAISE EXCEPTION 'price is immutable once created';     END IF;
+  IF NEW.product_id IS DISTINCT FROM OLD.product_id THEN RAISE EXCEPTION 'product_id is immutable once created'; END IF;
+  IF NEW.order_id   IS DISTINCT FROM OLD.order_id   THEN RAISE EXCEPTION 'order_id is immutable once created';   END IF;
+  RETURN NEW;
+END $$;
 
--- Clientes
-INSERT INTO clients (name, rut, address, phone, email)
-VALUES ('Cliente Ejemplo', '12345678-9', 'Av. Siempre Viva 123', '+56912345678', 'cliente@example.com');
+DROP TRIGGER IF EXISTS trg_lock_order_products ON order_products;
+CREATE TRIGGER trg_lock_order_products
+  BEFORE UPDATE ON order_products
+  FOR EACH ROW
+  EXECUTE FUNCTION prevent_order_product_mods();
 
--- Categorías
-INSERT INTO categories (name, description)
-VALUES ('Electrónica', 'Productos electrónicos'),
-       ('Hogar', 'Artículos para el hogar');
+-- ÍNDICES
+CREATE UNIQUE INDEX clients_rut_uniq          ON clients(rut);
+CREATE UNIQUE INDEX clients_email_uniq        ON clients(email);
+CREATE INDEX clients_name_lower_idx           ON clients (LOWER(name));
+CREATE INDEX clients_rut_lower_idx            ON clients (LOWER(rut));
 
--- Proveedores
-INSERT INTO suppliers (name, contact, phone)
-VALUES ('Proveedor 1', 'Contacto 1', '+56911111111'),
-       ('Proveedor 2', 'Contacto 2', '+56922222222');
+CREATE UNIQUE INDEX categories_name_uniq      ON categories(name);
 
--- Productos
-INSERT INTO products (name, description, price, stock, categoryId, supplierId)
-VALUES 
-('Televisor', 'Televisor LED 50"', 500000, 10, (SELECT id FROM categories WHERE name='Electrónica'), (SELECT id FROM suppliers WHERE name='Proveedor 1')),
-('Licuadora', 'Licuadora 500W', 45000, 20, (SELECT id FROM categories WHERE name='Hogar'), (SELECT id FROM suppliers WHERE name='Proveedor 2'));
+CREATE UNIQUE INDEX suppliers_rut_uniq        ON suppliers(rut);
+CREATE UNIQUE INDEX suppliers_name_uniq       ON suppliers(name);
+CREATE INDEX suppliers_name_lower_idx         ON suppliers (LOWER(name));
+CREATE INDEX suppliers_rut_lower_idx          ON suppliers (LOWER(rut));
+CREATE INDEX suppliers_status_idx             ON suppliers (status);
 
--- Órdenes
-INSERT INTO orders (customerId, status, totalAmount)
-VALUES ((SELECT id FROM users WHERE username='tester'), 'pending', 545000);
+CREATE UNIQUE INDEX products_name_uniq        ON products(name);
+CREATE INDEX products_category_id_idx         ON products(category_id);
+CREATE INDEX products_supplier_id_idx         ON products(supplier_id);
 
--- Inventarios manuales
-INSERT INTO manual_inventories (productId, userId, type, quantity, reason)
-VALUES ((SELECT id FROM products WHERE name='Televisor'), (SELECT id FROM users WHERE username='tester'), 'increase', 5, 'Ajuste inicial');
+CREATE INDEX orders_customer_id_idx           ON orders(customer_id);
+CREATE INDEX orders_client_id_idx             ON orders(client_id);
+CREATE INDEX orders_status_idx                ON orders(status);
+CREATE INDEX orders_is_backorder_idx          ON orders(is_backorder);
+CREATE INDEX orders_created_at_idx            ON orders(created_at);
 
--- Reportes
-INSERT INTO reports (name, type, format, createdBy)
-VALUES ('Reporte Test', 'inventario', 'pdf', (SELECT id FROM users WHERE username='tester'));
+CREATE INDEX order_products_order_id_idx      ON order_products(order_id);
+CREATE INDEX order_products_product_id_idx    ON order_products(product_id);
+
+CREATE INDEX manual_inv_product_id_idx        ON manual_inventories(product_id);
+CREATE INDEX manual_inv_user_id_idx           ON manual_inventories(user_id);
+
+CREATE INDEX reports_created_by_idx           ON reports(created_by);

@@ -1,11 +1,15 @@
 import { DataTypes, Model } from 'sequelize'
 
 class Product extends Model {
-  // 🔹 Inicialización del modelo
   static initialize (sequelize) {
     super.init(
       {
-        id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
+        id: {
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
+          primaryKey: true
+        },
+
         name: {
           type: DataTypes.STRING,
           allowNull: false,
@@ -15,31 +19,37 @@ class Product extends Model {
             notEmpty: { msg: 'Product name cannot be empty' }
           },
           set (value) {
-            this.setDataValue('name', value?.trim() || '')
+            this.setDataValue('name', String(value ?? '').trim())
           }
         },
+
         description: {
           type: DataTypes.STRING,
           allowNull: true,
           set (value) {
-            this.setDataValue('description', value?.trim() || '')
+            const v = value == null ? null : String(value).trim()
+            this.setDataValue('description', v || null)
           }
         },
+
         price: {
           type: DataTypes.DECIMAL(10, 2),
           allowNull: false,
           validate: {
             notNull: { msg: 'Product price is required' },
+            isDecimal: { msg: 'Price must be a decimal value' },
             min: { args: [0], msg: 'Price cannot be negative' }
           }
         },
+
         stock: {
           type: DataTypes.INTEGER,
           allowNull: false,
           defaultValue: 0,
           validate: {
             notNull: { msg: 'Stock is required' },
-            isIInt: { msg: 'Stock musty be an integer' }
+            isInt: { msg: 'Stock must be an integer' },
+            min: { args: [0], msg: 'Stock must be greater or equal to 0' }
           }
         }
       },
@@ -47,27 +57,23 @@ class Product extends Model {
         sequelize,
         modelName: 'Product',
         tableName: 'products',
+
+        // ✅ Consistencia global
         timestamps: true,
         paranoid: true,
-        deletedAt: 'deleted_at'
+        underscored: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        deletedAt: 'deleted_at',
+
+        indexes: [
+          { unique: true, fields: ['name'] },
+          { fields: ['price'] },
+          { fields: ['stock'] }
+        ]
       }
     )
   }
-
-  // 🔹 Relaciones
-  // static associate (models, schema) {
-  //   // Product -> Category
-  //   this.belongsTo(models.Category, { foreignKey: 'categoryId', as: 'category', schema })
-
-  //   // Product -> Supplier
-  //   this.belongsTo(models.Supplier, { foreignKey: 'supplierId', as: 'supplier', schema })
-
-  //   // Product -> OrderProduct
-  //   this.hasMany(models.OrderProduct, { foreignKey: 'productId', as: 'orderProducts', schema })
-
-  //   // Product -> ManualInventory (1:N)
-  //   this.hasMany(models.ManualInventory, { foreignKey: 'productId', as: 'inventoryAdjustments', schema })
-  // }
 }
 
 export default Product

@@ -1,39 +1,80 @@
+// src/models/order.model.js
 import { DataTypes, Model } from 'sequelize'
 
 class Order extends Model {
-  // 🔹 Inicialización del modelo
   static initialize (sequelize) {
     super.init(
       {
-        id: { type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, primaryKey: true },
-        customerId: { type: DataTypes.UUID, allowNull: false },
+        id: {
+          type: DataTypes.UUID,
+          defaultValue: DataTypes.UUIDV4,
+          primaryKey: true
+        },
+
+        // Cliente final de negocio
+        clientId: {
+          type: DataTypes.UUID,
+          allowNull: false,
+          field: 'client_id',
+          validate: { notEmpty: { msg: 'clientId es requerido' } }
+        },
+
         status: {
           type: DataTypes.ENUM('pending', 'processing', 'completed', 'cancelled'),
-          defaultValue: 'pending',
-          allowNull: false
+          allowNull: false,
+          defaultValue: 'pending'
         },
-        totalAmount: { type: DataTypes.DECIMAL(10, 2), allowNull: false, validate: { min: 0 } },
-        stockRestored: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false }
+
+        totalAmount: {
+          type: DataTypes.DECIMAL(10, 2),
+          allowNull: false,
+          field: 'total_amount',
+          validate: {
+            isDecimal: { msg: 'totalAmount debe ser decimal' },
+            min: { args: [0], msg: 'totalAmount no puede ser negativo' }
+          }
+        },
+
+        stockRestored: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+          field: 'stock_restored'
+        },
+
+        isBackorder: {
+          type: DataTypes.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+          field: 'is_backorder'
+        }
       },
       {
         sequelize,
         modelName: 'Order',
         tableName: 'orders',
+        schema: 'inventpro_user',
+
+        // Auditoría y naming
         timestamps: true,
         paranoid: true,
-        indexes: [{ fields: ['customerId'] }, { fields: ['status'] }]
+        underscored: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
+        deletedAt: 'deleted_at'
+
+        // ❌ sin "indexes" aquí; van en migraciones
       }
     )
   }
 
-  // 🔹 Relaciones
-  // static associate (models, schema) {
-  //   // Order -> User (cliente)
-  //   this.belongsTo(models.User, { foreignKey: 'customerId', as: 'customerDetail', schema })
-
-  //   // Order -> OrderProduct
-  //   this.hasMany(models.OrderProduct, { foreignKey: 'orderId', as: 'orderItems', schema })
-  // }
+  static associate (models) {
+    // ejemplo (ajusta al nombre real de tu modelo cliente):
+    // Order.belongsTo(models.Client, {
+    //   as: 'client',
+    //   foreignKey: { name: 'clientId', field: 'client_id', allowNull: false }
+    // })
+  }
 }
 
 export default Order

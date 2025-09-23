@@ -1,123 +1,143 @@
+// src/controllers/auth.controller.js
 import pick from 'lodash/pick.js'
 import bcrypt from 'bcryptjs'
-import User from '../models/user.model.js'
-import { createAccessToken } from '../libs/jwt.js'
-import logger from '../utils/logger.js'
 import { ZodError } from 'zod'
 
-// ==========================
-// Registro de usuario
-// ==========================
+import User from '../models/user.model.js'
+import logger from '../utils/logger.js'
+import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../libs/jwt.js'
+import * as cfg from '../config/config.js'
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Config cookie del refresh (de sesión → sin maxAge/expires)
+// ───────────────────────────────────────────────────────────────────────────────
+const refreshCookieOpts = {
+  httpOnly: true,
+  secure: cfg.COOKIE_SECURE, // true en prod con HTTPS
+  sameSite: 'lax',
+  path: '/api/auth/refresh'
+}
+
+const PUBLIC_USER_FIELDS = [
+  'id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar', 'createdAt', 'updatedAt'
+]
+
+const ALLOWED_ROLES_ON_REGISTER = ['user', 'vendedor']
+
+const normEmail = (s) => String(s ?? '').trim().toLowerCase()
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Registro
+// ───────────────────────────────────────────────────────────────────────────────
 export const register = async (req, res) => {
+  const userIP = req.clientIP || req.ip || 'unknown'
   try {
     const { username, name, email, password, phone, address, avatar, role } = req.body
-    const userIP = req.clientIP || req.ip || 'unknown'
 
-    // Roles permitidos
-    const allowedRoles = ['user', 'vendedor']
-    const safeRole = allowedRoles.includes(role) ? role : 'user'
+    const emailNorm = normEmail(email)
+    const safeRole = ALLOWED_ROLES_ON_REGISTER.includes(String(role).toLowerCase())
+      ? String(role).toLowerCase()
+      : 'user'
 
-    // Verificar si email ya existe
-    const existingUser = await User.findOne({ where: { email: email.trim().toLowerCase() } })
-    if (existingUser) {
-      logger.warn(`Duplicate email registration: ${email}, IP: ${userIP}`)
+    // Unicidad por email
+    const existing = await User.findOne({ where: { email: emailNorm } })
+    if (existing) {
+      logger.warn(`Register denied (duplicate email): ${emailNorm}, IP=${userIP}`)
       return res.status(400).json({ errors: [{ path: 'email', message: 'El correo ya está en uso.' }] })
     }
 
-    // Crear usuario
     const userSaved = await User.create({
-      username,
-      name,
-      email,
-      password,
-      phone,
-      address,
-      avatar,
-      role: safeRole
+      username, name, email: emailNorm, password, phone, address, avatar, role: safeRole
     })
 
-    // Generar JWT
-    const token = await createAccessToken({ id: userSaved.id })
+    // Tokens
+    const access = await signAccessToken({ id: userSaved.id, role: userSaved.role })
+    const refresh = await signRefreshToken({ id: userSaved.id, role: userSaved.role })
 
-    // Guardar cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict'
+    // Cookie de sesión con refresh
+    res.cookie('refresh_token', refresh, refreshCookieOpts)
+
+    logger.info(`User registered: ${emailNorm}, id=${userSaved.id}, IP=${userIP}`)
+
+    return res.status(201).json({
+      token: access,
+      ...pick(userSaved, PUBLIC_USER_FIELDS)
     })
-
-    logger.info(`User registered successfully: ${email}, IP: ${userIP}`)
-
-    return res.status(201).json(
-      pick(userSaved, [
-        'id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar', 'createdAt', 'updatedAt'
-      ])
-    )
   } catch (err) {
-    const userIP = req.clientIP || req.ip || 'unknown'
-    logger.error(`Registration error: ${err.message}, IP: ${userIP}`, { stack: err.stack })
-
+    logger.error(`Registration error: ${err.message}, IP=${userIP}`, { stack: err.stack })
     if (err instanceof ZodError) {
       const errors = err.errors.map(e => ({ path: e.path.join('.'), message: e.message }))
       return res.status(400).json({ errors })
     }
-
-    return res.status(500).json({ message: err.message })
+    return res.status(500).json({ message: 'Error interno al registrar usuario' })
   }
 }
 
-// ==========================
+// ───────────────────────────────────────────────────────────────────────────────
 // Login
-// ==========================
+// ───────────────────────────────────────────────────────────────────────────────
 export const login = async (req, res) => {
   const userIP = req.clientIP || req.ip || 'unknown'
-
   try {
     const { email, password } = req.body
+    const emailNorm = normEmail(email)
 
-    // 🔹 Traer el usuario incluyendo la contraseña
-    const userFound = await User.scope('withPassword').findOne({ where: { email: email.trim().toLowerCase() } })
-
-    if (!userFound) {
-      logger.warn(`Login failed, email not found: ${email}, IP: ${userIP}`)
+    const user = await User.scope('withPassword').findOne({ where: { email: emailNorm } })
+    if (!user) {
+      logger.warn(`Login failed: email not found (${emailNorm}), IP=${userIP}`)
       return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
     }
 
-    // 🔹 Verificar contraseña
-    const isMatch = await bcrypt.compare(password, userFound.password)
-    if (!isMatch) {
-      logger.warn(`Login failed, wrong password: ${email}, IP: ${userIP}`)
+    const ok = await bcrypt.compare(password, user.password)
+    if (!ok) {
+      logger.warn(`Login failed: wrong password (${emailNorm}), IP=${userIP}`)
       return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
     }
 
-    // 🔹 Crear token JWT
-    const token = await createAccessToken({ id: userFound.id })
+    const access = await signAccessToken({ id: user.id, role: user.role })
+    const refresh = await signRefreshToken({ id: user.id, role: user.role })
 
-    // 🔹 Enviar cookie segura
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict'
-    })
+    // Cookie de sesión con refresh
+    res.cookie('refresh_token', refresh, refreshCookieOpts)
 
-    logger.info(`Login successful: ${email}, IP: ${userIP}`)
+    logger.info(`Login OK: ${emailNorm}, id=${user.id}, IP=${userIP}`)
 
-    // 🔹 Retornar datos del usuario sin la contraseña
     return res.status(200).json({
-      token,
-      ...pick(userFound, [
-        'id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar', 'createdAt', 'updatedAt'
-      ])
+      token: access,
+      ...pick(user, PUBLIC_USER_FIELDS)
     })
   } catch (err) {
-    logger.error(`Login error: ${err.message}, IP: ${userIP}`)
-    return res.status(500).json({ message: err.message })
+    logger.error(`Login error: ${err.message}, IP=${userIP}`)
+    return res.status(500).json({ message: 'Error interno al iniciar sesión' })
   }
 }
 
-// ==========================
-// Perfil del usuario
-// ==========================
+// ───────────────────────────────────────────────────────────────────────────────
+// Refresh (silencioso)
+// ───────────────────────────────────────────────────────────────────────────────
+export const refresh = async (req, res) => {
+  try {
+    const rt = req.cookies?.refresh_token
+    if (!rt) return res.status(401).json({ message: 'No refresh token' })
+
+    const decoded = await verifyRefreshToken(rt) // { id, role, iat, exp, jti? }
+
+    const access = await signAccessToken({ id: decoded.id, role: decoded.role })
+
+    // (Opcional) Rotación de refresh para mayor seguridad:
+    // const newRt = await signRefreshToken({ id: decoded.id, role: decoded.role })
+    // res.cookie('refresh_token', newRt, refreshCookieOpts)
+    // Revocar jti anterior en whitelist si la usas
+
+    return res.json({ token: access })
+  } catch {
+    return res.status(401).json({ message: 'Invalid or expired refresh token' })
+  }
+}
+
+// ───────────────────────────────────────────────────────────────────────────────
+// Perfil del usuario autenticado
+// ───────────────────────────────────────────────────────────────────────────────
 export const profile = async (req, res) => {
   try {
     if (!req.user?.id) return res.status(401).json({ message: 'Unauthorized' })
@@ -125,21 +145,17 @@ export const profile = async (req, res) => {
     if (!user) return res.status(404).json({ message: 'Usuario no encontrado' })
     return res.json(user)
   } catch (err) {
-    return res.status(500).json({ message: err.message })
+    return res.status(500).json({ message: 'Error interno al obtener perfil' })
   }
 }
 
-// ==========================
-// Logout
-// ==========================
-export const logout = (req, res) => {
+// ───────────────────────────────────────────────────────────────────────────────
+// Logout (limpia cookie y corta sesión)
+// ───────────────────────────────────────────────────────────────────────────────
+export const logout = async (req, res) => {
   const userIP = req.clientIP || req.ip || 'unknown'
-  res.cookie('token', '', {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'Strict',
-    expires: new Date(0)
-  })
-  logger.info(`Logout, IP: ${userIP}`)
+  // Si usas whitelist/rotación con jti, revoca aquí el rt
+  res.clearCookie('refresh_token', { path: '/api/auth/refresh' })
+  logger.info(`Logout OK, IP=${userIP}`)
   return res.status(200).json({ message: 'Sesión cerrada exitosamente.' })
 }

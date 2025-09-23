@@ -1,26 +1,56 @@
 // src/routes/order.routes.js
 import { Router } from 'express'
 import {
-  listOrders,
-  listOrderById,
   createOrder,
   updateOrder,
-  deleteOrder
+  deleteOrder,
+  listOrderById,
+  listOrders,
+  createOrderByRut,
+  listOrdersByRut
 } from '../controllers/order.controller.js'
+
 import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
 import { validateUUID } from '../middleware/validateUUID.middleware.js'
-import { canUpdateOrder } from '../middleware/order.middleware.js'
+import { validateSchema } from '../middleware/validator.middleware.js'
+
+import {
+  orderCreateSchema,
+  orderUpdateSchema,
+  orderByRutSchema
+} from '../schemas/order.schema.js'
 
 const router = Router()
 
-// Listar todas las órdenes - cualquier usuario autenticado
+// Listar todas las órdenes (auth requerido)
+router.get('/', verifyTokenMiddleware, listOrders)
+
+// Listar órdenes por RUT de cliente (poner antes de '/:id')
 router.get(
-  '/',
+  '/by-rut/:rut',
   verifyTokenMiddleware,
-  listOrders
+  requireRole('admin', 'vendedor', 'bodeguero'),
+  listOrdersByRut
 )
 
-// Obtener orden por id - cualquier usuario autenticado
+// Crear orden (acepta clientId o customerId; el schema normaliza)
+router.post(
+  '/',
+  verifyTokenMiddleware,
+  validateSchema(orderCreateSchema),
+  createOrder
+)
+
+// Crear orden por RUT de cliente
+router.post(
+  '/by-rut',
+  verifyTokenMiddleware,
+  requireRole('admin', 'vendedor'),
+  validateSchema(orderByRutSchema),
+  createOrderByRut
+)
+
+// Obtener una orden por ID
 router.get(
   '/:id',
   verifyTokenMiddleware,
@@ -28,23 +58,17 @@ router.get(
   listOrderById
 )
 
-// Crear orden - validación de "self vs admin" la hace el controlador
-router.post(
-  '/',
-  verifyTokenMiddleware,
-  createOrder
-)
-
-// Actualizar orden - reglas en canUpdateOrder (admin o dueño según estado)
-router.put(
+// Actualizar orden (solo status) — PATCH
+router.patch(
   '/:id',
   verifyTokenMiddleware,
+  requireRole('admin'),
   validateUUID('id'),
-  canUpdateOrder,
+  validateSchema(orderUpdateSchema),
   updateOrder
 )
 
-// Eliminar orden - solo admin
+// Eliminar orden
 router.delete(
   '/:id',
   verifyTokenMiddleware,

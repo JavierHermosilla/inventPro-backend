@@ -1,7 +1,7 @@
 // src/db/db.js
 import { Sequelize } from 'sequelize'
 
-// Importar modelos
+// Modelos
 import User from '../models/user.model.js'
 import Product from '../models/product.model.js'
 import Order from '../models/order.model.js'
@@ -12,7 +12,11 @@ import ManualInventory from '../models/manualInventory.model.js'
 import Report from '../models/reports.model.js'
 import Client from '../models/client.model.js'
 
-// Instancia de Sequelize
+const DB_SCHEMA =
+  process.env.NODE_ENV === 'test'
+    ? 'test'
+    : (process.env.DB_SCHEMA || 'inventpro_user')
+
 const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -22,15 +26,24 @@ const sequelize = new Sequelize(
     port: process.env.DB_PORT,
     dialect: 'postgres',
     logging: false,
+    timezone: 'America/Santiago', // timestamps coherentes con CL
     define: {
-      timestamps: true,
-      underscored: false,
-      schema: (process.env.NODE_ENV === 'test' ? 'test' : 'inventpro_user')
+      schema: DB_SCHEMA,
+      underscored: true, // => created_at / updated_at / deleted_at
+      paranoid: true, // soft delete por defecto
+      freezeTableName: true // respeta tableName exacto
+      // IMPORTANTE: no sobrescribimos createdAt/updatedAt/deletedAt aquí
+    },
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
     }
   }
 )
 
-// Agregar todos los modelos en un solo objeto
+// Registrar modelos
 const models = {
   User,
   Product,
@@ -43,16 +56,19 @@ const models = {
   Client
 }
 
-// Inicializar modelos
+// Inicializar modelos (cada uno llama super.init)
 Object.values(models).forEach(model => model.initialize(sequelize))
 
 // Asociaciones
-await import('../models/associations.js')
+import('../models/associations.js')
+  .then(() => console.log('Associations loaded'))
+  .catch(err => console.error('Failed to load associations:', err))
 
-// Helpers de DB
+// Helpers
 export const syncDB = async () => {
   try {
-    await sequelize.sync({ alter: true })
+    // En dev sin alter para evitar choques; usa migraciones para cambios
+    await sequelize.sync()
     console.log('✅ Database synchronized!')
   } catch (err) {
     console.error('❌ Failed to sync database:', err)

@@ -1,49 +1,46 @@
+// src/schemas/client.schema.js
 import { z } from 'zod'
 
-// Limpia puntos y deja mayúsculas en DV
-const cleanRut = (rut) =>
-  rut.replace(/\./g, '').toUpperCase()
-
-// Calcula DV con algoritmo en módulo 11
+// Helpers
+const cleanRut = (rut) => String(rut).trim().replace(/\./g, '').toUpperCase()
 const computeDV = (numStr) => {
-  let sum = 0
-  let mul = 2
+  let sum = 0; let mul = 2
   for (let i = numStr.length - 1; i >= 0; i--) {
     sum += parseInt(numStr[i], 10) * mul
     mul = mul === 7 ? 2 : mul + 1
   }
   const mod = 11 - (sum % 11)
-  if (mod === 11) return '0'
-  if (mod === 10) return 'K'
-  return String(mod)
+  return mod === 11 ? '0' : mod === 10 ? 'K' : String(mod)
 }
 
-const rutWithDV = z.string()
-  // 1) Formato general con o sin puntos, con guion obligatorio
-  .regex(/^\d{1,2}\.?\d{3}\.?\d{3}-[0-9Kk]$/, { message: 'RUT inválido. Formato esperado: 12345678-9' })
-  // 2) Normaliza para chequear DV
-  .transform((value) => cleanRut(value))
-  // 3) Valida DV
-  .refine((value) => {
-    const [num, dv] = value.split('-')
-    if (!num || !dv) return false
+export const rutWithDV = z.string()
+  .trim()
+  .transform(cleanRut)
+  .refine(v => /^\d{7,8}-?[0-9K]$/.test(v), { message: 'RUT inválido. Formato: 12345678-9 o 12345678K' })
+  .transform(v => v.replace(/^(\d{7,8})-?([0-9K])$/, '$1-$2')) // normaliza a NNNNNNNN-DV
+  .refine(v => {
+    const [num, dv] = v.split('-')
     return computeDV(num) === dv
   }, { message: 'RUT inválido (DV no coincide)' })
 
+export const rutParamSchema = z.object({
+  rut: rutWithDV
+})
+
 export const createClientSchema = z.object({
   rut: rutWithDV,
-  name: z.string().min(1, { message: 'El nombre es obligatorio' }).max(100, { message: 'El nombre no puede exceder los 100 caracteres' }),
-  address: z.string().min(1, { message: 'La dirección es obligatoria' }).max(255, { message: 'La dirección no puede exceder los 255 caracteres' }),
-  phone: z.string().regex(/^\+?\d{7,15}$/, { message: 'Número de teléfono inválido' }),
-  email: z.string().email({ message: 'Correo electrónico inválido' }).max(100, { message: 'El email no puede exceder los 100 caracteres' }),
+  name: z.string().trim().min(1).max(100),
+  address: z.string().trim().min(1).max(255),
+  phone: z.string().trim().regex(/^\+?\d{7,15}$/, { message: 'Número de teléfono inválido' }),
+  email: z.string().trim().toLowerCase().email().max(100),
   avatar: z.string().url().max(255).optional()
 })
 
 export const updateClientSchema = z.object({
-  rut: rutWithDV.optional(), // <- si envían rut en update, también valida DV
-  name: z.string().min(1).max(100).optional(),
-  address: z.string().min(1).max(255).optional(),
-  phone: z.string().regex(/^\+?\d{7,15}$/).optional(),
-  email: z.string().email().max(100).optional(),
+  rut: rutWithDV.optional(),
+  name: z.string().trim().min(1).max(100).optional(),
+  address: z.string().trim().min(1).max(255).optional(),
+  phone: z.string().trim().regex(/^\+?\d{7,15}$/).optional(),
+  email: z.string().trim().toLowerCase().email().max(100).optional(),
   avatar: z.string().url().max(255).optional()
 })

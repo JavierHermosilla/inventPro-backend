@@ -1,15 +1,14 @@
-import { Op } from 'sequelize'
+import { Op, col } from 'sequelize'
 import Client from '../models/client.model.js'
 import { createClientSchema, updateClientSchema } from '../schemas/client.schema.js'
 
 // Crear cliente
 export const createClient = async (req, res) => {
   try {
-    const validatedData = createClientSchema.parse(req.body) // ✅ valida campos
+    const validatedData = createClientSchema.parse(req.body)
 
     const { rut, email } = validatedData
 
-    // Validar duplicados
     const existing = await Client.findOne({
       where: { [Op.or]: [{ rut }, { email }] }
     })
@@ -28,9 +27,9 @@ export const createClient = async (req, res) => {
 }
 
 // Listar clientes
-export const listClients = async (req, res) => {
+export const listClients = async (_req, res) => {
   try {
-    const clients = await Client.findAll({ order: [['createdAt', 'DESC']] })
+    const clients = await Client.findAll({ order: [[col('created_at'), 'DESC']] })
     res.json(clients)
   } catch (err) {
     res.status(500).json({ message: 'Error interno', error: err.message })
@@ -54,7 +53,7 @@ export const updateClient = async (req, res) => {
     const client = await Client.findByPk(req.params.id)
     if (!client) return res.status(404).json({ message: 'Cliente no encontrado' })
 
-    const validatedData = updateClientSchema.parse(req.body) // ✅ valida campos opcionales
+    const validatedData = updateClientSchema.parse(req.body)
     await client.update(validatedData)
     res.json(client)
   } catch (err) {

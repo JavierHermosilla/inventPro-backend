@@ -1,73 +1,106 @@
+// src/controllers/order.controller.js
 import { sequelize, models } from '../models/index.js'
-import { orderSchema, orderUpdateSchema } from '../schemas/order.schema.js'
+import {
+  orderCreateSchema,
+  normalizeOrderCreate,
+  orderUpdateSchema,
+  orderByRutSchema
+} from '../schemas/order.schema.js'
 
-const { Order, OrderProduct, Product } = models
+const { Order, OrderProduct, Product, Client } = models
+
+// ---------- helpers de include según alias reales ----------
+const orderItemsInclude = {
+  model: OrderProduct,
+  as: 'items', // <- alias real en tu associations
+  include: [{ model: Product, as: 'product' }] // <- alias real product
+}
 
 // --------------------- CREATE ORDER ---------------------
 export const createOrder = async (req, res) => {
   const t = await sequelize.transaction()
   try {
-    const { customerId, products } = orderSchema.parse(req.body)
-    if (!products?.length) {
+    // normaliza clientId / customerId / rut + valida
+    const baseParsed = orderCreateSchema.safeParse(req.body)
+    if (!baseParsed.success) {
       await t.rollback()
-      return res.status(400).json({ message: 'At least one product is required' })
+      return res.status(400).json({ message: 'Validation error', errors: baseParsed.error.errors })
     }
-    if (req.user.role !== 'admin' && req.user.id !== customerId) {
+    const { clientId: clientIdRaw, rut, products } = normalizeOrderCreate(req.body)
+
+    // resolver clientId si vino RUT
+    let clientId = clientIdRaw
+    if (!clientId && rut) {
+      const cli = await Client.findOne({ where: { rut }, transaction: t })
+      if (!cli) {
+        await t.rollback()
+        return res.status(404).json({ message: 'Cliente no encontrado' })
+      }
+      clientId = cli.id
+    }
+
+    // seguridad básica: solo admin/vendedor pueden crear para otros
+    if (!['admin', 'vendedor'].includes(req.user.role) && req.user.id !== clientId) {
       await t.rollback()
       return res.status(403).json({ message: 'You can only create orders for yourself' })
     }
 
     let totalAmount = 0
-    const orderProducts = []
+    const itemsToCreate = []
+    let hasBackorder = false
 
     for (const item of products) {
-      const product = await Product.findByPk(item.productId, { transaction: t })
+      const product = await Product.findByPk(item.productId, { transaction: t, lock: t.LOCK.UPDATE })
       if (!product) {
         await t.rollback()
         return res.status(404).json({ message: `Product ${item.productId} not found` })
       }
+
+      // descuenta stock (permite backorder)
       product.stock -= item.quantity
+      if (product.stock < 0) hasBackorder = true
       await product.save({ transaction: t })
 
-      product.stock -= item.quantity
-      await product.save({ transaction: t })
-
-      totalAmount += parseFloat(product.price) * item.quantity
-      orderProducts.push({
+      totalAmount += Number(product.price) * Number(item.quantity)
+      itemsToCreate.push({
         productId: product.id,
         quantity: item.quantity,
         price: product.price
       })
     }
 
-    const order = await Order.create(
-      { customerId, totalAmount, status: 'pending', stockRestored: false },
-      { transaction: t }
-    )
+    const order = await Order.create({
+      clientId, // <- columna real en tu tabla orders
+      totalAmount,
+      status: 'pending',
+      isBackorder: hasBackorder,
+      stockRestored: false
+    }, { transaction: t })
 
-    for (const op of orderProducts) {
-      await OrderProduct.create({ ...op, orderId: order.id }, { transaction: t })
+    // crea items
+    for (const it of itemsToCreate) {
+      await OrderProduct.create({ ...it, orderId: order.id }, { transaction: t })
     }
 
     await t.commit()
-    res.status(201).json({ orderId: order.id, totalAmount, status: order.status, products: orderProducts })
+    return res.status(201).json({
+      id: order.id,
+      totalAmount,
+      status: order.status,
+      isBackorder: order.isBackorder,
+      products: itemsToCreate
+    })
   } catch (err) {
     await t.rollback()
-    res.status(500).json({ message: err.message })
+    return res.status(500).json({ message: err.message })
   }
 }
 
 // --------------------- LIST ORDERS ---------------------
-export const listOrders = async (req, res) => {
+export const listOrders = async (_req, res) => {
   try {
     const orders = await Order.findAll({
-      include: [
-        {
-          model: OrderProduct,
-          as: 'orderItems',
-          include: [{ model: Product, as: 'orderedProduct' }]
-        }
-      ],
+      include: [orderItemsInclude],
       order: [['createdAt', 'DESC']]
     })
     res.json(orders)
@@ -75,18 +108,11 @@ export const listOrders = async (req, res) => {
     res.status(500).json({ message: err.message })
   }
 }
+
 // --------------------- LIST ORDER BY ID ---------------------
 export const listOrderById = async (req, res) => {
   try {
-    const order = await Order.findByPk(req.params.id, {
-      include: [
-        {
-          model: OrderProduct,
-          as: 'orderItems',
-          include: [{ model: Product, as: 'orderedProduct' }]
-        }
-      ]
-    })
+    const order = await Order.findByPk(req.params.id, { include: [orderItemsInclude] })
     if (!order) return res.status(404).json({ message: 'Order not found' })
     res.json(order)
   } catch (err) {
@@ -94,73 +120,39 @@ export const listOrderById = async (req, res) => {
   }
 }
 
-// --------------------- UPDATE ORDER ---------------------
+// --------------------- UPDATE ORDER (solo status) ---------------------
 export const updateOrder = async (req, res) => {
   const t = await sequelize.transaction()
   try {
-    const order = await Order.findByPk(req.params.id, {
-      include: [{ model: OrderProduct, as: 'orderItems' }],
-      transaction: t
-    })
+    const parsed = orderUpdateSchema.safeParse(req.body)
+    if (!parsed.success) {
+      await t.rollback()
+      return res.status(400).json({ message: 'Validation error', errors: parsed.error.errors })
+    }
+    const { status } = parsed.data
+
+    const order = await Order.findByPk(req.params.id, { transaction: t })
     if (!order) {
       await t.rollback()
       return res.status(404).json({ message: 'Order not found' })
     }
 
-    const { status, products } = orderUpdateSchema.parse(req.body)
-
-    if (products && req.user.role !== 'admin') {
-      await t.rollback()
-      return res.status(403).json({ message: 'Only admins can change order products' })
+    if (status) {
+      if (order.status === 'completed' && status === 'pending') {
+        await t.rollback()
+        return res.status(409).json({ message: 'Cannot revert a completed order to pending' })
+      }
+      order.status = status
     }
 
-    if (products) {
-      // Restaurar stock de items antiguos
-      for (const item of order.orderItems) {
-        const product = await Product.findByPk(item.productId, { transaction: t })
-        product.stock += item.quantity
-        await product.save({ transaction: t })
-        await item.destroy({ transaction: t })
-      }
-
-      let totalAmount = 0
-      for (const item of products) {
-        const product = await Product.findByPk(item.productId, { transaction: t })
-        if (!product) {
-          await t.rollback()
-          return res.status(404).json({ message: `Product ${item.productId} not found` })
-        }
-        product.stock -= item.quantity
-        await product.save({ transaction: t })
-
-        totalAmount += parseFloat(product.price) * item.quantity
-
-        await OrderProduct.create({
-          orderId: order.id,
-          productId: product.id,
-          quantity: item.quantity,
-          price: product.price
-        }, { transaction: t })
-      }
-      order.totalAmount = totalAmount
-    }
-
-    if (status) order.status = status
     await order.save({ transaction: t })
     await t.commit()
 
-    // devolver con include correcto
-    const full = await Order.findByPk(order.id, {
-      include: [{
-        model: OrderProduct,
-        as: 'orderItems',
-        include: [{ model: Product, as: 'orderedProduct' }]
-      }]
-    })
-    res.json({ message: 'Order updated', order: full })
+    const full = await Order.findByPk(order.id, { include: [orderItemsInclude] })
+    return res.json({ message: 'Order updated', order: full })
   } catch (err) {
     await t.rollback()
-    res.status(500).json({ message: err.message })
+    return res.status(500).json({ message: err.message })
   }
 }
 
@@ -168,21 +160,27 @@ export const updateOrder = async (req, res) => {
 export const deleteOrder = async (req, res) => {
   const t = await sequelize.transaction()
   try {
+    // trae con items usando alias correcto
     const order = await Order.findByPk(req.params.id, {
-      include: [{ model: OrderProduct, as: 'orderItems' }],
-      transaction: t
+      include: [orderItemsInclude],
+      transaction: t,
+      lock: t.LOCK.UPDATE
     })
     if (!order) {
       await t.rollback()
       return res.status(404).json({ message: 'Order not found' })
     }
 
-    for (const item of order.orderItems) {
-      const product = await Product.findByPk(item.productId, { transaction: t })
-      product.stock += item.quantity
-      await product.save({ transaction: t })
+    // restaura stock
+    for (const item of order.items) {
+      const product = await Product.findByPk(item.productId, { transaction: t, lock: t.LOCK.UPDATE })
+      if (product) {
+        product.stock += item.quantity
+        await product.save({ transaction: t })
+      }
     }
 
+    // elimina items y la orden
     await OrderProduct.destroy({ where: { orderId: order.id }, transaction: t })
     await order.destroy({ transaction: t })
 
@@ -191,5 +189,41 @@ export const deleteOrder = async (req, res) => {
   } catch (err) {
     await t.rollback()
     res.status(500).json({ message: err.message })
+  }
+}
+
+// --------------------- CREATE ORDER BY RUT (cliente) ---------------------
+export const createOrderByRut = async (req, res) => {
+  try {
+    const parsed = orderByRutSchema.safeParse(req.body)
+    if (!parsed.success) {
+      return res.status(400).json({ message: 'Validation error', errors: parsed.error.errors })
+    }
+    // reusa createOrder: solo pasa el body normalizado
+    req.body = { rut: parsed.data.rut, products: parsed.data.products }
+    return createOrder(req, res)
+  } catch (_err) {
+    return res.status(500).json({ message: 'Error al crear orden por RUT' })
+  }
+}
+
+// --------------------- LIST ORDERS BY RUT (cliente) ---------------------
+export const listOrdersByRut = async (req, res) => {
+  try {
+    const rut = String(req.params.rut || '').trim()
+    if (!rut) return res.status(400).json({ message: 'RUT requerido' })
+
+    const client = await Client.findOne({ where: { rut } })
+    if (!client) return res.status(404).json({ message: 'Cliente no encontrado' })
+
+    const orders = await Order.findAll({
+      where: { clientId: client.id },
+      include: [orderItemsInclude],
+      order: [['createdAt', 'DESC']]
+    })
+
+    return res.json({ client: { id: client.id, rut: client.rut, name: client.name }, orders })
+  } catch (err) {
+    return res.status(500).json({ message: 'Error al buscar órdenes por RUT' })
   }
 }

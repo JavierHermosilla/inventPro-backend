@@ -7,7 +7,7 @@ import ManualInventory from '../models/manualInventory.model.js'
 import User from '../models/user.model.js'
 import Supplier from '../models/supplier.model.js'
 import Category from '../models/category.model.js'
-import { createAccessToken } from '../libs/jwt.js'
+import { signAccessToken } from '../libs/jwt.js'
 import { ROLES } from '../config/roles.js'
 
 describe('Manual Inventory API - Full Coverage', () => {
@@ -29,9 +29,9 @@ describe('Manual Inventory API - Full Coverage', () => {
     normalUser = await User.findOne({ where: { role: ROLES.USER } })
     bodegueroUser = await User.findOne({ where: { role: ROLES.BODEGUERO } })
 
-    adminToken = createAccessToken({ id: adminUser.id, role: ROLES.ADMIN })
-    userToken = createAccessToken({ id: normalUser.id, role: ROLES.USER })
-    bodegueroToken = createAccessToken({ id: bodegueroUser.id, role: ROLES.BODEGUERO })
+    adminToken = signAccessToken({ id: adminUser.id, role: ROLES.ADMIN })
+    userToken = signAccessToken({ id: normalUser.id, role: ROLES.USER })
+    bodegueroToken = signAccessToken({ id: bodegueroUser.id, role: ROLES.BODEGUERO })
 
     testSupplier = await Supplier.findOne({ where: { rut: '12345678-9' } })
     testCategory = await Category.findOne({ where: { name: 'Categoría prueba' } })

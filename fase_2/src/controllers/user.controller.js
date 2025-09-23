@@ -1,50 +1,73 @@
-import { Op } from 'sequelize'
+// src/controllers/users.controller.js
+import { Op, col } from 'sequelize'
 import User from '../models/user.model.js'
 import logger from '../utils/logger.js'
 import pick from 'lodash/pick.js'
 
+/**
+ * GET /api/users/:id
+ */
 export const getUserById = async (req, res) => {
   try {
     const { id } = req.params
-    const user = await User.findByPk(id, { attributes: { exclude: ['password'] } })
+    const user = await User.findByPk(id, {
+      attributes: { exclude: ['password'] }
+    })
     if (!user) return res.status(404).json({ message: 'Usuario no encontrado' })
     res.json(user)
   } catch (err) {
+    logger.error(`getUserById error: ${err.message}`)
     res.status(500).json({ message: 'Error obteniendo usuario', error: err.message })
   }
 }
 
-// Crear usuario (solo admin)
+/**
+ * POST /api/users  (solo admin)
+ */
 export const createUser = async (req, res) => {
   const userIP = req.clientIP
   if (req.user?.role !== 'admin') return res.status(403).json({ message: 'No tienes permisos' })
 
   try {
     const { username, name, email, password, phone, address, avatar, role } = req.body
-    const existingUser = await User.findOne({ where: { email } })
-    if (existingUser) return res.status(400).json({ message: 'Email ya registrado' })
+
+    // Evitar duplicados (email o username)
+    const exists = await User.findOne({
+      where: { [Op.or]: [{ email }, { username }] },
+      attributes: ['id', 'email', 'username']
+    })
+    if (exists) {
+      const field = exists.email === email ? 'Email' : 'Username'
+      return res.status(400).json({ message: `${field} ya registrado` })
+    }
 
     const newUser = await User.create({ username, name, email, password, phone, address, avatar, role })
     logger.info(`User ${req.user.id} creó usuario ${newUser.id}, IP: ${userIP}`)
 
-    res.status(201).json({ message: 'Usuario creado', user: pick(newUser, ['id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar']) })
+    res.status(201).json({
+      message: 'Usuario creado',
+      user: pick(newUser, ['id', 'username', 'name', 'email', 'role', 'phone', 'address', 'avatar'])
+    })
   } catch (err) {
     logger.error(`Error creating user: ${err.message}, IP: ${userIP}`)
     res.status(500).json({ message: 'Error creando usuario', error: err.message })
   }
 }
 
-// Listar usuarios (solo admin)
+/**
+ * GET /api/users  (solo admin)
+ * Query: page, limit, search
+ */
 export const listUsers = async (req, res) => {
   const userIP = req.clientIP
   if (req.user?.role !== 'admin') return res.status(403).json({ message: 'No tienes permisos' })
 
   try {
-    const page = parseInt(req.query.page) || 1
-    const limit = parseInt(req.query.limit) || 10
+    const page = Number.parseInt(req.query.page) || 1
+    const limit = Number.parseInt(req.query.limit) || 10
     const offset = (page - 1) * limit
 
-    const search = req.query.search || ''
+    const search = (req.query.search || '').trim()
     const where = {}
     if (search) {
       where[Op.or] = [
@@ -58,18 +81,26 @@ export const listUsers = async (req, res) => {
       where,
       limit,
       offset,
-      order: [['createdAt', 'DESC']],
-      attributes: { exclude: ['password'] }
+      // 🔒 Evita "User.createdAt": usa columna física sin prefijo de tabla
+      order: [[col('created_at'), 'DESC'], ['id', 'DESC']],
+      attributes: { exclude: ['password'] } // redundante por defaultScope, pero seguro
     })
 
-    res.json({ total: count, page, pages: Math.ceil(count / limit), users: rows })
+    res.json({
+      total: count,
+      page,
+      pages: Math.ceil(count / limit),
+      users: rows
+    })
   } catch (err) {
     logger.error(`Error listing users: ${err.message}, IP: ${userIP}`)
     res.status(500).json({ message: 'Error al listar usuarios', error: err.message })
   }
 }
 
-// Actualizar usuario
+/**
+ * PUT /api/users/:id
+ */
 export const updateUser = async (req, res) => {
   const userIP = req.clientIP
   const id = req.params.id
@@ -83,8 +114,7 @@ export const updateUser = async (req, res) => {
       : ['username', 'name', 'email', 'phone', 'address', 'avatar', 'password']
 
     Object.assign(user, pick(req.body, allowedFields))
-
-    await user.save() // 👉 aquí se ejecutan los hooks (hash password, updatedAt, etc.)
+    await user.save() // hooks: hash password, updated_at
 
     res.json({
       message: 'Usuario actualizado',
@@ -95,7 +125,10 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ message: 'Error actualizando usuario', error: err.message })
   }
 }
-// Eliminar usuario (solo admin)
+
+/**
+ * DELETE /api/users/:id  (solo admin)
+ */
 export const deleteUser = async (req, res) => {
   const userIP = req.clientIP
   if (req.user?.role !== 'admin') return res.status(403).json({ message: 'No tienes permisos' })

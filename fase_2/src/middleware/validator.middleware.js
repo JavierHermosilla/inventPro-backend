@@ -1,41 +1,55 @@
 import logger from '../utils/logger.js'
 
-export const validateSchema = (schema) => (req, res, next) => {
+/**
+ * Middleware genérico:
+ *   validate({ body?, params?, query? })
+ * Cada key es un schema de Zod. Solo valida lo que pases.
+ */
+export const validate = (schemas = {}) => (req, res, next) => {
   try {
-    // Validar solo para métodos que envían body
-    if (!['POST', 'PUT', 'PATCH'].includes(req.method)) return next()
+    const methodAllowsBody = ['POST', 'PUT', 'PATCH'].includes(req.method)
+    const ct = (req.headers['content-type'] || '').toLowerCase()
 
-    // Asegurar que req.body sea siempre un objeto
-    if (!req.body || typeof req.body !== 'object') {
-      req.body = {}
+    // BODY
+    if (schemas.body && methodAllowsBody) {
+      const isJson = ct.includes('application/json')
+      if (!isJson) {
+        return res.status(415).json({ message: 'Content-Type must be application/json' })
+      }
+      if (!req.body || typeof req.body !== 'object') req.body = {}
+      const r = schemas.body.safeParse(req.body)
+      if (!r.success) return respondZod(res, r.error.issues)
+      req.body = r.data
     }
 
-    // 🔹 Depuración temporal antes de Zod
-    console.log(`REQ.BODY recibido en ${req.method} ${req.originalUrl}:`, req.body)
-
-    const result = schema.safeParse(req.body)
-
-    if (!result.success) {
-      // 🔹 Depuración detallada de errores Zod
-      console.log('❌ Zod validation errors detallados:', JSON.stringify(result.error.issues, null, 2))
-
-      const errors = result.error.issues.map(e => ({
-        path: e.path.join('.') || '',
-        message: e.message
-      }))
-
-      logger.warn(`Schema validation failed for ${req.method} ${req.originalUrl}`, { errors })
-      return res.status(400).json({ errors })
+    // PARAMS
+    if (schemas.params) {
+      const r = schemas.params.safeParse(req.params)
+      if (!r.success) return respondZod(res, r.error.issues)
+      req.params = r.data
     }
 
-    // Sobrescribir con datos validados
-    req.body = result.data
+    // QUERY
+    if (schemas.query) {
+      const r = schemas.query.safeParse(req.query)
+      if (!r.success) return respondZod(res, r.error.issues)
+      req.query = r.data
+    }
+
     next()
   } catch (error) {
-    logger.error('Unexpected error in validateSchema middleware', {
-      message: error.message,
-      stack: error.stack
-    })
+    logger.error('Unexpected error in validate middleware', { message: error.message, stack: error.stack })
     res.status(500).json({ message: 'Internal server error' })
   }
+}
+
+/**
+ * Compat: validateSchema(bodySchema) ⇒ valida solo el body.
+ * Así no rompes imports antiguos.
+ */
+export const validateSchema = (schema) => validate({ body: schema })
+
+function respondZod (res, issues) {
+  const errors = issues.map(e => ({ path: e.path.join('.'), message: e.message }))
+  return res.status(400).json({ message: 'Validation error', errors })
 }

@@ -12,25 +12,25 @@ const { OrderProduct, Order, Product } = models
 export const createOrderProduct = async (req, res) => {
   const t = await sequelize.transaction()
   try {
-    const data = createOrderProductSchema.parse(req.body)
+    // Valida y NO permite "price" gracias al .strict() del schema
+    const { orderId, productId, quantity } = createOrderProductSchema.parse(req.body)
 
-    // Validar que existan Order y Product
-    const order = await Order.findByPk(data.orderId, { transaction: t })
-    if (!order) {
-      await t.rollback()
-      return res.status(404).json({ error: 'Order no encontrado' })
-    }
+    // Verifica existencia de Order y Product
+    const order = await Order.findByPk(orderId, { transaction: t })
+    if (!order) { await t.rollback(); return res.status(404).json({ error: 'Order no encontrado' }) }
 
-    const product = await Product.findByPk(data.productId, { transaction: t })
-    if (!product) {
-      await t.rollback()
-      return res.status(404).json({ error: 'Product no encontrado' })
-    }
+    const product = await Product.findByPk(productId, { transaction: t })
+    if (!product) { await t.rollback(); return res.status(404).json({ error: 'Product no encontrado' }) }
 
-    // Crear OrderProduct
-    const newOrderProduct = await OrderProduct.create(data, { transaction: t })
+    // Copia el precio desde Product (ignora cualquier input del cliente)
+    const price = product.price
+    const newOrderProduct = await OrderProduct.create({ orderId, productId, quantity, price }, { transaction: t })
+
+    // Actualiza total de la orden
+    const lineTotal = Number(price) * Number(quantity)
+    await order.update({ totalAmount: Number(order.totalAmount || 0) + lineTotal }, { transaction: t })
+
     await t.commit()
-
     return res.status(201).json({ message: 'OrderProduct creado', data: newOrderProduct })
   } catch (error) {
     await t.rollback()

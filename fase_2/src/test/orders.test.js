@@ -5,7 +5,7 @@ import sequelize, { connectDB } from '../config/db.js'
 import User from '../models/user.model.js'
 import Product from '../models/product.model.js'
 import Order from '../models/order.model.js'
-import { createAccessToken } from '../libs/jwt.js'
+import { signAccessToken } from '../libs/jwt.js'
 
 let adminToken, userToken
 let admin, user
@@ -18,8 +18,8 @@ beforeAll(async () => {
   admin = await User.findOne({ where: { role: 'admin' } })
   user = await User.findOne({ where: { role: 'user' } })
 
-  adminToken = createAccessToken({ id: admin.id, role: 'admin' })
-  userToken = createAccessToken({ id: user.id, role: 'user' })
+  adminToken = signAccessToken({ id: admin.id, role: 'admin' })
+  userToken = signAccessToken({ id: user.id, role: 'user' })
 
   // Productos de prueba
   const products = await Product.findAll({ limit: 2 })

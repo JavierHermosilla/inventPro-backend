@@ -1,7 +1,6 @@
 import { DataTypes, Model } from 'sequelize'
 
 class Supplier extends Model {
-  // 🔹 Inicialización del modelo
   static initialize (sequelize) {
     super.init(
       {
@@ -15,22 +14,27 @@ class Supplier extends Model {
           allowNull: false,
           unique: true,
           set (value) {
-            this.setDataValue('name', value?.trim() || '')
+            this.setDataValue('name', String(value ?? '').trim())
+          },
+          validate: {
+            notEmpty: { msg: 'El nombre es obligatorio' }
           }
         },
         contactName: {
           type: DataTypes.STRING,
           allowNull: true,
           set (value) {
-            this.setDataValue('contactName', value?.trim() || '')
+            const v = value == null ? null : String(value).trim()
+            this.setDataValue('contactName', v || null)
           }
         },
         email: {
           type: DataTypes.STRING,
           allowNull: true,
-          validate: { isEmail: { msg: 'Invalid email' } },
+          validate: { isEmail: { msg: 'Email inválido' } },
           set (value) {
-            this.setDataValue('email', value?.trim().toLowerCase() || null)
+            const v = value == null ? null : String(value).trim().toLowerCase()
+            this.setDataValue('email', v || null)
           }
         },
         phone: {
@@ -39,28 +43,29 @@ class Supplier extends Model {
           validate: {
             is: {
               args: /^\+?[0-9()\-\s]{7,20}$/,
-              msg: 'Phone must be valid'
+              msg: 'Teléfono inválido'
             }
           },
           set (value) {
-            this.setDataValue('phone', value?.trim() || null)
+            const v = value == null ? null : String(value).trim()
+            this.setDataValue('phone', v || null)
           }
         },
         address: {
           type: DataTypes.STRING,
           allowNull: true,
           set (value) {
-            this.setDataValue('address', value?.trim() || null)
+            const v = value == null ? null : String(value).trim()
+            this.setDataValue('address', v || null)
           }
         },
         website: {
           type: DataTypes.STRING,
           allowNull: true,
-          validate: {
-            isUrl: { msg: 'Website must be valid URL' }
-          },
+          validate: { isUrl: { msg: 'URL inválida' } },
           set (value) {
-            this.setDataValue('website', value?.trim().toLowerCase() || null)
+            const v = value == null ? null : String(value).trim().toLowerCase()
+            this.setDataValue('website', v || null)
           }
         },
         rut: {
@@ -68,11 +73,10 @@ class Supplier extends Model {
           allowNull: false,
           unique: true,
           validate: {
-            notNull: { msg: 'RUT is required' },
-            notEmpty: { msg: 'RUT cannot be empty' },
+            notEmpty: { msg: 'El RUT es obligatorio' },
             is: {
               args: /^(\d{7,8}-[\dkK])$/,
-              msg: 'Invalid RUT format (normalized)'
+              msg: 'Formato de RUT inválido (normalizado: 12345678-9)'
             }
           },
           set (value) {
@@ -86,19 +90,21 @@ class Supplier extends Model {
           type: DataTypes.STRING,
           allowNull: true,
           set (value) {
-            this.setDataValue('paymentTerms', value?.trim() || null)
+            const v = value == null ? null : String(value).trim()
+            this.setDataValue('paymentTerms', v || null)
           }
         },
         status: {
           type: DataTypes.ENUM('active', 'inactive'),
-          defaultValue: 'active',
-          allowNull: false
+          allowNull: false,
+          defaultValue: 'active'
         },
         notes: {
           type: DataTypes.STRING,
           allowNull: true,
           set (value) {
-            this.setDataValue('notes', value?.trim() || null)
+            const v = value == null ? null : String(value).trim()
+            this.setDataValue('notes', v || null)
           }
         }
       },
@@ -106,40 +112,39 @@ class Supplier extends Model {
         sequelize,
         modelName: 'Supplier',
         tableName: 'suppliers',
+
+        // ✅ Consistencia global
         timestamps: true,
         paranoid: true,
+        underscored: true,
+        createdAt: 'created_at',
+        updatedAt: 'updated_at',
         deletedAt: 'deleted_at',
+
+        defaultScope: {},
+        scopes: {
+          active: { where: { status: 'active' } }
+        },
+
         indexes: [
           { unique: true, fields: ['name'] },
-          { unique: true, fields: ['rut'] }
+          { unique: true, fields: ['rut'] },
+          { fields: ['status'] }
         ],
+
         hooks: {
           beforeCreate: (supplier) => {
-            supplier.name = supplier.name.trim()
-            supplier.rut = supplier.rut.trim()
+            if (supplier.name) supplier.name = String(supplier.name).trim()
+            if (supplier.rut) supplier.rut = String(supplier.rut).trim()
           },
           beforeUpdate: (supplier) => {
-            if (supplier.name) supplier.name = supplier.name.trim()
-            if (supplier.rut) supplier.rut = supplier.rut.trim()
+            if (supplier.name) supplier.name = String(supplier.name).trim()
+            if (supplier.rut) supplier.rut = String(supplier.rut).trim()
           }
         }
       }
     )
   }
-
-  // 🔹 Relaciones
-  // static associate (models, schema) {
-  //   // Muchos a muchos: Supplier <-> Category
-  //   this.belongsToMany(models.Category, {
-  //     through: 'SupplierCategories',
-  //     as: 'suppliedBy',
-  //     foreignKey: 'supplierId',
-  //     schema
-  //   })
-
-  //   // Uno a muchos: Supplier -> Product
-  //   this.hasMany(models.Product, { foreignKey: 'supplierId', as: 'supplierProducts', schema })
-  // }
 }
 
 export default Supplier

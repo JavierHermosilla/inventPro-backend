@@ -1,77 +1,111 @@
-// src/schemas/supplier.schema.js
 import { z } from 'zod'
+import { isValidRut } from '../utils/rut.js'
 
-// Normaliza: quita puntos y deja DV en mayúscula
-const normalizeRut = (rut) => String(rut ?? '').toUpperCase().replace(/\./g, '')
+// ——— Helpers ———
+const trimOrEmpty = (v) => (v ?? '').toString().trim()
 
-// Valida DV (módulo 11) sobre un RUT normalizado con guion
-const validateRUT = (rut) => {
-  const clean = String(rut ?? '')
-  const [body, dvRaw] = clean.split('-')
-  if (!body || !dvRaw) return false
-  const dv = dvRaw.toUpperCase()
-
-  let sum = 0
-  let mul = 2
-  for (let i = body.length - 1; i >= 0; i--) {
-    sum += parseInt(body[i], 10) * mul
-    mul = mul === 7 ? 2 : mul + 1
+// Acepta con/sin guion y sin puntos; inserta guion si falta (último char es DV)
+const normalizeRutFlexible = (rut) => {
+  const raw = trimOrEmpty(rut).toUpperCase().replace(/\./g, '').replace(/\s+/g, '')
+  if (!raw) return ''
+  if (raw.includes('-')) return raw
+  if (/^\d{7,8}[\dK]$/.test(raw)) {
+    const body = raw.slice(0, -1)
+    const dv = raw.slice(-1)
+    return `${body}-${dv}`
   }
-  const mod = 11 - (sum % 11)
-  const expected = mod === 11 ? '0' : mod === 10 ? 'K' : String(mod)
-  return dv === expected
+  return raw
 }
 
-// Formato esperado *después* de normalizar: ########-DV (sin puntos)
-const isNormalizedRutFormat = (value) => /^(\d{7,8}-[\dK])$/i.test(String(value ?? ''))
+const isNormalizedRutFormat = (value) =>
+  /^(\d{7,8}-[\dK])$/i.test(String(value ?? ''))
 
-// Helpers para strings opcionales que aceptan '' o null y limitan longitud
-const optionalString = (maxLength) =>
-  z.string()
-    .optional()
-    .nullable()
-    .transform(val => (val === undefined || val === null ? '' : val))
-    .refine(val => val.length <= maxLength, { message: `Must be at most ${maxLength} characters` })
+const optionalString = (max) =>
+  z.preprocess((v) => trimOrEmpty(v), z.string().max(max))
 
-const optionalEmail = z.string()
-  .optional()
-  .transform(val => (val === undefined || val === null ? '' : val))
-  .refine(val => val === '' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val), { message: 'Invalid email' })
+const optionalEmail = z.preprocess(
+  (v) => trimOrEmpty(v),
+  z.string().email().or(z.literal(''))
+)
 
-const phone = z.string()
-  .transform(val => (val === undefined || val === null ? '' : val))
-  .refine(val => val === '' || /^\+?\d{7,15}$/.test(val), { message: 'Invalid phone number' })
+const optionalPhone = z.preprocess(
+  (v) => trimOrEmpty(v),
+  // Permite +, espacios, guiones y paréntesis, 7–20 caracteres
+  z.string().refine(
+    (s) => s === '' || /^\+?[0-9()\-\s]{7,20}$/.test(s),
+    { message: 'Invalid phone number' }
+  )
+)
 
-const optionalURL = z.string()
-  .optional()
-  .transform(val => (val === undefined || val === null ? '' : val))
-  .refine(val => val === '' || /^https?:\/\/.+/.test(val), { message: 'Invalid URL' })
+const optionalURL = z.preprocess(
+  (v) => trimOrEmpty(v),
+  z.string().url().or(z.literal(''))
+)
 
-// Para status, permitimos vacío o null y aplicamos default 'active'
-const optionalStatus = z.string()
-  .optional()
-  .transform(val => {
-    if (val === undefined || val === null || val === '') return 'active'
-    if (['active', 'inactive'].includes(val)) return val
-    throw new Error('Invalid status')
+// Status: en create default 'active'
+const statusEnum = z.enum(['active', 'inactive'])
+const statusForCreate = z.preprocess(
+  (v) => (v == null || v === '' ? 'active' : v),
+  statusEnum
+)
+// update validar si viene
+const statusForUpdate = z.preprocess(
+  (v) => (v === undefined ? undefined : v),
+  statusEnum
+).optional()
+
+// ——— Schemas ———
+export const supplierSchema = z
+  .object({
+    name: z.preprocess(
+      (v) => trimOrEmpty(v),
+      z.string().min(1, { message: 'Name is required' }).max(120)
+    ),
+    contactName: optionalString(100),
+    email: optionalEmail,
+    phone: optionalPhone,
+    address: optionalString(200),
+    website: optionalURL,
+    rut: z
+      .string()
+      .transform(normalizeRutFlexible)
+      .refine(isNormalizedRutFormat, { message: 'Invalid RUT format' })
+      .refine(isValidRut, { message: 'Invalid RUT' }),
+    paymentTerms: optionalString(200),
+    categories: z.array(z.string().min(1)).optional().default([]),
+    status: statusForCreate,
+    notes: optionalString(1000)
   })
+  .strict()
 
-export const supplierSchema = z.object({
-  name: z.string().min(1, { message: 'Name is required' }),
-  contactName: optionalString(100),
-  email: optionalEmail,
-  phone,
-  address: optionalString(200),
-  website: optionalURL,
-  rut: z.string()
-    .nonempty({ message: 'RUT is required' })
-    .transform(normalizeRut) // 1) normaliza
-    .refine(isNormalizedRutFormat, { message: 'Invalid RUT format' }) // 2) formato (sin puntos, con guion)
-    .refine(validateRUT, { message: 'Invalid RUT' }), // 3) dígito verificador
-  paymentTerms: optionalString(200),
-  categories: z.array(z.string().min(1)).optional().default([]),
-  status: optionalStatus,
-  notes: optionalString(1000)
-})
-
-export const updateSupplierSchema = supplierSchema.partial()
+export const updateSupplierSchema = z
+  .object({
+    name: z
+      .preprocess(
+        (v) => (v === undefined ? undefined : trimOrEmpty(v)),
+        z.string().min(1).max(120)
+      )
+      .optional(),
+    contactName: optionalString(100).optional(),
+    email: optionalEmail.optional(),
+    phone: optionalPhone.optional(),
+    address: optionalString(200).optional(),
+    website: optionalURL.optional(),
+    rut: z
+      .string()
+      .transform((v) => (v === undefined ? undefined : normalizeRutFlexible(v)))
+      .refine(
+        (v) => v === undefined || isNormalizedRutFormat(v),
+        { message: 'Invalid RUT format' }
+      )
+      .refine(
+        (v) => v === undefined || isValidRut(v),
+        { message: 'Invalid RUT' }
+      )
+      .optional(),
+    paymentTerms: optionalString(200).optional(),
+    categories: z.array(z.string().min(1)).optional(),
+    status: statusForUpdate,
+    notes: optionalString(1000).optional()
+  })
+  .strict()

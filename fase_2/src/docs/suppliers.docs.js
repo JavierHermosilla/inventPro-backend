@@ -12,49 +12,78 @@
  *     Supplier:
  *       type: object
  *       properties:
- *         _id:
+ *         id:
  *           type: string
- *           example: 64c1fbb20a7e7a001234abcd
- *         name:
- *           type: string
- *           example: Proveedor Ejemplo
- *         contactName:
- *           type: string
- *           example: Juan Pérez
- *         email:
- *           type: string
- *           example: proveedor@example.com
- *         phone:
- *           type: string
- *           example: '+56912345678'
- *         address:
- *           type: string
- *           example: 'Av. Siempre Viva 123'
- *         website:
- *           type: string
- *           example: 'https://proveedor.com'
+ *           format: uuid
+ *           example: "64e99fef-d7c3-4a39-bfc2-a4ad04762c68"
+ *         name:        { type: string, example: "Proveedor Ejemplo" }
+ *         contactName: { type: string, example: "Juan Pérez" }
+ *         email:       { type: string, format: email, example: "proveedor@example.com" }
+ *         phone:       { type: string, example: "+56912345678" }
+ *         address:     { type: string, example: "Av. Siempre Viva 123" }
+ *         website:     { type: string, format: uri, example: "https://proveedor.com" }
  *         rut:
  *           type: string
- *           example: '12.345.678-9'
- *         paymentTerms:
- *           type: string
- *           example: '30 días'
+ *           example: "12345678-5"
+ *           description: "Formato aceptado: 12.345.678-5 o 12345678-5 (se normaliza a 12345678-5)"
+ *         paymentTerms: { type: string, example: "30 días" }
  *         categories:
  *           type: array
- *           items:
- *             type: string
- *           example: ['Electrónica', 'Papelería']
+ *           items: { type: string }
+ *           example: ["Electrónica","Papelería"]
  *         status:
  *           type: string
  *           enum: [active, inactive]
- *           example: active
- *         notes:
+ *           example: "active"
+ *         notes: { type: string, example: "Proveedor confiable con entrega rápida." }
+ *         createdAt: { type: string, format: date-time }
+ *         updatedAt: { type: string, format: date-time }
+ *
+ *     SupplierInput:
+ *       type: object
+ *       required: [name, email, phone, rut]
+ *       properties:
+ *         name:        { type: string, example: "Proveedor Ejemplo" }
+ *         contactName: { type: string, example: "Juan Pérez" }
+ *         email:       { type: string, format: email, example: "proveedor@example.com" }
+ *         phone:       { type: string, example: "+56912345678" }
+ *         address:     { type: string, example: "Av. Siempre Viva 123" }
+ *         website:     { type: string, format: uri, example: "https://proveedor.com" }
+ *         rut:
  *           type: string
- *           example: 'Proveedor confiable con entrega rápida.'
- *         createdAt:
+ *           example: "12345678-5"
+ *           description: "Puedes enviar 12.345.678-5 o 12345678-5; el backend normaliza."
+ *         paymentTerms: { type: string, example: "30 días" }
+ *         categories:
+ *           type: array
+ *           items: { type: string }
+ *           example: ["Electrónica","Papelería"]
+ *         status:
  *           type: string
- *           format: date-time
- *           example: '2023-07-20T10:00:00.000Z'
+ *           enum: [active, inactive]
+ *           example: "active"
+ *         notes: { type: string, example: "Proveedor confiable con entrega rápida." }
+ *
+ *     SupplierUpdate:
+ *       type: object
+ *       properties:
+ *         name:        { type: string, example: "Proveedor Ejemplo S.A." }
+ *         contactName: { type: string, example: "Soporte Comercial" }
+ *         email:       { type: string, format: email, example: "contacto@proveedor.com" }
+ *         phone:       { type: string, example: "+56998765432" }
+ *         address:     { type: string, example: "Av. Nueva 456" }
+ *         website:     { type: string, format: uri, example: "https://prov-ejemplo.com" }
+ *         rut:         { type: string, example: "12345678-5" }
+ *         paymentTerms: { type: string, example: "45 días" }
+ *         categories:
+ *           type: array
+ *           items: { type: string }
+ *           example: ["Papelería"]
+ *         status:
+ *           type: string
+ *           enum: [active, inactive]
+ *           example: "active"
+ *         notes: { type: string, example: "Se actualizó razón social." }
  */
 
 /**
@@ -63,42 +92,53 @@
  *   get:
  *     summary: Get list of all suppliers
  *     tags: [Suppliers]
- *     security:
- *       - bearerAuth: []
+ *     security: [ { bearerAuth: [] } ]
  *     responses:
  *       200:
  *         description: List of suppliers
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Supplier'
- *       401:
- *         description: Unauthorized
+ *               type: object
+ *               properties:
+ *                 suppliers:
+ *                   type: array
+ *                   items: { $ref: "#/components/schemas/Supplier" }
+ *       401: { description: Unauthorized }
  *
  *   post:
  *     summary: Create a new supplier
  *     tags: [Suppliers]
- *     security:
- *       - bearerAuth: []
+ *     security: [ { bearerAuth: [] } ]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Supplier'
+ *           schema: { $ref: "#/components/schemas/SupplierInput" }
+ *           example:
+ *             name: "Proveedor Ejemplo"
+ *             contactName: "Juan Pérez"
+ *             email: "proveedor@example.com"
+ *             phone: "+56912345678"
+ *             address: "Av. Siempre Viva 123"
+ *             website: "https://proveedor.com"
+ *             rut: "12345678-5"
+ *             paymentTerms: "30 días"
+ *             categories: ["Electrónica","Papelería"]
+ *             status: "active"
+ *             notes: "Proveedor confiable con entrega rápida."
  *     responses:
  *       201:
  *         description: Supplier created successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Supplier'
- *       401:
- *         description: Unauthorized
- *       403:
- *         description: Forbidden
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Supplier created successfully." }
+ *                 supplier: { $ref: "#/components/schemas/Supplier" }
+ *       401: { description: Unauthorized }
+ *       403: { description: Forbidden }
  */
 
 /**
@@ -107,14 +147,12 @@
  *   get:
  *     summary: Get supplier by ID
  *     tags: [Suppliers]
- *     security:
- *       - bearerAuth: []
+ *     security: [ { bearerAuth: [] } ]
  *     parameters:
  *       - in: path
  *         name: id
- *         schema:
- *           type: string
  *         required: true
+ *         schema: { type: string, format: uuid }
  *         description: Supplier ID
  *     responses:
  *       200:
@@ -122,63 +160,62 @@
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Supplier'
- *       404:
- *         description: Supplier not found
- *       401:
- *         description: Unauthorized
+ *               type: object
+ *               properties:
+ *                 supplier: { $ref: "#/components/schemas/Supplier" }
+ *       404: { description: Supplier not found }
+ *       401: { description: Unauthorized }
  *
  *   put:
  *     summary: Update supplier by ID
  *     tags: [Suppliers]
- *     security:
- *       - bearerAuth: []
+ *     security: [ { bearerAuth: [] } ]
  *     parameters:
  *       - in: path
  *         name: id
- *         schema:
- *           type: string
  *         required: true
+ *         schema: { type: string, format: uuid }
  *         description: Supplier ID
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/Supplier'
+ *           schema: { $ref: "#/components/schemas/SupplierUpdate" }
  *     responses:
  *       200:
  *         description: Supplier updated successfully
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Supplier'
- *       404:
- *         description: Supplier not found
- *       401:
- *         description: Unauthorized
- *       403:
- *         description: Forbidden
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Supplier updated." }
+ *                 supplier: { $ref: "#/components/schemas/Supplier" }
+ *       404: { description: Supplier not found }
+ *       401: { description: Unauthorized }
+ *       403: { description: Forbidden }
  *
  *   delete:
  *     summary: Delete supplier by ID
  *     tags: [Suppliers]
- *     security:
- *       - bearerAuth: []
+ *     security: [ { bearerAuth: [] } ]
  *     parameters:
  *       - in: path
  *         name: id
- *         schema:
- *           type: string
  *         required: true
+ *         schema: { type: string, format: uuid }
  *         description: Supplier ID
  *     responses:
  *       200:
  *         description: Supplier deleted successfully
- *       404:
- *         description: Supplier not found
- *       401:
- *         description: Unauthorized
- *       403:
- *         description: Forbidden
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message: { type: string, example: "Supplier deleted successfully." }
+ *                 supplier: { $ref: "#/components/schemas/Supplier" }
+ *       404: { description: Supplier not found }
+ *       401: { description: Unauthorized }
+ *       403: { description: Forbidden }
  */

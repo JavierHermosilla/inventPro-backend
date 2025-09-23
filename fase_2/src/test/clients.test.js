@@ -4,7 +4,7 @@ import sequeliz, { connectDB } from '../config/db.js'
 
 import User from '../models/user.model.js'
 import Client from '../models/client.model.js'
-import { createAccessToken } from '../libs/jwt.js'
+import { signAccessToken } from '../libs/jwt.js'
 
 describe('Clients API - Full Coverage', () => {
   let adminToken, userToken
@@ -55,8 +55,8 @@ describe('Clients API - Full Coverage', () => {
     adminUser = await User.create(adminData)
     normalUser = await User.create(userData)
 
-    adminToken = createAccessToken({ id: adminUser.id, role: 'admin' })
-    userToken = createAccessToken({ id: normalUser.id, role: 'user' })
+    adminToken = signAccessToken({ id: adminUser.id, role: 'admin' })
+    userToken = signAccessToken({ id: normalUser.id, role: 'user' })
   })
 
   beforeEach(async () => {

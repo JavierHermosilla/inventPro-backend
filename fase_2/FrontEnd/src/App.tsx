@@ -1,35 +1,52 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import LoginPage from './pages/Login';
+import DashboardPage from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
+import { useAuthStore } from './store/auth';
+import Layout from './components/Layout';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const fetchMe = useAuthStore((state) => state.fetchMe);
+  const loading = useAuthStore((state) => state.loading);
+
+  useEffect(() => {
+    // Al cargar la aplicación, verifica si el usuario ya está autenticado
+    fetchMe();
+  }, [fetchMe]);
+
+  if (loading) {
+    // Si aún está verificando el estado de autenticación, muestra un mensaje de carga
+    return <div>Cargando...</div>;
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        {/* Ruta para la página de login */}
+        <Route path="/login" element={<LoginPage />} />
 
-export default App
+        {/* Ruta protegida para el dashboard. 
+          Solo se renderizará si el usuario está autenticado.
+        */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <DashboardPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Ruta por defecto para redirigir.
+          Cualquier otra ruta no definida (como la raíz '/') redirigirá al dashboard.
+        */}
+        <Route path="*" element={<Navigate to="/dashboard" />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;

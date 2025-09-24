@@ -1,26 +1,26 @@
-// server.js
-import dotenv from 'dotenv'
+// 🚀 src/server.js
+import 'dotenv/config' // ← PRIMERO, side-effect import
 import app from './app.js'
-import { sequelize/*, models */ } from './db/db.js'
+import { sequelize } from './db/db.js'
 
-dotenv.config()
 const PORT = process.env.PORT || 3000
 
 let server
 ;(async () => {
   try {
+    // Verifica conexión
     await sequelize.authenticate()
 
+    // Solo en dev sincroniza
     if (process.env.NODE_ENV !== 'production') {
       await sequelize.sync({ alter: true })
     } else {
-      // En prod: usa migraciones (sequelize-cli) y NO sync.
       console.log('✅ DB authenticated. Skipping sync in production.')
     }
 
     server = app.listen(PORT, () => {
       console.log('>>> PostgreSQL connected successfully!')
-      console.log(`✅ Server running on port 127.0.0.1:${PORT}`)
+      console.log(`✅ Server running on 127.0.0.1:${PORT}`)
     })
   } catch (err) {
     console.error('Failed to start server:', err)

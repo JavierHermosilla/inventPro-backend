@@ -1,5 +1,5 @@
 // src/components/Layout.tsx
-import React, { ReactNode, useState, useEffect } from 'react';
+import React, { type ReactNode, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuthStore } from '../store/auth';
 
@@ -17,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   useEffect(() => {
     const today = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     setCurrentDate(today.toLocaleDateString('es-ES', options));
   }, []);
 
@@ -32,7 +32,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           <span className="text-xl font-bold text-gray-800">Invent Pro</span>
         </div>
         <nav className="flex-1 p-4 space-y-2">
-          <NavLink to="/dashboard" className="flex items-center gap-2 p-3 text-gray-700 rounded-lg hover:bg-blue-100 hover:text-blue-600 transition-colors duration-200" activeClassName="bg-blue-100 text-blue-600">
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              `flex items-center gap-2 p-3 text-gray-700 rounded-lg hover:bg-blue-100 hover:text-blue-600 transition-colors duration-200 ${
+                isActive ? "bg-blue-100 text-blue-600" : ""
+              }`
+            }
+          >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>

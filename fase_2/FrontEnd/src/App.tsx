@@ -1,6 +1,8 @@
-  import React, { useEffect } from 'react';
+  import { useEffect } from 'react';
   import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
   import LoginPage from './pages/Login';
+  import RegisterPage from './pages/Register';
+  import ForgotPasswordPage from './pages/ForgotPassword';
   import DashboardPage from './pages/Dashboard';
   import ProtectedRoute from './components/ProtectedRoute';
   import { useAuthStore } from './store/auth';
@@ -19,12 +21,13 @@
       // Si aún está verificando el estado de autenticación, muestra un mensaje de carga
       return <div>Cargando...</div>;
     }
-
     return (
       <BrowserRouter>
         <Routes>
           {/* Ruta para la página de login */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
           {/* Ruta protegida para el dashboard. 
             Solo se renderizará si el usuario está autenticado.

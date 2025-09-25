@@ -1,10 +1,6 @@
 /* src/index.css */
-/* stylelint-disable-next-line at-rule-no-unknown */
-@tailwind base;
-/* stylelint-disable-next-line at-rule-no-unknown */
-@tailwind components;
-/* stylelint-disable-next-line at-rule-no-unknown */
-@tailwind utilities;
+
+@import "tailwindcss";
 
 /* Estilos globales para toda la aplicación */
 body {

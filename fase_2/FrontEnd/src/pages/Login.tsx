@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../store/auth';
 
@@ -124,7 +124,12 @@ const Login = () => {
         </div>
         
         {/* Lado derecho (Imagen) */}
-        <div className="hidden md:block w-1/2 bg-cover bg-center" style={{backgroundImage: "url('https://dummyimage.com/1000x1000/004aad/ffffff.png&text=Invent+Pro')"}}>
+        <div className="hidden md:block w-1/2 overflow-hidden relative">
+          <img
+            src="https://dummyimage.com/1000x1000/004aad/ffffff.png&text=Invent+Pro"
+            alt="Invent Pro"
+            className="h-full w-full object-cover"
+          />
         </div>
       </div>
     </div>

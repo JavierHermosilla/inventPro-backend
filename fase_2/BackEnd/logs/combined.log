@@ -10784,3 +10784,27 @@
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-23T22:46:22.934Z"}
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-23T22:54:42.966Z"}
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-23T22:58:33.095Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T18:26:49.762Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T18:30:59.316Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T18:34:07.630Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T19:29:28.641Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T19:35:49.966Z"}
+{"level":"error","message":"createOrderProduct error: llave duplicada viola restricción de unicidad «uq_inv_order_products_order_id_product_id»","timestamp":"2025-09-24T19:35:50.286Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T19:40:55.557Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-09-24T19:40:55.681Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T19:42:15.285Z"}
+{"level":"error","message":"createSupplier error: llave duplicada viola restricción de unicidad «suppliers_rut_key49»","timestamp":"2025-09-24T19:42:15.426Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T19:42:23.460Z"}
+{"level":"error","message":"createSupplier error: llave duplicada viola restricción de unicidad «suppliers_rut_key49»","timestamp":"2025-09-24T19:42:23.494Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T19:44:20.275Z"}
+{"level":"error","message":"createSupplier error: llave duplicada viola restricción de unicidad «suppliers_rut_key49»","timestamp":"2025-09-24T19:44:20.456Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T19:52:21.983Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T19:59:32.217Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T20:05:28.517Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-09-24T21:16:34.712Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T21:17:52.275Z"}
+{"level":"error","message":"updateOrderProduct error: el registro «new» no tiene un campo «price»","timestamp":"2025-09-24T21:17:59.172Z"}
+{"level":"error","message":"updateOrderProduct error: Validation error: Stock must be greater or equal to 0","timestamp":"2025-09-24T21:22:29.944Z"}
+{"level":"error","message":"updateOrderProduct error: Insufficient stock","timestamp":"2025-09-24T21:24:39.270Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T23:04:33.527Z"}
+{"level":"error","message":"updateOrderProduct error: el registro «new» no tiene un campo «price»","timestamp":"2025-09-24T23:04:33.856Z"}

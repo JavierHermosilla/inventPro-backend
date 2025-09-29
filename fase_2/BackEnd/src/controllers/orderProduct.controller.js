@@ -1,134 +1,81 @@
 // src/controllers/orderProduct.controller.js
-import { sequelize, models } from '../models/index.js'
+import logger from '../utils/logger.js'
 import {
-  createOrderProductSchema,
-  updateOrderProductSchema,
-  orderProductIdSchema
-} from '../schemas/orderProduct.schema.js'
+  getAllOrderProductsService,
+  getOrderProductByIdService,
+  createOrderProductService,
+  updateOrderProductService,
+  deleteOrderProductService
+} from '../services/orderProduct.service.js'
 
-const { OrderProduct, Order, Product } = models
-
-// --------------------- CREATE ORDERPRODUCT ---------------------
-export const createOrderProduct = async (req, res) => {
-  const t = await sequelize.transaction()
-  try {
-    // Valida y NO permite "price" gracias al .strict() del schema
-    const { orderId, productId, quantity } = createOrderProductSchema.parse(req.body)
-
-    // Verifica existencia de Order y Product
-    const order = await Order.findByPk(orderId, { transaction: t })
-    if (!order) { await t.rollback(); return res.status(404).json({ error: 'Order no encontrado' }) }
-
-    const product = await Product.findByPk(productId, { transaction: t })
-    if (!product) { await t.rollback(); return res.status(404).json({ error: 'Product no encontrado' }) }
-
-    // Copia el precio desde Product (ignora cualquier input del cliente)
-    const price = product.price
-    const newOrderProduct = await OrderProduct.create({ orderId, productId, quantity, price }, { transaction: t })
-
-    // Actualiza total de la orden
-    const lineTotal = Number(price) * Number(quantity)
-    await order.update({ totalAmount: Number(order.totalAmount || 0) + lineTotal }, { transaction: t })
-
-    await t.commit()
-    return res.status(201).json({ message: 'OrderProduct creado', data: newOrderProduct })
-  } catch (error) {
-    await t.rollback()
-    if (error.name === 'ZodError') return res.status(400).json({ errors: error.errors })
-    console.error(error)
-    return res.status(500).json({ error: 'Error al crear OrderProduct' })
-  }
+// Helpers
+const toInt = (v, def) => {
+  const n = Number.parseInt(v, 10)
+  return Number.isFinite(n) ? n : def
 }
 
-// --------------------- GET ALL ORDERPRODUCTS ---------------------
+// =================== GET (list) ===================
+// GET /api/order-products?page=&limit=&orderId=&productId=
 export const getAllOrderProducts = async (req, res) => {
   try {
-    const { orderId } = req.query
-    const whereClause = orderId ? { orderId } : {}
-
-    const orderProducts = await OrderProduct.findAll({
-      where: whereClause,
-      include: [
-        { model: Order, as: 'order' },
-        { model: Product, as: 'product' }
-      ],
-      order: [['createdAt', 'DESC']]
+    const { page = 1, limit = 10, orderId, productId } = req.query
+    const out = await getAllOrderProductsService({
+      page: toInt(page, 1),
+      limit: toInt(limit, 10),
+      orderId,
+      productId
     })
-
-    return res.json({ data: orderProducts })
-  } catch (error) {
-    console.error(error)
-    return res.status(500).json({ error: 'Error al obtener OrderProducts' })
+    return res.json(out)
+  } catch (err) {
+    logger?.error?.(`getAllOrderProducts error: ${err.message}`)
+    return res.status(err.status || 500).json({ message: err.message || 'Error listando order_products' })
   }
 }
 
-// --------------------- GET ORDERPRODUCT BY ID ---------------------
+// =================== GET (by id) ===================
+// GET /api/order-products/:id
 export const getOrderProductById = async (req, res) => {
   try {
-    const { id } = orderProductIdSchema.parse(req.params)
-
-    const orderProduct = await OrderProduct.findByPk(id, {
-      include: [
-        { model: Order, as: 'order' },
-        { model: Product, as: 'product' }
-      ]
-    })
-
-    if (!orderProduct) return res.status(404).json({ error: 'OrderProduct no encontrado' })
-
-    return res.json({ data: orderProduct })
-  } catch (error) {
-    if (error.name === 'ZodError') return res.status(400).json({ errors: error.errors })
-    console.error(error)
-    return res.status(500).json({ error: 'Error al obtener OrderProduct' })
+    const op = await getOrderProductByIdService(req.params.id)
+    return res.json(op)
+  } catch (err) {
+    logger?.error?.(`getOrderProductById error: ${err.message}`)
+    return res.status(err.status || 500).json({ message: err.message || 'Error obteniendo order_product' })
   }
 }
 
-// --------------------- UPDATE ORDERPRODUCT ---------------------
+// =================== POST ===================
+// POST /api/order-products
+export const createOrderProduct = async (req, res) => {
+  try {
+    const op = await createOrderProductService(req.body)
+    return res.status(201).json(op)
+  } catch (err) {
+    logger?.error?.(`createOrderProduct error: ${err.message}`)
+    return res.status(err.status || 500).json({ message: err.message || 'Error creando item de orden' })
+  }
+}
+
+// =================== PATCH ===================
+// PATCH /api/order-products/:id
 export const updateOrderProduct = async (req, res) => {
-  const t = await sequelize.transaction()
   try {
-    const { id } = orderProductIdSchema.parse(req.params)
-    const data = updateOrderProductSchema.parse(req.body)
-
-    const orderProduct = await OrderProduct.findByPk(id, { transaction: t })
-    if (!orderProduct) {
-      await t.rollback()
-      return res.status(404).json({ error: 'OrderProduct no encontrado' })
-    }
-
-    await orderProduct.update(data, { transaction: t })
-    await t.commit()
-
-    return res.json({ message: 'OrderProduct actualizado', data: orderProduct })
-  } catch (error) {
-    await t.rollback()
-    if (error.name === 'ZodError') return res.status(400).json({ errors: error.errors })
-    console.error(error)
-    return res.status(500).json({ error: 'Error al actualizar OrderProduct' })
+    const op = await updateOrderProductService(req.params.id, req.body)
+    return res.json(op)
+  } catch (err) {
+    logger?.error?.(`updateOrderProduct error: ${err.message}`)
+    return res.status(err.status || 500).json({ message: err.message || 'Error actualizando item de orden' })
   }
 }
 
-// --------------------- DELETE ORDERPRODUCT ---------------------
+// =================== DELETE ===================
+// DELETE /api/order-products/:id
 export const deleteOrderProduct = async (req, res) => {
-  const t = await sequelize.transaction()
   try {
-    const { id } = orderProductIdSchema.parse(req.params)
-
-    const orderProduct = await OrderProduct.findByPk(id, { transaction: t })
-    if (!orderProduct) {
-      await t.rollback()
-      return res.status(404).json({ error: 'OrderProduct no encontrado' })
-    }
-
-    await orderProduct.destroy({ transaction: t })
-    await t.commit()
-
-    return res.json({ message: 'OrderProduct eliminado' })
-  } catch (error) {
-    await t.rollback()
-    if (error.name === 'ZodError') return res.status(400).json({ errors: error.errors })
-    console.error(error)
-    return res.status(500).json({ error: 'Error al eliminar OrderProduct' })
+    const out = await deleteOrderProductService(req.params.id)
+    return res.json(out)
+  } catch (err) {
+    logger?.error?.(`deleteOrderProduct error: ${err.message}`)
+    return res.status(err.status || 500).json({ message: err.message || 'Error eliminando item de orden' })
   }
 }

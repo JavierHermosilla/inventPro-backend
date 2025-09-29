@@ -1,4 +1,37 @@
+// src/models/client.model.js
 import { DataTypes, Model } from 'sequelize'
+
+// Normaliza y valida RUT: 12345678-9 (DV con módulo 11)
+const RUT_REGEX = /^(\d{7,8})-([\dkK])$/
+
+function sanitizeRut (value) {
+  return String(value ?? '')
+    .replace(/\./g, '') // quita puntos
+    .toUpperCase()
+    .trim()
+}
+
+function calcRutDv (bodyDigits) {
+  // módulo 11 con factores 2..7
+  let sum = 0
+  let factor = 2
+  for (let i = bodyDigits.length - 1; i >= 0; i--) {
+    sum += Number(bodyDigits[i]) * factor
+    factor = factor === 7 ? 2 : factor + 1
+  }
+  const rest = 11 - (sum % 11)
+  if (rest === 11) return '0'
+  if (rest === 10) return 'K'
+  return String(rest)
+}
+
+function isValidRut (value) {
+  const v = sanitizeRut(value)
+  const m = v.match(RUT_REGEX)
+  if (!m) return false
+  const [, body, dv] = m
+  return calcRutDv(body) === dv.toUpperCase()
+}
 
 class Client extends Model {
   static initialize (sequelize) {
@@ -23,19 +56,22 @@ class Client extends Model {
         },
 
         rut: {
-          type: DataTypes.STRING,
+          type: DataTypes.STRING, // en BD hay check + índice único parcial
           allowNull: false,
-          unique: true,
           validate: {
             notEmpty: { msg: 'El RUT es obligatorio' },
-            is: {
-              args: /^(\d{7,8}-[\dkK])$/,
-              msg: 'RUT inválido (formato normalizado: 12345678-9)'
+            isNormalizedFormat (value) {
+              const v = sanitizeRut(value)
+              if (!RUT_REGEX.test(v)) {
+                throw new Error('RUT inválido (usa 12345678-9, sin puntos)')
+              }
+              if (!isValidRut(v)) {
+                throw new Error('RUT inválido: dígito verificador no coincide')
+              }
             }
           },
           set (value) {
-            const v = String(value ?? '').toUpperCase().trim().replace(/\./g, '')
-            this.setDataValue('rut', v)
+            this.setDataValue('rut', sanitizeRut(value))
           }
         },
 
@@ -63,10 +99,10 @@ class Client extends Model {
           }
         },
 
+        // En BD es CITEXT (case-insensitive). Aquí lo normalizamos en minúsculas.
         email: {
           type: DataTypes.STRING,
           allowNull: false,
-          unique: true,
           validate: {
             notEmpty: { msg: 'El email es obligatorio' },
             isEmail: { msg: 'Email inválido' }
@@ -91,33 +127,27 @@ class Client extends Model {
         modelName: 'Client',
         tableName: 'clients',
 
-        // ✅ Consistencia & auditoría
         timestamps: true,
         paranoid: true,
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
-        deletedAt: 'deleted_at',
+        deletedAt: 'deleted_at'
 
-        indexes: [
-          { unique: true, fields: ['rut'] },
-          { unique: true, fields: ['email'] },
-          { fields: ['name'] },
-          { fields: ['created_at'] }
-        ],
-
-        hooks: {
-          beforeCreate: (client) => {
-            if (client.name) client.name = String(client.name).trim()
-            if (client.rut) client.rut = String(client.rut).toUpperCase().trim().replace(/\./g, '')
-          },
-          beforeUpdate: (client) => {
-            if (client.name) client.name = String(client.name).trim()
-            if (client.rut) client.rut = String(client.rut).toUpperCase().trim().replace(/\./g, '')
-          }
-        }
+        // ⚠️ No declaramos índices/unique aquí: ya existen en migraciones (incluidos los parciales)
+        // indexes: []
       }
     )
+  }
+
+  static associate (models) {
+    // Si tu Order define clientId/client_id:
+    // Client.hasMany(models.Order, {
+    //   as: 'orders',
+    //   foreignKey: { name: 'clientId', field: 'client_id', allowNull: true },
+    //   onUpdate: 'CASCADE',
+    //   onDelete: 'SET NULL'
+    // })
   }
 }
 

@@ -1,78 +1,62 @@
-import { Op, col } from 'sequelize'
-import Client from '../models/client.model.js'
+// src/controllers/client.controller.js
+import {
+  createClientService,
+  listClientsService,
+  getClientByIdService,
+  updateClientService,
+  deleteClientService
+} from '../services/client.service.js'
 import { createClientSchema, updateClientSchema } from '../schemas/client.schema.js'
 
-// Crear cliente
 export const createClient = async (req, res) => {
   try {
-    const validatedData = createClientSchema.parse(req.body)
-
-    const { rut, email } = validatedData
-
-    const existing = await Client.findOne({
-      where: { [Op.or]: [{ rut }, { email }] }
-    })
-    if (existing) {
-      return res.status(409).json({ message: 'Cliente con este RUT o email ya existe' })
-    }
-
-    const client = await Client.create(validatedData)
-    res.status(201).json(client)
+    const data = createClientSchema.parse(req.body)
+    const client = await createClientService(data)
+    return res.status(201).json(client)
   } catch (err) {
     if (err.name === 'ZodError') {
       return res.status(400).json({ message: 'Datos inválidos', errors: err.errors })
     }
-    res.status(500).json({ message: 'Error interno', error: err.message })
+    return res.status(err.status || 500).json({ message: err.message || 'Error interno' })
   }
 }
 
-// Listar clientes
-export const listClients = async (_req, res) => {
+export const listClients = async (req, res) => {
   try {
-    const clients = await Client.findAll({ order: [[col('created_at'), 'DESC']] })
-    res.json(clients)
+    const result = await listClientsService(req.query)
+    return res.json(result)
   } catch (err) {
-    res.status(500).json({ message: 'Error interno', error: err.message })
+    return res.status(500).json({ message: 'Error interno', error: err.message })
   }
 }
 
-// Obtener cliente por ID
 export const listClientById = async (req, res) => {
   try {
-    const client = await Client.findByPk(req.params.id)
-    if (!client) return res.status(404).json({ message: 'Cliente no encontrado' })
-    res.json(client)
+    const client = await getClientByIdService(req.params.id)
+    return res.json(client)
   } catch (err) {
-    res.status(500).json({ message: 'Error interno', error: err.message })
+    return res.status(err.status || 500).json({ message: err.message || 'Error interno' })
   }
 }
 
-// Actualizar cliente
 export const updateClient = async (req, res) => {
   try {
-    const client = await Client.findByPk(req.params.id)
-    if (!client) return res.status(404).json({ message: 'Cliente no encontrado' })
-
-    const validatedData = updateClientSchema.parse(req.body)
-    await client.update(validatedData)
-    res.json(client)
+    const data = updateClientSchema.parse(req.body)
+    const client = await updateClientService(req.params.id, data)
+    return res.json(client)
   } catch (err) {
     if (err.name === 'ZodError') {
       return res.status(400).json({ message: 'Datos inválidos', errors: err.errors })
     }
-    res.status(500).json({ message: 'Error interno', error: err.message })
+    return res.status(err.status || 500).json({ message: err.message || 'Error interno' })
   }
 }
 
-// Eliminar cliente (soft delete)
 export const deleteClient = async (req, res) => {
   try {
-    const client = await Client.findByPk(req.params.id)
-    if (!client) return res.status(404).json({ message: 'Cliente no encontrado' })
-
-    await client.destroy()
-    res.json({ message: 'Cliente eliminado correctamente' })
+    const r = await deleteClientService(req.params.id)
+    return res.json(r)
   } catch (err) {
-    res.status(500).json({ message: 'Error interno', error: err.message })
+    return res.status(err.status || 500).json({ message: err.message || 'Error interno' })
   }
 }

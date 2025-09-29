@@ -1,222 +1,73 @@
-# src/docs/categories.yml
 tags:
   - name: Categories
-    description: Category management
+    description: Gestión de categorías
 
 components:
   schemas:
     Category:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          example: "1e2d3c4b-5a6f-7e8d-9c0b-1a2b3c4d5e6f"
-        name:
-          type: string
-          example: "papelería"
-        description:
-          type: string
-          example: "Útiles escolares y de oficina"
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-    CategoryInput:
+        id:   { type: string, format: uuid }
+        name: { type: string }
+        description: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    CreateCategoryInput:
       type: object
       required: [name]
       properties:
-        name:
-          type: string
-          example: "Papelería"
-          description: "Se guarda en minúsculas; se recorta antes de persistir."
-        description:
-          type: string
-          example: "Útiles escolares y de oficina"
-    CategoryUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-          example: "papelería premium"
-        description:
-          type: string
-          example: "Material escolar premium"
+        name: { type: string }
+        description: { type: string }
 
 paths:
   /categories:
-    post:
-      summary: Create category
+    get:
       tags: [Categories]
-      security:
-        - bearerAuth: []
-      description: Solo admin.
+      summary: Listar categorías
+      responses:
+        200:
+          description: Lista de categorías
+    post:
+      tags: [Categories]
+      summary: Crear categoría (admin)
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/CategoryInput"
+            schema: { $ref: '#/components/schemas/CreateCategoryInput' }
       responses:
-        "201":
-          description: Category created
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Categoría creada correctamente"
-                  category:
-                    $ref: "#/components/schemas/Category"
-        "400":
-          description: La categoría ya existe o datos inválidos
-        "401":
-          description: Unauthorized
-        "403":
-          description: Forbidden
-
-    get:
-      summary: List categories (paginated)
-      tags: [Categories]
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: query
-          name: page
-          schema:
-            type: integer
-            default: 1
-        - in: query
-          name: limit
-          schema:
-            type: integer
-            default: 10
-        - in: query
-          name: search
-          schema:
-            type: string
-          description: Búsqueda por nombre (ILIKE)
-      responses:
-        "200":
-          description: Paged list
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  total:
-                    type: integer
-                    example: 23
-                  page:
-                    type: integer
-                    example: 1
-                  pages:
-                    type: integer
-                    example: 3
-                  categories:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Category"
-        "401":
-          description: Unauthorized
+        201:
+          description: Categoría creada
 
   /categories/{id}:
     get:
-      summary: Get category by ID
       tags: [Categories]
-      security:
-        - bearerAuth: []
+      summary: Obtener categoría
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/UUIDId'
       responses:
-        "200":
-          description: Category
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Category"
-        "404":
-          description: Categoría no encontrada
-        "401":
-          description: Unauthorized
-
+        200:
+          description: Categoría
+        404:
+          description: No encontrada
     put:
-      summary: Update category
       tags: [Categories]
-      security:
-        - bearerAuth: []
-      description: Solo admin.
+      summary: Actualizar categoría (admin)
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/UUIDId'
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/CategoryUpdate"
+            schema: { $ref: '#/components/schemas/CreateCategoryInput' }
       responses:
-        "200":
-          description: Category updated
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Categoría actualizada correctamente"
-                  category:
-                    $ref: "#/components/schemas/Category"
-        "400":
-          description: Nombre en uso por otra categoría / datos inválidos
-        "404":
-          description: Categoría no encontrada
-        "401":
-          description: Unauthorized
-        "403":
-          description: Forbidden
-
+        200:
+          description: Categoría actualizada
     delete:
-      summary: Delete category
       tags: [Categories]
-      security:
-        - bearerAuth: []
-      description: Solo admin. Soft delete (paranoid).
+      summary: Eliminar categoría (admin)
       parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/UUIDId'
       responses:
-        "200":
-          description: Mensaje de eliminación
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: "Categoría eliminada correctamente"
-        "404":
-          description: Categoría no encontrada
-        "401":
-          description: Unauthorized
-        "403":
-          description: Forbidden
+        204:
+          description: Eliminada

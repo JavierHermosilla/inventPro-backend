@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: InventPro API
+  version: 1.0.0
+  description: |
+    API InventPro (Node.js + Express + Sequelize).
+
+    Política de inventario y backorder:
+    - Se permite stock negativo.
+    - Si una orden deja stock < 0, se marca `isBackorder=true`.
+    - En Inventario Manual, `type=decrease` puede dejar stock < 0 y requiere `reason`.
+
+servers:
+  - url: http://localhost:3000/api
+    description: Servidor local
+
+tags:
+  - name: Users
+  - name: Products
+  - name: Suppliers
+  - name: Categories
+  - name: Clients
+  - name: Orders
+  - name: ManualInventory
+  - name: Reports
+  - name: Dashboard
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []

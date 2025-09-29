@@ -1,3 +1,4 @@
+// src/models/product.model.js
 import { DataTypes, Model } from 'sequelize'
 
 class Product extends Model {
@@ -42,14 +43,15 @@ class Product extends Model {
           }
         },
 
+        // ✅ Stock puede ser negativo (backorder / traslado desde otra sucursal)
         stock: {
           type: DataTypes.INTEGER,
           allowNull: false,
           defaultValue: 0,
           validate: {
             notNull: { msg: 'Stock is required' },
-            isInt: { msg: 'Stock must be an integer' },
-            min: { args: [0], msg: 'Stock must be greater or equal to 0' }
+            isInt: { msg: 'Stock must be an integer' }
+            // ⛔️ Quitar cualquier min: 0
           }
         }
       },
@@ -58,7 +60,6 @@ class Product extends Model {
         modelName: 'Product',
         tableName: 'products',
 
-        // ✅ Consistencia global
         timestamps: true,
         paranoid: true,
         underscored: true,

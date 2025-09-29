@@ -30,10 +30,11 @@ class OrderProduct extends Model {
           }
         },
 
+        // Snapshot del precio al momento de crear la línea
         price: {
           type: DataTypes.DECIMAL(10, 2),
           allowNull: false,
-          field: 'unit_price',
+          defaultValue: 0, // ← alinea con la migración (DEFAULT 0 NOT NULL)
           validate: {
             isDecimal: { msg: 'price debe ser decimal' },
             min: { args: [0], msg: 'price no puede ser negativo' }
@@ -44,14 +45,21 @@ class OrderProduct extends Model {
         sequelize,
         modelName: 'OrderProduct',
         tableName: 'order_products',
-        schema: 'inventpro_user',
-
-        // Auditoría / naming
+        // No es necesario poner schema aquí porque ya lo fuerzas en config.define.schema
         timestamps: true,
         paranoid: false,
         underscored: true,
         createdAt: 'created_at',
-        updatedAt: 'updated_at'
+        updatedAt: 'updated_at',
+
+        // (Opcional pero útil): Evitar que cambien el snapshot luego
+        hooks: {
+          beforeUpdate (instance) {
+            if (instance.changed('price')) {
+              throw new Error('price es inmutable después de creado')
+            }
+          }
+        }
       }
     )
   }

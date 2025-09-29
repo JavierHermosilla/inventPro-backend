@@ -1,184 +1,103 @@
 /**
  * @swagger
+ * tags:
+ *   name: Users
+ *   description: Gestión de usuarios (RBAC)
+ */
+
+/**
+ * @swagger
  * components:
  *   schemas:
  *     User:
  *       type: object
  *       properties:
- *         id:        { type: string, example: "1a2b3c4d-5e6f-7081-92ab-3c4d5e6f7081" }
- *         username:  { type: string, example: "johndoe" }
- *         name:      { type: string, example: "John Doe" }
- *         email:     { type: string, format: email, example: "johndoe@example.com" }
- *         phone:     { type: string, example: "+56912345678" }
- *         address:   { type: string, example: "123 Main St" }
- *         avatar:    { type: string, format: uri, example: "https://example.com/avatar.jpg" }
- *         role:      { type: string, enum: [admin, user, vendedor], example: "user" }
+ *         id:    { type: string, format: uuid }
+ *         name:  { type: string }
+ *         email: { type: string, format: email }
+ *         role:  { type: string, enum: [admin, vendedor, bodeguero] }
+ *         phone: { type: string, nullable: true }
  *         createdAt: { type: string, format: date-time }
  *         updatedAt: { type: string, format: date-time }
- *
- *     UserInput:
+ *     CreateUserInput:
  *       type: object
- *       required: [username, name, email, password, phone]
+ *       required: [name, email, password, role]
  *       properties:
- *         username: { type: string, example: "johndoe" }
- *         name:     { type: string, example: "John Doe" }
- *         email:    { type: string, format: email, example: "johndoe@example.com" }
- *         password: { type: string, format: password, writeOnly: true, example: "secret123" }
- *         phone:    { type: string, example: "+56912345678" }
- *         address:  { type: string, example: "123 Main St" }
- *         avatar:   { type: string, format: uri, example: "https://example.com/avatar.jpg" }
- *         role:     { type: string, enum: [admin, user, vendedor], example: "user" }
- *
- *     UserUpdate:
- *       type: object
- *       properties:
- *         username: { type: string }
- *         name:     { type: string }
- *         email:    { type: string, format: email }
- *         phone:    { type: string }
- *         address:  { type: string }
- *         avatar:   { type: string, format: uri }
- *         role:     { type: string, enum: [admin, user, vendedor] }
- */
-
-/**
- * @swagger
- * tags:
- *   name: Users
- *   description: User management
+ *         name:  { type: string }
+ *         email: { type: string, format: email }
+ *         password:
+ *           type: string
+ *           minLength: 8
+ *           description: "Política fuerte (8+, mayúscula, minúscula, número y símbolo)"
+ *         role:  { type: string, enum: [admin, vendedor, bodeguero] }
+ *         phone: { type: string }
  */
 
 /**
  * @swagger
  * /users:
- *   post:
- *     summary: Create user
+ *   get:
  *     tags: [Users]
- *     security: [ { bearerAuth: [] } ]
- *     description: Solo **admin**.
+ *     summary: Listar usuarios (paginado)
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema: { type: integer, minimum: 1 }
+ *       - in: query
+ *         name: limit
+ *         schema: { type: integer, minimum: 1, maximum: 100 }
+ *       - in: query
+ *         name: search
+ *         schema: { type: string }
+ *     responses:
+ *       200:
+ *         description: Lista de usuarios
+ *   post:
+ *     tags: [Users]
+ *     summary: Crear usuario (admin)
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema: { $ref: "#/components/schemas/UserInput" }
+ *           schema: { $ref: '#/components/schemas/CreateUserInput' }
  *     responses:
  *       201:
- *         description: User created
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message: { type: string, example: "Usuario creado correctamente" }
- *                 user:    { $ref: "#/components/schemas/User" }
- *       400: { description: Datos inválidos }
- *       401: { description: Unauthorized }
- *       403: { description: Forbidden }
- *       409: { description: Username o email ya existe }
- *
- *   get:
- *     summary: List users (paginated)
- *     tags: [Users]
- *     security: [ { bearerAuth: [] } ]
- *     parameters:
- *       - in: query
- *         name: page
- *         schema: { type: integer, default: 1 }
- *       - in: query
- *         name: limit
- *         schema: { type: integer, default: 10 }
- *       - in: query
- *         name: search
- *         schema: { type: string }
- *         description: Búsqueda por nombre/username/email (ILIKE)
- *     responses:
- *       200:
- *         description: Paged list
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 total:  { type: integer, example: 12 }
- *                 page:   { type: integer, example: 1 }
- *                 pages:  { type: integer, example: 2 }
- *                 users:
- *                   type: array
- *                   items: { $ref: "#/components/schemas/User" }
- *       401: { description: Unauthorized }
+ *         description: Usuario creado
  */
 
 /**
  * @swagger
  * /users/{id}:
  *   get:
- *     summary: Get user by ID
  *     tags: [Users]
- *     security: [ { bearerAuth: [] } ]
+ *     summary: Obtener usuario por id
  *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema: { type: string }   # usa format: uuid si corresponde
+ *       - $ref: '#/components/parameters/UUIDId'
  *     responses:
  *       200:
- *         description: User
- *         content:
- *           application/json:
- *             schema: { $ref: "#/components/schemas/User" }
- *       404: { description: Usuario no encontrado }
- *       401: { description: Unauthorized }
- *
+ *         description: Usuario
+ *       404:
+ *         description: No encontrado
  *   put:
- *     summary: Update user
  *     tags: [Users]
- *     security: [ { bearerAuth: [] } ]
- *     description: Solo **admin** (o el propio usuario si tu lógica lo permite).
+ *     summary: Actualizar usuario (admin o self con restricciones)
  *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema: { type: string }
+ *       - $ref: '#/components/parameters/UUIDId'
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema: { $ref: "#/components/schemas/UserUpdate" }
+ *           schema:
+ *             type: object
  *     responses:
  *       200:
- *         description: User updated
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message: { type: string, example: "Usuario actualizado correctamente" }
- *                 user:    { $ref: "#/components/schemas/User" }
- *       400: { description: Datos inválidos }
- *       404: { description: Usuario no encontrado }
- *       401: { description: Unauthorized }
- *       409: { description: Username o email ya en uso por otro usuario }
- *
+ *         description: Usuario actualizado
  *   delete:
- *     summary: Delete user
  *     tags: [Users]
- *     security: [ { bearerAuth: [] } ]
- *     description: Solo **admin**. Soft delete si tu modelo lo soporta.
+ *     summary: Eliminar usuario (admin)
  *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema: { type: string }
+ *       - $ref: '#/components/parameters/UUIDId'
  *     responses:
- *       200:
- *         description: Mensaje de eliminación
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message: { type: string, example: "Usuario eliminado correctamente" }
- *       404: { description: Usuario no encontrado }
- *       401: { description: Unauthorized }
- *       403: { description: Forbidden }
+ *       204:
+ *         description: Eliminado
  */

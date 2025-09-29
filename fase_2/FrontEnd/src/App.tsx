@@ -1,55 +1,47 @@
-  import { useEffect } from 'react';
-  import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-  import LoginPage from './pages/Login';
-  import RegisterPage from './pages/Register';
-  import ForgotPasswordPage from './pages/ForgotPassword';
-  import DashboardPage from './pages/Dashboard';
-  import ProtectedRoute from './components/ProtectedRoute';
-  import { useAuthStore } from './store/auth';
-  import Layout from './components/Layout';
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/Register";
+import ForgotPasswordPage from "./pages/ForgotPassword";
+import DashboardPage from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useAuthStore } from "./store/auth";
+import Layout from "./components/Layout";
+import Loading from "./components/Loading"; // 👈 aquí importas tu loader
 
-  const App = () => {
-    const fetchMe = useAuthStore((state) => state.fetchMe);
-    const loading = useAuthStore((state) => state.loading);
+const App = () => {
+  const fetchMe = useAuthStore((state) => state.fetchMe);
+  const loading = useAuthStore((state) => state.loading);
 
-    useEffect(() => {
-      // Al cargar la aplicación, verifica si el usuario ya está autenticado
-      fetchMe();
-    }, [fetchMe]);
+  useEffect(() => {
+    fetchMe();
+  }, [fetchMe]);
 
-    if (loading) {
-      // Si aún está verificando el estado de autenticación, muestra un mensaje de carga
-      return <div>Cargando...</div>;
-    }
-    return (
-      <BrowserRouter>
-        <Routes>
-          {/* Ruta para la página de login */}
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+  if (loading) {
+    return <Loading />; // 👈 ahora usa el componente animado
+  }
 
-          {/* Ruta protegida para el dashboard. 
-            Solo se renderizará si el usuario está autenticado.
-          */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <DashboardPage />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <DashboardPage />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/login" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+};
 
-          {/* Ruta por defecto para redirigir.
-            Cualquier otra ruta no definida (como la raíz '/') redirigirá al dashboard.
-          */}
-          <Route path="*" element={<Navigate to="/dashboard" />} />
-        </Routes>
-      </BrowserRouter>
-    );
-  };
-
-  export default App;
+export default App;

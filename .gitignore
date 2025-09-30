@@ -3,3 +3,5 @@ fase_1/Evidencias grupales/
 fase_2/FrontEnd/.env.production
 fase_2/FrontEnd/.env.development
 fase_2/FrontEnd/.env
+fase_2/BackEnd/logs/combined.log
+fase_2/BackEnd/logs/error.log

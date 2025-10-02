@@ -1,211 +1,150 @@
+# InventPro Frontend (React + Vite + TypeScript)
 
-# 📌 Guía de Configuración y Solución de Problemas
+Aplicación web para la gestión de inventarios y órdenes, construida con React 19, Vite 7 y TypeScript. Incluye enrutamiento protegido, estado global con Zustand, formularios con React Hook Form y estilos con Tailwind CSS v4.
 
-Este documento resume los pasos clave para configurar el proyecto **frontend** con **React**, **Vite** y **TypeScript**, además de soluciones a problemas comunes con **enrutamiento**, **estado** y **Tailwind CSS**.
-
----
-
-## 1️⃣ Configuración de Archivos Esenciales
-
-### `src/main.tsx`
-
-El archivo `main.tsx` es el punto de entrada. Debe **solo renderizar `<App />`** e importar el CSS global.
-
-```typescript
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
-import './index.css'; // ✅ Asegúrate que la ruta sea correcta
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
-```
+> Importante: antes de instalar/ejecutar el frontend, primero debes tener el backend funcionando. Sigue las instrucciones en `fase_2/BackEnd/README.md` y verifica que responde en tu entorno (por ejemplo, `http://localhost:3000/api-docs`).
 
 ---
 
-### `src/App.tsx`
+## Requisitos
 
-Este archivo maneja el **enrutamiento principal**. Contiene **un único `<BrowserRouter>`** y rutas protegidas.
-
-```typescript
-import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './pages/Login';
-import DashboardPage from './pages/Dashboard';
-import ProtectedRoute from './components/ProtectedRoute';
-import Layout from './components/Layout';
-import { useAuthStore } from './store/auth';
-
-const App = () => {
-  const fetchMe = useAuthStore((state) => state.fetchMe);
-  const loading = useAuthStore((state) => state.loading);
-
-  useEffect(() => {
-    fetchMe();
-  }, [fetchMe]);
-
-  if (loading) return <div>Cargando...</div>;
-
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Layout>
-                <DashboardPage />
-              </Layout>
-            </ProtectedRoute>
-          }
-        />
-        <Route path="*" element={<Navigate to="/dashboard" />} />
-      </Routes>
-    </BrowserRouter>
-  );
-};
-
-export default App;
-```
+- Node.js 18.18+ (recomendado 20+)
+- npm 9+ o pnpm/yarn (usa uno, no mezcles)
+- Backend en ejecución y accesible (por defecto en `http://localhost:3000`)
 
 ---
 
-## 2️⃣ Gestión del Estado de Autenticación (Zustand)
+## Tecnologías principales
 
-Archivo: `src/store/auth.ts`. Permite **pruebas sin backend**:
-
-```typescript
-import { create } from 'zustand';
-import axios from 'axios';
-
-const api = axios.create({
-  baseURL: 'http://localhost:3000',
-  withCredentials: true,
-});
-
-interface User { id: string; email: string; }
-interface AuthState {
-  user: User | null;
-  loading: boolean;
-  login: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  fetchMe: () => Promise<void>;
-}
-
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  loading: false,
-
-  login: async (email, password) => {
-    if (email === "test@test.com" && password === "123456") {
-      set({ user: { id: "1", email }, loading: false });
-      return Promise.resolve();
-    } else {
-      set({ user: null });
-      return Promise.reject(new Error("❌ Credenciales inválidas"));
-    }
-  },
-
-  logout: async () => {
-    try {
-      await api.post('/auth/logout');
-      set({ user: null });
-    } catch (error) {
-      throw error;
-    }
-  },
-
-  fetchMe: async () => {
-    set({ loading: true });
-    try {
-      const { data } = await api.get('/auth/me');
-      set({ user: data.user });
-    } catch {
-      set({ user: null });
-    } finally {
-      set({ loading: false });
-    }
-  },
-}));
-```
+- React 19 + React Router 7 (`react-router-dom`)
+- Vite 7 (desarrollo y build)
+- TypeScript 5.8
+- Tailwind CSS 4 + `@tailwindcss/vite` + PostCSS
+- Estado: Zustand
+- Formularios: React Hook Form + Zod (validación)
+- HTTP: Axios (con `withCredentials` y `Authorization: Bearer`)
 
 ---
 
-## 3️⃣ Configuración y Solución de Problemas con Tailwind CSS
+## Estructura del proyecto (carpetas clave)
 
-Muchos problemas visuales provienen de **configuración incorrecta o corrupta**. La forma más confiable es crear manualmente los archivos de configuración.
-
-### Paso 3.1: Archivos de Configuración
-
-#### `tailwind.config.js`
-
-```javascript
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
-  theme: { extend: {} },
-  plugins: [],
-}
-```
-
-#### `postcss.config.js`
-
-```javascript
-export default {
-  plugins: {
-    '@tailwindcss/postcss': {},
-    autoprefixer: {},
-  },
-}
-```
+- `src/pages/` vistas: `Dashboard`, `Products`, `Suppliers`, `Clients`, `Users` (solo admin), `Categories`, `Orders`, `ManualInventory`, `Reports`, `Settings`.
+- `src/components/` layout y UI compartida (por ejemplo, `Layout.tsx`).
+- `src/routes/` utilidades de enrutamiento protegido (`Protected.tsx`).
+- `src/store/` estado global (`auth.ts` con login/logout/profile).
+- `src/lib/` clientes y utilidades de API (`api.ts`, `productsApi.ts`).
 
 ---
 
-### Paso 3.2: Verificar Directivas CSS
+## Variables de entorno
 
-Archivo: `src/index.css`
+Usadas por Vite (solo las que comienzan con `VITE_` se inyectan en el cliente):
 
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
+- `VITE_API_URL` URL base de la API. Ej: `http://localhost:3000/api`.
+- `VITE_ENVIRONMENT` ambiente (`development` | `production`).
+- `VITE_APP_NAME`, `VITE_DEFAULT_LANGUAGE` metadatos de UI.
+
+Archivos disponibles:
+
+- `.env.development` (por defecto incluye `VITE_API_URL=http://localhost:3000/api`).
+- `.env.production` (apunta a tu backend productivo).
+
+Notas:
+
+- Si cambias `.env*`, reinicia el servidor de desarrollo para que tome efecto.
+- El cliente usa `withCredentials: true`; tu backend debe habilitar CORS con credenciales y permitir origen `http://localhost:5173` (ver `fase_2/BackEnd/.env` → `CORS_ORIGINS`).
 
 ---
 
-### Paso 3.3: Reinstalar Dependencias
+## Instalación y ejecución (desarrollo)
 
-Eliminar caché y módulos corruptos:
+1) Instala el backend y déjalo corriendo (ver `fase_2/BackEnd/README.md`).
+
+2) Instala el frontend:
 
 ```bash
-# PowerShell (Windows)
-Remove-Item -Recurse -Force node_modules, package-lock.json
-
-# macOS/Linux
-# rm -rf node_modules package-lock.json
-
-# Reinstalar
+cd fase_2/FrontEnd
 npm install
 ```
 
+3) Configura entorno (opcional si usas valores por defecto):
+
+```bash
+# Asegúrate que apunte a tu backend
+echo VITE_API_URL=http://localhost:3000/api >> .env.development
+```
+
+4) Inicia en modo desarrollo:
+
+```bash
+npm run dev
+# Abre http://localhost:5173
+```
+
+Comandos útiles:
+
+- `npm run dev` servidor de desarrollo (Vite)
+- `npm run build` compila a producción
+- `npm run preview` previsualiza el build localmente
+- `npm run lint` revisa el código con ESLint
+
 ---
 
-## 4️⃣ Checklist de Problemas Comunes
+## Autenticación y autorización
 
-| Problema | Solución |
-|-----------|----------|
-| ⚠️ Router duplicado | Solo debe haber un `<BrowserRouter>` en la app |
-| ❌ CSS no carga | Confirma que `index.css` esté en `src` y se importe en `main.tsx` |
-| 🎨 Estilos no se aplican | Revisa `tailwind.config.js` y `postcss.config.js` en la raíz |
-| 🛠 Problemas con `npx` | Crear manualmente los archivos de configuración como se indicó |
+- El token se guarda en `localStorage` con la clave `inventpro_access_token` (helpers en `src/lib/api.ts`).
+- Interceptor Axios agrega `Authorization: Bearer <token>` y limpia sesión en `401/403`.
+- Rutas protegidas con `src/routes/Protected.tsx` (opcionalmente por roles).
+- Endpoints esperados en backend: `/auth/login`, `/auth/logout`, `/auth/profile`, y recursos como `/products`, `/categories`, `/suppliers`.
 
 ---
 
-**💡 Tip:** Mantén siempre **un solo punto de entrada** (`main.tsx`) y un **único `<BrowserRouter>`**. Esto evita errores de enrutamiento y conflictos de estado.
+## Buenas prácticas
+
+- Mantén un solo `BrowserRouter` en `src/App.tsx`.
+- Centraliza llamadas HTTP en `src/lib` y evita duplicar lógica de mapeo: usa `productsApi` para transformar DTOs a objetos de UI.
+- Usa `react-hook-form` + `zod` para formularios y validación.
+- Reinicia `npm run dev` tras cambios en `.env*`.
+- No mezcles gestores de paquetes (usa solo npm o pnpm o yarn).
+- Ejecuta `npm run lint` antes de enviar cambios.
+- Evita hardcodear URLs o secretos; usa `VITE_API_URL`.
+
+---
+
+## Errores comunes y soluciones
+
+- CORS bloqueado / cookies: habilita `CORS_ORIGINS=http://localhost:5173` y `Access-Control-Allow-Credentials=true` en el backend.
+- 401/403 después de iniciar: borra el token (`localStorage.removeItem('inventpro_access_token')`) y vuelve a iniciar sesión.
+- 404 en endpoints: confirma que `VITE_API_URL` incluye el sufijo `/api` si tu backend lo usa.
+- Conexión rechazada (`ECONNREFUSED`): backend apagado o URL incorrecta.
+- Puerto 5173 ocupado: ejecuta `npm run dev -- --port 5174`.
+- Cambié `.env` y no pasa nada: reinicia el servidor de Vite.
+- Estilos Tailwind no aplican: `src/index.css` debe incluir `@tailwind base; @tailwind components; @tailwind utilities;` y revisar `postcss.config.js`.
+
+---
+
+## Estado actual del frontend
+
+- Rutas y layout principales creados (Dashboard, Products, Suppliers, Clients, Users [admin], Categories, Orders, ManualInventory, Reports, Settings).
+- Autenticación integrada (login/logout/profile) con Zustand y Axios.
+- Cliente de API configurado con `VITE_API_URL` y manejo de token.
+- Listado y mapeo de productos (`src/lib/productsApi.ts`) con estados de stock.
+- Para ver datos reales, el backend debe estar corriendo y con CORS correcto.
+
+---
+
+## Build y despliegue
+
+```bash
+npm run build
+npm run preview  # sirve el build localmente
+```
+
+Si sirves el build con otro servidor, habilita fallback a `index.html` para soportar `BrowserRouter` (SPA).
+
+---
+
+## Recordatorio importante
+
+Primero instala/ejecuta el backend siguiendo `fase_2/BackEnd/README.md`. Sin backend activo, el frontend mostrará errores de red o autenticación.
+

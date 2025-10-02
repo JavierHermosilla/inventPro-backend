@@ -1,4 +1,5 @@
-import { create } from "zustand";   // 👈 así debe ir
+// src/store/auth.ts
+import { create } from "zustand";
 import api, { saveToken } from "../lib/api";
 
 export type Role = "admin" | "vendedor" | "bodeguero" | "user";
@@ -9,63 +10,78 @@ export type User = {
   email: string;
   role: Role;
 };
+
 type AuthState = {
   user: User | null;
-  loading: boolean;
+  loading: boolean;      // mientras hay alguna acción en curso
+  hydrated: boolean;     // ya intentamos recuperar sesión al menos una vez
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   fetchMe: () => Promise<void>;
+  // interno para evitar llamadas paralelas
+  _fetchPromise: Promise<void> | null;
 };
 
-export const useAuthStore = create<AuthState>((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
-  loading: true,
+  loading: false,
+  hydrated: false,
+  _fetchPromise: null,
+
   login: async (email, password) => {
     set({ loading: true });
     try {
-      // intenta login
       const res = await api.post("/auth/login", { email, password });
 
-      // 1) Si backend devuelve token en body -> guardarlo
       if (res.data?.token) {
         saveToken(res.data.token);
-        // si backend devolvió user en la misma respuesta:
-        if (res.data?.user) {
-          set({ user: res.data.user, loading: false });
-          return;
-        }
+      }
+      // si el backend devuelve usuario en login, úsalo;
+      // si no, consulta profile una vez más
+      let user: User | null = res.data?.user ?? null;
+      if (!user) {
+        const prof = await api.get<User>("/auth/profile");
+        user = prof.data;
       }
 
-      // 2) En caso de usar cookies o si user no vino en la respuesta,
-      // pedimos el profile al endpoint del backend
-      const profile = await api.get("/auth/profile");
-      set({ user: profile.data, loading: false });
+      set({ user, loading: false, hydrated: true });
     } catch (err) {
-      set({ user: null, loading: false });
+      saveToken(null);
+      set({ user: null, loading: false, hydrated: true });
       throw err;
     }
   },
 
   logout: async () => {
+    set({ loading: true });
     try {
-      await api.post("/auth/logout");
-    } catch (e) {
-      // ignore
+      await api.post("/auth/logout").catch(() => {});
     } finally {
       saveToken(null);
-      set({ user: null });
+      set({ user: null, loading: false, hydrated: true });
     }
   },
 
   fetchMe: async () => {
-    set({ loading: true });
-    try {
-      // si hay token local se adjunta automáticamente; si backend usa cookie
-      // axios envía cookie por withCredentials: true
-      const res = await api.get("/auth/profile");
-      set({ user: res.data, loading: false });
-    } catch {
-      set({ user: null, loading: false });
-    }
+    // ✅ evita ráfagas y llamadas paralelas
+    const current = get()._fetchPromise;
+    if (current) return current;
+
+    const p = (async () => {
+      set({ loading: true });
+      try {
+        const res = await api.get<User>("/auth/profile");
+        set({ user: res.data, loading: false, hydrated: true });
+      } catch {
+        set({ user: null, loading: false, hydrated: true });
+      } finally {
+        // limpia la promesa para futuros intentos
+        const g = get();
+        if (g._fetchPromise) set({ _fetchPromise: null });
+      }
+    })();
+
+    set({ _fetchPromise: p });
+    return p;
   },
 }));

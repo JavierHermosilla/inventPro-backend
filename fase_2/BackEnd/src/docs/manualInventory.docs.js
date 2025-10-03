@@ -1,50 +1,64 @@
 /**
  * @swagger
+ * tags:
+ *   name: ManualInventory
+ *   description: Ajustes manuales de inventario (trazabilidad)
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ManualInventoryInput:
+ *       type: object
+ *       required: [productId, type, quantity]
+ *       properties:
+ *         productId: { type: string, format: uuid }
+ *         type: { type: string, enum: [increase, decrease] }
+ *         quantity: { type: integer, minimum: 1 }
+ *         reason:
+ *           type: string
+ *           description: Obligatorio cuando type=decrease
+ *     ManualInventoryRecord:
+ *       type: object
+ *       properties:
+ *         id:        { type: string, format: uuid }
+ *         productId: { type: string, format: uuid }
+ *         type:      { type: string, enum: [increase, decrease] }
+ *         quantity:  { type: integer }
+ *         reason:    { type: string, nullable: true }
+ *         createdBy: { type: string, format: uuid }
+ *         createdAt: { type: string, format: date-time }
+ */
+
+/**
+ * @swagger
  * /manual-inventory:
  *   get:
- *     summary: Obtener ajustes manuales de inventario (con filtros)
  *     tags: [ManualInventory]
- *     security:
- *       - bearerAuth: []
+ *     summary: Listar ajustes manuales (paginado)
  *     parameters:
  *       - in: query
- *         name: type
- *         schema:
- *           type: string
- *           enum: [increase, decrease]
- *         description: Filtrar por tipo de ajuste
- *       - in: query
- *         name: productId
- *         schema:
- *           type: string
- *         description: Filtrar por ID de producto
- *       - in: query
- *         name: dateFrom
- *         schema:
- *           type: string
- *           format: date
- *         description: "Fecha desde (YYYY-MM-DD)"
- *       - in: query
- *         name: dateTo
- *         schema:
- *           type: string
- *           format: date
- *         description: "Fecha hasta (YYYY-MM-DD)"
- *       - in: query
  *         name: page
- *         schema:
- *           type: integer
- *         description: "Página (por defecto: 1)"
+ *         schema: { type: integer, minimum: 1 }
  *       - in: query
  *         name: limit
- *         schema:
- *           type: integer
- *         description: "Cantidad por página (por defecto: 10)"
+ *         schema: { type: integer, minimum: 1, maximum: 100 }
+ *       - in: query
+ *         name: productId
+ *         schema: { type: string, format: uuid }
  *     responses:
- *       200:
- *         description: Lista de ajustes encontrados
- *       401:
- *         description: No autorizado
- *       500:
- *         description: Error del servidor
+ *       200: { description: Lista de movimientos }
+ *   post:
+ *     tags: [ManualInventory]
+ *     summary: Crear ajuste manual
+ *     description: >
+ *       `type=decrease` puede dejar stock < 0 y **requiere** `reason`.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema: { $ref: '#/components/schemas/ManualInventoryInput' }
+ *     responses:
+ *       201: { description: Ajuste registrado }
  */

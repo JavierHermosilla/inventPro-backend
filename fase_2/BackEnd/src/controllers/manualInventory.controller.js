@@ -1,112 +1,67 @@
-import ManualInventory from '../models/manualInventory.model.js'
-import Product from '../models/product.model.js'
-import User from '../models/user.model.js'
+// src/controllers/manualInventory.controller.js
+import logger from '../utils/logger.js'
+import { models } from '../models/index.js'
+import {
+  createManualInventoryService,
+  listManualInventoriesService,
+  deleteManualInventoryService
+} from '../services/manualInventory.service.js'
 
-// Crear ajuste manual de inventario
+const { ManualInventory } = models
+
+// POST /api/manual-inventory
 export const createManualInventory = async (req, res) => {
   try {
     const { productId, type, quantity, reason } = req.body
-    const userId = req.user.id
-
-    const product = await Product.findByPk(productId)
-    if (!product) return res.status(404).json({ message: 'Product not found' })
-
-    if (type === 'decrease' && product.stock < quantity) {
-      return res.status(400).json({ message: 'Insufficient stock to decrease' })
+    if (!productId || !type || quantity === undefined) {
+      return res.status(400).json({ message: 'productId, type y quantity son requeridos' })
     }
-
-    product.stock += type === 'increase' ? quantity : -quantity
-    await product.save()
-
-    const adjustment = await ManualInventory.create({
-      productId,
-      type,
-      quantity,
-      reason,
-      userId
-    })
-
-    res.status(201).json({
-      message: 'Inventory adjustment successful',
-      product: { id: product.id, name: product.name, stock: product.stock },
-      adjustment
-    })
+    const out = await createManualInventoryService({ productId, type, quantity, reason }, req.user)
+    return res.status(201).json({ message: 'Ajuste registrado', ...out })
   } catch (err) {
-    console.error(`[ERROR] createManualInventory: ${err.message}`)
-    res.status(500).json({ message: 'Internal server error', error: err.message })
+    logger?.error?.(`createManualInventory error: ${err.message}`)
+    return res.status(err.status || 500).json({ message: err.message || 'Error creando ajuste' })
   }
 }
 
-// Listar todos los ajustes manuales
-export const getAllManualInventories = async (req, res) => {
+// GET /api/manual-inventory  (listado paginado)
+export const listManualInventories = async (req, res) => {
   try {
-    const { page = 1, limit = 10, type, productId, userId } = req.query
-    const offset = (page - 1) * limit
-
-    const where = {}
-    if (type) where.type = type
-    if (productId) where.productId = productId
-    if (userId) where.userId = userId
-
-    const { rows: records, count: total } = await ManualInventory.findAndCountAll({
-      where,
-      include: [
-        { model: Product, as: 'product', attributes: ['id', 'name'] },
-        { model: User, as: 'performedBy', attributes: ['id', 'name', 'email', 'role'] }
-      ],
-      order: [['createdAt', 'DESC']],
-      limit: Number(limit),
-      offset: Number(offset)
-    })
-
-    res.json({
-      total,
-      page: Number(page),
-      totalPages: Math.ceil(total / limit),
-      records
-    })
+    const result = await listManualInventoriesService(req.query)
+    return res.json(result)
   } catch (err) {
-    console.error(`[ERROR] getAllManualInventories: ${err.message}`)
-    res.status(500).json({ message: 'Internal server error', error: err.message })
+    logger?.error?.(`listManualInventories error: ${err.message}`)
+    return res.status(500).json({ message: 'Error listando ajustes', error: err.message })
   }
 }
 
-// Obtener ajuste manual por ID
+// GET /api/manual-inventory/:id
 export const manualInventoryById = async (req, res) => {
   try {
-    const { id } = req.params
-
-    const adjustment = await ManualInventory.findByPk(id, {
+    const row = await ManualInventory.findByPk(req.params.id, {
       include: [
-        { model: Product, as: 'product', attributes: ['id', 'name'] },
-        { model: User, as: 'performedBy', attributes: ['id', 'name', 'email', 'role'] }
+        { association: 'product', required: false },
+        { association: 'performedBy', required: false } // alias definido en associations
       ]
     })
-
-    if (!adjustment) return res.status(404).json({ message: 'Adjustment not found' })
-
-    res.json(adjustment)
+    if (!row) return res.status(404).json({ message: 'Registro no encontrado' })
+    return res.json(row)
   } catch (err) {
-    console.error(`[ERROR] manualInventoryById: ${err.message}`)
-    res.status(500).json({ message: 'Internal server error', error: err.message })
+    logger?.error?.(`manualInventoryById error: ${err.message}`)
+    return res.status(500).json({ message: 'Error obteniendo ajuste', error: err.message })
   }
 }
 
-// Eliminar ajuste manual
+// DELETE /api/manual-inventory/:id
 export const deleteManualInventory = async (req, res) => {
   try {
-    const { id } = req.params
-
-    const adjustment = await ManualInventory.findByPk(id)
-    if (!adjustment) return res.status(404).json({ message: 'Adjustment not found' })
-
-    if (req.user.role !== 'admin') return res.status(403).json({ message: 'Forbidden' })
-
-    await adjustment.destroy()
-
-    res.json({ message: 'Adjustment deleted successfully' })
+    const out = await deleteManualInventoryService(req.params.id, req.user)
+    return res.json(out)
   } catch (err) {
-    console.error(`[ERROR] deleteManualInventory: ${err.message}`)
-    res.status(500).json({ message: 'Internal server error', error: err.message })
+    logger?.error?.(`deleteManualInventory error: ${err.message}`)
+    return res.status(err.status || 500).json({ message: err.message || 'Error eliminando ajuste' })
   }
 }
+
+// Alias para que tu ruta actual que importa getAllManualInventories siga funcionando
+export { listManualInventories as getAllManualInventories }

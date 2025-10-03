@@ -1,0 +1,21 @@
+components:
+  parameters:
+    UUIDId:
+      in: path
+      name: id
+      required: true
+      schema: { type: string, format: uuid }
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        message: { type: string }
+        details:
+          type: array
+          items: { type: string }
+    Pagination:
+      type: object
+      properties:
+        total: { type: integer, example: 42 }
+        page:  { type: integer, example: 1 }
+        pages: { type: integer, example: 5 }

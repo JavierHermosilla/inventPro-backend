@@ -1,8 +1,9 @@
+// src/routes/orderProduct.routes.js
 import { Router } from 'express'
 import {
-  createOrderProduct,
   getAllOrderProducts,
   getOrderProductById,
+  createOrderProduct,
   updateOrderProduct,
   deleteOrderProduct
 } from '../controllers/orderProduct.controller.js'
@@ -17,7 +18,23 @@ import { validateSchema } from '../middleware/validator.middleware.js'
 
 const router = Router()
 
-// Crear un OrderProduct → solo admin
+// Lectura (puedes abrirla a más roles si tu requireRole soporta múltiples)
+router.get(
+  '/',
+  verifyTokenMiddleware,
+  requireRole('admin'),
+  getAllOrderProducts
+)
+
+router.get(
+  '/:id',
+  verifyTokenMiddleware,
+  requireRole('admin'),
+  validateUUID('id'),
+  getOrderProductById
+)
+
+// Crear item → solo admin
 router.post(
   '/',
   verifyTokenMiddleware,
@@ -26,25 +43,8 @@ router.post(
   createOrderProduct
 )
 
-// Obtener todos los OrderProducts → admin y bodeguero
-router.get(
-  '/',
-  verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
-  getAllOrderProducts
-)
-
-// Obtener un OrderProduct por ID → admin y bodeguero
-router.get(
-  '/:id',
-  verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
-  validateUUID('id'),
-  getOrderProductById
-)
-
-// Actualizar un OrderProduct por ID → solo admin
-router.put(
+// Actualizar cantidad → solo admin
+router.patch(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
@@ -53,7 +53,7 @@ router.put(
   updateOrderProduct
 )
 
-// Eliminar un OrderProduct por ID → solo admin
+// Eliminar item → solo admin
 router.delete(
   '/:id',
   verifyTokenMiddleware,

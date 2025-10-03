@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../lib/api";
+import { confirmAction, showError, showSuccess } from "../lib/alerts";
 import { useAuthStore } from "../store/auth";
 import { productsApi, type ProductItem } from "../lib/productsApi";
 
@@ -317,7 +318,7 @@ const DashboardPage = () => {
     } catch (err) {
       if (!isMountedRef.current) return;
       console.error("[dashboard] error general:", err);
-      setError("No se pudieron cargar los datos del dashboard. Verifique la conexion al backend o su sesion.");
+      setError("No se pudieron cargar los datos del dashboard. Verifique la conexión al backend o su sesión.");
     } finally {
       if (isMountedRef.current) setLoading(false);
     }
@@ -334,15 +335,43 @@ const DashboardPage = () => {
 
   const handleLogout = useCallback(async () => {
     if (!isMountedRef.current || isLoggingOut) return;
+
+    const confirmed = await confirmAction({
+      title: "Cerrar sesión",
+      text: "¿Estás seguro de que deseas cerrar tu sesión?",
+      confirmButtonText: "Sí, cerrar sesión",
+    });
+
+    if (!confirmed) return;
+
     setLogoutError(null);
     setIsLoggingOut(true);
+
     try {
       await logout();
       if (!isMountedRef.current) return;
+
+      await showSuccess({
+        title: "Sesión cerrada",
+        text: "Has cerrado sesión correctamente.",
+        confirmButtonText: "Ir a iniciar sesión",
+      });
+
+      if (!isMountedRef.current) return;
       navigate("/login", { replace: true });
     } catch (err) {
-      console.error("Error al cerrar sesion:", err);
-      if (isMountedRef.current) setLogoutError("No se pudo cerrar la sesion. Intenta nuevamente.");
+      console.error("Error al cerrar sesión:", err);
+      const message =
+        err instanceof Error && err.message.trim().length > 0
+          ? err.message
+          : "No se pudo cerrar la sesión. Intenta nuevamente.";
+      if (isMountedRef.current) {
+        setLogoutError(message);
+      }
+      await showError({
+        title: "Error al cerrar sesión",
+        text: message,
+      });
     } finally {
       if (isMountedRef.current) setIsLoggingOut(false);
     }
@@ -392,7 +421,7 @@ const DashboardPage = () => {
               disabled={isLoggingOut}
               className="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoggingOut ? "Cerrando..." : "Cerrar sesion"}
+              {isLoggingOut ? "Cerrando..." : "Cerrar sesión"}
             </button>
             {logoutError && <p className="text-xs text-red-600 text-center">{logoutError}</p>}
           </div>
@@ -414,7 +443,7 @@ const DashboardPage = () => {
             <span className="text-3xl font-black text-amber-800 mt-2">{kpis ? formatNumber(kpis.lowStockItems) : "N/A"}</span>
           </div>
           <div className="bg-purple-50 border border-purple-200 p-5 rounded-xl shadow-md flex flex-col justify-between">
-            <h3 className="text-md font-semibold text-purple-700">Ventas del dia</h3>
+            <h3 className="text-md font-semibold text-purple-700">Ventas del día</h3>
             <span className="text-3xl font-black text-purple-800 mt-2">{kpis ? formatNumber(kpis.dailySalesCount) : "N/A"}</span>
           </div>
           <div className="bg-red-50 border border-red-200 p-5 rounded-xl shadow-md flex flex-col justify-between">
@@ -427,7 +456,7 @@ const DashboardPage = () => {
       <div className="grid gap-6 xl:grid-cols-2 items-start">
         <section className="bg-white p-6 rounded-xl shadow-lg">
           <div className="flex justify-between items-center mb-6 border-b pb-2">
-            <h2 className="text-2xl font-extrabold text-gray-800">Ordenes recientes</h2>
+            <h2 className="text-2xl font-extrabold text-gray-800">?rdenes recientes</h2>
             <span className="text-xs text-gray-400 uppercase tracking-wide">Top 5</span>
           </div>
           <div className="overflow-x-auto">
@@ -477,7 +506,7 @@ const DashboardPage = () => {
 
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-extrabold text-gray-800">Ordenes a proveedores</h2>
+              <h2 className="text-2xl font-extrabold text-gray-800">?rdenes a proveedores</h2>
               <span className="text-xs text-gray-400 uppercase tracking-wide">Periodo actual</span>
             </div>
             <ul className="space-y-3">
@@ -499,7 +528,7 @@ const DashboardPage = () => {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="bg-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-extrabold text-gray-800 mb-4">Distribucion de stock</h2>
+          <h2 className="text-2xl font-extrabold text-gray-800 mb-4">Distribuci?n de stock</h2>
           <div className="space-y-4">
             {categoryStock.map((category) => (
               <div key={category.id}>

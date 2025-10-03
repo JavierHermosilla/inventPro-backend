@@ -6,6 +6,7 @@ import {
   type SupplierItem,
   type SupplierStatus,
 } from "../lib/suppliersApi";
+import { showError, showSuccess, showWarning } from "../lib/alerts";
 
 const formatDate = (value?: string | null) => {
   if (!value) return "Sin registro";
@@ -67,20 +68,12 @@ export default function SuppliersPage() {
   const [suppliers, setSuppliers] = useState<SupplierItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [flash, setFlash] = useState<string | null>(null);
-
   const [searchTerm, setSearchTerm] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  useEffect(() => {
-    if (!flash) return;
-    const timer = window.setTimeout(() => setFlash(null), 4000);
-    return () => window.clearTimeout(timer);
-  }, [flash]);
 
   const updateFormField = useCallback(<K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -100,6 +93,10 @@ export default function SuppliersPage() {
     } catch (err) {
       const message = extractErrorMessage(err, "No se pudieron obtener los proveedores.");
       setError(message);
+      await showError({
+        title: "Error al listar proveedores",
+        text: message,
+      });
     } finally {
       setLoading(false);
     }
@@ -120,33 +117,65 @@ export default function SuppliersPage() {
   const handleCreateSupplier = useCallback(async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError(null);
-    setIsSubmitting(true);
 
-    try {
-      await suppliersApi.create({
-        name: form.name,
-        rut: form.rut,
-        contactName: form.contactName || null,
-        email: form.email || null,
-        phone: form.phone || null,
-        address: form.address || null,
-        website: form.website || null,
-        paymentTerms: form.paymentTerms || null,
-        status: form.status,
-        notes: form.notes || null,
+    const trimmedName = form.name.trim();
+    const trimmedRut = form.rut.trim();
+
+    if (!trimmedName) {
+      const message = "El nombre del proveedor es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "Nombre requerido",
+        text: message,
       });
+      return;
+    }
 
-      setFlash(`Proveedor ${form.name} creado correctamente.`);
+    if (!trimmedRut) {
+      const message = "El RUT del proveedor es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "RUT requerido",
+        text: message,
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        name: trimmedName,
+        rut: trimmedRut,
+        contactName: form.contactName.trim().length > 0 ? form.contactName.trim() : null,
+        email: form.email.trim().length > 0 ? form.email.trim() : null,
+        phone: form.phone.trim().length > 0 ? form.phone.trim() : null,
+        address: form.address.trim().length > 0 ? form.address.trim() : null,
+        website: form.website.trim().length > 0 ? form.website.trim() : null,
+        paymentTerms: form.paymentTerms.trim().length > 0 ? form.paymentTerms.trim() : null,
+        status: form.status,
+        notes: form.notes.trim().length > 0 ? form.notes.trim() : null,
+      };
+
+      await suppliersApi.create(payload);
+      await showSuccess({
+        title: "Proveedor creado",
+        text: `${payload.name} se registro correctamente.`,
+      });
       setIsModalOpen(false);
       resetForm();
       fetchSuppliers().catch(() => {});
     } catch (err) {
       const message = extractErrorMessage(err, "No se pudo crear el proveedor.");
       setFormError(message);
+      await showError({
+        title: "Error al crear proveedor",
+        text: message,
+      });
     } finally {
       setIsSubmitting(false);
     }
   }, [fetchSuppliers, form, resetForm]);
+
 
   const filteredSuppliers = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
@@ -197,7 +226,7 @@ export default function SuppliersPage() {
       render: (supplier) => (
         <div className="space-y-1 text-sm text-gray-600">
           <p>{supplier.email ?? "Sin correo"}</p>
-          <p>{supplier.phone ?? "Sin telefono"}</p>
+          <p>{supplier.phone ?? "Sin teléfono"}</p>
         </div>
       ),
     },
@@ -246,7 +275,7 @@ export default function SuppliersPage() {
     },
     {
       key: "createdAt",
-      header: "Ultima actualizacion",
+      header: "Última actualización",
       render: (supplier) => (
         <div className="text-sm text-gray-500">
           <p>Creado: {formatDate(supplier.createdAt)}</p>
@@ -260,9 +289,9 @@ export default function SuppliersPage() {
     <div className="space-y-6">
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Gestion de proveedores</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">Gestón de proveedores</h1>
           <p className="text-sm text-gray-500">
-            Registra y controla la informacion clave de tus proveedores.
+            Registra y controla la información clave de tus proveedores.
           </p>
         </div>
         <button
@@ -277,12 +306,6 @@ export default function SuppliersPage() {
           Nuevo proveedor
         </button>
       </header>
-
-      {flash && (
-        <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-          {flash}
-        </div>
-      )}
 
       {error && (
         <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -341,7 +364,7 @@ export default function SuppliersPage() {
           columns={columns}
           data={filteredSuppliers}
           loading={loading}
-          emptyMessage={searchTerm ? "No hay proveedores que coincidan con la busqueda." : "Aun no hay proveedores registrados."}
+          emptyMessage={searchTerm ? "No hay proveedores que coincidan con la b?squeda." : "Aún no hay proveedores registrados."}
         />
       </section>
 
@@ -413,7 +436,7 @@ export default function SuppliersPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="supplier-phone">Telefono</label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="supplier-phone">Teléfono</label>
                   <input
                     id="supplier-phone"
                     type="tel"
@@ -424,7 +447,7 @@ export default function SuppliersPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="supplier-address">Direccion</label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="supplier-address">Dirección</label>
                   <input
                     id="supplier-address"
                     type="text"

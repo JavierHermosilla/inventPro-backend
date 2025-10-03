@@ -55,10 +55,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   logout: async () => {
     set({ loading: true });
     try {
-      await api.post("/auth/logout").catch(() => {});
-    } finally {
+      await api.post("/auth/logout");
       saveToken(null);
       set({ user: null, loading: false, hydrated: true });
+    } catch (err) {
+      saveToken(null);
+      set({ user: null, loading: false, hydrated: true });
+      throw err;
     }
   },
 

@@ -7,6 +7,7 @@ import {
   type UserItem,
   type UserListMeta,
 } from "../lib/usersApi";
+import { showError, showSuccess, showWarning } from "../lib/alerts";
 import type { Role } from "../store/auth";
 
 type FormState = {
@@ -35,10 +36,10 @@ type PasswordRule = { test: (value: string) => boolean; message: string };
 
 const PASSWORD_RULES: PasswordRule[] = [
   { test: (value) => value.length >= 8, message: "Debe tener al menos 8 caracteres" },
-  { test: (value) => /[A-Z]/.test(value), message: "Debe incluir una letra mayuscula" },
-  { test: (value) => /[a-z]/.test(value), message: "Debe incluir una letra minuscula" },
-  { test: (value) => /[0-9]/.test(value), message: "Debe incluir un numero" },
-  { test: (value) => /[^A-Za-z0-9]/.test(value), message: "Debe incluir un simbolo" },
+  { test: (value) => /[A-Z]/.test(value), message: "Debe incluir una letra mayúscula" },
+  { test: (value) => /[a-z]/.test(value), message: "Debe incluir una letra minúscula" },
+  { test: (value) => /[0-9]/.test(value), message: "Debe incluir un número" },
+  { test: (value) => /[^A-Za-z0-9]/.test(value), message: "Debe incluir un símbolo" },
 ];
 
 const roleStyles: Record<Role, { className: string }> = {
@@ -78,20 +79,12 @@ export default function UsersPage() {
   const [meta, setMeta] = useState<UserListMeta | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [flash, setFlash] = useState<string | null>(null);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    if (!flash) return;
-    const timer = window.setTimeout(() => setFlash(null), 4000);
-    return () => window.clearTimeout(timer);
-  }, [flash]);
 
   const updateFormField = useCallback(<K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -113,6 +106,10 @@ export default function UsersPage() {
     } catch (err) {
       const message = extractErrorMessage(err, "No se pudieron obtener los usuarios.");
       setError(message);
+      await showError({
+        title: "Error al listar usuarios",
+        text: message,
+      });
     } finally {
       setLoading(false);
     }
@@ -140,38 +137,95 @@ export default function UsersPage() {
   const handleCreateUser = useCallback(async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError(null);
-    setIsSubmitting(true);
 
-    const passwordIssue = validatePassword(form.password);
-    if (passwordIssue) {
-      setFormError(passwordIssue);
-      setIsSubmitting(false);
+    const trimmedName = form.name.trim();
+    const trimmedUsername = form.username.trim();
+    const trimmedEmail = form.email.trim();
+    const trimmedPassword = form.password.trim();
+
+    if (!trimmedName) {
+      const message = "El nombre del usuario es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "Nombre requerido",
+        text: message,
+      });
       return;
     }
 
-    try {
-      await usersApi.create({
-        username: form.username,
-        name: form.name,
-        email: form.email,
-        password: form.password,
-        role: form.role,
-        phone: form.phone || null,
-        address: form.address || null,
-        avatar: form.avatar || null,
+    if (!trimmedUsername) {
+      const message = "El usuario es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "Usuario requerido",
+        text: message,
       });
+      return;
+    }
 
-      setFlash(`Usuario ${form.name} creado correctamente.`);
+    if (!trimmedEmail) {
+      const message = "El correo electr?nico es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "Correo requerido",
+        text: message,
+      });
+      return;
+    }
+
+    if (!trimmedPassword) {
+      const message = "La contrase?a es obligatoria.";
+      setFormError(message);
+      await showWarning({
+        title: "Contraseña requerida",
+        text: message,
+      });
+      return;
+    }
+
+    const passwordIssue = validatePassword(trimmedPassword);
+    if (passwordIssue) {
+      setFormError(passwordIssue);
+      await showWarning({
+        title: "Contraseña inválida",
+        text: passwordIssue,
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        username: trimmedUsername,
+        name: trimmedName,
+        email: trimmedEmail,
+        password: trimmedPassword,
+        role: form.role,
+        phone: form.phone.trim().length > 0 ? form.phone.trim() : null,
+        address: form.address.trim().length > 0 ? form.address.trim() : null,
+        avatar: form.avatar.trim().length > 0 ? form.avatar.trim() : null,
+      };
+
+      await usersApi.create(payload);
+      await showSuccess({
+        title: "Usuario creado",
+        text: `${payload.name} se registro correctamente.`,
+      });
       setIsModalOpen(false);
       resetForm();
       fetchUsers(searchTerm).catch(() => {});
     } catch (err) {
       const message = extractErrorMessage(err, "No se pudo crear el usuario.");
       setFormError(message);
+      await showError({
+        title: "Error al crear usuario",
+        text: message,
+      });
     } finally {
       setIsSubmitting(false);
     }
   }, [fetchUsers, form, resetForm, searchTerm, validatePassword]);
+
 
   const columns = useMemo<Column<UserItem>[]>(() => [
     {
@@ -214,7 +268,7 @@ export default function UsersPage() {
     },
     {
       key: "address",
-      header: "Direccion",
+      header: "Direcci?n",
       render: (user) => (
         <span className="text-sm text-gray-600">
           {user.address && user.address.trim().length > 0 ? user.address : "Sin registro"}
@@ -245,7 +299,7 @@ export default function UsersPage() {
     <div className="space-y-6">
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Gestion de usuarios</h1>
+          <h1 className="text-2xl font-semibold text-gray-900">Gesti?n de usuarios</h1>
           <p className="text-sm text-gray-500">Crea y administra cuentas con sus roles correspondientes.</p>
         </div>
         <button
@@ -310,12 +364,6 @@ export default function UsersPage() {
         </form>
       </section>
 
-      {flash && (
-        <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
-          {flash}
-        </div>
-      )}
-
       {error && (
         <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
@@ -326,7 +374,7 @@ export default function UsersPage() {
         columns={columns}
         data={users}
         loading={loading}
-        emptyMessage="Aun no hay usuarios registrados."
+        emptyMessage="A?n no hay usuarios registrados."
       />
 
       {isModalOpen && (
@@ -381,7 +429,7 @@ export default function UsersPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="email">Correo electronico *</label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="email">Correo electr?nico *</label>
                   <input
                     id="email"
                     type="email"
@@ -392,7 +440,7 @@ export default function UsersPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="password">Contrasena *</label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="password">Contraseña *</label>
                   <input
                     id="password"
                     type="password"
@@ -400,7 +448,7 @@ export default function UsersPage() {
                     value={form.password}
                     onChange={(event) => updateFormField("password", event.target.value)}
                     className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                    placeholder="Usa mayusculas, numeros y simbolos"
+                    placeholder="Usa mayúsculas, números y símbolos"
                   />
                 </div>
                 <div>
@@ -420,7 +468,7 @@ export default function UsersPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="phone">Telefono</label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="phone">Tel?fono</label>
                   <input
                     id="phone"
                     type="tel"
@@ -434,7 +482,7 @@ export default function UsersPage() {
 
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="address">Direccion</label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="address">Direcci?n</label>
                   <input
                     id="address"
                     type="text"

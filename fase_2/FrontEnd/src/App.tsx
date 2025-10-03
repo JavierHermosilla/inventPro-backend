@@ -24,7 +24,6 @@ import Protected from "./routes/Protected";
 const App = () => {
   const fetchMe = useAuthStore((s) => s.fetchMe);
   const loading = useAuthStore((s) => s.loading);
-  const logout = useAuthStore((s) => s.logout);
   const hydrated = useAuthStore((s) => s.hydrated);
 
   // Evita múltiples llamadas a fetchMe por StrictMode o remounts
@@ -37,19 +36,7 @@ const App = () => {
         fetchMe().catch(() => {});
       }
     }
-
-    // Listener opcional del boton "Cerrar sesion" (emitido desde Layout)
-    const handler = async () => {
-      try {
-        await logout();
-        window.location.href = "/login";
-      } catch {
-        // no-op
-      }
-    };
-    document.addEventListener("logout:click", handler);
-    return () => document.removeEventListener("logout:click", handler);
-  }, [fetchMe, logout, hydrated]);
+  }, [fetchMe, hydrated]);
 
   if (!hydrated || loading) {
     return <div className="p-6">Cargando...</div>;

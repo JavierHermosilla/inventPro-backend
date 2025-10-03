@@ -1,5 +1,6 @@
 ﻿import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import api from "../lib/api";
+import { showError, showSuccess, showWarning, confirmAction } from "../lib/alerts";
 import {
   productsApi,
   LOW_STOCK_THRESHOLD,
@@ -43,7 +44,7 @@ const formatCurrency = (value: number) =>
   }).format(value ?? 0);
 
 const formatCategoryName = (label?: string | null) => {
-  if (!label) return "Sin categoria";
+  if (!label) return "Sin categoría";
   return label.charAt(0).toUpperCase() + label.slice(1);
 };
 
@@ -123,13 +124,17 @@ export default function Products() {
       console.error("[products] error al listar", err);
       const message = extractErrorMessage(err, "No se pudieron cargar los productos.");
       setError(message);
+      await showError({
+        title: "Error al cargar productos",
+        text: message,
+      });
     } finally {
       setLoading(false);
     }
   }, []);
 
   /**
-   * Carga categorias y proveedores para los selectores del formulario.
+   * Carga categorías y proveedores para los selectores del formulario.
    */
   const fetchLookups = useCallback(async () => {
     try {
@@ -153,6 +158,10 @@ export default function Products() {
       }
     } catch (err) {
       console.error("[products] error al cargar catalogos", err);
+      await showError({
+        title: "Error al cargar catalogos",
+        text: "No se pudieron cargar categorías o proveedores.",
+      });
     }
   }, []);
 
@@ -204,7 +213,7 @@ export default function Products() {
   };
 
   /**
-   * Abre el modal con la informacion del producto para editarla.
+   * Abre el modal con la información del producto para editarla.
    */
   const openEdit = (product: ProductItem) => {
     setEditing(product);
@@ -228,56 +237,113 @@ export default function Products() {
     event.preventDefault();
     setFormError(null);
 
+    const trimmedName = form.nombre.trim();
+    const trimmedDescription = (form.descripcion ?? "").trim();
+
+    if (trimmedName.length === 0) {
+      const message = "El nombre del producto es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "Nombre requerido",
+        text: message,
+      });
+      return;
+    }
+
     if (!form.categoryId) {
-      setFormError("Selecciona una categoria para continuar.");
+      const message = "Selecciona una categoría para continuar.";
+      setFormError(message);
+      await showWarning({
+        title: "Categoría requerida",
+        text: message,
+      });
       return;
     }
+
     if (!form.supplierId) {
-      setFormError("Selecciona un proveedor para continuar.");
+      const message = "Selecciona un proveedor para continuar.";
+      setFormError(message);
+      await showWarning({
+        title: "Proveedor requerido",
+        text: message,
+      });
       return;
     }
+
+    const payload: ProductPayload = {
+      ...form,
+      nombre: trimmedName,
+      descripcion: trimmedDescription.length > 0 ? trimmedDescription : "",
+    };
 
     setIsSubmitting(true);
     try {
       if (editing) {
-        await productsApi.update(editing.id, form);
+        await productsApi.update(editing.id, payload);
+        await showSuccess({
+          title: "Producto actualizado",
+          text: `${trimmedName} se actualizo correctamente.`,
+        });
       } else {
-        await productsApi.create(form);
+        await productsApi.create(payload);
+        await showSuccess({
+          title: "Producto creado",
+          text: `${trimmedName} se registro correctamente.`,
+        });
       }
       setIsModalOpen(false);
+      resetForm();
       await fetchProducts();
     } catch (err: unknown) {
       const message = extractErrorMessage(err, "No se pudo guardar el producto.");
       setFormError(message);
+      await showError({
+        title: "Error al guardar",
+        text: message,
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
+
   /**
    * Solicita confirmacion y elimina el producto seleccionado.
    */
   const handleDelete = async (product: ProductItem) => {
-    const confirmed = window.confirm("?Eliminar producto? Esta accion no se puede deshacer.");
+    const productName = product.nombre?.trim().length ? product.nombre : "este producto";
+    const confirmed = await confirmAction({
+      title: `Eliminar ${productName}?`,
+      text: "Esta acción no se puede deshacer.",
+      confirmButtonText: "Si, eliminar",
+    });
     if (!confirmed) return;
 
     setDeletingId(product.id);
     try {
       await productsApi.remove(product.id);
       setItems((state) => state.filter((item) => String(item.id) !== String(product.id)));
+      await showSuccess({
+        title: "Producto eliminado",
+        text: `${productName} se elimino correctamente.`,
+      });
     } catch (err: unknown) {
       const message = extractErrorMessage(err, "No se pudo eliminar el producto.");
-      alert(message);
+      await showError({
+        title: "Error al eliminar",
+        text: message,
+      });
     } finally {
       setDeletingId(null);
     }
   };
 
+
   return (
     <div className="space-y-6">
       <header className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-extrabold text-gray-900">Gestion de productos</h1>
+          <h1 className="text-3xl font-extrabold text-gray-900">Gestión de productos</h1>
           <p className="text-sm text-gray-500">Administra tu catalogo, revisa el stock y coordina con proveedores.</p>
         </div>
         <div className="flex flex-col items-start gap-2 text-sm text-gray-500 md:items-end">
@@ -313,7 +379,7 @@ export default function Products() {
               <input
                 id="search"
                 type="search"
-                placeholder="Busca por nombre, categoria o proveedor"
+                placeholder="Busca por nombre, categoría o proveedor"
                 className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                 value={filters.search}
                 onChange={(event) => updateFilters({ search: event.target.value })}
@@ -334,7 +400,7 @@ export default function Products() {
               </select>
             </div>
             <div className="flex flex-col">
-              <label className="text-sm font-medium text-gray-600" htmlFor="category">Categoria</label>
+              <label className="text-sm font-medium text-gray-600" htmlFor="category">Categoría</label>
               <select
                 id="category"
                 className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -392,7 +458,7 @@ export default function Products() {
                 <tr className="text-left text-xs font-semibold uppercase tracking-wide text-gray-600">
                   <th className="px-4 py-3">Codigo</th>
                   <th className="px-4 py-3">Nombre</th>
-                  <th className="px-4 py-3">Categoria</th>
+                  <th className="px-4 py-3">Categoría</th>
                   <th className="px-4 py-3">Proveedor</th>
                   <th className="px-4 py-3">Precio</th>
                   <th className="px-4 py-3">Stock</th>
@@ -452,7 +518,7 @@ export default function Products() {
 
             {formError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{formError}</div>}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} noValidate className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="nombre">Nombre *</label>
@@ -497,7 +563,7 @@ export default function Products() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="categoria">Categoria *</label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="categoria">Categoría *</label>
                   <select
                     id="categoria"
                     className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
@@ -506,7 +572,7 @@ export default function Products() {
                     required
                   >
                     <option value="" disabled>
-                      Selecciona una categoria
+                      Selecciona una categoría
                     </option>
                     {categories.map((category) => (
                       <option key={category.id} value={category.id}>
@@ -538,7 +604,7 @@ export default function Products() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="descripcion">Descripcion</label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="descripcion">Descripción</label>
                   <textarea
                     id="descripcion"
                     className="mt-1 h-24 w-full resize-none rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"

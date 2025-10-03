@@ -13,7 +13,7 @@ export default function Protected({ children, allowedRoles }: Props) {
   const hydrated = useAuthStore((state) => state.hydrated);
 
   if (!hydrated || loading) {
-    return <div className="p-6">Cargando sesion...</div>;
+    return <div className="p-6">Cargando sesi?n...</div>;
   }
 
   if (!user) {

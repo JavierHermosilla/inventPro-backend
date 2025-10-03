@@ -40,7 +40,7 @@ api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401 || error.response?.status === 403) {
-      console.error("Token expirado o invalido. Limpiando sesion localmente.");
+      console.error("Token expirado o inv?lido. Limpiando sesi?n localmente.");
       localStorage.removeItem(TOKEN_KEY);
     }
     return Promise.reject(error);

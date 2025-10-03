@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { confirmAction, showError, showSuccess } from "../lib/alerts";
 import { useAuthStore } from "../store/auth";
 
 type NavItem = {
@@ -60,22 +61,61 @@ const SettingsIcon = () => (
 
 const navItems: NavItem[] = [
   { to: "/dashboard", label: "Dashboard", icon: <HomeIcon /> },
-  { to: "/products", label: "Gestion de productos", icon: <GridIcon /> },
-  { to: "/suppliers", label: "Gestion de proveedores", icon: <BuildingIcon /> },
-  { to: "/clients", label: "Gestion de clientes", icon: <UsersIcon /> },
-  { to: "/users", label: "Gestion de usuarios", roles: ["admin"], icon: <UsersIcon /> },
-  { to: "/categories", label: "Gestion de categorias", icon: <GridIcon /> },
-  { to: "/orders", label: "Ordenes de compra", icon: <ClipboardIcon /> },
+  { to: "/products", label: "Gestión de productos", icon: <GridIcon /> },
+  { to: "/suppliers", label: "Gestión de proveedores", icon: <BuildingIcon /> },
+  { to: "/clients", label: "Gestión de clientes", icon: <UsersIcon /> },
+  { to: "/users", label: "Gestión de usuarios", roles: ["admin"], icon: <UsersIcon /> },
+  { to: "/categories", label: "Gestión de categorías", icon: <GridIcon /> },
+  { to: "/orders", label: "Órdenes de compra", icon: <ClipboardIcon /> },
   { to: "/manual-inventory", label: "Inventario manual", icon: <ClipboardIcon /> },
   { to: "/reports", label: "Reportes", icon: <ReportIcon /> },
-  { to: "/settings", label: "Configuracion", icon: <SettingsIcon /> },
+  { to: "/settings", label: "Configuración", icon: <SettingsIcon /> },
 ];
 
 const Layout = () => {
   const [open, setOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+  const navigate = useNavigate();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const role = (user?.role ?? "user") as "admin" | "vendedor" | "bodeguero" | "user";
+
+  const handleLogout = async () => {
+    if (isLoggingOut) return;
+
+    const confirmed = await confirmAction({
+      title: "Cerrar sesión",
+      text: "¿Estás seguro de que deseas cerrar tu sesión?",
+      confirmButtonText: "Sí, cerrar sesión",
+    });
+
+    if (!confirmed) return;
+
+    setIsLoggingOut(true);
+    setOpen(false);
+
+    try {
+      await logout();
+      await showSuccess({
+        title: "Sesión cerrada",
+        text: "Has cerrado sesión correctamente.",
+        confirmButtonText: "Ir a iniciar sesión",
+      });
+      navigate("/login", { replace: true });
+    } catch (err) {
+      const message =
+        err instanceof Error && err.message.trim().length > 0
+          ? err.message
+          : "No pudimos cerrar la sesión. Intenta nuevamente.";
+      await showError({
+        title: "Error al cerrar sesión",
+        text: message,
+      });
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen flex">
@@ -113,14 +153,15 @@ const Layout = () => {
 
         <div className="p-4 border-t">
           <button
-            onClick={() => document.dispatchEvent(new CustomEvent("logout:click"))}
-            className="w-full px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="w-full px-4 py-2 bg-red-500 text-white font-medium rounded-lg hover:bg-red-600 transition disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <span className="inline-flex items-center gap-2">
               <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
-              Cerrar sesion
+              Cerrar sesión
             </span>
           </button>
         </div>

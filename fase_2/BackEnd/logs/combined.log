@@ -10784,86 +10784,6 @@
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-23T22:46:22.934Z"}
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-23T22:54:42.966Z"}
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-23T22:58:33.095Z"}
-<<<<<<< HEAD
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-29T19:51:26.489Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-29T19:51:26.498Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-29T19:54:02.955Z"}
-{"level":"info","message":"Logout OK, IP=::1","timestamp":"2025-09-29T19:55:39.622Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-29T19:56:00.443Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-29T19:56:00.445Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-29T19:56:01.246Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-29T19:56:01.248Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T00:33:51.308Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T00:33:51.317Z"}
-{"level":"warn","message":"Login failed: email not found (admin@inventpro.com), IP=::1","timestamp":"2025-09-30T00:34:01.157Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T00:35:21.577Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T00:48:47.994Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T00:49:23.463Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T00:55:07.197Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T00:55:07.200Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T00:55:41.195Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T00:56:04.456Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T00:56:19.963Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:01:23.197Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:01:23.199Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:01:55.947Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:02:18.209Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:04:20.193Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:04:20.195Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:05:43.693Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:05:47.332Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:06:01.817Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:06:01.819Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:06:07.664Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:06:15.622Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:07:34.197Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:07:34.198Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:08:12.726Z"}
-{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP ::1","timestamp":"2025-09-30T01:08:15.921Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:11:16.201Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:11:16.203Z"}
-{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP ::1","timestamp":"2025-09-30T01:11:43.261Z"}
-{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP ::1","timestamp":"2025-09-30T01:11:45.765Z"}
-{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP ::1","timestamp":"2025-09-30T01:11:48.541Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:12:16.820Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:12:24.772Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:15:05.199Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:15:05.202Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:15:13.317Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:15:24.364Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:18:44.939Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:18:44.941Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:18:51.847Z"}
-{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP ::1","timestamp":"2025-09-30T01:19:22.173Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:19:32.531Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:19:32.538Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:19:43.979Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:19:49.067Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:19:49.070Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:19:55.821Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:20:05.226Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:20:49.939Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:20:49.941Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:20:58.865Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:21:05.483Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:21:10.934Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:21:10.936Z"}
-{"level":"warn","message":"Auth denied: no token (URL=GET /api/auth/profile)","timestamp":"2025-09-30T01:21:16.485Z"}
-{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP ::1","timestamp":"2025-09-30T01:21:30.088Z"}
-{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP ::1","timestamp":"2025-09-30T01:21:32.734Z"}
-{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP ::1","timestamp":"2025-09-30T01:21:36.480Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:21:46.035Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:21:50.201Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:22:00.532Z"}
-{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-09-30T01:22:58.932Z"}
-{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-09-30T01:23:11.104Z"}
-{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-09-30T01:23:11.108Z"}
-{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-09-30T01:23:28.100Z"}
-{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-09-30T01:23:28.108Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:23:50.829Z"}
-{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-09-30T01:39:45.402Z"}
-{"level":"info","message":"Login OK: admin@inventpro.cl, id=1094f9b8-9c13-4b28-8ea4-c6173d12f551, IP=::1","timestamp":"2025-09-30T01:39:51.514Z"}
-=======
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T18:26:49.762Z"}
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T18:30:59.316Z"}
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T18:34:07.630Z"}
@@ -10888,5 +10808,3 @@
 {"level":"error","message":"updateOrderProduct error: Insufficient stock","timestamp":"2025-09-24T21:24:39.270Z"}
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=::ffff:127.0.0.1","timestamp":"2025-09-24T23:04:33.527Z"}
 {"level":"error","message":"updateOrderProduct error: el registro «new» no tiene un campo «price»","timestamp":"2025-09-24T23:04:33.856Z"}
->>>>>>> cb2c10bd8f62f7b9074f5854f72126388b864b10
-{"level":"info","message":"Logout OK, IP=127.0.0.1","timestamp":"2025-10-03T18:03:09.816Z"}

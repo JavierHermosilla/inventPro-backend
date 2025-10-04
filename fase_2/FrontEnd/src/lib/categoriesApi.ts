@@ -60,10 +60,20 @@ export type CreateCategoryPayload = {
 
 export type UpdateCategoryPayload = Partial<CreateCategoryPayload>;
 
-const mapPayload = (payload: CreateCategoryPayload | UpdateCategoryPayload) => ({
-  ...(payload.name !== undefined ? { name: payload.name.trim() } : {}),
-  ...(payload.description !== undefined ? { description: sanitizeString(payload.description) } : {}),
-});
+const mapPayload = (payload: CreateCategoryPayload | UpdateCategoryPayload) => {
+  const body: Partial<CreateCategoryPayload> = {};
+
+  if (payload.name !== undefined) {
+    body.name = payload.name.trim();
+  }
+
+  if (payload.description !== undefined) {
+    const sanitized = sanitizeString(payload.description);
+    body.description = sanitized ?? "";
+  }
+
+  return body;
+};
 
 export const categoriesApi = {
   async list(params?: { page?: number; limit?: number; search?: string }): Promise<CategoryListResult> {
@@ -106,3 +116,4 @@ export const categoriesApi = {
     return response.data;
   },
 };
+

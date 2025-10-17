@@ -11,12 +11,14 @@ class Order extends Model {
           primaryKey: true
         },
 
-        // Cliente final de negocio
+        // 🔗 FK al cliente de negocio (puede quedar NULL si borras al cliente)
         clientId: {
           type: DataTypes.UUID,
-          allowNull: false,
+          allowNull: true, // <- debe ser true para ON DELETE SET NULL
           field: 'client_id',
-          validate: { notEmpty: { msg: 'clientId es requerido' } }
+          references: { model: 'clients', key: 'id' },
+          onUpdate: 'CASCADE',
+          onDelete: 'SET NULL'
         },
 
         status: {
@@ -29,6 +31,11 @@ class Order extends Model {
           type: DataTypes.DECIMAL(10, 2),
           allowNull: false,
           field: 'total_amount',
+          // Getter para que venga como número (y no string) al serializar
+          get () {
+            const v = this.getDataValue('totalAmount')
+            return v == null ? null : Number(v)
+          },
           validate: {
             isDecimal: { msg: 'totalAmount debe ser decimal' },
             min: { args: [0], msg: 'totalAmount no puede ser negativo' }
@@ -63,17 +70,27 @@ class Order extends Model {
         updatedAt: 'updated_at',
         deletedAt: 'deleted_at'
 
-        // ❌ sin "indexes" aquí; van en migraciones
+        // 👉 índices y constraints complejas en migraciones, no aquí
       }
     )
   }
 
   static associate (models) {
-    // ejemplo (ajusta al nombre real de tu modelo cliente):
-    // Order.belongsTo(models.Client, {
-    //   as: 'client',
-    //   foreignKey: { name: 'clientId', field: 'client_id', allowNull: false }
-    // })
+    // Cliente (si lo borras → SET NULL)
+    this.belongsTo(models.Client, {
+      as: 'client',
+      foreignKey: { name: 'clientId', field: 'client_id', allowNull: true },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL'
+    })
+
+    // Items de la orden
+    this.hasMany(models.OrderProduct, {
+      as: 'items',
+      foreignKey: { name: 'orderId', field: 'order_id', allowNull: false },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
+    })
   }
 }
 

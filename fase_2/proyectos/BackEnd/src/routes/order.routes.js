@@ -13,6 +13,7 @@ import {
 import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
 import { validateUUID } from '../middleware/validateUUID.middleware.js'
 import { validateSchema } from '../middleware/validator.middleware.js'
+import { canUpdateOrder } from '../middleware/order.middleware.js'
 
 import {
   orderCreateSchema,
@@ -22,10 +23,10 @@ import {
 
 const router = Router()
 
-// Listar todas las órdenes (auth requerido)
+// 🌐 Listar todas las órdenes (auth requerido)
 router.get('/', verifyTokenMiddleware, listOrders)
 
-// Listar órdenes por RUT de cliente (poner antes de '/:id')
+// 🔎 Listar órdenes por RUT de cliente (antes de '/:id')
 router.get(
   '/by-rut/:rut',
   verifyTokenMiddleware,
@@ -33,7 +34,7 @@ router.get(
   listOrdersByRut
 )
 
-// Crear orden (acepta clientId o customerId; el schema normaliza)
+// ➕ Crear orden (acepta clientId o rut; el schema valida/normaliza)
 router.post(
   '/',
   verifyTokenMiddleware,
@@ -41,7 +42,7 @@ router.post(
   createOrder
 )
 
-// Crear orden por RUT de cliente
+// ➕ Crear orden por RUT (en el body)
 router.post(
   '/by-rut',
   verifyTokenMiddleware,
@@ -50,7 +51,7 @@ router.post(
   createOrderByRut
 )
 
-// Obtener una orden por ID
+// 📄 Obtener una orden por ID
 router.get(
   '/:id',
   verifyTokenMiddleware,
@@ -58,17 +59,18 @@ router.get(
   listOrderById
 )
 
-// Actualizar orden (solo status) — PATCH
+// ✏️ Actualizar estado de una orden (solo admin)
 router.patch(
   '/:id',
   verifyTokenMiddleware,
   requireRole('admin'),
   validateUUID('id'),
   validateSchema(orderUpdateSchema),
+  canUpdateOrder, // 👈 agrega la validación final de permisos
   updateOrder
 )
 
-// Eliminar orden
+// 🗑️ Eliminar orden (solo admin)
 router.delete(
   '/:id',
   verifyTokenMiddleware,

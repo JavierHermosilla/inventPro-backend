@@ -6,6 +6,8 @@ const { Order, OrderProduct, Product, Client, Supplier } = models
 const asNum = (v) => Number(v ?? 0)
 
 const ensureAuthCanActForClient = (user, clientId) => {
+  // Ajusta esta regla a tu negocio. Si "cliente" no es "usuario", puedes
+  // basarte solo en roles (admin/vendedor).
   if (!['admin', 'vendedor'].includes(user?.role) && user?.id !== clientId) {
     const e = new Error('You can only create orders for yourself')
     e.status = 403
@@ -20,12 +22,21 @@ const allowedTransitions = new Set([
   'processing->cancelled'
 ])
 
+/**
+ * Crea una orden:
+ * - Acepta { clientId | rut, products[{ productId, quantity }] }
+ * - Resuelve clientId desde rut si corresponde
+ * - Toma el precio desde Product.price (no del cliente)
+ * - Persiste líneas con columna real `unit_price`
+ * - Descuenta stock (permite negativo)
+ * - Devuelve resumen { id, status, totalAmount, isBackorder, items[] }
+ */
 export async function createOrderService (payload, user) {
   const t = await sequelize.transaction()
   try {
     let { clientId, rut, products } = payload
 
-    // Resolver clientId por RUT si aplica
+    // Resolver clientId por RUT si vino rut
     if (!clientId && rut) {
       const cli = await Client.findOne({ where: { rut }, transaction: t, lock: t.LOCK.UPDATE })
       if (!cli) { const e = new Error('Client not found by RUT'); e.status = 404; throw e }
@@ -39,47 +50,60 @@ export async function createOrderService (payload, user) {
       const e = new Error('At least one product is required'); e.status = 400; throw e
     }
 
+    // Traer productos y bloquear filas para consistencia de stock
+    const ids = products.map(p => p.productId)
+    const dbProducts = await Product.findAll({ where: { id: ids }, transaction: t, lock: t.LOCK.UPDATE })
+    const map = new Map(dbProducts.map(p => [p.id, p]))
+
+    // Crear orden base
+    const order = await Order.create({
+      clientId,
+      status: 'pending',
+      totalAmount: 0,
+      isBackorder: false,
+      stockRestored: false
+    }, { transaction: t })
+
     let totalAmount = 0
     let isBackorder = false
     const itemsRows = []
 
-    // Descontar stock (permitiendo negativo) y armar líneas
     for (const it of products) {
       const qty = asNum(it.quantity)
       if (!Number.isFinite(qty) || qty <= 0) {
         const e = new Error('Invalid quantity in one of the products'); e.status = 400; throw e
       }
 
-      const p = await Product.findByPk(it.productId, { transaction: t, lock: t.LOCK.UPDATE })
+      const p = map.get(it.productId)
       if (!p) { const e = new Error(`Product ${it.productId} not found`); e.status = 404; throw e }
 
-      p.stock = asNum(p.stock) - qty // ✅ stock puede ser negativo
+      // descuento de stock (permitiendo negativo)
+      p.stock = asNum(p.stock) - qty
       if (p.stock < 0) isBackorder = true
       await p.save({ transaction: t })
 
-      const price = asNum(p.price)
-      totalAmount += price * qty
+      // precio desde la tabla de productos
+      const unitPrice = asNum(p.price)
+      if (!Number.isFinite(unitPrice)) {
+        const e = new Error(`Product ${p.id} has no valid price`); e.status = 400; throw e
+      }
 
+      totalAmount += unitPrice * qty
+
+      // ⬇️ columna real en DB: unit_price (NO "price")
       itemsRows.push({
-        orderId: null, // se setea luego
+        orderId: order.id,
         productId: p.id,
         quantity: qty,
-        price
+        price: unitPrice
       })
     }
 
-    const order = await Order.create({
-      clientId,
-      totalAmount,
-      status: 'pending',
-      isBackorder,
-      stockRestored: false
-    }, { transaction: t })
+    // Inserción en bloque de líneas
+    await OrderProduct.bulkCreate(itemsRows, { transaction: t })
 
-    for (const row of itemsRows) {
-      row.orderId = order.id
-      await OrderProduct.create(row, { transaction: t })
-    }
+    // Actualiza totales/flags si tu modelo los tiene
+    await order.update({ totalAmount, isBackorder }, { transaction: t })
 
     await t.commit()
     return {
@@ -87,7 +111,11 @@ export async function createOrderService (payload, user) {
       status: order.status,
       totalAmount,
       isBackorder,
-      products: itemsRows.map(r => ({ productId: r.productId, quantity: r.quantity, price: r.price }))
+      items: itemsRows.map(r => ({
+        productId: r.productId,
+        quantity: r.quantity,
+        unitPrice: r.unit_price
+      }))
     }
   } catch (err) {
     await t.rollback()
@@ -153,18 +181,15 @@ export async function updateOrderStatusService (id, nextStatus) {
 export async function deleteOrderService (id) {
   const t = await sequelize.transaction()
   try {
-    // 1) Bloquear orden
     const order = await Order.findByPk(id, { transaction: t, lock: t.LOCK.UPDATE })
     if (!order) { const e = new Error('Order not found'); e.status = 404; throw e }
 
-    // 2) Traer/bloquear items
     const items = await OrderProduct.findAll({
       where: { orderId: id },
       transaction: t,
       lock: t.LOCK.UPDATE
     })
 
-    // 3) Restaurar stock (sumar cantidades) – stock puede quedar positivo o seguir negativo
     if (items.length) {
       const productIds = [...new Set(items.map(i => i.productId))]
       const products = await Product.findAll({
@@ -181,9 +206,12 @@ export async function deleteOrderService (id) {
           await p.save({ transaction: t })
         }
       }
-
       await OrderProduct.destroy({ where: { orderId: id }, transaction: t })
     }
+
+    // (opcional) marca trazabilidad
+    // order.stockRestored = true
+    // await order.save({ transaction: t })
 
     await order.destroy({ transaction: t })
     await t.commit()
@@ -216,7 +244,7 @@ export async function createOrderBySupplierRutService ({ supplierRut, clientId, 
   const supplier = await Supplier.findOne({ where: { rut: supplierRut } })
   if (!supplier) { const e = new Error('Proveedor no encontrado'); e.status = 404; throw e }
 
-  // Validar items pertenecen al proveedor
+  // Validar que los productos pertenecen al proveedor
   const ids = products.map(p => p.productId)
   const found = await Product.findAll({ where: { id: ids } })
   const missing = ids.filter(id => !found.some(f => f.id === id))
@@ -234,6 +262,6 @@ export async function createOrderBySupplierRutService ({ supplierRut, clientId, 
     throw e
   }
 
-  // Reutiliza createOrderService
+  // Reutiliza la creación estándar
   return createOrderService({ clientId, products }, user)
 }

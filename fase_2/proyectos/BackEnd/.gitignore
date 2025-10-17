@@ -1,3 +1,10 @@
 node_modules/
+dist/
+coverage/
 .env
-codigos de ejecucion
+.env.*
+*.log
+.DS_Store
+Thumbs.db
+~$*
+desktop.ini

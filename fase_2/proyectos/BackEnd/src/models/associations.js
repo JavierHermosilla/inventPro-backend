@@ -9,60 +9,161 @@ import ManualInventory from './manualInventory.model.js'
 import Client from './client.model.js'
 import Report from './reports.model.js'
 
-// Schema dinámico (test vs prod)
+// Usa el esquema dinámico (test → "test"; de lo contrario, respeta DB_SCHEMA si viene definido)
 const schema =
   process.env.NODE_ENV === 'test'
     ? 'test'
-    : process.env.DB_SCHEMA || undefined
+    : (process.env.DB_SCHEMA || undefined)
 
-// ====== Muchos a muchos: Supplier ↔ Category ======
+// ==========================
+// Supplier ↔ Category (M:N)
+// ==========================
 Supplier.belongsToMany(Category, {
   through: { model: 'SupplierCategories', schema },
-  foreignKey: 'supplierId',
+  foreignKey: { name: 'supplierId', field: 'supplier_id' },
+  otherKey: { name: 'categoryId', field: 'category_id' },
   as: 'categoriesSupplied'
 })
 
 Category.belongsToMany(Supplier, {
   through: { model: 'SupplierCategories', schema },
-  foreignKey: 'categoryId',
+  foreignKey: { name: 'categoryId', field: 'category_id' },
+  otherKey: { name: 'supplierId', field: 'supplier_id' },
   as: 'suppliedBy'
 })
 
-// ====== Uno a muchos: Product ↔ Category ======
-Product.belongsTo(Category, { foreignKey: 'categoryId', as: 'category', schema })
-Category.hasMany(Product, { foreignKey: 'categoryId', as: 'categoryProducts', schema })
+// ==========================
+// Product ↔ Category (1:N)
+// ==========================
+Product.belongsTo(Category, {
+  as: 'category',
+  foreignKey: { name: 'categoryId', field: 'category_id', allowNull: false },
+  onDelete: 'RESTRICT',
+  onUpdate: 'CASCADE',
+  schema
+})
+Category.hasMany(Product, {
+  as: 'categoryProducts',
+  foreignKey: { name: 'categoryId', field: 'category_id' },
+  schema
+})
 
-// ====== Uno a muchos: Product ↔ Supplier ======
-Product.belongsTo(Supplier, { foreignKey: 'supplierId', as: 'supplier', schema })
-Supplier.hasMany(Product, { foreignKey: 'supplierId', as: 'supplierProducts', schema })
+// ==========================
+// Product ↔ Supplier (1:N)
+// ==========================
+Product.belongsTo(Supplier, {
+  as: 'supplier',
+  foreignKey: { name: 'supplierId', field: 'supplier_id', allowNull: false },
+  onDelete: 'RESTRICT',
+  onUpdate: 'CASCADE',
+  schema
+})
+Supplier.hasMany(Product, {
+  as: 'supplierProducts',
+  foreignKey: { name: 'supplierId', field: 'supplier_id' },
+  schema
+})
 
-// ====== Uno a muchos: Order ↔ User ======
-Order.belongsTo(User, { foreignKey: 'customerId', as: 'customer', schema })
-User.hasMany(Order, { foreignKey: 'customerId', as: 'orders', schema })
+// ==========================
+// Order ↔ Client (1:N)
+// ==========================
+// 👇 La orden cuelga del cliente final del negocio
+Order.belongsTo(Client, {
+  as: 'client',
+  foreignKey: { name: 'clientId', field: 'client_id', allowNull: true },
+  onDelete: 'SET NULL',
+  onUpdate: 'CASCADE',
+  schema
+})
+Client.hasMany(Order, {
+  as: 'orders',
+  foreignKey: { name: 'clientId', field: 'client_id' },
+  schema
+})
 
-// ====== Uno a muchos: Order ↔ Client ======
-Order.belongsTo(Client, { foreignKey: 'clientId', as: 'client', schema })
-Client.hasMany(Order, { foreignKey: 'clientId', as: 'orders', schema })
+// ==========================
+// Order ↔ OrderProduct (1:N)
+// ==========================
+Order.hasMany(OrderProduct, {
+  as: 'items',
+  foreignKey: { name: 'orderId', field: 'order_id', allowNull: false },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+  schema
+})
+OrderProduct.belongsTo(Order, {
+  as: 'order',
+  foreignKey: { name: 'orderId', field: 'order_id', allowNull: false },
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+  schema
+})
 
-// ====== Uno a muchos: Order ↔ OrderProduct ======
-Order.hasMany(OrderProduct, { foreignKey: 'orderId', as: 'items', schema })
-OrderProduct.belongsTo(Order, { foreignKey: 'orderId', as: 'order', schema })
+// ==========================
+// Product ↔ OrderProduct (1:N)
+// ==========================
+Product.hasMany(OrderProduct, {
+  as: 'orderLines',
+  foreignKey: { name: 'productId', field: 'product_id', allowNull: false },
+  onDelete: 'RESTRICT',
+  onUpdate: 'CASCADE',
+  schema
+})
+OrderProduct.belongsTo(Product, {
+  as: 'product',
+  foreignKey: { name: 'productId', field: 'product_id', allowNull: false },
+  onDelete: 'RESTRICT',
+  onUpdate: 'CASCADE',
+  schema
+})
 
-// ====== Uno a muchos: Product ↔ OrderProduct ======
-Product.hasMany(OrderProduct, { foreignKey: 'productId', as: 'orderLines', schema })
-OrderProduct.belongsTo(Product, { foreignKey: 'productId', as: 'product', schema })
+// ==========================
+// ManualInventory ↔ Product (1:N)
+// ==========================
+ManualInventory.belongsTo(Product, {
+  as: 'product',
+  foreignKey: { name: 'productId', field: 'product_id', allowNull: false },
+  onDelete: 'RESTRICT',
+  onUpdate: 'CASCADE',
+  schema
+})
+Product.hasMany(ManualInventory, {
+  as: 'inventoryAdjustments',
+  foreignKey: { name: 'productId', field: 'product_id' },
+  schema
+})
 
-// ====== Uno a muchos: ManualInventory ↔ Product ======
-ManualInventory.belongsTo(Product, { foreignKey: 'productId', as: 'product', schema })
-Product.hasMany(ManualInventory, { foreignKey: 'productId', as: 'inventoryAdjustments', schema })
+// ==========================
+// ManualInventory ↔ User (1:N)
+// ==========================
+ManualInventory.belongsTo(User, {
+  as: 'performedBy',
+  foreignKey: { name: 'userId', field: 'user_id', allowNull: false },
+  onDelete: 'RESTRICT', // evita borrar usuarios con trazas; ajusta si quieres SET NULL
+  onUpdate: 'CASCADE',
+  schema
+})
+User.hasMany(ManualInventory, {
+  as: 'inventoryAdjustments',
+  foreignKey: { name: 'userId', field: 'user_id' },
+  schema
+})
 
-// ====== Uno a muchos: ManualInventory ↔ User ======
-ManualInventory.belongsTo(User, { foreignKey: 'userId', as: 'performedBy', schema })
-User.hasMany(ManualInventory, { foreignKey: 'userId', as: 'inventoryAdjustments', schema })
-
-// ====== Uno a muchos: Report ↔ User ======
-Report.belongsTo(User, { foreignKey: 'createdBy', as: 'creator', schema })
-User.hasMany(Report, { foreignKey: 'createdBy', as: 'reports', schema })
+// ==========================
+// Report ↔ User (1:N)
+// ==========================
+Report.belongsTo(User, {
+  as: 'creator',
+  foreignKey: { name: 'createdBy', field: 'created_by', allowNull: false },
+  onDelete: 'RESTRICT',
+  onUpdate: 'CASCADE',
+  schema
+})
+User.hasMany(Report, {
+  as: 'reports',
+  foreignKey: { name: 'createdBy', field: 'created_by' },
+  schema
+})
 
 export {
   Supplier,

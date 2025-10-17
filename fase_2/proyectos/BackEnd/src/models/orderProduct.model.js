@@ -34,12 +34,19 @@ class OrderProduct extends Model {
         price: {
           type: DataTypes.DECIMAL(10, 2),
           allowNull: false,
-          defaultValue: 0, // ← alinea con la migración (DEFAULT 0 NOT NULL)
+          defaultValue: 0, // si tu migración tiene DEFAULT 0, ok
+          field: 'unit_price', // ⬅️ mapea al nombre real de la columna
           validate: {
             isDecimal: { msg: 'price debe ser decimal' },
             min: { args: [0], msg: 'price no puede ser negativo' }
+          },
+          // opcional: devolver como número en las respuestas
+          get () {
+            const v = this.getDataValue('price')
+            return v == null ? null : Number(v)
           }
         }
+
       },
       {
         sequelize,

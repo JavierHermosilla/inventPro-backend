@@ -876,3 +876,8 @@
 {"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: invalid signature","timestamp":"2025-10-03T21:16:42.374Z"}
 {"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: secret or public key must be provided","timestamp":"2025-10-03T21:18:44.579Z"}
 {"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: jwt malformed","timestamp":"2025-10-06T17:29:15.437Z"}
+{"level":"error","message":"createSupplier error: llave duplicada viola restricción de unicidad «suppliers_name_key60»","timestamp":"2025-10-15T18:02:01.212Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-10-15T18:48:08.946Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-10-15T18:48:41.435Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-10-15T18:48:54.900Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-15T19:15:53.545Z"}

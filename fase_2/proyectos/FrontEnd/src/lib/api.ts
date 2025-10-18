@@ -1,4 +1,4 @@
-﻿import axios, { AxiosHeaders, type AxiosError, type InternalAxiosRequestConfig } from "axios";
+import axios, { AxiosHeaders, type AxiosError, type InternalAxiosRequestConfig } from "axios";
 
 const TOKEN_KEY = "inventpro_access_token";
 
@@ -6,6 +6,21 @@ const resolveBaseUrl = () => {
   const meta = import.meta as ImportMeta & { env?: Record<string, string | undefined> };
   const candidate = meta.env?.VITE_API_URL;
   return candidate && candidate.trim().length > 0 ? candidate : "http://localhost:3000/api";
+};
+
+const normalizeToken = (value?: string | null) => {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
+};
+
+const readStoredToken = (): string | null => {
+  if (typeof window === "undefined") return null;
+  try {
+    return normalizeToken(window.localStorage.getItem(TOKEN_KEY));
+  } catch {
+    return null;
+  }
 };
 
 const baseURL = resolveBaseUrl();
@@ -18,8 +33,16 @@ const api = axios.create({
   },
 });
 
+const applyDefaultAuthHeader = (token: string | null) => {
+  if (token) {
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+  } else {
+    delete api.defaults.headers.common.Authorization;
+  }
+};
+
 const attachAuthToken = (config: InternalAxiosRequestConfig) => {
-  const token = localStorage.getItem(TOKEN_KEY);
+  const token = readStoredToken();
   if (token) {
     if (!config.headers) {
       config.headers = new AxiosHeaders();
@@ -30,6 +53,10 @@ const attachAuthToken = (config: InternalAxiosRequestConfig) => {
     } else {
       (config.headers as Record<string, string>)["Authorization"] = `Bearer ${token}`;
     }
+  } else if (config.headers instanceof AxiosHeaders) {
+    config.headers.delete("Authorization");
+  } else if (config.headers) {
+    delete (config.headers as Record<string, string>)["Authorization"];
   }
   return config;
 };
@@ -40,20 +67,43 @@ api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401 || error.response?.status === 403) {
-      console.error("Token expirado o inv?lido. Limpiando sesi?n localmente.");
-      localStorage.removeItem(TOKEN_KEY);
+      console.error("Token expirado o invalido. Limpiando sesion localmente.");
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.removeItem(TOKEN_KEY);
+        } catch {
+          /* noop */
+        }
+      }
+      applyDefaultAuthHeader(null);
     }
     return Promise.reject(error);
   }
 );
 
+const initialToken = readStoredToken();
+if (initialToken) {
+  applyDefaultAuthHeader(initialToken);
+}
+
 export function saveToken(token: string | null) {
-  if (token) localStorage.setItem(TOKEN_KEY, token);
-  else localStorage.removeItem(TOKEN_KEY);
+  const normalized = normalizeToken(token);
+  if (typeof window !== "undefined") {
+    try {
+      if (normalized) {
+        window.localStorage.setItem(TOKEN_KEY, normalized);
+      } else {
+        window.localStorage.removeItem(TOKEN_KEY);
+      }
+    } catch {
+      /* noop */
+    }
+  }
+  applyDefaultAuthHeader(normalized);
 }
 
 export function getToken() {
-  return localStorage.getItem(TOKEN_KEY);
+  return readStoredToken();
 }
 
 export default api;

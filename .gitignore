@@ -27,3 +27,8 @@ fase_2/html/reset_password.html
 fase_2/html/usuarios.html
 fase_2/html/ver-orden.html
 fase_2/BackEnd/logs/error.log
+fase_2/proyectos/FrontEnd/.env
+fase_2/proyectos/BackEnd/.env.test
+
+fase_2/proyectos/FrontEnd/.env.development
+fase_2/proyectos/FrontEnd/.env.production

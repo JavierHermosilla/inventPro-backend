@@ -2,6 +2,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
 import { showError, showSuccess, showWarning } from "../lib/alerts";
+import logoInventPro from "../assets/logo-invent-pro.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -63,9 +64,16 @@ const Login = () => {
       <div className="flex flex-col md:flex-row bg-white shadow-xl rounded-2xl w-full max-w-5xl overflow-hidden">
         {/* Lado izquierdo (Formulario) */}
         <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
-          <div className="flex items-center gap-2 mb-8">
-            <img src="https://dummyimage.com/50x50/004aad/ffffff.png&text=IP" alt="InventPro" className="w-10 h-10 rounded-full" />
-            <span className="text-xl font-bold text-blue-600">Invent Pro</span>
+          <div className="flex items-center gap-3 mb-8">
+            <img
+              src={logoInventPro}
+              alt="Logo Invent Pro"
+              className="w-11 h-11 object-contain rounded-md bg-white shadow-sm border border-blue-100"
+            />
+            <div className="leading-5">
+              <span className="block text-xl font-bold text-blue-600">Invent Pro</span>
+              <span className="block text-xs text-gray-500">Gestión de inventario conforme a normativas chilenas.</span>
+            </div>
           </div>
 
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Iniciar sesión</h1>
@@ -142,12 +150,21 @@ const Login = () => {
         </div>
 
         {/* Lado derecho (Imagen) */}
-        <div className="hidden md:block w-1/2 overflow-hidden relative">
-          <img
-            src="https://dummyimage.com/1000x1000/004aad/ffffff.png&text=Invent+Pro"
-            alt="Invent Pro"
-            className="h-full w-full object-cover"
-          />
+        <div className="hidden md:flex w-1/2 bg-gradient-to-br from-blue-700 via-blue-600 to-red-500 text-white relative">
+          <div className="absolute inset-6 rounded-3xl border border-white/20" aria-hidden="true" />
+          <div className="relative z-10 flex flex-col items-center justify-center text-center px-10 py-12 gap-6">
+            <img
+              src={logoInventPro}
+              alt="Logo Invent Pro"
+              className="w-28 h-28 object-contain drop-shadow-lg"
+            />
+            <div>
+              <p className="text-3xl font-semibold tracking-wide">Invent Pro</p>
+              <p className="mt-2 text-sm text-blue-100">
+                Plataforma integral para empresas chilenas, enmarcada en la legislación tributaria y normativa vigente.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

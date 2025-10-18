@@ -39,6 +39,7 @@ export type ManualInventoryItem = {
   quantity: number;
   type: ManualInventoryMovementType;
   reason?: string | null;
+  userId: string;
   performedBy?: string | null;
   performedByRole?: string | null;
   performedByEmail?: string | null;
@@ -83,6 +84,7 @@ const mapRecordToItem = (record: ManualInventoryApiRecord): ManualInventoryItem 
     quantity: record.quantity,
     type: record.type,
     reason: record.reason ?? null,
+    userId: record.userId ?? "",
     performedBy: record.performedBy?.name ?? null,
     performedByRole: record.performedBy?.role ?? null,
     performedByEmail: record.performedBy?.email ?? null,

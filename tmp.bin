@@ -318,7 +318,7 @@ const DashboardPage = () => {
     } catch (err) {
       if (!isMountedRef.current) return;
       console.error("[dashboard] error general:", err);
-      setError("No se pudieron cargar los datos del dashboard. Verifique la conexiÃ³n al backend o su sesiÃ³n.");
+      setError("No se pudieron cargar los datos del dashboard. Verifique la conexión al backend o su sesión.");
     } finally {
       if (isMountedRef.current) setLoading(false);
     }
@@ -337,9 +337,9 @@ const DashboardPage = () => {
     if (!isMountedRef.current || isLoggingOut) return;
 
     const confirmed = await confirmAction({
-      title: "Cerrar sesiÃ³n",
-      text: "Â¿EstÃ¡s seguro de que deseas cerrar tu sesiÃ³n?",
-      confirmButtonText: "SÃ­, cerrar sesiÃ³n",
+      title: "Cerrar sesión",
+      text: "¿Estás seguro de que deseas cerrar tu sesión?",
+      confirmButtonText: "Sí, cerrar sesión",
     });
 
     if (!confirmed) return;
@@ -352,24 +352,24 @@ const DashboardPage = () => {
       if (!isMountedRef.current) return;
 
       await showSuccess({
-        title: "SesiÃ³n cerrada",
-        text: "Has cerrado sesiÃ³n correctamente.",
-        confirmButtonText: "Ir a iniciar sesiÃ³n",
+        title: "Sesión cerrada",
+        text: "Has cerrado sesión correctamente.",
+        confirmButtonText: "Ir a iniciar sesión",
       });
 
       if (!isMountedRef.current) return;
       navigate("/login", { replace: true });
     } catch (err) {
-      console.error("Error al cerrar sesiÃ³n:", err);
+      console.error("Error al cerrar sesión:", err);
       const message =
         err instanceof Error && err.message.trim().length > 0
           ? err.message
-          : "No se pudo cerrar la sesiÃ³n. Intenta nuevamente.";
+          : "No se pudo cerrar la sesión. Intenta nuevamente.";
       if (isMountedRef.current) {
         setLogoutError(message);
       }
       await showError({
-        title: "Error al cerrar sesiÃ³n",
+        title: "Error al cerrar sesión",
         text: message,
       });
     } finally {
@@ -423,7 +423,7 @@ const DashboardPage = () => {
     },
     {
       id: "daily-sales",
-      label: "Ventas del dÃ­a",
+      label: "Ventas del día",
       detail: "Transacciones registradas en la jornada.",
       value: kpis ? formatNumber(kpis.dailySalesCount) : "N/A",
       iconWrapper: "bg-purple-50 text-purple-600",
@@ -436,7 +436,7 @@ const DashboardPage = () => {
     {
       id: "total-sales",
       label: "Ventas totales",
-      detail: "Pedidos despachados histÃ³ricamente.",
+      detail: "Pedidos despachados históricamente.",
       value: kpis ? formatNumber(kpis.totalSalesCount) : "N/A",
       iconWrapper: "bg-rose-50 text-rose-600",
       icon: (
@@ -456,7 +456,7 @@ const DashboardPage = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-500">Panel principal</p>
             <h1 className="mt-2 text-3xl font-bold text-slate-900 md:text-4xl">Hola, {currentUser.name}</h1>
             <p className="mt-3 text-sm text-slate-600">
-              Rol actual: <span className="font-semibold text-blue-600">{currentUser.role}</span>. Gestiona tu inventario y pedidos desde aquÃ­.
+              Rol actual: <span className="font-semibold text-blue-600">{currentUser.role}</span>. Gestiona tu inventario y pedidos desde aquí.
             </p>
             {notice ? (
               <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-medium text-amber-800">
@@ -476,7 +476,7 @@ const DashboardPage = () => {
                 disabled={isLoggingOut}
                 className="inline-flex justify-center rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {isLoggingOut ? 'Cerrando...' : 'Cerrar sesiÃ³n'}
+                {isLoggingOut ? 'Cerrando...' : 'Cerrar sesión'}
               </button>
               {logoutError ? <p className="text-center text-xs text-red-600">{logoutError}</p> : null}
             </div>
@@ -506,8 +506,8 @@ const DashboardPage = () => {
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">Ã“rdenes recientes</h2>
-              <p className="text-sm text-slate-500">Ãšltimos movimientos registrados en el sistema.</p>
+              <h2 className="text-lg font-semibold text-slate-900">Órdenes recientes</h2>
+              <p className="text-sm text-slate-500">Últimos movimientos registrados en el sistema.</p>
             </div>
             <button
               type="button"
@@ -544,7 +544,7 @@ const DashboardPage = () => {
             </div>
           ) : (
             <p className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500">
-              AÃºn no registras Ã³rdenes recientes.
+              Aún no registras órdenes recientes.
             </p>
           )}
         </section>
@@ -575,8 +575,8 @@ const DashboardPage = () => {
 
           <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">Ã“rdenes a proveedores</h2>
-              <span className="text-xs font-medium uppercase tracking-wide text-slate-400">PerÃ­odo actual</span>
+              <h2 className="text-lg font-semibold text-slate-900">Órdenes a proveedores</h2>
+              <span className="text-xs font-medium uppercase tracking-wide text-slate-400">Período actual</span>
             </div>
             <ul className="mt-4 space-y-3">
               {supplierOrders.map((order) => (
@@ -601,7 +601,7 @@ const DashboardPage = () => {
       <div className="grid gap-6 xl:grid-cols-[2fr_1fr]">
         <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-slate-900">DistribuciÃ³n de stock</h2>
+            <h2 className="text-lg font-semibold text-slate-900">Distribución de stock</h2>
             <span className="text-xs font-medium uppercase tracking-wide text-slate-400">Actualizado</span>
           </div>
           <div className="mt-5 space-y-5">
@@ -649,6 +649,7 @@ const DashboardPage = () => {
         </section>
       </div>
     </div>
+  )
   );
 };
 

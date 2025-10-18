@@ -1,5 +1,5 @@
 ﻿
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
 import {
   ordersApi,
@@ -89,8 +89,11 @@ export default function OrdersPage() {
   const [statusFilter, setStatusFilter] = useState<OrderSnapshot["status"] | "all">("all");
 
   const [clients, setClients] = useState<ClientItem[]>([]);
+  const clientsLoadingRef = useRef(false);
+  const clientsLoadPromiseRef = useRef<Promise<void> | null>(null);
   const [products, setProducts] = useState<ProductItem[]>([]);
-  const [catalogLoading, setCatalogLoading] = useState(false);
+  const [catalogLoadingCount, setCatalogLoadingCount] = useState(0);
+  const catalogLoading = catalogLoadingCount > 0;
 
   const [documentType, setDocumentType] = useState<"boleta" | "factura">("boleta");
   const [customerMode, setCustomerMode] = useState<"client" | "rut">("client");
@@ -129,27 +132,60 @@ export default function OrdersPage() {
     }
   }, []);
 
-  const ensureCatalogLoaded = useCallback(async () => {
-    if (clients.length > 0 && products.length > 0) return;
-    setCatalogLoading(true);
-    try {
-      const [clientsResult, productsResult] = await Promise.all([
-        clientsApi.list({ limit: 200 }),
-        productsApi.list({ limit: 200 }),
-      ]);
-      setClients(clientsResult.items);
-      setProducts(productsResult.items);
-    } catch (err) {
-      const message = extractErrorMessage(err, "No se pudieron cargar clientes y productos.");
-      await showError({ title: "Error de configuracion", text: message });
-    } finally {
-      setCatalogLoading(false);
+  const refreshClients = useCallback(async () => {
+    if (clientsLoadingRef.current && clientsLoadPromiseRef.current) {
+      return clientsLoadPromiseRef.current;
     }
-  }, [clients.length, products.length]);
+    clientsLoadingRef.current = true;
+    const promise = (async () => {
+      try {
+        const result = await clientsApi.list({ limit: 200 });
+        setClients(result.items);
+      } catch (err) {
+        const message = extractErrorMessage(err, "No se pudieron cargar los clientes.");
+        await showError({ title: "Error al cargar clientes", text: message });
+      } finally {
+        clientsLoadingRef.current = false;
+        clientsLoadPromiseRef.current = null;
+      }
+    })();
+    clientsLoadPromiseRef.current = promise;
+    return promise;
+  }, []);
+
+  const refreshProducts = useCallback(async () => {
+    setCatalogLoadingCount((prev) => prev + 1);
+    try {
+      const result = await productsApi.list({ limit: 200 });
+      setProducts(result.items);
+    } catch (err) {
+      const message = extractErrorMessage(err, "No se pudieron cargar los productos.");
+      await showError({ title: "Error al actualizar inventario", text: message });
+    } finally {
+      setCatalogLoadingCount((prev) => Math.max(0, prev - 1));
+    }
+  }, []);
+
+  const ensureCatalogLoaded = useCallback(async () => {
+    const needsClients = clients.length === 0;
+    const needsProducts = products.length === 0;
+    if (!needsClients && !needsProducts) return;
+
+    if (needsClients) {
+      await refreshClients();
+    }
+    if (needsProducts) {
+      await refreshProducts();
+    }
+  }, [clients.length, products.length, refreshClients, refreshProducts]);
 
   useEffect(() => {
     loadOrders().catch(() => {});
   }, [loadOrders]);
+
+  useEffect(() => {
+    refreshClients().catch(() => {});
+  }, [refreshClients]);
 
   useEffect(() => {
     if (mode === "detail" && selectedOrder) {
@@ -182,13 +218,33 @@ export default function OrdersPage() {
     [sortedOrders],
   );
 
+  const clientIndex = useMemo(() => {
+    const index = new Map<string, ClientItem>();
+    clients.forEach((client) => {
+      index.set(client.id, client);
+    });
+    return index;
+  }, [clients]);
+
+  const resolveOrderClientInfo = useCallback(
+    (order: OrderSnapshot) => {
+      const fallbackClient = order.clientId ? clientIndex.get(order.clientId) : undefined;
+      return {
+        name: order.clientName ?? fallbackClient?.name ?? null,
+        rut: order.clientRut ?? fallbackClient?.rut ?? null,
+      };
+    },
+    [clientIndex],
+  );
+
   const filteredOrders = useMemo(() => {
     const needle = searchTerm.trim().toLowerCase();
     return enrichedOrders.filter(({ order, code }) => {
       if (statusFilter !== "all" && order.status !== statusFilter) return false;
       if (!needle) return true;
-      const clientName = order.clientName ?? "";
-      const clientRut = formatRut(order.clientRut);
+      const clientInfo = resolveOrderClientInfo(order);
+      const clientName = clientInfo.name ?? "";
+      const clientRut = formatRut(clientInfo.rut);
       return (
         stringLowerIncludes(order.id, needle) ||
         stringLowerIncludes(code, needle) ||
@@ -196,7 +252,7 @@ export default function OrdersPage() {
         stringLowerIncludes(clientRut, needle)
       );
     });
-  }, [enrichedOrders, searchTerm, statusFilter]);
+  }, [enrichedOrders, searchTerm, statusFilter, resolveOrderClientInfo]);
 
   const stats = useMemo(() => {
     return orders.reduce(
@@ -265,6 +321,9 @@ export default function OrdersPage() {
         setSelectedOrder(null);
         setMode("list");
       }
+      if (products.length > 0) {
+        await refreshProducts();
+      }
       await showSuccess({ title: "Orden eliminada", text: "La orden se elimino correctamente." });
     } catch (err) {
       const message = extractErrorMessage(err, "No se pudo eliminar la orden.");
@@ -284,6 +343,9 @@ export default function OrdersPage() {
       setOrders((prev) =>
         prev.map((item) => (item.id === result.order.id ? result.order : item)),
       );
+      if (products.length > 0 && (nextStatus === "completed" || nextStatus === "cancelled")) {
+        await refreshProducts();
+      }
       await showSuccess({ title: "Estado actualizado", text: result.message ?? "Estado modificado." });
     } catch (err) {
       const message = extractErrorMessage(err, "No se pudo actualizar el estado.");
@@ -375,6 +437,9 @@ export default function OrdersPage() {
       setSelectedOrder(detail);
       setMode("detail");
       resetForm();
+      if (products.length > 0) {
+        await refreshProducts();
+      }
       await showSuccess({
         title: "Orden creada",
         text: "La orden se registro correctamente. Recuerda generar la boleta o factura segun corresponda.",
@@ -516,40 +581,43 @@ export default function OrdersPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 bg-white">
-              {filteredOrders.map(({ order, code }) => (
-                <tr key={order.id} className="hover:bg-gray-50">
-                  <td className="whitespace-nowrap px-4 py-3 font-medium text-blue-600">
-                    <span>#{code}</span>
-                    <span className="ml-2 text-xs text-gray-400">({order.id.slice(0, 8)}...)</span>
-                  </td>
-                  <td className="px-4 py-3">
-                    <p className="font-semibold text-gray-900">{order.clientName ?? "Sin asignar"}</p>
-                    <p className="text-xs text-gray-500">RUT: {formatRut(order.clientRut)}</p>
-                  </td>
-                  <td className="px-4 py-3 text-gray-600">{formatDateCL(order.createdAt)}</td>
-                  <td className="px-4 py-3 font-semibold text-gray-900">{formatCurrencyCLP(order.totalWithTax)}</td>
-                  <td className="px-4 py-3">{renderStatusBadge(order.status)}</td>
-                  <td className="px-4 py-3 text-right">
-                    <div className="inline-flex items-center gap-3">
-                      <button
-                        type="button"
-                        onClick={() => loadOrderDetail(order.id).catch(() => {})}
-                        className="text-sm font-semibold text-blue-600 hover:text-blue-700"
-                      >
-                        Ver
-                      </button>
-                      <button
-                        type="button"
-                        disabled={deletingId === order.id}
-                        onClick={() => handleDelete(order.id)}
-                        className="text-sm font-semibold text-red-500 hover:text-red-600 disabled:opacity-60"
-                      >
-                        {deletingId === order.id ? "Eliminando..." : "Eliminar"}
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {filteredOrders.map(({ order, code }) => {
+                const clientInfo = resolveOrderClientInfo(order);
+                return (
+                  <tr key={order.id} className="hover:bg-gray-50">
+                    <td className="whitespace-nowrap px-4 py-3 font-medium text-blue-600">
+                      <span>#{code}</span>
+                      <span className="ml-2 text-xs text-gray-400">({order.id.slice(0, 8)}...)</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <p className="font-semibold text-gray-900">{clientInfo.name ?? "Sin asignar"}</p>
+                      <p className="text-xs text-gray-500">RUT: {formatRut(clientInfo.rut)}</p>
+                    </td>
+                    <td className="px-4 py-3 text-gray-600">{formatDateCL(order.createdAt)}</td>
+                    <td className="px-4 py-3 font-semibold text-gray-900">{formatCurrencyCLP(order.totalWithTax)}</td>
+                    <td className="px-4 py-3">{renderStatusBadge(order.status)}</td>
+                    <td className="px-4 py-3 text-right">
+                      <div className="inline-flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => loadOrderDetail(order.id).catch(() => {})}
+                          className="text-sm font-semibold text-blue-600 hover:text-blue-700"
+                        >
+                          Ver
+                        </button>
+                        <button
+                          type="button"
+                          disabled={deletingId === order.id}
+                          onClick={() => handleDelete(order.id)}
+                          className="text-sm font-semibold text-red-500 hover:text-red-600 disabled:opacity-60"
+                        >
+                          {deletingId === order.id ? "Eliminando..." : "Eliminar"}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
               {!loadingList && filteredOrders.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-4 py-6 text-center text-sm text-gray-500">
@@ -570,6 +638,8 @@ export default function OrdersPage() {
       </section>
     </div>
   );
+
+  const selectedOrderClientInfo = selectedOrder ? resolveOrderClientInfo(selectedOrder) : null;
 
   const detailView = selectedOrder && (
     <div className="space-y-6">
@@ -647,11 +717,11 @@ export default function OrdersPage() {
               <dl className="mt-3 space-y-2 text-sm text-gray-600">
                 <div className="flex justify-between">
                   <dt className="font-medium text-gray-700">Nombre</dt>
-                  <dd>{selectedOrder.clientName ?? "No disponible"}</dd>
+                  <dd>{selectedOrderClientInfo?.name ?? "No disponible"}</dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="font-medium text-gray-700">RUT</dt>
-                  <dd>{formatRut(selectedOrder.clientRut)}</dd>
+                  <dd>{formatRut(selectedOrderClientInfo?.rut ?? null)}</dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="font-medium text-gray-700">Backorder</dt>

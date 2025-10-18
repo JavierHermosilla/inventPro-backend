@@ -2,6 +2,10 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
 import { useAuthStore } from "../store/auth";
+import NotificationBell from "./NotificationBell";
+import InventoryWatcher from "./InventoryWatcher";
+import logoInventPro from "../assets/logo-invent-pro.png";
+import defaultProfilePhoto from "../assets/Deafult_pfp.jpg";
 
 type NavItem = {
   to: string;
@@ -101,6 +105,8 @@ const Layout = () => {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const role = (user?.role ?? "user") as "admin" | "vendedor" | "bodeguero" | "user";
+  const rawAvatar = (user as { avatar?: string | null } | null)?.avatar ?? null;
+  const avatarSrc = typeof rawAvatar === "string" && rawAvatar.trim().length > 0 ? rawAvatar : defaultProfilePhoto;
 
   const handleLogout = async () => {
     if (isLoggingOut) return;
@@ -140,16 +146,18 @@ const Layout = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex">
+      <InventoryWatcher />
       <aside
         className={`fixed z-40 inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col transform transition-transform duration-200 ease-in-out ${
           open ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 md:relative`}
       >
-        <div className="p-6 border-b flex items-center gap-2">
-          <svg className="h-8 w-8 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-          </svg>
-          <h1 className="text-2xl font-bold text-blue-600">Invent Pro</h1>
+        <div className="p-6 border-b flex items-center justify-center">
+          <img
+            src={logoInventPro}
+            alt="Logo Invent Pro"
+            className="h-20 w-20 object-contain"
+          />
         </div>
 
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
@@ -204,14 +212,17 @@ const Layout = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="relative text-gray-600 hover:text-blue-600 transition-colors">
-              <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.2V11a6 6 0 00-4-5.7V5a2 2 0 10-4 0v.3A6 6 0 006 11v3.2c0 .5-.2 1-.6 1.4L4 17h5m6 0v1a3 3 0 11-6 0v-1" />
-              </svg>
-              <span className="absolute -top-0 -right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500" />
-            </button>
+            <NotificationBell />
             <div className="hidden sm:flex items-center gap-2">
-              <div className="w-9 h-9 rounded-full bg-gray-200 border" />
+              <img
+                src={avatarSrc}
+                alt={user?.name ? `Avatar de ${user.name}` : "Avatar por defecto"}
+                className="h-9 w-9 rounded-full border object-cover"
+                onError={(event) => {
+                  event.currentTarget.onerror = null;
+                  event.currentTarget.src = defaultProfilePhoto;
+                }}
+              />
               <div className="leading-4">
                 <p className="text-sm font-medium text-gray-800">{user?.name ?? "Invitado"}</p>
                 <p className="text-xs text-gray-500 capitalize">{user?.role ?? "usuario"}</p>

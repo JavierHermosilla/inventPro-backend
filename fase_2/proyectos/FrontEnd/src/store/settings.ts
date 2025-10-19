@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { LOW_STOCK_THRESHOLD } from "../lib/productsApi";
+import { SETTINGS_STORAGE_KEY } from "../lib/constants";
+import { applyDocumentTheme, type ThemeName } from "../lib/theme";
 
-const STORAGE_KEY = "inventpro:system-settings";
 const MAX_NOTIFICATIONS = 50;
 
 const safeNowIso = () => new Date().toISOString();
@@ -83,6 +84,10 @@ export type IntegrationSettings = {
   };
 };
 
+export type AppearanceSettings = {
+  theme: "light" | "dark";
+};
+
 type NotificationState = {
   items: NotificationItem[];
   unreadCount: number;
@@ -96,6 +101,7 @@ type SettingsState = {
   permissions: PermissionMatrixRow[];
   integrations: IntegrationSettings;
   notifications: NotificationState;
+  appearance: AppearanceSettings;
   updateCompany: (patch: Partial<CompanyProfile>) => void;
   updateSecurity: (patch: Partial<SecuritySettings>) => void;
   togglePermission: (module: string, role: keyof Omit<PermissionMatrixRow, "module">) => void;
@@ -108,6 +114,8 @@ type SettingsState = {
   clearNotifications: () => void;
   registerLowStockAlert: (productId: string | number, repeatMinutes: number) => boolean;
   releaseLowStockAlert: (productId: string | number) => void;
+  setTheme: (theme: AppearanceSettings["theme"]) => void;
+  toggleTheme: () => void;
 };
 
 const defaultCompany: CompanyProfile = {
@@ -148,6 +156,10 @@ const defaultIntegrations: IntegrationSettings = {
   quickbooks: { enabled: false, companyId: null },
 };
 
+const defaultAppearance: AppearanceSettings = {
+  theme: "light",
+};
+
 const defaultNotificationPreferences: NotificationPreferences = {
   lowStockEnabled: true,
   lowStockThreshold: LOW_STOCK_THRESHOLD,
@@ -185,6 +197,7 @@ export const useSettingsStore = create<SettingsState>()(
       permissions: defaultPermissions,
       integrations: defaultIntegrations,
       notifications: defaultNotificationState,
+      appearance: defaultAppearance,
 
       updateCompany: (patch) => set((state) => ({
         company: { ...state.company, ...patch },
@@ -317,9 +330,34 @@ export const useSettingsStore = create<SettingsState>()(
           },
         };
       }),
+
+      setTheme: (theme) => {
+        if (typeof document !== "undefined") {
+          applyDocumentTheme(theme);
+        }
+        set((state) => ({
+          appearance: {
+            ...state.appearance,
+            theme,
+          },
+        }));
+      },
+
+      toggleTheme: () => set((state) => {
+        const nextTheme: ThemeName = state.appearance.theme === "dark" ? "light" : "dark";
+        if (typeof document !== "undefined") {
+          applyDocumentTheme(nextTheme);
+        }
+        return {
+          appearance: {
+            ...state.appearance,
+            theme: nextTheme,
+          },
+        };
+      }),
     }),
     {
-      name: STORAGE_KEY,
+      name: SETTINGS_STORAGE_KEY,
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         company: state.company,
@@ -331,6 +369,7 @@ export const useSettingsStore = create<SettingsState>()(
           // evita guardar arrays gigantes inválidos
           items: state.notifications.items.slice(0, MAX_NOTIFICATIONS),
         },
+        appearance: state.appearance,
       }),
     }
   )

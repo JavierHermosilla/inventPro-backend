@@ -20,6 +20,32 @@ import { usersApi, type UserItem } from "../lib/usersApi";
 const pdfMakeWithVfs = pdfMake as typeof pdfMake & { vfs: Record<string, string> };
 pdfMakeWithVfs.vfs = pdfMakeVfs;
 
+const DEFAULT_LEGAL_NOTES = [
+  "Respalda la informacion conforme a la Resolucion Exenta SII 45/2003 y sus actualizaciones.",
+  "Conserva copias digitales y respaldos por al menos 6 anos (Art. 17 Codigo Tributario).",
+  "Verifica la consistencia con libros electronicos y sistemas contables oficiales antes de remitirlo a terceros.",
+];
+
+const TYPE_SPECIFIC_LEGAL_NOTES: Partial<Record<ReportTypeId, string[]>> = {
+  sales: [
+    "La informacion facilita la conciliacion con el Formulario 29 y cruces de DTE aceptados por el SII.",
+    "Incluye solo documentos tributarios vigentes y con folio autorizado.",
+  ],
+  stock: [
+    "Valorizacion conforme a NIC 2 y criterios del Colegio de Contadores de Chile.",
+    "Manten respaldos de inventarios fisicos y ajustes autorizados.",
+  ],
+  movements: [
+    "Movimientos controlados segun Resolucion Exenta SII 59/2020 para trazabilidad de inventarios.",
+    "Respalda cada ajuste con actas firmadas, guias o evidencia fotografica.",
+  ],
+};
+
+const PDF_PAGE_FOOTER = (currentPage: number, pageCount: number) => ({
+  text: `Página ${currentPage} de ${pageCount} · Documento generado por InventPro · Uso interno y fiscalizable`,
+  style: "footer",
+});
+
 type ReportTypeId = "sales" | "stock" | "clients" | "suppliers" | "movements";
 
 type Option = { value: string; label: string };
@@ -88,6 +114,10 @@ const INITIAL_FORM_STATE: ReportFormState = {
 type ReportDataset = {
   summary: Array<{ label: string; value: string }>;
   table: { headers: string[]; rows: Array<Array<string>> };
+  periodLabel: string;
+  filterDetails: string[];
+  legalNotes: string[];
+  generatedAtIso: string;
 };
 
 const numberCL = new Intl.NumberFormat("es-CL");
@@ -130,47 +160,84 @@ const inRange = (target: Date | null, start: Date | null, end: Date | null) => {
   return true;
 };
 
-const buildPdfDefinition = (report: ReportItem, dataset: ReportDataset): TDocumentDefinitions => {
-  const content: Content[] = [
-    {
-      columns: [
-        {
-          width: "*",
-          stack: [
-            { text: "Invent Pro SpA", style: "companyName" },
-            { text: "RUT 76.543.210-9", style: "companyMeta" },
-            { text: "Av. Apoquindo 1234, Las Condes, Santiago", style: "companyMeta" },
-            { text: "contacto@inventpro.cl | +56 2 2345 6789", style: "companyMeta" },
-          ],
-        },
-        {
-          width: "auto",
-          stack: [
-            { text: report.name, style: "documentTitle" },
-            { text: `Tipo: ${report.type}`, style: "documentMeta" },
-            {
-              text: `Generado el ${new Date().toLocaleString("es-CL", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })}`,
-              style: "documentMeta",
-            },
-          ],
-          alignment: "right",
-        },
-      ],
-      margin: [0, 0, 0, 18],
-    },
-  ];
-  if (dataset.summary.length > 0) {
-    content.push({
-      table: {
-        headerRows: 0,
-        widths: dataset.summary.map(() => "*"),
-        body: [dataset.summary.map((item) => ({ stack: [{ text: item.label, style: "summaryLabel" }, { text: item.value, style: "summaryValue" }] }))],
-      },
-      layout: "noBorders",
-      margin: [0, 0, 0, 16],
-    });
+const buildDatasetResult = (
+  report: ReportItem,
+  data: { summary: Array<{ label: string; value: string }>; table: { headers: string[]; rows: Array<Array<string>> }; legalNotes?: string[] }
+): ReportDataset => {
+  const startLabel = report.filters.startDate ? formatDate(report.filters.startDate) : "No informado";
+  const endLabel = report.filters.endDate ? formatDate(report.filters.endDate) : "No informado";
+  const periodLabel = `${startLabel} - ${endLabel}`;
+
+  const filterDetails: string[] = [];
+  if (report.filters.productIds && report.filters.productIds.length > 0) {
+    filterDetails.push(`Productos filtrados: ${report.filters.productIds.join(", ")}`);
   }
-  content.push({
+  if (report.filters.userIds && report.filters.userIds.length > 0) {
+    filterDetails.push(`Usuarios responsables: ${report.filters.userIds.join(", ")}`);
+  }
+
+  const specificNotes = TYPE_SPECIFIC_LEGAL_NOTES[report.type as ReportTypeId] ?? [];
+  const legalNotes = [...DEFAULT_LEGAL_NOTES, ...specificNotes, ...(data.legalNotes ?? [])];
+
+  return {
+    summary: data.summary,
+    table: data.table,
+    periodLabel,
+    filterDetails,
+    legalNotes,
+    generatedAtIso: new Date().toISOString(),
+  };
+};
+
+const buildPdfDefinition = (report: ReportItem, dataset: ReportDataset): TDocumentDefinitions => {
+  const generatedLabel = new Date(dataset.generatedAtIso).toLocaleString("es-CL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  const filtersRows = [
+    [{ text: "Periodo informado", style: "metaLabel" }, { text: dataset.periodLabel, style: "metaValue" }],
+    ...(dataset.filterDetails.length > 0
+      ? dataset.filterDetails.map((detail, index) => [
+          { text: index === 0 ? "Filtros aplicados" : "", style: "metaLabel" },
+          { text: detail, style: "metaValue" },
+        ])
+      : [[{ text: "Filtros aplicados", style: "metaLabel" }, { text: "Sin filtros adicionales", style: "metaValue" }]]),
+  ];
+
+  const filtersSection: Content = {
+    table: {
+      widths: ["auto", "*"],
+      body: filtersRows,
+    },
+    layout: "noBorders",
+    margin: [0, 0, 0, 16],
+  };
+
+  const summarySection: Content | null =
+    dataset.summary.length > 0
+      ? {
+          table: {
+            headerRows: 0,
+            widths: dataset.summary.map(() => "*"),
+            body: [
+              dataset.summary.map((item) => ({
+                stack: [
+                  { text: item.label, style: "summaryLabel" },
+                  { text: item.value, style: "summaryValue" },
+                ],
+              })),
+            ],
+          },
+          layout: "noBorders",
+          margin: [0, 0, 0, 16],
+        }
+      : null;
+
+  const detailSection: Content = {
     table: {
       headerRows: 1,
       widths: dataset.table.headers.map(() => "*"),
@@ -189,21 +256,70 @@ const buildPdfDefinition = (report: ReportItem, dataset: ReportDataset): TDocume
       hLineWidth: () => 0.5,
       vLineWidth: () => 0.5,
     },
-  });
+  };
+
+  const legalSection: Content = {
+    stack: [
+      { text: "Notas legales y cumplimiento", style: "legalTitle" },
+      {
+        ul: dataset.legalNotes.map((note) => ({ text: note, style: "legalItem" })),
+      },
+    ],
+    margin: [0, 20, 0, 0],
+  };
+
+  const content: Content[] = [
+    {
+      columns: [
+        {
+          width: "*",
+          stack: [
+            { text: "Invent Pro SpA", style: "companyName" },
+            { text: "RUT 76.543.210-9", style: "companyMeta" },
+            { text: "Av. Apoquindo 1234, Las Condes, Santiago", style: "companyMeta" },
+            { text: "contacto@inventpro.cl | +56 2 2345 6789", style: "companyMeta" },
+          ],
+        },
+        {
+          width: "auto",
+          stack: [
+            { text: report.name, style: "documentTitle" },
+            { text: `Tipo: ${report.type}`, style: "documentMeta" },
+            { text: `Generado el ${generatedLabel}`, style: "documentMeta" },
+          ],
+          alignment: "right",
+        },
+      ],
+      margin: [0, 0, 0, 18],
+    },
+    filtersSection,
+    summarySection,
+    detailSection,
+    legalSection,
+  ].filter(Boolean) as Content[];
+
   return {
     info: { title: report.name, author: report.createdByName ?? "InventPro" },
     content,
+    pageMargins: [40, 60, 40, 70],
+    footer: PDF_PAGE_FOOTER,
     styles: {
       companyName: { fontSize: 11, bold: true, color: "#1f2937" },
       companyMeta: { fontSize: 9, color: "#475569" },
       documentTitle: { fontSize: 12, bold: true, color: "#0f172a" },
       documentMeta: { fontSize: 9, color: "#475569" },
+      metaLabel: { fontSize: 9, bold: true, color: "#1f2937", margin: [0, 2, 12, 2] },
+      metaValue: { fontSize: 9, color: "#0f172a", margin: [0, 2, 0, 2] },
       summaryLabel: { fontSize: 9, color: "#475569", margin: [0, 0, 0, 2] },
       summaryValue: { fontSize: 16, bold: true, color: "#0f172a" },
       tableHeader: { fontSize: 10, bold: true, color: "#ffffff" },
       tableCell: { fontSize: 9, color: "#0f172a", margin: [0, 4, 0, 4] },
+      legalTitle: { fontSize: 10, bold: true, color: "#0f172a", margin: [0, 0, 0, 6] },
+      legalItem: { fontSize: 9, color: "#0f172a", margin: [0, 2, 0, 2] },
+      footer: { fontSize: 8, color: "#475569", alignment: "center" },
     },
-    defaultStyle: { font: "Helvetica" },
+    // Usamos Roboto, la fuente incluida de forma nativa en pdfMake, para evitar dependencias externas.
+    defaultStyle: { font: "Roboto" },
   };
 };
 
@@ -435,7 +551,7 @@ export default function ReportsPage() {
     const totalNet = filtered.reduce((acc, order) => acc + order.subtotal, 0);
     const totalVat = filtered.reduce((acc, order) => acc + order.iva, 0);
     const totalGross = filtered.reduce((acc, order) => acc + order.totalWithTax, 0);
-    return {
+    return buildDatasetResult(report, {
       summary: [
         { label: "Ordenes incluidas", value: numberCL.format(filtered.length) },
         { label: "Ventas netas", value: currencyCL.format(totalNet) },
@@ -453,7 +569,7 @@ export default function ReportsPage() {
           currencyCL.format(order.totalWithTax),
         ]),
       },
-    };
+    });
   }, []);
 
   const buildStockDataset = useCallback(async (report: ReportItem): Promise<ReportDataset | null> => {
@@ -463,7 +579,7 @@ export default function ReportsPage() {
     if (filtered.length === 0) return null;
     const totalStock = filtered.reduce((acc, product) => acc + product.stock, 0);
     const totalValue = filtered.reduce((acc, product) => acc + product.stock * product.precio, 0);
-    return {
+    return buildDatasetResult(report, {
       summary: [
         { label: "Productos evaluados", value: numberCL.format(filtered.length) },
         { label: "Unidades totales", value: numberCL.format(totalStock) },
@@ -474,13 +590,13 @@ export default function ReportsPage() {
         rows: filtered.map((product) => [
           String(product.id),
           product.nombre,
-          product.categoryName ?? "Sin categoria",
+          product.categoryName ?? "Sin categoría",
           numberCL.format(product.stock),
           currencyCL.format(product.precio),
           currencyCL.format(product.stock * product.precio),
         ]),
       },
-    };
+    });
   }, []);
 
   const buildMovementsDataset = useCallback(async (report: ReportItem): Promise<ReportDataset | null> => {
@@ -499,7 +615,7 @@ export default function ReportsPage() {
     if (filtered.length === 0) return null;
     const totalIncrease = filtered.filter((item) => item.type === "increase").reduce((acc, item) => acc + item.quantity, 0);
     const totalDecrease = filtered.filter((item) => item.type === "decrease").reduce((acc, item) => acc + item.quantity, 0);
-    return {
+    return buildDatasetResult(report, {
       summary: [
         { label: "Movimientos evaluados", value: numberCL.format(filtered.length) },
         { label: "Entradas", value: numberCL.format(totalIncrease) },
@@ -516,7 +632,7 @@ export default function ReportsPage() {
           movement.reason ?? "Sin motivo",
         ]),
       },
-    };
+    });
   }, []);
 
   const buildDataset = useCallback(
@@ -535,11 +651,110 @@ export default function ReportsPage() {
     [buildSalesDataset, buildStockDataset, buildMovementsDataset],
   );
 
+  const triggerFileDownload = (blob: Blob, filename: string) => {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const downloadPdfFile = (report: ReportItem, dataset: ReportDataset) =>
+    new Promise<void>((resolve, reject) => {
+      try {
+        const pdfDocument = pdfMake.createPdf(buildPdfDefinition(report, dataset));
+        pdfDocument.getBlob((blob) => {
+          try {
+            const filename = `reporte-${report.id}-${dataset.generatedAtIso.slice(0, 10)}.pdf`;
+            triggerFileDownload(blob, filename);
+            resolve();
+          } catch (error) {
+            reject(error);
+          }
+        });
+      } catch (error) {
+        reject(error as Error);
+      }
+    });
+
+  const escapeForExcel = (value: string) =>
+    value
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+
+  const downloadExcelFile = (report: ReportItem, dataset: ReportDataset) => {
+    const summaryRows = [
+      `<tr><th align="left">Periodo informado</th><td>${escapeForExcel(dataset.periodLabel)}</td></tr>`,
+      ...dataset.summary.map((item) => `<tr><th align="left">${escapeForExcel(item.label)}</th><td>${escapeForExcel(item.value)}</td></tr>`),
+    ];
+
+    const filtersRows =
+      dataset.filterDetails.length > 0
+        ? dataset.filterDetails.map(
+            (detail, index) =>
+              `<tr><th align="left">${index === 0 ? "Filtros aplicados" : ""}</th><td>${escapeForExcel(detail)}</td></tr>`
+          )
+        : [`<tr><th align="left">Filtros aplicados</th><td>Sin filtros adicionales</td></tr>`];
+
+    const detailHeader = `<tr>${dataset.table.headers
+      .map((header) => `<th>${escapeForExcel(header)}</th>`)
+      .join("")}</tr>`;
+
+    const detailRows =
+      dataset.table.rows.length > 0
+        ? dataset.table.rows
+            .map((row) => `<tr>${row.map((cell) => `<td>${escapeForExcel(cell)}</td>`).join("")}</tr>`)
+            .join("")
+        : `<tr><td colspan="${dataset.table.headers.length}">Sin registros coincidentes</td></tr>`;
+
+    const legalList =
+      dataset.legalNotes.length > 0
+        ? dataset.legalNotes.map((note) => `<li>${escapeForExcel(note)}</li>`).join("")
+        : "<li>Sin notas registradas</li>";
+
+    const htmlContent = `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      table { border-collapse: collapse; font-family: Arial, sans-serif; font-size: 11px; width: 100%; }
+      th, td { border: 1px solid #b4c6e7; padding: 6px; }
+      th { background-color: #1d4ed8; color: #ffffff; text-align: left; }
+      caption { font-weight: bold; margin-bottom: 6px; text-align: left; }
+      ul { font-family: Arial, sans-serif; font-size: 11px; padding-left: 18px; }
+    </style>
+  </head>
+  <body>
+    <table>
+      <caption>Resumen ejecutivo</caption>
+      ${summaryRows.join("")}
+      ${filtersRows.join("")}
+    </table>
+    <br />
+    <table>
+      <caption>Detalle del reporte</caption>
+      ${detailHeader}
+      ${detailRows}
+    </table>
+    <br />
+    <h4>Notas legales y cumplimiento</h4>
+    <ul>${legalList}</ul>
+  </body>
+</html>`;
+
+    const blob = new Blob(["\uFEFF" + htmlContent], {
+      type: "application/vnd.ms-excel;charset=utf-8",
+    });
+    const filename = `reporte-${report.id}-${dataset.generatedAtIso.slice(0, 10)}.xls`;
+    triggerFileDownload(blob, filename);
+  };
+
   const handleExecute = async (report: ReportItem) => {
-    if (report.format !== "pdf") {
-      await showInfo({ title: "Formato no soportado", text: "Solo se puede generar PDF desde el frontend por ahora." });
-      return;
-    }
     setExecutingId(report.id);
     try {
       const dataset = await buildDataset(report);
@@ -547,12 +762,27 @@ export default function ReportsPage() {
         await showInfo({ title: "Sin datos", text: "No encontramos datos en el backend para este filtro." });
         return;
       }
-      const definition = buildPdfDefinition(report, dataset);
-      const filename = `reporte-${report.id}-${new Date().toISOString().slice(0, 10)}.pdf`;
-      pdfMake.createPdf(definition).download(filename);
-      const stamp = new Date().toISOString();
-      setReports((prev) => prev.map((item) => (item.id === report.id ? { ...item, lastRunAt: stamp, updatedAt: stamp } : item)));
-      await showSuccess({ title: "Reporte generado", text: "Se descargo el PDF correctamente." });
+
+      if (report.format === "pdf") {
+        await downloadPdfFile(report, dataset);
+        const stamp = dataset.generatedAtIso;
+        setReports((prev) => prev.map((item) => (item.id === report.id ? { ...item, lastRunAt: stamp, updatedAt: stamp } : item)));
+        await showSuccess({ title: "Reporte generado", text: "El PDF se descargo correctamente." });
+        return;
+      }
+
+      if (report.format === "xls") {
+        downloadExcelFile(report, dataset);
+        const stamp = dataset.generatedAtIso;
+        setReports((prev) => prev.map((item) => (item.id === report.id ? { ...item, lastRunAt: stamp, updatedAt: stamp } : item)));
+        await showSuccess({ title: "Reporte generado", text: "El archivo Excel se descargo correctamente." });
+        return;
+      }
+
+      await showInfo({
+        title: "Formato no disponible",
+        text: "Por ahora solo es posible descargar reportes en PDF o Excel desde la interfaz web.",
+      });
     } catch (err) {
       const message = err instanceof Error ? err.message : "No se pudo generar el reporte.";
       await showError({ title: "Error al generar", text: message });

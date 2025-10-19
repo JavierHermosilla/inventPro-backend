@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./store/auth";
+import { useSettingsStore } from "./store/settings";
+import { applyDocumentTheme } from "./lib/theme";
 
 // Páginas
 import LoginPage from "./pages/Login";
@@ -26,6 +28,7 @@ const App = () => {
   const fetchMe = useAuthStore((s) => s.fetchMe);
   const loading = useAuthStore((s) => s.loading);
   const hydrated = useAuthStore((s) => s.hydrated);
+  const theme = useSettingsStore((s) => s.appearance.theme);
 
   // Evita múltiples llamadas a fetchMe por StrictMode o remounts
   const didInit = useRef(false);
@@ -38,6 +41,13 @@ const App = () => {
       }
     }
   }, [fetchMe, hydrated]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.debug("[theme] App effect", theme);
+    }
+    applyDocumentTheme(theme);
+  }, [theme]);
 
   if (!hydrated || loading) {
     return <div className="p-6">Cargando...</div>;

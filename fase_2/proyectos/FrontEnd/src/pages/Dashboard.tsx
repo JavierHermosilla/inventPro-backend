@@ -136,15 +136,15 @@ const formatNumber = (num: number) => new Intl.NumberFormat("es-CL").format(num)
 const getStatusClasses = (status: OrderStatus) => {
   switch (status) {
     case "completed":
-      return "bg-green-100 text-green-800";
+      return "bg-green-100 text-green-800 dark:bg-emerald-500/25 dark:text-emerald-100";
     case "processing":
-      return "bg-blue-100 text-blue-800";
+      return "bg-blue-100 text-blue-800 dark:bg-blue-500/25 dark:text-blue-100";
     case "pending":
-      return "bg-amber-100 text-amber-800";
+      return "bg-amber-100 text-amber-800 dark:bg-amber-500/25 dark:text-amber-100";
     case "cancelled":
-      return "bg-red-100 text-red-800";
+      return "bg-red-100 text-red-800 dark:bg-rose-500/25 dark:text-rose-100";
     default:
-      return "bg-gray-100 text-gray-800";
+      return "bg-gray-100 text-gray-800 dark:bg-slate-700/60 dark:text-slate-100";
   }
 };
 
@@ -402,7 +402,7 @@ const DashboardPage = () => {
       label: "Total de productos",
       detail: "Registros disponibles en el inventario.",
       value: kpis ? formatNumber(kpis.totalProducts) : "N/A",
-      iconWrapper: "bg-blue-50 text-blue-600",
+      iconWrapper: "bg-blue-50 text-blue-600 dark:bg-blue-500/20 dark:text-blue-100",
       icon: (
         <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M3 9.75h12m-12 0a2.25 2.25 0 0 1 2.25-2.25H15a2.25 2.25 0 0 1 2.25 2.25m-14.25 0v6.75A2.25 2.25 0 0 0 5.25 18.75H15a2.25 2.25 0 0 0 2.25-2.25V9.75m0 0h1.125A1.125 1.125 0 0 1 19.5 10.875V15M15 12h.008v.008H15V12Zm-3 0h.008v.008H12V12Zm-3 0h.008v.008H9V12Z" />
@@ -414,7 +414,7 @@ const DashboardPage = () => {
       label: "Stock bajo",
       detail: "Productos por debajo del umbral recomendado.",
       value: kpis ? formatNumber(kpis.lowStockItems) : "N/A",
-      iconWrapper: "bg-amber-50 text-amber-600",
+      iconWrapper: "bg-amber-50 text-amber-600 dark:bg-amber-500/20 dark:text-amber-100",
       icon: (
         <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 5.25v-1.5a2.25 2.25 0 0 0-2.25-2.25h-3a2.25 2.25 0 0 0-2.25 2.25v.75m0 .75H7.5A2.25 2.25 0 0 0 5.25 9v5.25M8.25 6.75h7.5m0 0h.75A2.25 2.25 0 0 1 18.75 9v2.25M15 12h.008v.008H15V12Zm-3 0h.008v.008H12V12Zm-3 0h.008v.008H9V12Zm-3.75 2.25H3A1.5 1.5 0 0 0 1.5 15v2.25A1.5 1.5 0 0 0 3 18.75h.75M20.25 12h.75A2.25 2.25 0 0 1 23.25 14.25v3A2.25 2.25 0 0 1 21 19.5h-.75" />
@@ -426,7 +426,7 @@ const DashboardPage = () => {
       label: "Ventas del día",
       detail: "Transacciones registradas en la jornada.",
       value: kpis ? formatNumber(kpis.dailySalesCount) : "N/A",
-      iconWrapper: "bg-purple-50 text-purple-600",
+      iconWrapper: "bg-purple-50 text-purple-600 dark:bg-purple-500/20 dark:text-purple-100",
       icon: (
         <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 13.5v3.75a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V13.5m16.5 0L12 6.75 3.75 13.5m16.5 0H3.75m6.75 3H13.5" />
@@ -438,7 +438,7 @@ const DashboardPage = () => {
       label: "Ventas totales",
       detail: "Pedidos despachados históricamente.",
       value: kpis ? formatNumber(kpis.totalSalesCount) : "N/A",
-      iconWrapper: "bg-rose-50 text-rose-600",
+      iconWrapper: "bg-rose-50 text-rose-600 dark:bg-rose-500/20 dark:text-rose-100",
       icon: (
         <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" strokeWidth={1.5} stroke="currentColor" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5V6.75A2.25 2.25 0 0 1 10.5 4.5h3a2.25 2.25 0 0 1 2.25 2.25v.75m2.25 12h-12A2.25 2.25 0 0 1 3.75 18V9.75A2.25 2.25 0 0 1 6 7.5h12a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25Zm-6-3a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" />
@@ -447,19 +447,24 @@ const DashboardPage = () => {
     },
   ];
   const lowStockProducts = inventoryProducts.filter((product) => Number(product.stock) < LOW_STOCK_THRESHOLD);
+  const cardClass = "rounded-2xl border border-slate-200 bg-white p-6 shadow-lg dark:border-slate-700 dark:bg-slate-900";
+  const compactCardClass =
+    "rounded-2xl border border-slate-200 bg-white p-5 shadow-md transition duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900";
+  const listItemClass =
+    "flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-700 dark:bg-slate-800/60";
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg md:p-8">
+      <section className={`${cardClass} md:p-8`}>
         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-500">Panel principal</p>
-            <h1 className="mt-2 text-3xl font-bold text-slate-900 md:text-4xl">Hola, {currentUser.name}</h1>
-            <p className="mt-3 text-sm text-slate-600">
-              Rol actual: <span className="font-semibold text-blue-600">{currentUser.role}</span>. Gestiona tu inventario y pedidos desde aquí.
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-500 dark:text-blue-300">Panel principal</p>
+            <h1 className="mt-2 text-3xl font-bold text-slate-900 dark:text-slate-100 md:text-4xl">Hola, {currentUser.name}</h1>
+            <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+              Rol actual: <span className="font-semibold text-blue-600 dark:text-blue-300">{currentUser.role}</span>. Gestiona tu inventario y pedidos desde aquí.
             </p>
             {notice ? (
-              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-medium text-amber-800">
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-xs font-medium text-amber-800 dark:border-amber-500/40 dark:bg-amber-500/20 dark:text-amber-100">
                 <span className="h-2 w-2 rounded-full bg-amber-500" />
                 {notice}
               </div>
@@ -467,8 +472,8 @@ const DashboardPage = () => {
           </div>
           <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-end lg:w-auto">
             <div className="text-right">
-              <p className="text-2xl font-semibold text-slate-900">{formattedTime}</p>
-              <p className="text-xs text-slate-500 capitalize">{formattedDate}</p>
+              <p className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{formattedTime}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-300 capitalize">{formattedDate}</p>
             </div>
             <div className="flex flex-col gap-2 sm:w-52">
               <button
@@ -488,13 +493,13 @@ const DashboardPage = () => {
         {metricCards.map((metric) => (
           <article
             key={metric.id}
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-md transition duration-200 hover:-translate-y-0.5 hover:shadow-lg"
+            className={compactCardClass}
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{metric.label}</p>
-                <p className="mt-3 text-3xl font-bold text-slate-900">{metric.value}</p>
-                <p className="mt-2 text-xs text-slate-500">{metric.detail}</p>
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-300">{metric.label}</p>
+                <p className="mt-3 text-3xl font-bold text-slate-900 dark:text-slate-100">{metric.value}</p>
+                <p className="mt-2 text-xs text-slate-500 dark:text-slate-300">{metric.detail}</p>
               </div>
               <span className={`flex h-12 w-12 items-center justify-center rounded-full ${metric.iconWrapper}`}>{metric.icon}</span>
             </div>
@@ -503,16 +508,16 @@ const DashboardPage = () => {
       </section>
 
       <div className="grid gap-6 xl:grid-cols-[2fr_1fr]">
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
+        <section className={cardClass}>
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">Órdenes recientes</h2>
-              <p className="text-sm text-slate-500">Últimos movimientos registrados en el sistema.</p>
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Órdenes recientes</h2>
+              <p className="text-sm text-slate-500 dark:text-slate-300">Últimos movimientos registrados en el sistema.</p>
             </div>
             <button
               type="button"
               onClick={() => navigate('/orders')}
-              className="text-sm font-semibold text-blue-600 transition hover:text-blue-700"
+              className="text-sm font-semibold text-blue-600 dark:text-blue-300 transition hover:text-blue-700"
             >
               Ver todas
             </button>
@@ -521,7 +526,7 @@ const DashboardPage = () => {
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-slate-200">
                 <thead>
-                  <tr className="text-left text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  <tr className="text-left text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-300">
                     <th className="py-3">Cliente</th>
                     <th className="py-3">Fecha</th>
                     <th className="py-3">Estado</th>
@@ -531,7 +536,7 @@ const DashboardPage = () => {
                   {recentOrders.map((order) => (
                     <tr key={order.id} className="text-sm text-slate-700">
                       <td className="py-3 font-medium">{order.clientName}</td>
-                      <td className="py-3 text-slate-500">{new Date(order.orderDate).toLocaleDateString('es-CL')}</td>
+                      <td className="py-3 text-slate-500 dark:text-slate-300">{new Date(order.orderDate).toLocaleDateString('es-CL')}</td>
                       <td className="py-3">
                         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusClasses(order.status)}`}>
                           {getStatusLabel(order.status)}
@@ -543,50 +548,50 @@ const DashboardPage = () => {
               </table>
             </div>
           ) : (
-            <p className="rounded-xl border border-dashed border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500">
+            <p className="rounded-xl border border-dashed border-slate-200 bg-slate-50 dark:border-slate-600 dark:bg-slate-800/40 p-6 text-center text-sm text-slate-500 dark:text-slate-300">
               Aún no registras órdenes recientes.
             </p>
           )}
         </section>
 
         <div className="space-y-6">
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
+          <section className={cardClass}>
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">Usuarios del sistema</h2>
-              <span className="text-xs font-medium uppercase tracking-wide text-slate-400">Resumen</span>
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Usuarios del sistema</h2>
+              <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-300">Resumen</span>
             </div>
             <ul className="mt-4 space-y-3">
               {systemUsers.map((user) => (
                 <li
                   key={user.id}
-                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  className={listItemClass}
                 >
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{user.name}</p>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{user.name}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-300">
                       {user.role} - {user.area}
                     </p>
                   </div>
-                  <span className="text-xs font-semibold text-emerald-600">Activo</span>
+                  <span className="text-xs font-semibold text-emerald-600 dark:text-emerald-300">Activo</span>
                 </li>
               ))}
             </ul>
           </section>
 
-          <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
+          <section className={cardClass}>
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">Órdenes a proveedores</h2>
-              <span className="text-xs font-medium uppercase tracking-wide text-slate-400">Período actual</span>
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Órdenes a proveedores</h2>
+              <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-300">Período actual</span>
             </div>
             <ul className="mt-4 space-y-3">
               {supplierOrders.map((order) => (
                 <li
                   key={order.id}
-                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  className={listItemClass}
                 >
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{order.supplier}</p>
-                    <p className="text-xs text-slate-500">{order.date}</p>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{order.supplier}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-300">{order.date}</p>
                   </div>
                   <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusClasses(order.status)}`}>
                     {getStatusLabel(order.status)}
@@ -599,19 +604,19 @@ const DashboardPage = () => {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[2fr_1fr]">
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
+        <section className={cardClass}>
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-slate-900">Distribución de stock</h2>
-            <span className="text-xs font-medium uppercase tracking-wide text-slate-400">Actualizado</span>
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Distribución de stock</h2>
+            <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-300">Actualizado</span>
           </div>
           <div className="mt-5 space-y-5">
             {categoryStock.map((category) => (
               <div key={category.id} className="space-y-2">
-                <div className="flex items-center justify-between text-sm font-medium text-slate-600">
+                <div className="flex items-center justify-between text-sm font-medium text-slate-600 dark:text-slate-300">
                   <span>{category.label}</span>
                   <span>{category.percent}%</span>
                 </div>
-                <div className="h-2 w-full rounded-full bg-slate-100">
+                <div className="h-2 w-full rounded-full bg-slate-100 dark:bg-slate-800">
                   <div className={`${category.color} h-2 rounded-full`} style={{ width: `${category.percent}%` }} />
                 </div>
               </div>
@@ -619,11 +624,11 @@ const DashboardPage = () => {
           </div>
         </section>
 
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-lg">
+        <section className={cardClass}>
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-lg font-semibold text-slate-900">Productos con stock bajo</h2>
-              <p className="text-xs text-slate-500">Umbral configurado en {LOW_STOCK_THRESHOLD} unidades.</p>
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Productos con stock bajo</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-300">Umbral configurado en {LOW_STOCK_THRESHOLD} unidades.</p>
             </div>
           </div>
           {lowStockProducts.length > 0 ? (
@@ -631,18 +636,18 @@ const DashboardPage = () => {
               {lowStockProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  className={listItemClass}
                 >
                   <div>
-                    <p className="text-sm font-semibold text-slate-900">{product.nombre}</p>
-                    <p className="text-xs text-slate-500">Stock actual: {product.stock}</p>
+                    <p className="text-sm font-semibold text-slate-900 dark:text-slate-100">{product.nombre}</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-300">Stock actual: {product.stock}</p>
                   </div>
-                  <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700">Revisar</span>
+                  <span className="rounded-full bg-amber-100 px-2 py-1 text-xs font-semibold text-amber-700 dark:bg-amber-500/20 dark:text-amber-200">Revisar</span>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="mt-6 rounded-xl border border-dashed border-slate-200 bg-slate-50 p-6 text-center text-sm text-slate-500">
+            <p className="mt-6 rounded-xl border border-dashed border-slate-200 bg-slate-50 dark:border-slate-600 dark:bg-slate-800/40 p-6 text-center text-sm text-slate-500 dark:text-slate-300">
               No hay productos por debajo del umbral definido.
             </p>
           )}

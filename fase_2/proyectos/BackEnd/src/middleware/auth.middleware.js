@@ -64,9 +64,13 @@ export const requireRole = (...roles) => {
     if (!req.user?.role) {
       return res.status(401).json({ message: 'Unauthorized' })
     }
-    if (allowed.length === 0 || allowed.includes(normRole(req.user.role))) {
+    if (allowed.length === 0) {
+      return res.status(500).json({ message: 'Internal role config error' })
+    }
+    if (allowed.includes(normRole(req.user.role))) {
       return next()
     }
+
     return res.status(403).json({ message: 'Forbidden' })
   }
 }

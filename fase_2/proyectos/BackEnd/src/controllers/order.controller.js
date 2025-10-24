@@ -15,6 +15,8 @@ import {
   listOrdersByRutService
 } from '../services/order.service.js'
 
+import { normalizeRut } from '../utils/rut.js'
+
 // --------------------- CREATE ORDER ---------------------
 export const createOrder = async (req, res) => {
   try {
@@ -40,7 +42,7 @@ export const listOrders = async (_req, res) => {
   }
 }
 
-// --------------------- LIST ORDER BY ID ---------------------
+// --------------------- GET ORDER BY ID ---------------------
 export const listOrderById = async (req, res) => {
   try {
     const order = await getOrderService(req.params.id)
@@ -92,11 +94,21 @@ export const createOrderByRut = async (req, res) => {
 // --------------------- LIST ORDERS BY RUT (cliente) ---------------------
 export const listOrdersByRut = async (req, res) => {
   try {
-    const rut = String(req.params.rut || '').trim()
-    if (!rut) return res.status(400).json({ message: 'RUT requerido' })
+    const rawRut = String(req.params.rut || '').trim()
+    if (!rawRut) {
+      return res.status(400).json({ message: 'RUT requerido' })
+    }
+
+    const rut = normalizeRut(rawRut)
+
     const data = await listOrdersByRutService(rut)
     return res.json(data)
   } catch (err) {
-    return res.status(err.status || 500).json({ message: 'Error al buscar órdenes por RUT', error: err?.message })
+    return res
+      .status(err.status || 500)
+      .json({
+        message: 'Error al buscar órdenes por RUT',
+        error: err?.message
+      })
   }
 }

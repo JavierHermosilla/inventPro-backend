@@ -1,9 +1,9 @@
-"use strict";
+'use strict'
 
 module.exports = {
   async up (qi) {
-    const t = await qi.sequelize.transaction();
-    const schema = "inventpro_user";
+    const t = await qi.sequelize.transaction()
+    const schema = 'inventpro_user'
     try {
       // --- Limpieza de UNIQUE sobre clients.rut (dejar solo el único PARCIAL clients_rut_unique_active)
       await qi.sequelize.query(`
@@ -46,7 +46,7 @@ module.exports = {
           END IF;
         END
         $$;
-      `, { transaction: t });
+      `, { transaction: t })
 
       // --- Limpieza de FKs duplicadas en orders.client_id -> clients.id (dejar solo orders_client_id_fkey con ON DELETE SET NULL)
       await qi.sequelize.query(`
@@ -81,16 +81,16 @@ module.exports = {
           END IF;
         END
         $$;
-      `, { transaction: t });
+      `, { transaction: t })
 
-      await t.commit();
+      await t.commit()
     } catch (e) {
-      await t.rollback();
-      throw e;
+      await t.rollback()
+      throw e
     }
   },
 
   async down () {
     // No recreamos duplicados en rollback.
   }
-};
+}

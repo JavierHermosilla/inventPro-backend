@@ -1,33 +1,49 @@
 'use strict'
-
 const bcrypt = require('bcryptjs')
 
 module.exports = {
-  async up (queryInterface) {
-    const hash = await bcrypt.hash('Admin123!', 10)
+  async up (queryInterface, Sequelize) {
+    const schema = process.env.DB_SCHEMA || 'inventpro_user'
+    const table = { tableName: 'users', schema }
+    const now = Sequelize.fn('NOW')
 
-    // Asegúrate de tener la extensión para gen_random_uuid()
-    // En tu BD:  CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+    // Hash de 'Admin123!' (admite símbolos; login no pasa por Zod)
+    const pass = await bcrypt.hash('Admin123!', 10)
 
-    // UPSERT por email (puedes añadir también UNIQUE en email en la BD)
-    await queryInterface.sequelize.query(`
-      INSERT INTO "inventpro_user"."users"
-        ("id","username","name","email","password","phone","address","avatar","role","created_at","updated_at")
-      VALUES
-        (gen_random_uuid(),'admin','Administrador','admin@inventpro.cl', :hash, NULL, NULL, NULL, 'admin', NOW(), NOW())
-      ON CONFLICT ("email") DO UPDATE
-      SET
-        username   = EXCLUDED.username,
-        name       = EXCLUDED.name,
-        password   = EXCLUDED.password,
-        role       = EXCLUDED.role,
-        updated_at = NOW();
-    `, { replacements: { hash } })
+    // ¿Existe ya el admin por email?
+    const existingId = await queryInterface.rawSelect(
+      table,
+      { where: { email: 'admin@inventpro.cl' } },
+      ['id']
+    )
+
+    if (existingId) {
+      // Actualiza
+      await queryInterface.bulkUpdate(
+        table,
+        { username: 'admin', name: 'Administrador', password: pass, role: 'admin', updated_at: now },
+        { email: 'admin@inventpro.cl' }
+      )
+    } else {
+      // Inserta
+      await queryInterface.bulkInsert(
+        table,
+        [{
+          // Descomenta si tu columna id NO tiene default uuid en la BD:
+          // id: Sequelize.literal('gen_random_uuid()'),
+          username: 'admin',
+          name: 'Administrador',
+          email: 'admin@inventpro.cl',
+          password: pass,
+          role: 'admin',
+          created_at: now,
+          updated_at: now
+        }]
+      )
+    }
   },
 
-  // ⚠️ Recomiendo NO borrar en down para evitar violar FKs.
-  // Si insistes en borrar, hazlo bajo tu responsabilidad.
   async down () {
-    // no-op
+    // en dev, no borramos al admin
   }
 }

@@ -10861,3 +10861,71 @@
 {"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-17T11:53:15.950Z"}
 {"level":"info","message":"[AUDIT] user 66a4b7aa-ea51-48d1-a4a3-6dab724d7863 created product 9912c652-536d-430f-89f7-4dd0a945dc73 (Producto E2E 3475), IP: 127.0.0.1","timestamp":"2025-10-17T12:13:57.607Z"}
 {"level":"info","message":"[AUDIT] user 66a4b7aa-ea51-48d1-a4a3-6dab724d7863 created product 54f950ed-6ef6-4b35-ab62-fe48e53a99ed (Producto E2E 8103), IP: 127.0.0.1","timestamp":"2025-10-17T12:14:00.551Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-22T21:59:21.529Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-22T23:00:30.511Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-23T00:34:02.786Z"}
+{"level":"error","message":"createOrderProduct error: el registro «new» no tiene un campo «price»","timestamp":"2025-10-23T00:34:03.092Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-23T23:25:22.579Z"}
+{"level":"warn","message":"Login failed: email not found (admin1@example.com), IP=127.0.0.1","timestamp":"2025-10-23T23:25:22.609Z"}
+{"level":"info","message":"User registered: admin1@example.com, id=3b55cc64-06f3-4c03-a30f-da9d99ad7320, IP=127.0.0.1","timestamp":"2025-10-23T23:47:24.251Z"}
+{"level":"info","message":"User registered: vend1@example.com, id=a61197e3-afbb-42f7-81a5-c1a044ca1068, IP=127.0.0.1","timestamp":"2025-10-23T23:47:24.341Z"}
+{"level":"info","message":"User registered: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-23T23:47:24.425Z"}
+{"level":"info","message":"User registered: cli1@example.com, id=7d10d8ca-c49f-4c4d-b6a9-b79a3658e37c, IP=127.0.0.1","timestamp":"2025-10-23T23:47:24.509Z"}
+{"level":"info","message":"Login OK: admin1@example.com, id=3b55cc64-06f3-4c03-a30f-da9d99ad7320, IP=127.0.0.1","timestamp":"2025-10-23T23:47:51.660Z"}
+{"level":"info","message":"Login OK: vend1@example.com, id=a61197e3-afbb-42f7-81a5-c1a044ca1068, IP=127.0.0.1","timestamp":"2025-10-23T23:47:51.735Z"}
+{"level":"info","message":"Login OK: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-23T23:47:51.811Z"}
+{"level":"info","message":"Login OK: cli1@example.com, id=7d10d8ca-c49f-4c4d-b6a9-b79a3658e37c, IP=127.0.0.1","timestamp":"2025-10-23T23:47:51.887Z"}
+{"level":"info","message":"Login OK: admin1@example.com, id=3b55cc64-06f3-4c03-a30f-da9d99ad7320, IP=127.0.0.1","timestamp":"2025-10-23T23:48:13.466Z"}
+{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP 127.0.0.1","timestamp":"2025-10-23T23:48:13.469Z"}
+{"level":"info","message":"Login OK: admin1@example.com, id=3b55cc64-06f3-4c03-a30f-da9d99ad7320, IP=127.0.0.1","timestamp":"2025-10-23T23:52:08.443Z"}
+{"level":"info","message":"Login OK: vend1@example.com, id=a61197e3-afbb-42f7-81a5-c1a044ca1068, IP=127.0.0.1","timestamp":"2025-10-23T23:52:08.522Z"}
+{"level":"info","message":"Login OK: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-23T23:52:08.599Z"}
+{"level":"info","message":"Login OK: cli1@example.com, id=7d10d8ca-c49f-4c4d-b6a9-b79a3658e37c, IP=127.0.0.1","timestamp":"2025-10-23T23:52:08.675Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-24T00:23:31.341Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-24T00:27:53.249Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-24T00:28:16.284Z"}
+{"level":"info","message":"Login OK: vend1@example.com, id=a61197e3-afbb-42f7-81a5-c1a044ca1068, IP=127.0.0.1","timestamp":"2025-10-24T00:28:24.543Z"}
+{"level":"info","message":"Login OK: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-24T00:28:24.627Z"}
+{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP 127.0.0.1","timestamp":"2025-10-24T00:28:24.630Z"}
+{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP 127.0.0.1","timestamp":"2025-10-24T00:33:23.662Z"}
+{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP 127.0.0.1","timestamp":"2025-10-24T00:33:26.813Z"}
+{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP 127.0.0.1","timestamp":"2025-10-24T00:33:26.820Z"}
+{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP 127.0.0.1","timestamp":"2025-10-24T00:33:26.828Z"}
+{"level":"warn","message":"Rate limit exceeded on /api/auth/login from IP 127.0.0.1","timestamp":"2025-10-24T00:33:26.835Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-24T00:42:29.082Z"}
+{"level":"info","message":"Login OK: vend1@example.com, id=a61197e3-afbb-42f7-81a5-c1a044ca1068, IP=127.0.0.1","timestamp":"2025-10-24T00:42:29.181Z"}
+{"level":"info","message":"Login OK: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-24T00:42:29.260Z"}
+{"level":"info","message":"Login OK: cli1@example.com, id=7d10d8ca-c49f-4c4d-b6a9-b79a3658e37c, IP=127.0.0.1","timestamp":"2025-10-24T00:42:29.338Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-24T13:34:57.295Z"}
+{"level":"info","message":"Login OK: vend1@example.com, id=a61197e3-afbb-42f7-81a5-c1a044ca1068, IP=127.0.0.1","timestamp":"2025-10-24T13:34:57.380Z"}
+{"level":"info","message":"Login OK: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-24T13:34:57.459Z"}
+{"level":"info","message":"Login OK: cli1@example.com, id=7d10d8ca-c49f-4c4d-b6a9-b79a3658e37c, IP=127.0.0.1","timestamp":"2025-10-24T13:34:57.542Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-24T13:35:45.194Z"}
+{"level":"info","message":"Login OK: vend1@example.com, id=a61197e3-afbb-42f7-81a5-c1a044ca1068, IP=127.0.0.1","timestamp":"2025-10-24T13:35:45.334Z"}
+{"level":"info","message":"Login OK: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-24T13:35:45.416Z"}
+{"level":"info","message":"Login OK: cli1@example.com, id=7d10d8ca-c49f-4c4d-b6a9-b79a3658e37c, IP=127.0.0.1","timestamp":"2025-10-24T13:35:45.507Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-24T13:59:13.910Z"}
+{"level":"info","message":"Login OK: vend1@example.com, id=a61197e3-afbb-42f7-81a5-c1a044ca1068, IP=127.0.0.1","timestamp":"2025-10-24T13:59:13.990Z"}
+{"level":"info","message":"Login OK: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-24T13:59:14.071Z"}
+{"level":"info","message":"Login OK: cli1@example.com, id=7d10d8ca-c49f-4c4d-b6a9-b79a3658e37c, IP=127.0.0.1","timestamp":"2025-10-24T13:59:14.150Z"}
+{"level":"error","message":"createManualInventory error: Stock would go negative","timestamp":"2025-10-24T14:21:00.733Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.317Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.334Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.370Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.381Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.398Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.572Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.582Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.603Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.612Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.621Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.637Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.678Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.835Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.844Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.857Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-10-24T15:56:10.232Z"}
+{"level":"info","message":"Login OK: vend1@example.com, id=a61197e3-afbb-42f7-81a5-c1a044ca1068, IP=127.0.0.1","timestamp":"2025-10-24T15:56:10.310Z"}
+{"level":"info","message":"Login OK: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-24T15:56:10.386Z"}
+{"level":"info","message":"Login OK: cli1@example.com, id=7d10d8ca-c49f-4c4d-b6a9-b79a3658e37c, IP=127.0.0.1","timestamp":"2025-10-24T15:56:10.462Z"}
+{"level":"info","message":"[AUDIT] user 66a4b7aa-ea51-48d1-a4a3-6dab724d7863 created product c5e1c4b5-0bd3-4565-85ed-c5018ce84e28 (Leche entera 1L), IP: 127.0.0.1","timestamp":"2025-10-24T15:56:41.499Z"}

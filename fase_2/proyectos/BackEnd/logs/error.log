@@ -881,3 +881,21 @@
 {"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-10-15T18:48:41.435Z"}
 {"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-10-15T18:48:54.900Z"}
 {"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-15T19:15:53.545Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-22T23:00:30.511Z"}
+{"level":"error","message":"createOrderProduct error: el registro «new» no tiene un campo «price»","timestamp":"2025-10-23T00:34:03.092Z"}
+{"level":"error","message":"createManualInventory error: Stock would go negative","timestamp":"2025-10-24T14:21:00.733Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.317Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.334Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.370Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.381Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.398Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.572Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.582Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.603Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.612Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.621Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.637Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.678Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.835Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.844Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.857Z"}

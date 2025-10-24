@@ -9,22 +9,57 @@ import {
 
 const { ManualInventory } = models
 
+function toPositiveInt (n) {
+  const v = Number(n)
+  return Number.isFinite(v) ? Math.trunc(v) : NaN
+}
+
 // POST /api/manual-inventory
 export const createManualInventory = async (req, res) => {
   try {
-    const { productId, type, quantity, reason } = req.body
-    if (!productId || !type || quantity === undefined) {
-      return res.status(400).json({ message: 'productId, type y quantity son requeridos' })
+    const { productId, type, quantity, reason } = req.body ?? {}
+
+    // Validación básica defensiva (si ya usas Zod en el schema, puedes omitir esto)
+    if (!productId || typeof productId !== 'string') {
+      return res.status(400).json({ message: 'productId es requerido y debe ser UUID' })
     }
-    const out = await createManualInventoryService({ productId, type, quantity, reason }, req.user)
-    return res.status(201).json({ message: 'Ajuste registrado', ...out })
+    if (type !== 'increase' && type !== 'decrease') {
+      return res.status(400).json({ message: 'type debe ser "increase" o "decrease"' })
+    }
+    const q = toPositiveInt(quantity)
+    if (!Number.isFinite(q) || q <= 0) {
+      return res.status(400).json({ message: 'quantity debe ser entero positivo' })
+    }
+
+    const { adjustmentId, newStock, product, adjustment } =
+      await createManualInventoryService({ productId, type, quantity: q, reason }, req.user)
+
+    return res.status(201).json({
+      message: 'Manual inventory adjustment created.',
+      adjustmentId, // ← lo que tu script muestra
+      newStock, // ← lo que tu script muestra
+      product: {
+        id: product.id,
+        name: product.name,
+        stock: product.stock
+      },
+      adjustment: {
+        id: adjustment.id,
+        productId: adjustment.productId,
+        userId: adjustment.userId,
+        type: adjustment.type,
+        quantity: adjustment.quantity,
+        reason: adjustment.reason,
+        created_at: adjustment.created_at
+      }
+    })
   } catch (err) {
     logger?.error?.(`createManualInventory error: ${err.message}`)
     return res.status(err.status || 500).json({ message: err.message || 'Error creando ajuste' })
   }
 }
 
-// GET /api/manual-inventory  (listado paginado)
+// GET /api/manual-inventory
 export const listManualInventories = async (req, res) => {
   try {
     const result = await listManualInventoriesService(req.query)
@@ -41,7 +76,7 @@ export const manualInventoryById = async (req, res) => {
     const row = await ManualInventory.findByPk(req.params.id, {
       include: [
         { association: 'product', required: false },
-        { association: 'performedBy', required: false } // alias definido en associations
+        { association: 'performedBy', required: false }
       ]
     })
     if (!row) return res.status(404).json({ message: 'Registro no encontrado' })
@@ -63,5 +98,5 @@ export const deleteManualInventory = async (req, res) => {
   }
 }
 
-// Alias para que tu ruta actual que importa getAllManualInventories siga funcionando
+// Alias de compatibilidad
 export { listManualInventories as getAllManualInventories }

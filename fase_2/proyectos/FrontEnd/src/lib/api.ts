@@ -3,9 +3,8 @@ import axios, { AxiosHeaders, type AxiosError, type InternalAxiosRequestConfig }
 const TOKEN_KEY = "inventpro_access_token";
 
 const resolveBaseUrl = () => {
-  const meta = import.meta as ImportMeta & { env?: Record<string, string | undefined> };
-  const candidate = meta.env?.VITE_API_URL;
-  return candidate && candidate.trim().length > 0 ? candidate : "http://localhost:3000/api";
+  const candidate = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_API_URL;
+  return candidate && candidate.trim().length > 0 ? candidate : "/api"; // ✅ fallback seguro
 };
 
 const normalizeToken = (value?: string | null) => {
@@ -28,10 +27,13 @@ const baseURL = resolveBaseUrl();
 const api = axios.create({
   baseURL,
   withCredentials: true,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: { "Content-Type": "application/json" },
 });
+
+// (opcional) log en dev
+if (import.meta.env?.DEV) {
+  console.log("[api] baseURL:", baseURL);
+}
 
 const applyDefaultAuthHeader = (token: string | null) => {
   if (token) {
@@ -44,9 +46,7 @@ const applyDefaultAuthHeader = (token: string | null) => {
 const attachAuthToken = (config: InternalAxiosRequestConfig) => {
   const token = readStoredToken();
   if (token) {
-    if (!config.headers) {
-      config.headers = new AxiosHeaders();
-    }
+    if (!config.headers) config.headers = new AxiosHeaders();
 
     if (config.headers instanceof AxiosHeaders) {
       config.headers.set("Authorization", `Bearer ${token}`);
@@ -72,7 +72,7 @@ api.interceptors.response.use(
         try {
           window.localStorage.removeItem(TOKEN_KEY);
         } catch {
-          /* noop */
+          /* noop: limpiar token es best effort */
         }
       }
       applyDefaultAuthHeader(null);
@@ -82,21 +82,16 @@ api.interceptors.response.use(
 );
 
 const initialToken = readStoredToken();
-if (initialToken) {
-  applyDefaultAuthHeader(initialToken);
-}
+if (initialToken) applyDefaultAuthHeader(initialToken);
 
 export function saveToken(token: string | null) {
   const normalized = normalizeToken(token);
   if (typeof window !== "undefined") {
     try {
-      if (normalized) {
-        window.localStorage.setItem(TOKEN_KEY, normalized);
-      } else {
-        window.localStorage.removeItem(TOKEN_KEY);
-      }
+      if (normalized) window.localStorage.setItem(TOKEN_KEY, normalized);
+      else window.localStorage.removeItem(TOKEN_KEY);
     } catch {
-      /* noop */
+      /* noop: almacenamiento local puede fallar por quota */
     }
   }
   applyDefaultAuthHeader(normalized);

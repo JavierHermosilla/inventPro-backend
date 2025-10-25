@@ -1,5 +1,5 @@
-﻿import { useState, type ReactNode } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { useEffect, useState, type ReactNode } from "react";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
 import { useAuthStore } from "../store/auth";
 import NotificationBell from "./NotificationBell";
@@ -10,6 +10,8 @@ import defaultProfilePhoto from "../assets/Deafult_pfp.jpg";
 type NavItem = {
   to: string;
   label: string;
+  section: string;
+  pageTitle?: string;
   icon: ReactNode;
   roles?: Array<"admin" | "vendedor" | "bodeguero" | "user">;
 };
@@ -85,28 +87,116 @@ const LogoutIcon = () => (
 );
 
 const navItems: NavItem[] = [
-  { to: "/dashboard", label: "Dashboard", icon: <DashboardIcon /> },
-  { to: "/products", label: "Gestión de Productos", icon: <ProductsIcon /> },
-  { to: "/suppliers", label: "Gestión de Proveedores", icon: <SuppliersIcon /> },
-  { to: "/clients", label: "Gestión de Clientes", icon: <ClientsIcon /> },
-  { to: "/users", label: "Gestión de Usuarios", roles: ["admin"], icon: <UsersIcon /> },
-  { to: "/categories", label: "Gestión de Categorías", icon: <CategoriesIcon /> },
-  { to: "/orders", label: "Órdenes de Compra", icon: <OrdersIcon /> },
-  { to: "/manual-inventory", label: "Inventario Manual", icon: <InventoryIcon /> },
-  { to: "/reports", label: "Reportes", icon: <ReportsIcon /> },
-  { to: "/settings", label: "Configuración", icon: <SettingsIcon /> },
+  {
+    to: "/dashboard",
+    label: "Panel Ejecutivo",
+    section: "Resumen estratégico",
+    pageTitle: "Panel Ejecutivo",
+    icon: <DashboardIcon />,
+  },
+  {
+    to: "/products",
+    label: "Gestión de Productos",
+    section: "Catálogo y stock",
+    icon: <ProductsIcon />,
+  },
+  {
+    to: "/suppliers",
+    label: "Gestión de Proveedores",
+    section: "Compras y abastecimiento",
+    icon: <SuppliersIcon />,
+  },
+  {
+    to: "/clients",
+    label: "Gestión de Clientes",
+    section: "Ventas y CRM",
+    icon: <ClientsIcon />,
+  },
+  {
+    to: "/users",
+    label: "Gestión de Usuarios",
+    section: "Administración y roles",
+    roles: ["admin"],
+    icon: <UsersIcon />,
+  },
+  {
+    to: "/categories",
+    label: "Gestión de Categorías",
+    section: "Catálogo maestro",
+    icon: <CategoriesIcon />,
+  },
+  {
+    to: "/orders",
+    label: "Órdenes de Compra",
+    section: "Compras y logística",
+    icon: <OrdersIcon />,
+  },
+  {
+    to: "/manual-inventory",
+    label: "Inventario Manual",
+    section: "Control operativo",
+    icon: <InventoryIcon />,
+  },
+  {
+    to: "/reports",
+    label: "Reportes",
+    section: "Análisis y gestión",
+    icon: <ReportsIcon />,
+  },
+  {
+    to: "/settings",
+    label: "Configuración",
+    section: "Preferencias del sistema",
+    icon: <SettingsIcon />,
+  },
 ];
+
+const COMPANY_NAME = "InventPro";
+const COMPANY_TAGLINE = "Gestión integral de inventarios";
+
+const extraPageMeta: Record<string, { title: string; section: string }> = {
+  "/clients/create": {
+    title: "Registro de Clientes",
+    section: "Ventas y CRM",
+  },
+};
+
+const findPageMeta = (pathname: string) => {
+  const matchedNavItem =
+    navItems.find((item) => pathname === item.to || pathname.startsWith(`${item.to}/`)) ?? null;
+
+  if (matchedNavItem) {
+    return {
+      title: matchedNavItem.pageTitle ?? matchedNavItem.label,
+      section: matchedNavItem.section,
+    };
+  }
+
+  return (
+    extraPageMeta[pathname] ?? {
+      title: "Panel Operativo",
+      section: COMPANY_NAME,
+    }
+  );
+};
+
 
 const Layout = () => {
   const [open, setOpen] = useState(false);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const role = (user?.role ?? "user") as "admin" | "vendedor" | "bodeguero" | "user";
   const rawAvatar = (user as { avatar?: string | null } | null)?.avatar ?? null;
   const avatarSrc = typeof rawAvatar === "string" && rawAvatar.trim().length > 0 ? rawAvatar : defaultProfilePhoto;
+
+  useEffect(() => {
+    const pageMeta = findPageMeta(location.pathname);
+    document.title = `${COMPANY_NAME} | ${COMPANY_TAGLINE} - ${pageMeta.title} (${pageMeta.section})`;
+  }, [location.pathname]);
 
   const handleLogout = async () => {
     if (isLoggingOut) return;
@@ -152,12 +242,16 @@ const Layout = () => {
           open ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 md:relative`}
       >
-        <div className="p-6 border-b flex items-center justify-center">
+        <div className="p-6 border-b flex flex-col items-center gap-3 text-center">
           <img
             src={logoInventPro}
             alt="Logo Invent Pro"
             className="h-20 w-20 object-contain"
           />
+          <div>
+            <p className="text-lg font-semibold text-blue-700">{COMPANY_NAME}</p>
+            <p className="text-xs uppercase tracking-wide text-slate-500">{COMPANY_TAGLINE}</p>
+          </div>
         </div>
 
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
@@ -167,15 +261,21 @@ const Layout = () => {
               <NavLink
                 key={item.to}
                 to={item.to}
+                title={`${COMPANY_NAME} - ${item.section}`}
                 className={({ isActive }) =>
-                  `flex items-center gap-2 p-2 rounded-lg transition-colors ${
-                    isActive ? "bg-blue-50 text-blue-600 font-medium" : "hover:bg-gray-100"
+                  `group flex items-start gap-3 p-3 rounded-lg transition-colors ${
+                    isActive
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-slate-600 hover:bg-gray-100 hover:text-blue-600"
                   }`
                 }
                 onClick={() => setOpen(false)}
               >
                 {item.icon}
-                <span>{item.label}</span>
+                <div className="flex flex-col leading-tight">
+                  <span className="text-sm font-semibold">{item.label}</span>
+                  <span className="text-xs text-slate-400 group-hover:text-blue-500">{item.section}</span>
+                </div>
               </NavLink>
             ))}
         </nav>

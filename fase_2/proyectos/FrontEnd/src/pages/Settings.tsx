@@ -772,16 +772,26 @@ const SettingsPage = () => {
               </tr>
             </thead>
             <tbody>
-              {permissions.map((row) => (
-                <tr key={row.module} className="odd:bg-white even:bg-gray-50 dark:odd:bg-slate-900 dark:even:bg-slate-800/70">
-                  <td className="px-4 py-2 font-medium text-gray-700 dark:text-slate-100">{row.module}</td>
-                  {rolesColumns.map((col) => (
-                    <td key={col} className="px-4 py-2 text-center">
-                      <Toggle checked={row[col]} onChange={() => togglePermission(row.module, col)} label={`Permiso ${col}`} />
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {permissions.map((row, index) => {
+                const isEven = index % 2 === 0;
+                const rowClass = isDarkMode
+                  ? isEven
+                    ? "bg-slate-900"
+                    : "bg-slate-800/80"
+                  : isEven
+                    ? "bg-white"
+                    : "bg-gray-50";
+                return (
+                  <tr key={row.module} className={rowClass}>
+                    <td className={`px-4 py-2 font-medium ${isDarkMode ? "text-slate-100" : "text-gray-700"}`}>{row.module}</td>
+                    {rolesColumns.map((col) => (
+                      <td key={col} className="px-4 py-2 text-center">
+                        <Toggle checked={row[col]} onChange={() => togglePermission(row.module, col)} label={`Permiso ${col}`} />
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -793,11 +803,16 @@ const SettingsPage = () => {
       >
         <div className="grid gap-4 md:grid-cols-2">
           {integrationEntries.map(([key, config]) => (
-            <div key={key} className="rounded-lg border border-gray-100 bg-gray-50 p-4 transition-colors dark:border-slate-700 dark:bg-slate-900/40">
+            <div
+              key={key}
+              className={`rounded-lg border p-4 transition-colors ${
+                isDarkMode ? "border-slate-700 bg-slate-900/40" : "border-gray-100 bg-gray-50"
+              }`}
+            >
               <header className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-700 dark:text-slate-100">{key.toUpperCase()}</h3>
-                  <p className="text-xs text-gray-500 dark:text-slate-400">
+                  <h3 className={`text-sm font-semibold ${isDarkMode ? "text-slate-100" : "text-gray-700"}`}>{key.toUpperCase()}</h3>
+                  <p className={`text-xs ${isDarkMode ? "text-slate-400" : "text-gray-500"}`}>
                     {config.enabled ? "Activo" : "Disabled"} {config.enabled ? " - revisar credenciales" : ""}
                   </p>
                 </div>

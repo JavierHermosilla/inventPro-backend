@@ -317,19 +317,21 @@ export const useSettingsStore = create<SettingsState>()(
         return true;
       },
 
-      releaseLowStockAlert: (productId) => set((state) => {
-        const key = toId(productId);
-        if (!(key in state.notifications.lowStockRegistry)) {
-          return state;
-        }
-        const { [key]: _, ...rest } = state.notifications.lowStockRegistry;
-        return {
-          notifications: {
-            ...state.notifications,
-            lowStockRegistry: rest,
-          },
-        };
-      }),
+      releaseLowStockAlert: (productId) =>
+        set((state) => {
+          const key = toId(productId);
+          if (!(key in state.notifications.lowStockRegistry)) {
+            return state;
+          }
+          const rest = { ...state.notifications.lowStockRegistry };
+          delete rest[key];
+          return {
+            notifications: {
+              ...state.notifications,
+              lowStockRegistry: rest,
+            },
+          };
+        }),
 
       setTheme: (theme) => {
         if (typeof document !== "undefined") {

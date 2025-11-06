@@ -1,9 +1,1 @@
-node_modules/
-.env*
-*.log
-coverage/
-exports/
-dist/
-.DS_Store
-Thumbs.db
-.vscode/
+# root ignore

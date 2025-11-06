@@ -10929,3 +10929,107 @@
 {"level":"info","message":"Login OK: bod1@example.com, id=22ab3082-3b32-43f4-b082-1842c81d2643, IP=127.0.0.1","timestamp":"2025-10-24T15:56:10.386Z"}
 {"level":"info","message":"Login OK: cli1@example.com, id=7d10d8ca-c49f-4c4d-b6a9-b79a3658e37c, IP=127.0.0.1","timestamp":"2025-10-24T15:56:10.462Z"}
 {"level":"info","message":"[AUDIT] user 66a4b7aa-ea51-48d1-a4a3-6dab724d7863 created product c5e1c4b5-0bd3-4565-85ed-c5018ce84e28 (Leche entera 1L), IP: 127.0.0.1","timestamp":"2025-10-24T15:56:41.499Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T04:21:40.175Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/products/export.csv?limit=10)","timestamp":"2025-11-05T04:21:47.183Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/products/export.pdf?limit=100)","timestamp":"2025-11-05T04:21:56.797Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/products/export.xlsx?limit=100)","timestamp":"2025-11-05T04:21:56.816Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T04:23:13.959Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T04:24:41.657Z"}
+{"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: jwt malformed","timestamp":"2025-11-05T04:31:29.784Z"}
+{"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: jwt malformed","timestamp":"2025-11-05T04:31:29.869Z"}
+{"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: jwt malformed","timestamp":"2025-11-05T04:31:29.935Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T14:26:19.959Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T14:33:36.665Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-11-05T14:35:44.541Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-11-05T14:39:04.960Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-11-05T14:42:16.187Z"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"deb1fc8c-8864-4ea9-9370-ecb59beff0b2","productName":"Leche Entera 1L","requestId":"d31d5a52-4dd3-4d31-a2f6-15e790ef9bfa","timestamp":"2025-11-05T14:46:04.880Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"ee716477-ae25-4cb1-9a6c-341a961bcc11","productName":"Yoghurt Natural 125g","requestId":"ad360e19-1237-4c51-bc6d-191008434c61","timestamp":"2025-11-05T14:46:04.922Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"b802cd23-f5f2-472e-a49b-69f4b3da640c","productName":"Queso Gouda 500g","requestId":"0c528580-5832-41fc-848e-199b0f0d916a","timestamp":"2025-11-05T14:46:04.964Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"1b74caf4-c5cf-4cd2-b89e-eae3c75c4a3d","productName":"Arroz Grado 1 1kg","requestId":"cd2e43ce-11db-40e2-9800-8a3b7cdf3b32","timestamp":"2025-11-05T14:46:05.005Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"36e4b852-1933-42a1-9406-467cff48b8d9","productName":"Fideos Spaghetti 400g","requestId":"a09060df-65ce-49a8-b574-2b9fbb2b2861","timestamp":"2025-11-05T14:46:05.046Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"1823ad64-6065-449b-a32f-61d23c3a96a2","productName":"Aceite Vegetal 1L","requestId":"72700053-8e40-4b86-ad95-040ebf76cdbd","timestamp":"2025-11-05T14:46:05.088Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"4d899d48-78bd-446a-9da8-50e7b4616817","productName":"Atún en Agua 170g","requestId":"db2d5262-341b-4796-8c38-3969b017fdc9","timestamp":"2025-11-05T14:46:05.099Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"79a324bd-500c-493e-937a-924f429a1e6f","productName":"Gaseosa Cola 1.5L","requestId":"c9b59a7c-e5c7-401c-b03d-6448359d4c10","timestamp":"2025-11-05T14:46:05.113Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"a1cd7efd-bcb6-4368-9981-d40398839eec","productName":"Jugo Naranja 1L","requestId":"7b4c5622-41f0-481b-be96-2ee8323f02a1","timestamp":"2025-11-05T14:46:05.125Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"dcdbb9c0-6212-4432-a105-eab893e14c34","productName":"Agua Mineral 1.6L","requestId":"f9a97f22-4aa1-486c-83a8-bee84e54bb0a","timestamp":"2025-11-05T14:46:05.136Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"bdf0ac8d-bebe-4e80-8f0f-b29719efa096","productName":"Lavaloza 750ml","requestId":"8646e551-1b91-4cb2-9908-f780ca598d16","timestamp":"2025-11-05T14:46:05.148Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"e35501a4-f007-42d8-997e-85a7ec5817eb","productName":"Detergente Ropa 3L","requestId":"09464242-3f9a-4151-b734-d2352d186f3a","timestamp":"2025-11-05T14:46:05.158Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"bfd4639d-6a08-4629-917d-488757e8358d","productName":"Toalla de Papel x6","requestId":"d352f27f-e30e-400d-8314-5e119d39a8c6","timestamp":"2025-11-05T14:46:05.168Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"065db6fc-da4e-4d30-bb39-6896ea929ef1","productName":"Notebook 14\" i5 8GB/256GB","requestId":"6d5adf02-a56b-4f44-8f8f-fa376f3ec3fb","timestamp":"2025-11-05T14:46:05.181Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"12dae39d-e153-41a4-af9c-8a65678b87ea","productName":"Mouse Inalámbrico","requestId":"90f6abaa-3bca-41bd-bd52-617d09f8c557","timestamp":"2025-11-05T14:46:05.192Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"a16795b5-acc3-44cf-aecb-3575efe15ce4","productName":"Teclado Mecánico","requestId":"cdb0ad9f-c9a0-48f7-81fd-5d6f131a4c63","timestamp":"2025-11-05T14:46:05.203Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"da2f8f37-2c8a-4169-85fe-f7f2ea95980e","productName":"Cuaderno Univ 100h","requestId":"fbac99f8-fe36-448c-8fb5-e0f505af3e01","timestamp":"2025-11-05T14:46:05.213Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"9ce70b5e-fb78-4069-92ce-92e9c59f9103","productName":"Lápiz Pasta Azul","requestId":"f6b0f8f2-6a8c-4569-98b7-cdc3e9261047","timestamp":"2025-11-05T14:46:05.224Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"bf140b94-7f2d-4ae6-b158-35d51919a1bd","productName":"Resma Papel Carta 500h","requestId":"cfdeaf70-16e0-403f-8ea6-d8835e48d7ac","timestamp":"2025-11-05T14:46:05.236Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] product.created","productId":"fb8bbe4a-0002-4e95-a38b-eb922176f3bd","productName":"Marcadores Fluorescentes x4","requestId":"f392a0d3-8127-4d79-b21f-83ba1e0d2f8b","timestamp":"2025-11-05T14:46:05.246Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T14:55:15.652Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T15:34:32.853Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T15:34:57.132Z"}
+{"clientIP":"127.0.0.1","level":"info","message":"[AUDIT] order.created.byRut","orderId":"3f5f49d1-5415-4ac0-9080-a633fc9addb3","requestId":"41a10065-e5c2-44d5-95cb-71914272bc1b","timestamp":"2025-11-05T15:53:31.986Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-11-05T17:00:18.832Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-11-05T17:00:18.882Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-11-05T17:00:18.896Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/clients?limit=5)","timestamp":"2025-11-05T17:02:36.437Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/suppliers?page=1&limit=50)","timestamp":"2025-11-05T17:02:36.453Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/orders)","timestamp":"2025-11-05T17:02:36.466Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T17:02:43.603Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/clients?limit=5)","timestamp":"2025-11-05T17:02:46.687Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/suppliers?page=1&limit=50)","timestamp":"2025-11-05T17:02:46.713Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/orders)","timestamp":"2025-11-05T17:02:46.723Z"}
+{"level":"warn","message":"Auth denied: no token (URL=GET /api/exports/full-inventory.pdf)","timestamp":"2025-11-05T17:03:01.077Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T17:03:16.448Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T18:05:10.679Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T18:05:30.875Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T18:29:52.675Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T18:36:46.674Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T18:44:24.081Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T18:51:31.240Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T18:53:10.879Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T18:53:28.149Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T19:01:35.182Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T19:02:38.826Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T19:12:47.934Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T19:14:39.021Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T19:18:07.713Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T19:18:27.219Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T19:21:33.818Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T19:40:59.062Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T19:53:56.386Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-05T20:32:43.457Z"}
+{"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: jwt malformed","timestamp":"2025-11-06T18:39:53.985Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T19:24:25.258Z"}
+{"level":"warn","message":"Auth denied: no token (URL=POST /api/clients)","timestamp":"2025-11-06T19:24:25.299Z"}
+{"level":"warn","message":"Auth denied: no token (URL=POST /api/clients)","timestamp":"2025-11-06T19:24:25.327Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T19:27:05.597Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T19:27:23.536Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T19:31:01.152Z"}
+{"clientIP":"127.0.0.1","clientId":"ba732b92-7d53-4dad-99af-70f6b43d2920","clientRut":"11111111-1","level":"info","message":"[AUDIT] client.created","requestId":"1d247c14-4fc5-4adc-921f-0182a79e32b1","timestamp":"2025-11-06T19:31:01.209Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"ba732b92-7d53-4dad-99af-70f6b43d2920","level":"info","message":"[AUDIT] client.deleted","requestId":"383aafb6-8ce3-449f-abd3-43fab3e70776","timestamp":"2025-11-06T19:31:01.378Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"05040c91-5a47-4e10-89d8-b58ed24e7134","clientRut":"22222222-2","level":"info","message":"[AUDIT] client.created","requestId":"2c0e6f8c-079f-4864-a973-61022c536641","timestamp":"2025-11-06T19:31:01.438Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T19:46:10.260Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T19:50:29.945Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T19:51:41.845Z"}
+{"clientIP":"127.0.0.1","clientId":"7b9399d5-50cf-4a91-ae0b-533efe6103bb","clientRut":"33333333-3","level":"info","message":"[AUDIT] client.created","requestId":"2d322301-cf4f-4af2-b8fa-44a0b3fa2db1","timestamp":"2025-11-06T19:51:41.929Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T19:53:39.745Z"}
+{"clientIP":"127.0.0.1","clientId":"7b9399d5-50cf-4a91-ae0b-533efe6103bb","level":"info","message":"[AUDIT] client.deleted","requestId":"f9fc8e75-4e02-43e4-912a-fe3cd0e0f9d4","timestamp":"2025-11-06T19:53:39.820Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"05040c91-5a47-4e10-89d8-b58ed24e7134","level":"info","message":"[AUDIT] client.deleted","requestId":"879d03e9-9ee2-4a3f-9ebc-7d8427c91785","timestamp":"2025-11-06T19:53:39.883Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"0817e08d-aaf5-4743-999b-465759897497","clientRut":"22222222-2","level":"info","message":"[AUDIT] client.created","requestId":"42e834b5-8904-4a92-a34d-fa862737e46b","timestamp":"2025-11-06T19:53:44.844Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"0817e08d-aaf5-4743-999b-465759897497","level":"info","message":"[AUDIT] client.deleted","requestId":"3ea013ea-36ed-4363-9b99-81ae6092ea26","timestamp":"2025-11-06T19:53:44.919Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"5f1cffe4-6027-4ce8-bf90-1210e4282302","clientRut":"33333333-3","level":"info","message":"[AUDIT] client.created","requestId":"668dc4e8-c7c9-42fd-a5a4-031cd9434eb3","timestamp":"2025-11-06T19:53:44.932Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T20:06:26.663Z"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T20:08:02.414Z"}
+{"clientIP":"127.0.0.1","clientId":"5f1cffe4-6027-4ce8-bf90-1210e4282302","level":"info","message":"[AUDIT] client.deleted","requestId":"43dfc3d2-6214-4880-87d5-9177e6eda537","timestamp":"2025-11-06T20:08:02.504Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"32be3a13-961e-402e-8997-b6b3d0aef716","clientRut":"44444444-4","level":"info","message":"[AUDIT] client.created","requestId":"e93a3cab-7c1a-4a6f-b6ef-a005fe4829fd","timestamp":"2025-11-06T20:08:05.926Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"32be3a13-961e-402e-8997-b6b3d0aef716","level":"info","message":"[AUDIT] client.deleted","requestId":"c7f6660e-f9ef-4728-85b0-64830e4813a9","timestamp":"2025-11-06T20:08:06.015Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"091517d5-442f-41c2-b0a4-125025fddd9e","clientRut":"55555555-5","level":"info","message":"[AUDIT] client.created","requestId":"2fb495f7-22d4-4160-96e3-7573fc4cc2ba","timestamp":"2025-11-06T20:08:06.070Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T20:12:32.146Z"}
+{"clientIP":"127.0.0.1","clientId":"091517d5-442f-41c2-b0a4-125025fddd9e","level":"info","message":"[AUDIT] client.deleted","requestId":"615cc451-cb98-42f9-89ae-664aa7313d4a","timestamp":"2025-11-06T20:12:32.252Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"d0e7f862-d3bd-4cb7-b20e-e98399f86e3a","clientRut":"44444444-4","level":"info","message":"[AUDIT] client.created","requestId":"5e38d8f0-9cbe-4930-b26b-c5d0c935eeec","timestamp":"2025-11-06T20:12:32.287Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"d0e7f862-d3bd-4cb7-b20e-e98399f86e3a","level":"info","message":"[AUDIT] client.deleted","requestId":"2dfe636e-4702-4d3f-b2d7-dd3510bb47b4","timestamp":"2025-11-06T20:12:32.373Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"abf2b619-f541-4a4e-9453-0343cc8d2c9a","clientRut":"55555555-5","level":"info","message":"[AUDIT] client.created","requestId":"d46c9bfc-5d68-4140-95c0-95a6b7c8a35f","timestamp":"2025-11-06T20:12:32.431Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"level":"info","message":"Login OK: admin@inventpro.cl, id=66a4b7aa-ea51-48d1-a4a3-6dab724d7863, IP=127.0.0.1","timestamp":"2025-11-06T20:19:16.967Z"}
+{"clientIP":"127.0.0.1","clientId":"abf2b619-f541-4a4e-9453-0343cc8d2c9a","level":"info","message":"[AUDIT] client.deleted","requestId":"fd8563e7-63a1-4df9-b696-6de3a9f31781","timestamp":"2025-11-06T20:19:17.050Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"17c37c63-f0ca-419f-8bd6-55f239d53512","clientRut":"44444444-4","level":"info","message":"[AUDIT] client.created","requestId":"48726324-3ec0-4b7c-8e74-619f8b3059a7","timestamp":"2025-11-06T20:19:17.086Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"17c37c63-f0ca-419f-8bd6-55f239d53512","level":"info","message":"[AUDIT] client.deleted","requestId":"f2163c94-03af-459c-a812-bfd62c282f55","timestamp":"2025-11-06T20:19:17.183Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}
+{"clientIP":"127.0.0.1","clientId":"4ed45441-a5c1-4433-bcd7-8195235a1f41","clientRut":"55555555-5","level":"info","message":"[AUDIT] client.created","requestId":"687a1d92-19a0-4240-9549-58f8f7f26ca7","timestamp":"2025-11-06T20:19:17.207Z","userId":"66a4b7aa-ea51-48d1-a4a3-6dab724d7863"}

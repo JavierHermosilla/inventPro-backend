@@ -1,3 +1,4 @@
+// src/services/reports.service.js
 import Report from '../models/reports.model.js'
 import User from '../models/user.model.js'
 import { Op, col } from 'sequelize'
@@ -19,7 +20,7 @@ export const listReports = async ({ page = 1, limit = 10, search, status, type }
       limit: limitInt,
       offset,
       include: [{ model: User, as: 'creator', attributes: ['id', 'name', 'email'] }],
-      order: [[col('created_at'), 'DESC']]
+      order: [[col('createdAt'), 'DESC']]
     })
 
     return {

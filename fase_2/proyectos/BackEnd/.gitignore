@@ -8,3 +8,7 @@ coverage/
 Thumbs.db
 ~$*
 desktop.ini
+exports/
+logs/
+*.log
+full_inventory.*

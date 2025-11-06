@@ -1,3 +1,4 @@
+// src/schemas/reports.schema.js
 import { z } from 'zod'
 
 const scheduleSchema = z.object({

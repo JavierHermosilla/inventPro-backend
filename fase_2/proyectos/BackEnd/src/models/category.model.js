@@ -1,3 +1,4 @@
+// src/models/category.model.js
 import { DataTypes, Model } from 'sequelize'
 
 class Category extends Model {

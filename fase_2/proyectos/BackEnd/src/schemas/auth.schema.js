@@ -1,3 +1,4 @@
+// src/schemas/auth.schema.js
 import { ROLES } from '../config/roles.js'
 import { z } from 'zod'
 
@@ -27,5 +28,5 @@ export const loginSchema = z.object({
 })
 
 export const userIdParamSchema = z.object({
-  id: z.string().regex(/^[0-9a-fA-F]{24}$/, { message: 'Formato de ID de usuario inválido' })
+  id: z.string().uuid({ message: 'ID de usuario inválido.' })
 })

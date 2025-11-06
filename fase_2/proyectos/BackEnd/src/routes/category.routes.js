@@ -1,3 +1,4 @@
+// src/routes/category.routes.js
 import { Router } from 'express'
 import {
   createCategory,

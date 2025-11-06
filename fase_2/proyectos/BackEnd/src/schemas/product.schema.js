@@ -1,3 +1,4 @@
+// src/schemas/product.schema.js
 import { z } from 'zod'
 import { rutWithDV } from './client.schema.js'
 

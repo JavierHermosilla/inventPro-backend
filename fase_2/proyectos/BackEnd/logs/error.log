@@ -899,3 +899,13 @@
 {"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.835Z"}
 {"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.844Z"}
 {"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-10-24T15:38:17.857Z"}
+{"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: jwt malformed","timestamp":"2025-11-05T04:31:29.784Z"}
+{"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: jwt malformed","timestamp":"2025-11-05T04:31:29.869Z"}
+{"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: jwt malformed","timestamp":"2025-11-05T04:31:29.935Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-11-05T14:35:44.541Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-11-05T14:39:04.960Z"}
+{"level":"error","message":"createSupplier error: Proveedor con RUT o email ya existe","timestamp":"2025-11-05T14:42:16.187Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-11-05T17:00:18.832Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-11-05T17:00:18.882Z"}
+{"code":"TOKEN_EXPIRED","level":"error","message":"Token verification failed: jwt expired","timestamp":"2025-11-05T17:00:18.896Z"}
+{"code":"TOKEN_INVALID","level":"error","message":"Token verification failed: jwt malformed","timestamp":"2025-11-06T18:39:53.985Z"}

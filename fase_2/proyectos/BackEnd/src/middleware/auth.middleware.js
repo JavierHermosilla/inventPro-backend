@@ -4,7 +4,9 @@ import User from '../models/user.model.js'
 import { verifyAccessToken } from '../libs/jwt.js'
 import logger from '../utils/logger.js'
 
-// ---------- helpers ----------
+// ---- helpers ----
+const DEBUG_AUTH = String(process.env.DEBUG_AUTH || '').toLowerCase() === 'true'
+
 function getBearerToken (req) {
   const auth = req.headers.authorization || ''
   return auth.startsWith('Bearer ') ? auth.slice(7) : null
@@ -14,12 +16,16 @@ function normRole (r) {
   return typeof r === 'string' ? r.trim().toLowerCase() : ''
 }
 
+function maskToken (t) {
+  if (!t || typeof t !== 'string') return ''
+  return t.slice(0, 6) + '...' // nunca loguear token completo
+}
+
 // ---------- middleware principal: verifica access token ----------
 export const verifyTokenMiddleware = async (req, res, next) => {
   try {
     // 1) token por header (preferido)
     const headerToken = getBearerToken(req)
-
     // 2) token por cookie (opcional, si ALLOW_COOKIE_AUTH=true)
     const cookieToken = cfg.ALLOW_COOKIE_AUTH ? req.cookies?.token : null
 
@@ -29,11 +35,11 @@ export const verifyTokenMiddleware = async (req, res, next) => {
       return res.status(401).json({ message: 'No token provided, authorization denied' })
     }
 
-    // 🟢 Logs de depuración
-    console.log('🔑 [DEBUG] JWT_SECRET en runtime:', process.env.JWT_SECRET)
-    console.log('🔑 [DEBUG] TOKEN recibido:', token.slice(0, 40) + '...')
+    if (DEBUG_AUTH) {
+      logger.debug('[AUTH] token recibido (masked)', { tokenMasked: maskToken(token) })
+    }
 
-    // Verifica firma/exp y obtén payload (espera { id, role? })
+    // Verifica firma/exp y obtiene payload (espera { id, role? })
     const decoded = await verifyAccessToken(token)
     if (!decoded?.id) {
       logger.warn('Invalid token payload: missing id')
@@ -50,7 +56,10 @@ export const verifyTokenMiddleware = async (req, res, next) => {
     req.user = { id: user.id, role: normRole(user.role) }
     return next()
   } catch (err) {
-    const code = err?.name === 'TokenExpiredError' ? 'TOKEN_EXPIRED' : 'TOKEN_INVALID'
+    const code =
+      err?.name === 'TokenExpiredError' || err?.message?.toLowerCase?.().includes('expired')
+        ? 'TOKEN_EXPIRED'
+        : 'TOKEN_INVALID'
     logger.error(`Token verification failed: ${err.message}`, { code })
     return res.status(401).json({ message: 'Invalid or expired token', code })
   }
@@ -65,12 +74,12 @@ export const requireRole = (...roles) => {
       return res.status(401).json({ message: 'Unauthorized' })
     }
     if (allowed.length === 0) {
+      logger.error('[AUTH] requireRole sin roles configurados')
       return res.status(500).json({ message: 'Internal role config error' })
     }
     if (allowed.includes(normRole(req.user.role))) {
       return next()
     }
-
     return res.status(403).json({ message: 'Forbidden' })
   }
 }

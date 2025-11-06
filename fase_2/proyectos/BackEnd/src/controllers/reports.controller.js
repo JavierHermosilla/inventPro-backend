@@ -1,3 +1,4 @@
+// src/controllers/reports.controller.js
 import Report from '../models/reports.model.js'
 import User from '../models/user.model.js'
 import { createReportSchema, updateReportSchema } from '../schemas/reports.schema.js'

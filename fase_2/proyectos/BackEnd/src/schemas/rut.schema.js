@@ -1,3 +1,4 @@
+// src/schemas/rut.schema.js
 import { z } from 'zod'
 import { normalizeRut, isValidRut } from '../utils/rut.js'
 

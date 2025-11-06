@@ -1,51 +1,32 @@
-// import rateLimit from 'express-rate-limit'
-// import logger from '../utils/logger.js'
-
-// // Handler genérico para cuando se exceden los límites
-// const handleTooManyRequests = (req, res, next, options) => {
-//   logger.warn(`Rate limit exceeded on ${req.originalUrl} from IP ${req.ip}`)
-//   res.status(options.statusCode).json(options.message)
-// }
-
-// // Limiter para login: max 5 intentos cada 15 minutos
-// export const loginRateLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutos
-//   max: 5, // máximo 5 intentos
-//   handler: handleTooManyRequests,
-//   message: {
-//     message: 'Too many login attempts. Please try again in 15 minutes.'
-//   },
-//   standardHeaders: true, // incluye cabeceras RateLimit en respuesta
-//   legacyHeaders: false // desactiva cabeceras viejas
-// })
-
-// // Limiter para registro: max 10 intentos cada 15 minutos
-// export const registerLimiter = rateLimit({
-//   windowMs: 15 * 60 * 1000, // 15 minutos
-//   max: 10, // máximo 10 intentos
-//   handler: handleTooManyRequests,
-//   message: {
-//     message: 'Too many registration attempts. Please try again in 15 minutes.'
-//   },
-//   standardHeaders: true,
-//   legacyHeaders: false
-// })
-
-// solo usar en test no en produccion ese es el de arriba
-import rateLimit from 'express-rate-limit'
+// src/middleware/rateLimit.js
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit'
 import logger from '../utils/logger.js'
 
-// Handler genérico para cuando se exceden los límites
-const handleTooManyRequests = (req, res, next, options) => {
-  logger.warn(`Rate limit exceeded on ${req.originalUrl} from IP ${req.ip}`)
+/** Parse helpers */
+const toInt = (v, def) => {
+  const n = Number(v)
+  return Number.isFinite(n) ? n : def
+}
+
+/** Handler unificado */
+const handleTooManyRequests = (req, res, _next, options) => {
+  logger.warn('Rate limit exceeded', {
+    url: req.originalUrl,
+    ip: req.ip,
+    requestId: req.id
+  })
   res.status(options.statusCode).json(options.message)
 }
 
-// Función helper para crear limiters
-const createLimiter = ({ windowMs, max, message }) => {
-  // Durante tests, no aplicamos límite
+/**
+ * Factory de limiters.
+ * - En test, siempre bypass.
+ * - Permite pasar `skip` y `keyGenerator` custom.
+ * - Por defecto usa ipKeyGenerator(req) (obligatorio en v7 por IPv6).
+ */
+const createLimiter = ({ windowMs, max, message, skip, keyGenerator }) => {
   if (process.env.NODE_ENV === 'test') {
-    return (req, res, next) => next()
+    return (_req, _res, next) => next()
   }
 
   return rateLimit({
@@ -54,18 +35,40 @@ const createLimiter = ({ windowMs, max, message }) => {
     handler: handleTooManyRequests,
     message: { message },
     standardHeaders: true,
-    legacyHeaders: false
+    legacyHeaders: false,
+    skip, // opcional
+    // 🔧 CLAVE: usar siempre ipKeyGenerator(req) o un compuesto que lo incluya
+    keyGenerator: keyGenerator || ((req) => ipKeyGenerator(req))
   })
 }
 
-// Limiter para login
+/** Limiter GLOBAL (todas las rutas, salvo exclusiones) */
+export const globalRateLimiter = createLimiter({
+  windowMs: toInt(process.env.RATE_GLOBAL_WINDOW_MS, 60_000), // .env → 60000
+  max: toInt(process.env.RATE_GLOBAL_MAX, 1000), // .env → 1000
+  message: 'Too many requests. Please slow down.',
+  // Excluye rutas necesarias para monitoreo/doc
+  skip: (req) => {
+    const p = req.path || ''
+    return (
+      req.method === 'OPTIONS' ||
+      p.startsWith('/api/health') ||
+      p.startsWith('/metrics') ||
+      p.startsWith('/docs') || // swagger-ui
+      p.startsWith('/api-docs') || // openapi json
+      p.startsWith('/swagger') // si usas /swagger
+    )
+  }
+})
+
+/** Limiter para login (ENV configurable) */
 export const loginRateLimiter = createLimiter({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
+  windowMs: toInt(process.env.RATE_LOGIN_WINDOW_MS, 15 * 60 * 1000),
+  max: toInt(process.env.RATE_LOGIN_MAX, 5),
   message: 'Too many login attempts. Please try again in 15 minutes.'
 })
 
-// Limiter para registro
+/** Limiter para registro */
 export const registerLimiter = createLimiter({
   windowMs: 15 * 60 * 1000,
   max: 10,

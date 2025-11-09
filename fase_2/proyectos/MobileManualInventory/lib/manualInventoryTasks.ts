@@ -70,6 +70,14 @@ export type DashboardRecentOrder = {
   createdAt: string | null;
 };
 
+type DashboardOrderApiRecord = {
+  id?: string;
+  createdAt?: string | null;
+  status?: string | null;
+  client?: { name?: string | null } | null;
+  customer?: { name?: string | null } | null;
+};
+
 export type InventorySummary = {
   totals: {
     products: number | null;
@@ -144,13 +152,7 @@ const mapMovement = (record: ManualInventoryApiRecord): ManualInventoryMovement 
   };
 };
 
-const normalizeOrder = (record: {
-  id?: string;
-  createdAt?: string | null;
-  status?: string | null;
-  client?: { name?: string | null } | null;
-  customer?: { name?: string | null } | null;
-}): DashboardRecentOrder | null => {
+const normalizeOrder = (record: DashboardOrderApiRecord): DashboardRecentOrder | null => {
   if (!record?.id) return null;
   return {
     id: record.id,
@@ -172,13 +174,7 @@ const fetchDashboard = async (path: string) => {
     totalClients?: number | string | null;
     totalOrders?: number | string | null;
     lowStockProducts?: ProductApiRecord[] | null;
-    recentOrders?: {
-      id?: string;
-      status?: string | null;
-      createdAt?: string | null;
-      client?: { name?: string | null } | null;
-      customer?: { name?: string | null } | null;
-    }[] | null;
+    recentOrders?: DashboardOrderApiRecord[] | null;
   };
 };
 
@@ -206,7 +202,7 @@ const normalizeSummary = (payload: Awaited<ReturnType<typeof fetchDashboard>>): 
     .map(mapProductRecord)
     .filter((product): product is ProductInventoryItem => Boolean(product));
 
-  const recentOrders = ensureArray(payload.recentOrders ?? [])
+  const recentOrders = ensureArray<DashboardOrderApiRecord>(payload.recentOrders ?? [])
     .map(normalizeOrder)
     .filter((order): order is DashboardRecentOrder => Boolean(order));
 

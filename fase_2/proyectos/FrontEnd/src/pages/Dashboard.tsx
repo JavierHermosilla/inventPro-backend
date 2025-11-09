@@ -543,6 +543,8 @@ const DashboardPage = () => {
     }
   }, [isLoggingOut, logout, navigate]);
 
+  // Botón de exportar PDF retirado: generación desde Reportes
+
   if (loading) {
     return <div className="p-6 text-center text-gray-500">Cargando datos del dashboard...</div>;
   }
@@ -655,17 +657,17 @@ const DashboardPage = () => {
               </div>
             ) : null}
           </div>
-          <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-end lg:w-auto">
-            <div className="text-right">
-              <p className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{formattedTime}</p>
-              <p className="text-xs text-slate-500 dark:text-slate-300 capitalize">{formattedDate}</p>
-            </div>
-            <div className="flex flex-col gap-2 sm:w-52">
-              <button
-                onClick={handleLogout}
-                disabled={isLoggingOut}
-                className="inline-flex justify-center rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
-              >
+            <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-end lg:w-auto">
+              <div className="text-right">
+                <p className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{formattedTime}</p>
+                <p className="text-xs text-slate-500 dark:text-slate-300 capitalize">{formattedDate}</p>
+              </div>
+              <div className="flex flex-col gap-2 sm:w-52">
+                <button
+                  onClick={handleLogout}
+                  disabled={isLoggingOut}
+                  className="inline-flex justify-center rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+                >
                 {isLoggingOut ? "Cerrando..." : "Cerrar sesion"}
               </button>
               {logoutError ? <p className="text-center text-xs text-red-600">{logoutError}</p> : null}

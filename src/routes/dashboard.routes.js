@@ -12,4 +12,11 @@ router.get(
   dashboardData
 )
 
+router.get(
+  '/summary',
+  verifyTokenMiddleware,
+  requireRole('admin', 'bodeguero'),
+  dashboardData
+)
+
 export default router

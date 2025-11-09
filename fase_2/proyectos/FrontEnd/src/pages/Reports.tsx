@@ -16,6 +16,7 @@ import { ordersApi, type OrderSnapshot } from "../lib/ordersApi";
 import { productsApi, type ProductItem } from "../lib/productsApi";
 import manualInventoryApi, { type ManualInventoryItem } from "../lib/manualInventoryApi";
 import { usersApi, type UserItem } from "../lib/usersApi";
+import exportsApi, { checkExportsAvailability } from "../lib/exportsApi";
 
 const pdfMakeWithVfs = pdfMake as typeof pdfMake & { vfs: Record<string, string> };
 pdfMakeWithVfs.vfs = pdfMakeVfs;
@@ -335,6 +336,7 @@ export default function ReportsPage() {
   const [reports, setReports] = useState<ReportItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'general' | 'mis'>('general');
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<ReportStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<ReportTypeId | "all">("all");
@@ -347,6 +349,9 @@ export default function ReportsPage() {
   const [productOptions, setProductOptions] = useState<Option[]>([]);
   const [userOptions, setUserOptions] = useState<Option[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(false);
+  const [exportsAvailable, setExportsAvailable] = useState<boolean | null>(null);
+
+  // Botones de exportación directa removidos; el flujo es mediante el formulario
 
   const loadReports = useCallback(async () => {
     setLoading(true);
@@ -365,6 +370,14 @@ export default function ReportsPage() {
   useEffect(() => {
     loadReports().catch(() => {});
   }, [loadReports]);
+
+  useEffect(() => {
+    let cancelled = false;
+    checkExportsAvailability()
+      .then((ok) => { if (!cancelled) setExportsAvailable(ok); })
+      .catch(() => { if (!cancelled) setExportsAvailable(false); });
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -651,6 +664,44 @@ export default function ReportsPage() {
     [buildSalesDataset, buildStockDataset, buildMovementsDataset],
   );
 
+  // Mapea tipos/formato de reportes a exportaciones soportadas por el backend
+  const getBackendExporter = useCallback((report: ReportItem): (() => Promise<void>) | null => {
+    // Actualmente el backend expone inventario completo en /api/exports/full-inventory.{pdf,csv,xlsx}
+    // Lo asociamos al tipo "stock" (inventario). Otros tipos aún no tienen endpoint.
+    if (report.type === "stock") {
+      if (report.format === "pdf") return () => exportsApi.downloadFullInventoryPDF();
+      if (report.format === "xls") return () => exportsApi.downloadFullInventoryXLSX();
+      // CSV opcional si se agrega al selector
+      // if (report.format === "csv") return () => exportsApi.downloadFullInventoryCSV();
+    }
+    return null;
+  }, []);
+
+  // Envueltura que considera si el backend realmente expone /api/exports
+  const getBackendExporterSafe = useCallback((report: ReportItem): (() => Promise<void>) | null => {
+    if (exportsAvailable !== true) return null;
+    return getBackendExporter(report);
+  }, [exportsAvailable, getBackendExporter]);
+
+  // Descargas directas del reporte general (backend)
+  const [downloadingKind, setDownloadingKind] = useState<null | 'pdf' | 'xlsx' | 'csv'>(null);
+  const downloadGeneral = useCallback(async (kind: 'pdf' | 'xlsx' | 'csv') => {
+    if (exportsAvailable !== true) return;
+    if (downloadingKind) return;
+    setDownloadingKind(kind);
+    try {
+      if (kind === 'pdf') await exportsApi.downloadFullInventoryPDF();
+      else if (kind === 'xlsx') await exportsApi.downloadFullInventoryXLSX();
+      else await exportsApi.downloadFullInventoryCSV();
+      await showSuccess({ title: 'Descarga iniciada', text: 'Tu archivo se está descargando.' });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'No se pudo iniciar la descarga.';
+      await showError({ title: 'Error al descargar', text: message });
+    } finally {
+      setDownloadingKind(null);
+    }
+  }, [exportsAvailable, downloadingKind]);
+
   const triggerFileDownload = (blob: Blob, filename: string) => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -757,33 +808,25 @@ export default function ReportsPage() {
   const handleExecute = async (report: ReportItem) => {
     setExecutingId(report.id);
     try {
-      const dataset = await buildDataset(report);
-      if (!dataset) {
-        await showInfo({ title: "Sin datos", text: "No encontramos datos en el backend para este filtro." });
+      const exporter = getBackendExporterSafe(report);
+      if (!exporter) {
+        await showInfo({
+          title: "Exportación no disponible",
+          text: "Este tipo o formato de reporte aún no cuenta con exportación en el backend.",
+        });
         return;
       }
 
-      if (report.format === "pdf") {
-        await downloadPdfFile(report, dataset);
-        const stamp = dataset.generatedAtIso;
-        setReports((prev) => prev.map((item) => (item.id === report.id ? { ...item, lastRunAt: stamp, updatedAt: stamp } : item)));
-        await showSuccess({ title: "Reporte generado", text: "El PDF se descargo correctamente." });
-        return;
-      }
-
-      if (report.format === "xls") {
-        downloadExcelFile(report, dataset);
-        const stamp = dataset.generatedAtIso;
-        setReports((prev) => prev.map((item) => (item.id === report.id ? { ...item, lastRunAt: stamp, updatedAt: stamp } : item)));
-        await showSuccess({ title: "Reporte generado", text: "El archivo Excel se descargo correctamente." });
-        return;
-      }
-
-      await showInfo({
-        title: "Formato no disponible",
-        text: "Por ahora solo es posible descargar reportes en PDF o Excel desde la interfaz web.",
-      });
+      await exporter();
+      const stamp = new Date().toISOString();
+      setReports((prev) => prev.map((item) => (item.id === report.id ? { ...item, lastRunAt: stamp, updatedAt: stamp } : item)));
+      await showSuccess({ title: "Reporte generado", text: "Archivo descargado desde el backend." });
     } catch (err) {
+      const anyErr: any = err;
+      const status = anyErr?.response?.status ?? anyErr?.status;
+      if (status === 404) {
+        setExportsAvailable(false);
+      }
       const message = err instanceof Error ? err.message : "No se pudo generar el reporte.";
       await showError({ title: "Error al generar", text: message });
     } finally {
@@ -792,6 +835,77 @@ export default function ReportsPage() {
   };
   return (
     <div className="space-y-6">
+      {/* Encabezado y pestañas modernas */}
+      <header className="space-y-4">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Gestión de reportes</h1>
+          <p className="text-sm text-slate-500">Genera reportes que el backend soporta y administra tus reportes guardados.</p>
+        </div>
+        <nav className="flex items-center gap-2">
+          <button
+            className={`${activeTab === 'general' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-700'} rounded-full px-4 py-2 text-sm font-semibold shadow-sm transition hover:opacity-90`}
+            onClick={() => setActiveTab('general')}
+          >
+            Reportes generales (backend)
+          </button>
+          <button
+            className={`${activeTab === 'mis' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-700'} rounded-full px-4 py-2 text-sm font-semibold shadow-sm transition hover:opacity-90`}
+            onClick={() => setActiveTab('mis')}
+          >
+            Mis reportes
+          </button>
+          {exportsAvailable === false && (
+            <span className="ml-2 text-xs font-medium text-amber-600">Exportación del backend no disponible</span>
+          )}
+        </nav>
+      </header>
+
+      {/* Panel de reportes generales del backend */}
+      {activeTab === 'general' && (
+        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-500">Disponible</p>
+              <h2 className="mt-2 text-2xl font-bold text-slate-900">Reporte general de inventario</h2>
+              <p className="mt-2 text-sm text-slate-600">
+                Exporta el inventario completo directamente desde el backend. Incluye resumen ejecutivo, listado de productos y paneles auxiliares.
+              </p>
+              <ul className="mt-3 flex list-disc flex-col gap-1 pl-5 text-xs text-slate-500">
+                <li>Formato: PDF y Excel (XLSX)</li>
+                <li>Generado 100% en el servidor</li>
+                <li>Requiere sesión activa</li>
+              </ul>
+            </div>
+            <div className="flex w-full flex-col gap-2 sm:w-auto">
+              <button
+                disabled={exportsAvailable !== true || downloadingKind === 'pdf'}
+                onClick={() => void downloadGeneral('pdf')}
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {downloadingKind === 'pdf' ? 'Generando PDF...' : 'Descargar PDF'}
+              </button>
+              <button
+                disabled={exportsAvailable !== true || downloadingKind === 'xlsx'}
+                onClick={() => void downloadGeneral('xlsx')}
+                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {downloadingKind === 'xlsx' ? 'Generando XLSX...' : 'Descargar XLSX'}
+              </button>
+              <button
+                disabled={exportsAvailable !== true || downloadingKind === 'csv'}
+                onClick={() => void downloadGeneral('csv')}
+                className="rounded-lg bg-slate-700 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {downloadingKind === 'csv' ? 'Generando CSV...' : 'Descargar CSV'}
+              </button>
+              {exportsAvailable !== true && (
+                <p className="text-center text-xs text-amber-600">No disponible en este backend.</p>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+      {activeTab === 'mis' && (
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-slate-900">Gestion de reportes</h1>
@@ -807,6 +921,10 @@ export default function ReportsPage() {
             placeholder="Buscar por nombre o creador"
             className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 sm:w-64"
           />
+          {exportsAvailable === false && (
+            <span className="text-xs text-amber-600">Exportación no disponible en esta instancia del backend.</span>
+          )}
+          {/* Botones directos de XLSX/CSV eliminados: usar el formulario y su selector de formato */}
           <button
             type="button"
             onClick={handleOpenForm}
@@ -816,7 +934,9 @@ export default function ReportsPage() {
           </button>
         </div>
       </header>
+      )}
 
+      {activeTab === 'mis' && (
       <section className="grid gap-3 md:grid-cols-3">
         <label className="flex flex-col gap-1 text-sm text-slate-500">
           Estado
@@ -854,8 +974,9 @@ export default function ReportsPage() {
           {catalogLoading ? "Cargando catalogos..." : `${productOptions.length} productos y ${userOptions.length} usuarios disponibles.`}
         </div>
       </section>
+      )}
 
-      {showForm && (
+      {activeTab === 'mis' && showForm && (
         <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
           <header className="flex items-start justify-between">
             <div>
@@ -1068,13 +1189,13 @@ export default function ReportsPage() {
           <span className="text-sm text-slate-500">{filteredReports.length} reporte(s)</span>
         </div>
 
-        {error && !loading && (
+        {activeTab === 'mis' && error && !loading && (
           <div className="rounded-lg border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
             {error}
           </div>
         )}
 
-        {loading ? (
+        {activeTab === 'mis' && (loading ? (
           <div className="rounded-lg border border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
             Cargando reportes...
           </div>
@@ -1150,10 +1271,10 @@ export default function ReportsPage() {
                     <button
                       type="button"
                       onClick={() => handleExecute(report)}
-                      disabled={executingId === report.id}
+                       disabled={executingId === report.id || !getBackendExporterSafe(report)}
                       className="flex-1 rounded-lg bg-blue-600 px-3 py-2 text-xs font-semibold text-white shadow hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                      {executingId === report.id ? "Generando..." : "Generar"}
+                      {executingId === report.id ? "Generando..." : getBackendExporterSafe(report) ? "Generar" : "No disponible"}
                     </button>
                     <button
                       type="button"
@@ -1175,7 +1296,7 @@ export default function ReportsPage() {
               );
             })}
           </div>
-        )}
+        ))}
       </section>
     </div>
   );

@@ -1,0 +1,73 @@
+tags:
+  - name: Categories
+    description: Gestión de categorías
+
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:   { type: string, format: uuid }
+        name: { type: string }
+        description: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+    CreateCategoryInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        description: { type: string }
+
+paths:
+  /categories:
+    get:
+      tags: [Categories]
+      summary: Listar categorías
+      responses:
+        200:
+          description: Lista de categorías
+    post:
+      tags: [Categories]
+      summary: Crear categoría (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateCategoryInput' }
+      responses:
+        201:
+          description: Categoría creada
+
+  /categories/{id}:
+    get:
+      tags: [Categories]
+      summary: Obtener categoría
+      parameters:
+        - $ref: '#/components/parameters/UUIDId'
+      responses:
+        200:
+          description: Categoría
+        404:
+          description: No encontrada
+    put:
+      tags: [Categories]
+      summary: Actualizar categoría (admin)
+      parameters:
+        - $ref: '#/components/parameters/UUIDId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CreateCategoryInput' }
+      responses:
+        200:
+          description: Categoría actualizada
+    delete:
+      tags: [Categories]
+      summary: Eliminar categoría (admin)
+      parameters:
+        - $ref: '#/components/parameters/UUIDId'
+      responses:
+        204:
+          description: Eliminada

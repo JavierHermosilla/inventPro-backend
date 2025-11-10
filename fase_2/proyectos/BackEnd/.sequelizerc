@@ -1,0 +1,9 @@
+// .sequelizerc (en la carpeta BackEnd)
+const path = require('path');
+
+module.exports = {
+  config: path.resolve('config', 'config.cjs'),
+  modelsPath: path.resolve('src', 'models'),
+  migrationsPath: path.resolve('migrations'), // ajusta si usas otra carpeta
+  seedersPath: path.resolve('seeders'),       // << ESTA es tu carpeta real
+};

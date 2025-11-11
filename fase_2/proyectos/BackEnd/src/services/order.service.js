@@ -31,7 +31,7 @@ const allowedTransitions = new Set([
  * - Input: { clientId? | rut?, products[{ productId, quantity }] }
  * - Resuelve clientId por RUT si corresponde
  * - Toma unitPrice desde Product.price
- * - Persiste ítems con el atributo `price` (mapeado a columna DB `unit_price`)
+ * - Persiste ítems con el atributo `price` (mapeado a columna DB `price`)
  * - Descuenta stock (permite negativo si ALLOW_NEGATIVE_STOCK)
  * - Devuelve { id, status, totalAmount, isBackorder, items[] }
  */
@@ -129,8 +129,7 @@ export async function createOrderService (payload, user) {
       totalAmount += unitPrice * qty
 
       // IMPORTANTE:
-      // El atributo del modelo es "price" pero en DB debe mapear a columna "unit_price"
-      // (defínelo así en el modelo: price: { type: DECIMAL, allowNull:false, field:'unit_price' })
+      // El atributo del modelo es "price" y en la DB la columna también se llama "price"
       itemsRows.push({
         orderId: order.id,
         productId: p.id,

@@ -23,7 +23,11 @@ export const registerSchema = z.object({
 })
 
 export const loginSchema = z.object({
-  email: z.string().email({ message: 'Debe ser un correo electrónico válido.' }),
+  email: z
+    .string()
+    .trim()
+    .min(3, { message: 'Ingresa tu correo o tu nombre de usuario.' })
+    .max(150, { message: 'El identificador no puede superar 150 caracteres.' }),
   password: z.string().min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' })
 })
 

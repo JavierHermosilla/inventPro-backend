@@ -79,18 +79,19 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const userIP = req.clientIP || req.ip || 'unknown'
   try {
-    const { email, password } = req.body
-    const emailNorm = normEmail(email)
+    const { email: identifier, password } = req.body
+    const normalized = normEmail(identifier)
+    const lookupField = normalized.includes('@') ? 'email' : 'username'
 
-    const user = await User.scope('withPassword').findOne({ where: { email: emailNorm } })
+    const user = await User.scope('withPassword').findOne({ where: { [lookupField]: normalized } })
     if (!user) {
-      logger.warn(`Login failed: email not found (${emailNorm}), IP=${userIP}`)
+      logger.warn(`Login failed: user not found (${lookupField}=${normalized}), IP=${userIP}`)
       return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
     }
 
     const ok = await bcrypt.compare(password, user.password)
     if (!ok) {
-      logger.warn(`Login failed: wrong password (${emailNorm}), IP=${userIP}`)
+      logger.warn(`Login failed: wrong password (${lookupField}=${normalized}), IP=${userIP}`)
       return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
     }
 
@@ -100,7 +101,7 @@ export const login = async (req, res) => {
     // Cookie de sesión con refresh
     res.cookie('refresh_token', refresh, refreshCookieOpts)
 
-    logger.info(`Login OK: ${emailNorm}, id=${user.id}, IP=${userIP}`)
+    logger.info(`Login OK: ${lookupField}=${normalized}, id=${user.id}, IP=${userIP}`)
 
     return res.status(200).json({
       token: access,

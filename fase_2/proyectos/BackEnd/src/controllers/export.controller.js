@@ -135,30 +135,51 @@ function withReflowedHeader (doc, cols, draw) {
 
 function kvGridPanel (doc, entriesLeft, entriesRight) {
   const colW = CONTENT_W / 2
+  const labelRatio = 0.55
+  const rowStep = ROW_H * 1.05
+  const rows = Math.max(entriesLeft.length, entriesRight.length)
+
   doc.font('Helvetica-Bold').fontSize(14).text('Resumen', MARGIN_L)
   doc.moveDown(0.4)
   doc.font('Helvetica').fontSize(10)
   const yStart = doc.y
 
-  // izquierdo
-  let yLeft = yStart
-  for (const [k, v] of entriesLeft) {
+  let y = yStart
+  for (let i = 0; i < rows; i++) {
     ensurePage(doc)
-    doc.text(k + ':', MARGIN_L, yLeft, { width: colW * 0.6 })
-    doc.text(v, MARGIN_L + colW * 0.6, yLeft, { width: colW * 0.4, align: 'right' })
-    yLeft += ROW_H * 0.95
-  }
-  // derecho
-  let yRight = yStart
-  for (const [k, v] of entriesRight) {
-    ensurePage(doc)
-    const x = MARGIN_L + colW
-    doc.text(k + ':', x, yRight, { width: colW * 0.6 })
-    doc.text(v, x + colW * 0.6, yRight, { width: colW * 0.4, align: 'right' })
-    yRight += ROW_H * 0.95
+    const left = entriesLeft[i] ?? ['', '']
+    const right = entriesRight[i] ?? ['', '']
+
+    const leftLabel = left[0] ? `${left[0]}:` : ''
+    const leftValue = left[1] ?? ''
+    const rightLabel = right[0] ? `${right[0]}:` : ''
+    const rightValue = right[1] ?? ''
+
+    doc.text(leftLabel, MARGIN_L, y, {
+      width: colW * labelRatio,
+      ellipsis: true
+    })
+    doc.text(leftValue, MARGIN_L + colW * labelRatio, y, {
+      width: colW * (1 - labelRatio),
+      align: 'right',
+      ellipsis: true
+    })
+
+    const xRight = MARGIN_L + colW
+    doc.text(rightLabel, xRight, y, {
+      width: colW * labelRatio,
+      ellipsis: true
+    })
+    doc.text(rightValue, xRight + colW * labelRatio, y, {
+      width: colW * (1 - labelRatio),
+      align: 'right',
+      ellipsis: true
+    })
+
+    y += rowStep
   }
 
-  const yEnd = Math.max(yLeft, yRight)
+  const yEnd = y
   doc.strokeColor('#e9e9e9').roundedRect(MARGIN_L - 6, yStart - 6, CONTENT_W + 12, (yEnd - yStart) + 12, 6).stroke()
   doc.y = yEnd + 8
 }
@@ -651,3 +672,4 @@ export async function exportFullInventoryXLSX (req, res) {
     res.status(err?.status || 500).json({ message: err?.message || 'Error generando XLSX' })
   }
 }
+

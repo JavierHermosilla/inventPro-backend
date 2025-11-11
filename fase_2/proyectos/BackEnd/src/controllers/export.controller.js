@@ -247,11 +247,12 @@ export async function exportFullInventoryPDF (req, res) {
     const doc = new PDFDocument({ size: 'LETTER', margin: 50, bufferPages: true })
     doc.on('error', (err) => {
       console.error('[pdf] stream error:', err)
-      if (!res.headersSent) res.status(500).json({ message: 'Error generando PDF' })
-      res.end()
-    })
-    res.on('close', () => {
       if (!doc.destroyed) doc.destroy()
+      if (res.headersSent) {
+        res.destroy(err)
+      } else {
+        res.status(500).json({ message: 'Error generando PDF' })
+      }
     })
     doc.pipe(res)
 

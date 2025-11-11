@@ -17,8 +17,15 @@ import {
 const { Order, OrderProduct, Product, Client } = models
 
 // ---- helpers ----
-const sendError = (res, err, fallback = 'Internal server error') => {
+const logControllerError = (err, context) => {
+  if (process.env.NODE_ENV !== 'test') {
+    console.error(`[orders] ${context}`, err?.stack || err?.message || err)
+  }
+}
+
+const sendError = (res, err, fallback = 'Internal server error', context = 'handler') => {
   const status = err?.status || 500
+  if (status >= 500) logControllerError(err, context)
   res.status(status).json({ message: err?.message || fallback })
 }
 const toFinite = (v) => {
@@ -37,7 +44,7 @@ export async function listOrders (req, res) {
     const orders = await listOrdersService()
     return res.json(orders)
   } catch (err) {
-    return sendError(res, err, 'Error listing orders.')
+    return sendError(res, err, 'Error listing orders.', 'listOrders')
   }
 }
 
@@ -46,7 +53,7 @@ export async function listOrderById (req, res) {
     const order = await getOrderService(req.params.id)
     return res.json(order)
   } catch (err) {
-    return sendError(res, err, 'Error fetching order.')
+    return sendError(res, err, 'Error fetching order.', 'listOrderById')
   }
 }
 
@@ -57,7 +64,7 @@ export async function createOrder (req, res) {
     log.info('[AUDIT] order.created', { userId: req.user?.id, orderId: created.id, total: created.totalAmount })
     return res.status(201).json({ message: 'Order created', order: created })
   } catch (err) {
-    return sendError(res, err, 'Error creating order.')
+    return sendError(res, err, 'Error creating order.', 'createOrder')
   }
 }
 
@@ -68,7 +75,7 @@ export async function createOrderByRut (req, res) {
     log.info('[AUDIT] order.created.byRut', { userId: req.user?.id, orderId: created.id })
     return res.status(201).json({ message: 'Order created by RUT', order: created })
   } catch (err) {
-    return sendError(res, err, 'Error creating order by RUT.')
+    return sendError(res, err, 'Error creating order by RUT.', 'createOrderByRut')
   }
 }
 
@@ -79,7 +86,7 @@ export async function updateOrder (req, res) {
     log.info('[AUDIT] order.status.updated', { userId: req.user?.id, orderId: req.params.id, status: req.body.status })
     return res.json({ message: 'Order status updated', order: updated })
   } catch (err) {
-    return sendError(res, err, 'Error updating order.')
+    return sendError(res, err, 'Error updating order.', 'updateOrder')
   }
 }
 
@@ -90,7 +97,7 @@ export async function deleteOrder (req, res) {
     log.info('[AUDIT] order.deleted', { userId: req.user?.id, orderId: req.params.id })
     return res.json(result)
   } catch (err) {
-    return sendError(res, err, 'Error deleting order.')
+    return sendError(res, err, 'Error deleting order.', 'deleteOrder')
   }
 }
 
@@ -99,7 +106,7 @@ export async function listOrdersByRut (req, res) {
     const data = await listOrdersByRutService(req.params.rut)
     return res.json(data)
   } catch (err) {
-    return sendError(res, err, 'Error listing orders by RUT.')
+    return sendError(res, err, 'Error listing orders by RUT.', 'listOrdersByRut')
   }
 }
 
@@ -410,7 +417,7 @@ export const exportOrdersPDF = async (req, res) => {
       columns: mode === 'items' ? ITEMS_PDF_COLS : ORDERS_PDF_COLS
     })
   } catch (err) {
-    return sendError(res, err, 'Error exportando Orders PDF.')
+    return sendError(res, err, 'Error exportando Orders PDF.', 'exportOrdersPDF')
   }
 }
 
@@ -430,6 +437,6 @@ export const exportOrdersXLSX = async (req, res) => {
       columns: mode === 'items' ? ITEMS_XLSX_COLS : ORDERS_XLSX_COLS
     })
   } catch (err) {
-    return sendError(res, err, 'Error exportando Orders XLSX.')
+    return sendError(res, err, 'Error exportando Orders XLSX.', 'exportOrdersXLSX')
   }
 }

@@ -20,7 +20,7 @@ export const listReports = async ({ page = 1, limit = 10, search, status, type }
       limit: limitInt,
       offset,
       include: [{ model: User, as: 'creator', attributes: ['id', 'name', 'email'] }],
-      order: [[col('createdAt'), 'DESC']]
+      order: [[col('created_at'), 'DESC']]
     })
 
     return {

@@ -16,7 +16,7 @@ export const dashboardData = async (req, res) => {
     })
 
     const recentOrders = await Order.findAll({
-      order: [['createdAt', 'DESC']],
+      order: [['created_at', 'DESC']],
       limit: 5,
       include: role === 'admin'
         ? [{ model: Client, as: 'customer', attributes: ['id', 'name', 'email'] }]

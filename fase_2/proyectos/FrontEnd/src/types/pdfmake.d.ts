@@ -18,10 +18,10 @@ declare module "pdfmake/build/pdfmake" {
 }
 
 declare module "pdfmake/build/vfs_fonts" {
-  interface PdfFontsModule {
-    pdfMake: { vfs: Record<string, string> };
-  }
+  type PdfMakeFonts =
+    | { pdfMake: { vfs: Record<string, string> } }
+    | Record<string, string>;
 
-  const pdfFonts: PdfFontsModule;
+  const pdfFonts: PdfMakeFonts;
   export default pdfFonts;
 }

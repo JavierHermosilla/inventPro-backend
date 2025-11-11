@@ -18,7 +18,11 @@ import manualInventoryApi, { type ManualInventoryItem } from "../lib/manualInven
 import { usersApi, type UserItem } from "../lib/usersApi";
 import exportsApi, { checkExportsAvailability } from "../lib/exportsApi";
 
-pdfMake.vfs = pdfFonts.pdfMake.vfs;
+const resolvedVfs =
+  (pdfFonts as { pdfMake?: { vfs: Record<string, string> } }).pdfMake?.vfs ??
+  (pdfFonts as Record<string, string>);
+
+pdfMake.vfs = resolvedVfs;
 
 const DEFAULT_LEGAL_NOTES = [
   "Respalda la informacion conforme a la Resolucion Exenta SII 45/2003 y sus actualizaciones.",

@@ -1,7 +1,18 @@
 // scripts/seedAdmin.js
-import 'dotenv/config'
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import { Op } from 'sequelize'
 import { sequelize, models } from '../src/models/index.js' // 👈 ruta buena
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const localEnvPath = path.resolve(__dirname, '../src/.env')
+
+if (process.env.SKIP_LOCAL_DOTENV !== '1' && fs.existsSync(localEnvPath)) {
+  const { config } = await import('dotenv')
+  config({ path: localEnvPath })
+}
 const { User } = models
 
 async function main () {

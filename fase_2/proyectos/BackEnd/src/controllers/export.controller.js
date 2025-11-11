@@ -266,10 +266,10 @@ export async function exportFullInventoryPDF (req, res) {
     const COLS_PROD = [
       { header: 'ID', width: 70, align: 'left' },
       { header: 'Nombre', width: 170, align: 'left' },
-      { header: 'Categoría', width: 85, align: 'left' },
-      { header: 'Proveedor', width: 95, align: 'left' },
-      { header: 'Precio', width: 45, align: 'right' },
-      { header: 'Stock', width: 30, align: 'right' }
+      { header: 'Categoría', width: 90, align: 'left' },
+      { header: 'Proveedor', width: 105, align: 'left' },
+      { header: 'Precio', width: 60, align: 'right' },
+      { header: 'Stock', width: 50, align: 'right' }
     ]
     tableHeaderFixed(doc, COLS_PROD)
     let zebra = false

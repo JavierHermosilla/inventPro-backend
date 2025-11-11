@@ -381,13 +381,13 @@ export async function exportFullInventoryPDF (req, res) {
     doc.font('Helvetica-Bold').fontSize(14).text('Órdenes (últimas 10)', MARGIN_L)
     doc.moveDown(0.3)
     const COLS_ORD = [
-      { header: 'ID', width: 70, align: 'left' },
-      { header: 'Fecha', width: 90, align: 'left' },
-      { header: 'Cliente', width: 140, align: 'left' },
-      { header: 'Estado', width: 55, align: 'center' },
+      { header: 'ID', width: 90, align: 'left' },
+      { header: 'Fecha', width: 110, align: 'left' },
+      { header: 'Cliente', width: 130, align: 'left' },
+      { header: 'Estado', width: 50, align: 'center' },
       { header: 'Backorder', width: 40, align: 'center' },
-      { header: 'Ítems', width: 40, align: 'right' },
-      { header: 'Total', width: 60, align: 'right' }
+      { header: 'Ítems', width: 30, align: 'right' },
+      { header: 'Total', width: 45, align: 'right' }
     ]
     tableHeaderFixed(doc, COLS_ORD)
     zebra = false

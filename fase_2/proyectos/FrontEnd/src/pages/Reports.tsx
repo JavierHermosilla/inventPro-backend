@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
-import * as pdfMake from "pdfmake/build/pdfmake";
-import { vfs as pdfMakeVfs } from "pdfmake/build/vfs_fonts";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 import type { Content, TDocumentDefinitions } from "pdfmake/interfaces";
 import { confirmAction, showError, showInfo, showSuccess } from "../lib/alerts";
 import {
@@ -18,8 +18,7 @@ import manualInventoryApi, { type ManualInventoryItem } from "../lib/manualInven
 import { usersApi, type UserItem } from "../lib/usersApi";
 import exportsApi, { checkExportsAvailability } from "../lib/exportsApi";
 
-const pdfMakeWithVfs = pdfMake as typeof pdfMake & { vfs: Record<string, string> };
-pdfMakeWithVfs.vfs = pdfMakeVfs;
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const DEFAULT_LEGAL_NOTES = [
   "Respalda la informacion conforme a la Resolucion Exenta SII 45/2003 y sus actualizaciones.",

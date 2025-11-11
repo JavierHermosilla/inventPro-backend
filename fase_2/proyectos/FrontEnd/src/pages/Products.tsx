@@ -23,8 +23,8 @@ type FilterState = {
 const EMPTY_FORM: ProductPayload = {
   nombre: "",
   descripcion: "",
-  stock: 0,
-  precio: 0,
+  stock: null,
+  precio: null,
   categoryId: null,
   supplierId: null,
   supplierRut: null,
@@ -67,14 +67,16 @@ const shortId = (id: string | number) => {
   return raw.slice(0, 4).toUpperCase() + "..." + raw.slice(-4).toUpperCase();
 };
 
-const parseCurrencyInput = (value: string) => {
+const parseCurrencyInput = (value: string): number | null => {
+  if (value.trim() === "") return null;
   const numeric = Number(value);
-  return Number.isFinite(numeric) && numeric >= 0 ? numeric : 0;
+  return Number.isFinite(numeric) && numeric >= 0 ? numeric : null;
 };
 
-const parseStockInput = (value: string) => {
+const parseStockInput = (value: string): number | null => {
+  if (value.trim() === "") return null;
   const numeric = Number(value);
-  if (!Number.isFinite(numeric) || numeric < 0) return 0;
+  if (!Number.isFinite(numeric) || numeric < 0) return null;
   return Math.trunc(numeric);
 };
 
@@ -270,10 +272,32 @@ export default function Products() {
       return;
     }
 
+    if (form.precio === null) {
+      const message = "Ingresa un precio válido (puede quedar en 0 si lo necesitas).";
+      setFormError(message);
+      await showWarning({
+        title: "Precio requerido",
+        text: message,
+      });
+      return;
+    }
+
+    if (form.stock === null) {
+      const message = "Ingresa un stock válido (puede ser 0 si no hay inventario).";
+      setFormError(message);
+      await showWarning({
+        title: "Stock requerido",
+        text: message,
+      });
+      return;
+    }
+
     const payload: ProductPayload = {
       ...form,
       nombre: trimmedName,
       descripcion: trimmedDescription.length > 0 ? trimmedDescription : "",
+      precio: form.precio ?? 0,
+      stock: form.stock ?? 0,
     };
 
     setIsSubmitting(true);
@@ -540,7 +564,7 @@ export default function Products() {
                       min={0}
                       step={1}
                       className="w-full rounded-lg border border-gray-200 py-2 pl-8 pr-3 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                      value={form.precio}
+                      value={form.precio ?? ""}
                       onChange={(event) => updateFormField("precio", parseCurrencyInput(event.target.value))}
                       required
                     />
@@ -557,7 +581,7 @@ export default function Products() {
                     type="number"
                     min={0}
                     className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                    value={form.stock}
+                    value={form.stock ?? ""}
                     onChange={(event) => updateFormField("stock", parseStockInput(event.target.value))}
                     required
                   />

@@ -1,3 +1,4 @@
+// backend/seeders/20250923153907-seed-admin.cjs.js
 'use strict'
 const bcrypt = require('bcryptjs')
 

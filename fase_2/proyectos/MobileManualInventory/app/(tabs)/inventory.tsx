@@ -8,6 +8,7 @@ import { AdjustmentSheet } from '@/components/inventory/AdjustmentSheet';
 import { ProductCard } from '@/components/inventory/ProductCard';
 import type { ProductInventoryItem } from '@/lib/manualInventoryTasks';
 import { useManualInventoryStore } from '@/store/manualInventory';
+import { usePalette, type Palette } from '@/hooks/use-palette';
 
 export default function InventoryScreen() {
   const products = useManualInventoryStore((state) => state.products);
@@ -20,6 +21,8 @@ export default function InventoryScreen() {
 
   const [search, setSearch] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<ProductInventoryItem | null>(null);
+  const palette = usePalette();
+  const styles = useMemo(() => createStyles(palette), [palette]);
 
   useEffect(() => {
     if (!bootstrapped) {
@@ -46,6 +49,7 @@ export default function InventoryScreen() {
       <TextInput
         style={styles.search}
         placeholder="Buscar por nombre o categoria"
+        placeholderTextColor={palette.muted}
         value={search}
         onChangeText={setSearch}
       />
@@ -57,7 +61,14 @@ export default function InventoryScreen() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <ProductCard product={item} onAdjust={setSelectedProduct} />}
         contentContainerStyle={styles.list}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={refresh} />}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={refresh}
+            tintColor={palette.tint}
+            colors={[palette.tint]}
+          />
+        }
         ListEmptyComponent={
           <EmptyState
             title="Sin resultados"
@@ -84,21 +95,25 @@ export default function InventoryScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-    gap: 16,
-  },
-  search: {
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-  },
-  list: {
-    paddingVertical: 12,
-  },
-});
+const createStyles = (palette: Palette) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 20,
+      gap: 16,
+      backgroundColor: palette.background,
+    },
+    search: {
+      borderRadius: 16,
+      borderWidth: 1,
+      borderColor: palette.border,
+      backgroundColor: palette.card,
+      color: palette.text,
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      fontSize: 16,
+    },
+    list: {
+      paddingVertical: 12,
+    },
+  });

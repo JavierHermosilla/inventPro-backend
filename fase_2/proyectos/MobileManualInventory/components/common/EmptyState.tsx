@@ -1,24 +1,35 @@
 import { StyleSheet, Text, View } from 'react-native';
 
+import { usePalette } from '@/hooks/use-palette';
+
 type EmptyStateProps = {
   title: string;
   description?: string;
 };
 
-export const EmptyState = ({ title, description }: EmptyStateProps) => (
-  <View style={styles.container}>
-    <Text style={styles.title}>{title}</Text>
-    {description ? <Text style={styles.description}>{description}</Text> : null}
-  </View>
-);
+export const EmptyState = ({ title, description }: EmptyStateProps) => {
+  const palette = usePalette();
+  return (
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: palette.card,
+          borderColor: palette.border,
+        },
+      ]}
+    >
+      <Text style={[styles.title, { color: palette.text }]}>{title}</Text>
+      {description ? <Text style={[styles.description, { color: palette.muted }]}>{description}</Text> : null}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     padding: 24,
     borderRadius: 16,
-    backgroundColor: '#F8FAFC',
     borderWidth: 1,
-    borderColor: '#E2E8F0',
     alignItems: 'center',
   },
   title: {
@@ -28,7 +39,6 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 14,
-    color: '#94A3B8',
     textAlign: 'center',
     marginTop: 6,
   },

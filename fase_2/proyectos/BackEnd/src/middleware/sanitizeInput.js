@@ -1,3 +1,4 @@
+// src/middleware/sanitizeInput.js
 import xss from 'xss'
 import logger from '../utils/logger.js'
 

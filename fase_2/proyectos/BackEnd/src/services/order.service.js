@@ -4,7 +4,7 @@ import { normalizeRut } from '../utils/rut.js'
 const { Order, OrderProduct, Product, Client, Supplier } = models
 
 // ================== Config negocio ==================
-const ALLOW_NEGATIVE_STOCK = true // reglas actuales: descontar aunque deje negativo
+const ALLOW_NEGATIVE_STOCK = String(process.env.ALLOW_NEGATIVE_STOCK ?? 'true').toLocaleLowerCase() === 'true'
 
 // ================== Helpers ==================
 const asNum = (v) => Number(v ?? 0)

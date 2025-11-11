@@ -1,32 +1,44 @@
 // src/services/client.service.js
-import { Op, UniqueConstraintError } from 'sequelize'
+import { Op, UniqueConstraintError, fn, col, where as sqWhere } from 'sequelize'
 import { sequelize, models } from '../models/index.js'
 
 const { Client } = models
 
-function normalizeRut (rut) {
-  return String(rut || '').trim().toUpperCase()
-}
+// ----------------- helpers -----------------
+const normRut = (rut) => String(rut ?? '').trim().toUpperCase()
+const normEmail = (email) => String(email ?? '').trim().toLowerCase()
+// Conservador: solo quita espacios; tu Zod valida el formato (+?\d{7,15})
+const normPhone = (phone) => String(phone ?? '').replace(/\s+/g, '').trim()
 
+// ----------------- create -----------------
 export async function createClientService (payload) {
-  const t = await sequelize.transaction()
+  // Normaliza antes de entrar a la TX
+  const data = { ...payload }
+  if (data.rut) data.rut = normRut(data.rut)
+  if (data.email) data.email = normEmail(data.email)
+  if (data.phone) data.phone = normPhone(data.phone)
+
   try {
-    const data = { ...payload }
-    if (data.rut) data.rut = normalizeRut(data.rut)
+    return await sequelize.transaction(async (t) => {
+      // Chequeo preventivo (activos por defecto: paranoid = true)
+      const dup = await Client.findOne({
+        where: {
+          [Op.or]: [
+            data.rut ? { rut: data.rut } : null,
+            data.email ? sqWhere(fn('lower', col('email')), data.email) : null
+          ].filter(Boolean)
+        },
+        transaction: t
+      })
+      if (dup) {
+        const e = new Error('Cliente con este RUT o email ya existe'); e.status = 409; throw e
+      }
 
-    const exists = await Client.findOne({
-      where: { [Op.or]: [{ rut: data.rut }, { email: data.email }] },
-      transaction: t
+      const client = await Client.create(data, { transaction: t })
+      return client.toJSON()
     })
-    if (exists) {
-      throw Object.assign(new Error('Cliente con este RUT o email ya existe'), { status: 409 })
-    }
-
-    const client = await Client.create(data, { transaction: t })
-    await t.commit()
-    return client
   } catch (err) {
-    await t.rollback()
+    // Blindaje por si gana la carrera el índice único parcial
     if (err instanceof UniqueConstraintError) {
       err.status = 409
       err.message = 'Cliente con este RUT o email ya existe'
@@ -35,10 +47,10 @@ export async function createClientService (payload) {
   }
 }
 
+// ----------------- list (paginado + search) -----------------
 /**
- * Listado con paginación y filtros:
  * params: { page=1, limit=10, search, orderBy='created_at', orderDir='DESC' }
- * search: busca en name, rut, email (case-insensitive por citext en email)
+ * search: iLike en name, rut, email (email ya es insensitive por citext o iLike)
  */
 export async function listClientsService (params = {}) {
   const page = Math.max(parseInt(params.page ?? 1, 10), 1)
@@ -46,18 +58,17 @@ export async function listClientsService (params = {}) {
   const offset = (page - 1) * limit
 
   const where = {}
-  const search = (params.search || '').trim()
-  if (search) {
+  const q = String(params.search ?? '').trim()
+  if (q) {
     where[Op.or] = [
-      { name: { [Op.iLike]: `%${search}%` } },
-      { rut: { [Op.iLike]: `%${search}%` } },
-      { email: { [Op.iLike]: `%${search}%` } } // citext ayuda igual
+      { name: { [Op.iLike]: `%${q}%` } },
+      { rut: { [Op.iLike]: `%${q}%` } },
+      { email: { [Op.iLike]: `%${q}%` } }
     ]
   }
 
-  const orderBy = ['created_at', 'name', 'rut', 'email'].includes(params.orderBy)
-    ? params.orderBy
-    : 'created_at'
+  const allowedOrder = ['created_at', 'name', 'rut', 'email', 'updated_at']
+  const orderBy = allowedOrder.includes(params.orderBy) ? params.orderBy : 'created_at'
   const orderDir = String(params.orderDir || 'DESC').toUpperCase() === 'ASC' ? 'ASC' : 'DESC'
 
   const { rows, count } = await Client.findAndCountAll({
@@ -76,55 +87,51 @@ export async function listClientsService (params = {}) {
   }
 }
 
+// ----------------- get by id -----------------
 export async function getClientByIdService (id) {
   const client = await Client.findByPk(id)
   if (!client) {
-    const e = new Error('Cliente no encontrado')
-    e.status = 404
-    throw e
+    const e = new Error('Cliente no encontrado'); e.status = 404; throw e
   }
   return client
 }
 
+// ----------------- update -----------------
 export async function updateClientService (id, payload) {
-  const t = await sequelize.transaction()
+  // Pre-normaliza para que el findOne de unicidad compare contra valores finales
+  const data = { ...payload }
+  if (data.rut) data.rut = normRut(data.rut)
+  if (data.email) data.email = normEmail(data.email)
+  if (data.phone) data.phone = normPhone(data.phone)
+
   try {
-    const client = await Client.findByPk(id, { transaction: t })
-    if (!client) {
-      await t.rollback()
-      const e = new Error('Cliente no encontrado')
-      e.status = 404
-      throw e
-    }
-
-    const data = { ...payload }
-    if (data.rut) data.rut = normalizeRut(data.rut)
-
-    // Si cambian rut/email, valida unicidad contra otros activos
-    if (data.rut || data.email) {
-      const exists = await Client.findOne({
-        where: {
-          id: { [Op.ne]: id },
-          [Op.or]: [
-            data.rut ? { rut: data.rut } : null,
-            data.email ? { email: data.email } : null
-          ].filter(Boolean)
-        },
-        transaction: t
-      })
-      if (exists) {
-        await t.rollback()
-        const e = new Error('Cliente con este RUT o email ya existe')
-        e.status = 409
-        throw e
+    return await sequelize.transaction(async (t) => {
+      const client = await Client.findByPk(id, { transaction: t })
+      if (!client) {
+        const e = new Error('Cliente no encontrado'); e.status = 404; throw e
       }
-    }
 
-    await client.update(data, { transaction: t })
-    await t.commit()
-    return client
+      // Unicidad si modifican rut/email (contra otros activos)
+      if (data.rut || data.email) {
+        const dup = await Client.findOne({
+          where: {
+            id: { [Op.ne]: id },
+            [Op.or]: [
+              data.rut ? { rut: data.rut } : null,
+              data.email ? sqWhere(fn('lower', col('email')), data.email) : null
+            ].filter(Boolean)
+          },
+          transaction: t
+        })
+        if (dup) {
+          const e = new Error('Cliente con este RUT o email ya existe'); e.status = 409; throw e
+        }
+      }
+
+      await client.update(data, { transaction: t })
+      return client.toJSON()
+    })
   } catch (err) {
-    await t.rollback()
     if (err instanceof UniqueConstraintError) {
       err.status = 409
       err.message = 'Cliente con este RUT o email ya existe'
@@ -133,21 +140,18 @@ export async function updateClientService (id, payload) {
   }
 }
 
+// ----------------- delete (soft) -----------------
 export async function deleteClientService (id) {
-  const t = await sequelize.transaction()
   try {
-    const client = await Client.findByPk(id, { transaction: t })
-    if (!client) {
-      await t.rollback()
-      const e = new Error('Cliente no encontrado')
-      e.status = 404
-      throw e
-    }
-    await client.destroy({ transaction: t }) // paranoid: true → soft delete
-    await t.commit()
-    return { message: 'Cliente eliminado correctamente' }
+    return await sequelize.transaction(async (t) => {
+      const client = await Client.findByPk(id, { transaction: t })
+      if (!client) {
+        const e = new Error('Cliente no encontrado'); e.status = 404; throw e
+      }
+      await client.destroy({ transaction: t })
+      return true
+    })
   } catch (err) {
-    await t.rollback()
     throw err
   }
 }

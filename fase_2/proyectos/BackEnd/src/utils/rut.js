@@ -1,3 +1,4 @@
+// src/utils/rut.js
 export const normalizeRut = (rut) =>
   rut?.replace(/\./g, '')
     .replace(/\s+/g, '')

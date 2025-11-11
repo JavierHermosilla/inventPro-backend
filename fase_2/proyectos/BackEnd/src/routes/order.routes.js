@@ -7,14 +7,16 @@ import {
   listOrderById,
   listOrders,
   createOrderByRut,
-  listOrdersByRut
+  listOrdersByRut,
+  exportOrdersCSV,
+  exportOrdersPDF,
+  exportOrdersXLSX
 } from '../controllers/order.controller.js'
 
 import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
 import { validateUUID } from '../middleware/validateUUID.middleware.js'
 import { validateSchema } from '../middleware/validator.middleware.js'
 import { canUpdateOrder } from '../middleware/order.middleware.js'
-
 import {
   orderCreateSchema,
   orderUpdateSchema,
@@ -23,60 +25,33 @@ import {
 
 const router = Router()
 
-// 🌐 Listar todas las órdenes (auth requerido)
-router.get('/', verifyTokenMiddleware, listOrders)
+// 🔒 todas autenticadas
+router.use(verifyTokenMiddleware)
 
-// 🔎 Listar órdenes por RUT de cliente (antes de '/:id')
-router.get(
-  '/by-rut/:rut',
-  verifyTokenMiddleware,
-  requireRole('admin', 'vendedor', 'bodeguero'),
-  listOrdersByRut
-)
+// 🔎 Listar por RUT (antes de /:id)
+router.get('/by-rut/:rut', requireRole('admin', 'vendedor', 'bodeguero'), listOrdersByRut)
 
-// ➕ Crear orden (acepta clientId o rut; el schema valida/normaliza)
-router.post(
-  '/',
-  verifyTokenMiddleware,
-  validateSchema(orderCreateSchema),
-  createOrder
-)
+// 📤 Exports (solo admin) — definir ANTES de '/:id'
+router.get('/export.csv', requireRole('admin'), exportOrdersCSV)
+router.get('/export.pdf', requireRole('admin'), exportOrdersPDF)
+router.get('/export.xlsx', requireRole('admin'), exportOrdersXLSX)
 
-// ➕ Crear orden por RUT (en el body)
-router.post(
-  '/by-rut',
-  verifyTokenMiddleware,
-  requireRole('admin', 'vendedor'),
-  validateSchema(orderByRutSchema),
-  createOrderByRut
-)
+// 🌐 Listar
+router.get('/', listOrders)
 
-// 📄 Obtener una orden por ID
-router.get(
-  '/:id',
-  verifyTokenMiddleware,
-  validateUUID('id'),
-  listOrderById
-)
+// ➕ Crear
+router.post('/', validateSchema(orderCreateSchema), createOrder)
 
-// ✏️ Actualizar estado de una orden (solo admin)
-router.patch(
-  '/:id',
-  verifyTokenMiddleware,
-  requireRole('admin'),
-  validateUUID('id'),
-  validateSchema(orderUpdateSchema),
-  canUpdateOrder, // 👈 agrega la validación final de permisos
-  updateOrder
-)
+// ➕ Crear por RUT
+router.post('/by-rut', requireRole('admin', 'vendedor'), validateSchema(orderByRutSchema), createOrderByRut)
 
-// 🗑️ Eliminar orden (solo admin)
-router.delete(
-  '/:id',
-  verifyTokenMiddleware,
-  requireRole('admin'),
-  validateUUID('id'),
-  deleteOrder
-)
+// 📄 Obtener una orden
+router.get('/:id', validateUUID('id'), listOrderById)
+
+// ✏️ Actualizar estado
+router.patch('/:id', requireRole('admin'), validateUUID('id'), validateSchema(orderUpdateSchema), canUpdateOrder, updateOrder)
+
+// 🗑️ Eliminar
+router.delete('/:id', requireRole('admin'), validateUUID('id'), deleteOrder)
 
 export default router

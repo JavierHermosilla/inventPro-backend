@@ -57,10 +57,8 @@ SELECT CASE WHEN COUNT(*)=0
 FROM ins;
 
 \echo '--- Trigger inmutabilidad (update price debe fallar)'
--- Pasamos valores a variables de servidor visibles en el DO
 SET LOCAL inventpro.order_id   = :'order_id';
 SET LOCAL inventpro.product_id = :'product_id';
-
 DO $$
 DECLARE
   v_order_id   uuid := current_setting('inventpro.order_id')::uuid;
@@ -95,10 +93,11 @@ SELECT category_id FROM inventpro_user.products WHERE id = :'product_id';
 INSERT INTO inventpro_user.clients (id,name,rut,address,phone,email,created_at,updated_at)
 VALUES (gen_random_uuid(),'Email A','11111111-1','Dir','+56 9 1','dup@example.com', now(), now());
 
+\echo '--- Duplicado de email activo (usa inferencia y satisface el predicado del índice parcial)'
 WITH ins AS (
-  INSERT INTO inventpro_user.clients (id,name,rut,address,phone,email,created_at,updated_at)
-  VALUES (gen_random_uuid(),'Email B','22222222-2','Dir','+56 9 2','dup@example.com', now(), now())
-  ON CONFLICT (email) DO NOTHING
+  INSERT INTO inventpro_user.clients (id,name,rut,address,phone,email,deleted_at,created_at,updated_at)
+  VALUES (gen_random_uuid(),'Email B','22222222-2','Dir','+56 9 2','dup@example.com', NULL, now(), now())
+  ON CONFLICT (email) WHERE (deleted_at IS NULL) DO NOTHING
   RETURNING 1
 )
 SELECT CASE WHEN COUNT(*)=0

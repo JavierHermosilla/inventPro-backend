@@ -5,6 +5,25 @@ components:
       name: id
       required: true
       schema: { type: string, format: uuid }
+    ExportMode:
+      in: query
+      name: mode
+      required: false
+      schema:
+        type: string
+        enum: [merged, zip]
+        default: merged
+      description: |
+        merged = CSV plano en un archivo.
+        zip    = ZIP con múltiples CSV (productos, proveedores, clientes, órdenes, items).
+    ExportSep:
+      in: query
+      name: sep
+      required: false
+      schema:
+        type: string
+        default: ","
+      description: Separador de columnas del CSV (ej. "," o ";").
   schemas:
     ErrorResponse:
       type: object

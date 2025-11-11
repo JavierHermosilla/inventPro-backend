@@ -1,3 +1,4 @@
+// src/controllers/dashboard.controller.js
 import { Op } from 'sequelize'
 import Client from '../models/client.model.js'
 import Order from '../models/order.model.js'

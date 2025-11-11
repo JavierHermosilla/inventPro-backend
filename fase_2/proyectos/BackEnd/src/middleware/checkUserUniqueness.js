@@ -1,3 +1,4 @@
+// src/middleware/checkUserUniqueness.js
 import User from '../models/user.model.js'
 import { Op } from 'sequelize'
 

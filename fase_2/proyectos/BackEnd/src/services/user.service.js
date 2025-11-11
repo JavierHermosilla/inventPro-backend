@@ -37,7 +37,7 @@ export async function listUsersService (params, actor) {
     where,
     limit,
     offset,
-    order: [['created_at', 'DESC'], ['id', 'DESC']],
+    order: [['createdAt', 'DESC'], ['id', 'DESC']],
     attributes: { exclude: ['password'] }
   })
   return { total: count, page, pages: Math.max(Math.ceil(count / limit), 1), users: rows }

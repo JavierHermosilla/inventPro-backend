@@ -1,3 +1,4 @@
+// src/schemas/manualInventory.schema.js
 import { z } from 'zod'
 
 // Validación para UUID v4 válida de MongoDB

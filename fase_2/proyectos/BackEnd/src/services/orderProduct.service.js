@@ -1,11 +1,23 @@
 // src/services/orderProduct.service.js
 import { sequelize, models } from '../models/index.js'
+import { UniqueConstraintError } from 'sequelize'
+
 const { Order, OrderProduct, Product } = models
 
+// Lee política desde .env (true/false)
+const ALLOW_NEGATIVE_STOCK =
+  String(process.env.ALLOW_NEGATIVE_STOCK ?? 'true').trim().toLowerCase() === 'true'
+
+// Helpers numéricos
 const asNumber = (v, def = 0) => {
   const n = Number(v)
   return Number.isFinite(n) ? n : def
 }
+
+// Evita errores por flotantes en montos (DECIMAL(10,2) en DB)
+const round2 = (n) => Math.round(asNumber(n) * 100) / 100
+const moneyAdd = (a, b) => round2(asNumber(a) + asNumber(b))
+const moneyMul = (a, b) => round2(asNumber(a) * asNumber(b))
 
 const ensureOrderMutable = (order) => {
   if (!order) {
@@ -86,7 +98,8 @@ export const getOrderProductByIdService = async (id, include) => {
 
 /**
  * Crear línea (snapshot de price) y ajustar stock/total
- * - Permite stock negativo (regla actual)
+ * - Respeta ALLOW_NEGATIVE_STOCK
+ * - Protege contra condición de carrera si existe UNIQUE(order_id, product_id)
  */
 export const createOrderProductService = async ({ orderId, productId, quantity }) => {
   return await sequelize.transaction(async (t) => {
@@ -117,22 +130,42 @@ export const createOrderProductService = async ({ orderId, productId, quantity }
       op.quantity = asNumber(op.quantity, 0) + qty
       await op.save({ transaction: t, fields: ['quantity'] })
     } else {
-      op = await OrderProduct.create({
-        orderId,
-        productId,
-        quantity: qty,
-        price: unitPrice // snapshot
-      }, { transaction: t })
+      try {
+        op = await OrderProduct.create({
+          orderId,
+          productId,
+          quantity: qty,
+          price: unitPrice // snapshot (campo del modelo mapeado a columna unit_price)
+        }, { transaction: t })
+      } catch (err) {
+        // Si hay índice UNIQUE (order_id, product_id), reintenta sumando sobre la línea existente
+        if (err instanceof UniqueConstraintError) {
+          op = await OrderProduct.findOne({
+            where: { orderId, productId },
+            transaction: t,
+            lock: t.LOCK.UPDATE
+          })
+          if (!op) throw err
+          op.quantity = asNumber(op.quantity, 0) + qty
+          await op.save({ transaction: t, fields: ['quantity'] })
+        } else {
+          throw err
+        }
+      }
     }
 
-    // Ajuste de stock (se permite negativo)
-    product.stock = asNumber(product.stock) - qty
+    // Ajuste de stock (respeta política)
+    const newStock = asNumber(product.stock) - qty
+    if (!ALLOW_NEGATIVE_STOCK && newStock < 0) {
+      const e = new Error('Stock insuficiente para este producto'); e.status = 409; throw e
+    }
+    product.stock = newStock
     await product.save({ transaction: t, fields: ['stock'] })
     await markBackorderIfNeeded(order, product, t)
 
-    // Ajuste del total con snapshot (de la línea)
+    // Ajuste del total con snapshot de la línea
     const priceToUse = asNumber(op.price)
-    order.totalAmount = asNumber(order.totalAmount) + priceToUse * qty
+    order.totalAmount = moneyAdd(order.totalAmount, moneyMul(priceToUse, qty))
     await order.save({ transaction: t, fields: ['totalAmount'] })
 
     return op
@@ -141,6 +174,7 @@ export const createOrderProductService = async ({ orderId, productId, quantity }
 
 /**
  * Actualizar cantidad (mantiene snapshot de price)
+ * - Respeta ALLOW_NEGATIVE_STOCK
  */
 export const updateOrderProductService = async (id, { quantity }) => {
   return await sequelize.transaction(async (t) => {
@@ -162,14 +196,18 @@ export const updateOrderProductService = async (id, { quantity }) => {
     const delta = neu - cur // + aumenta, - disminuye
     if (delta === 0) return op
 
-    // Stock (permite negativo)
-    product.stock = asNumber(product.stock) - delta
+    // Ajuste de stock (respeta política)
+    const newStock = asNumber(product.stock) - delta
+    if (!ALLOW_NEGATIVE_STOCK && newStock < 0) {
+      const e = new Error('Stock insuficiente para este producto'); e.status = 409; throw e
+    }
+    product.stock = newStock
     await product.save({ transaction: t, fields: ['stock'] })
     await markBackorderIfNeeded(order, product, t)
 
     // Total con snapshot de la línea
     const unitPrice = asNumber(op.price)
-    order.totalAmount = asNumber(order.totalAmount) + unitPrice * delta
+    order.totalAmount = moneyAdd(order.totalAmount, moneyMul(unitPrice, delta))
     await order.save({ transaction: t, fields: ['totalAmount'] })
 
     // Cantidad nueva (price inmutable)
@@ -201,8 +239,9 @@ export const deleteOrderProductService = async (id) => {
     product.stock = asNumber(product.stock) + qty
     await product.save({ transaction: t, fields: ['stock'] })
 
-    // Ajustar total (cap en 0 por seguridad)
-    order.totalAmount = Math.max(0, asNumber(order.totalAmount) - price * qty)
+    // Ajustar total (cap en 0 por seguridad, redondeado)
+    const nextTotal = moneyAdd(order.totalAmount, -moneyMul(price, qty))
+    order.totalAmount = nextTotal < 0 ? 0 : round2(nextTotal)
     await order.save({ transaction: t, fields: ['totalAmount'] })
 
     await op.destroy({ transaction: t })

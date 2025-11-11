@@ -1,9 +1,9 @@
-"use strict";
+'use strict'
 
 module.exports = {
   async up (qi) {
-    const t = await qi.sequelize.transaction();
-    const schema = "inventpro_user";
+    const t = await qi.sequelize.transaction()
+    const schema = 'inventpro_user'
     try {
       await qi.sequelize.query(`
         DO $$
@@ -71,24 +71,24 @@ module.exports = {
           END IF;
         END
         $$;
-      `, { transaction: t });
+      `, { transaction: t })
 
-      await t.commit();
+      await t.commit()
     } catch (e) {
-      await t.rollback();
-      throw e;
+      await t.rollback()
+      throw e
     }
   },
 
   async down (qi) {
-    const t = await qi.sequelize.transaction();
-    const schema = "inventpro_user";
+    const t = await qi.sequelize.transaction()
+    const schema = 'inventpro_user'
     try {
       // No recreamos los duplicados en rollback.
-      await t.commit();
+      await t.commit()
     } catch (e) {
-      await t.rollback();
-      throw e;
+      await t.rollback()
+      throw e
     }
   }
-};
+}

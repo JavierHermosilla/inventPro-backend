@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { Link, Redirect, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Alert,
   KeyboardAvoidingView,
@@ -12,14 +12,13 @@ import {
   View,
 } from 'react-native';
 
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { usePalette, type Palette } from '@/hooks/use-palette';
 import { useAuthStore } from '@/store/auth';
 
 export default function LoginScreen() {
   const router = useRouter();
-  const scheme = useColorScheme() ?? 'light';
-  const palette = Colors[scheme];
+  const palette = usePalette();
+  const styles = useMemo(() => createStyles(palette), [palette]);
   const login = useAuthStore((state) => state.login);
   const user = useAuthStore((state) => state.user);
   const loading = useAuthStore((state) => state.loading);
@@ -48,10 +47,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={[styles.container, { backgroundColor: palette.background }]}
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-    >
+    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <View style={styles.card}>
         <Image
           source={require('@/assets/images/logo-invent-pro.png')}
@@ -71,6 +67,7 @@ export default function LoginScreen() {
             keyboardType="email-address"
             style={styles.input}
             placeholder="bodega@inventpro.com"
+            placeholderTextColor={palette.muted}
             value={email}
             onChangeText={setEmail}
           />
@@ -82,6 +79,7 @@ export default function LoginScreen() {
             secureTextEntry
             style={styles.input}
             placeholder="********"
+            placeholderTextColor={palette.muted}
             value={password}
             onChangeText={setPassword}
           />
@@ -105,79 +103,85 @@ export default function LoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 24,
-  },
-  card: {
-    backgroundColor: '#FFFFFF',
-    padding: 24,
-    borderRadius: 24,
-    gap: 16,
-    elevation: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 4 },
-  },
-  logo: {
-    width: 150,
-    height: 70,
-    alignSelf: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  subtitle: {
-    color: '#475467',
-    textAlign: 'center',
-  },
-  field: {
-    gap: 6,
-  },
-  label: {
-    fontSize: 14,
-    color: '#475467',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    borderRadius: 14,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    fontSize: 16,
-  },
-  button: {
-    backgroundColor: '#0EA5E9',
-    paddingVertical: 14,
-    borderRadius: 16,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#FFF',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-  helper: {
-    textAlign: 'center',
-    color: '#6B7280',
-  },
-  link: {
-    color: '#0EA5E9',
-    fontWeight: '600',
-  },
-  errorText: {
-    color: '#DC2626',
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  accessNote: {
-    textAlign: 'center',
-    color: '#0F172A',
-    fontWeight: '600',
-  },
-});
+const createStyles = (palette: Palette) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      padding: 24,
+      backgroundColor: palette.background,
+    },
+    card: {
+      backgroundColor: palette.card,
+      padding: 24,
+      borderRadius: 24,
+      gap: 16,
+      borderWidth: 1,
+      borderColor: palette.border,
+      shadowColor: '#000',
+      shadowOpacity: 0.05,
+      shadowRadius: 12,
+      shadowOffset: { width: 0, height: 4 },
+    },
+    logo: {
+      width: 150,
+      height: 70,
+      alignSelf: 'center',
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: '700',
+      textAlign: 'center',
+      color: palette.text,
+    },
+    subtitle: {
+      color: palette.muted,
+      textAlign: 'center',
+    },
+    field: {
+      gap: 6,
+    },
+    label: {
+      fontSize: 14,
+      color: palette.muted,
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: palette.border,
+      borderRadius: 14,
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      fontSize: 16,
+      backgroundColor: palette.background,
+      color: palette.text,
+    },
+    button: {
+      backgroundColor: palette.tint,
+      paddingVertical: 14,
+      borderRadius: 16,
+      alignItems: 'center',
+    },
+    buttonText: {
+      color: '#FFFFFF',
+      fontWeight: '700',
+      fontSize: 16,
+    },
+    helper: {
+      textAlign: 'center',
+      color: palette.muted,
+    },
+    link: {
+      color: palette.tint,
+      fontWeight: '600',
+    },
+    errorText: {
+      color: palette.danger,
+      fontSize: 14,
+      textAlign: 'center',
+    },
+    accessNote: {
+      textAlign: 'center',
+      color: palette.text,
+      fontWeight: '600',
+    },
+  });

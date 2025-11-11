@@ -1,21 +1,37 @@
 import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
 import { useEffect } from 'react';
 import { Platform } from 'react-native';
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldSetBadge: false,
-    shouldPlaySound: true,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
-});
+const isExpoGo = Constants.executionEnvironment === 'expo-go';
+const isWeb = Platform.OS === 'web';
+let notificationsConfigured = false;
 
 export const useNotificationSetup = () => {
   useEffect(() => {
+    if (isExpoGo || isWeb) {
+      console.warn('[notifications] Skip push setup (Expo Go/web no soportado).');
+      return;
+    }
+
+    let mounted = true;
+
     (async () => {
+      const Notifications = await import('expo-notifications');
+
+      if (!notificationsConfigured) {
+        Notifications.setNotificationHandler({
+          handleNotification: async () => ({
+            shouldShowAlert: true,
+            shouldSetBadge: false,
+            shouldPlaySound: true,
+            shouldShowBanner: true,
+            shouldShowList: true,
+          }),
+        });
+        notificationsConfigured = true;
+      }
+
       if (!Device.isDevice) {
         console.warn('[notifications] Las notificaciones push requieren un dispositivo físico.');
         return;
@@ -28,8 +44,10 @@ export const useNotificationSetup = () => {
         finalStatus = status;
       }
 
-      if (finalStatus !== 'granted') {
-        console.warn('[notifications] Permisos denegados por el usuario.');
+      if (!mounted || finalStatus !== 'granted') {
+        if (finalStatus !== 'granted') {
+          console.warn('[notifications] Permisos denegados por el usuario.');
+        }
         return;
       }
 
@@ -42,6 +60,10 @@ export const useNotificationSetup = () => {
         });
       }
     })();
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 };
 

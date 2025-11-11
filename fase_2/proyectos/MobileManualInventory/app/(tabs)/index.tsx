@@ -1,5 +1,5 @@
 import { Link } from 'expo-router';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
 
 import { EmptyState } from '@/components/common/EmptyState';
@@ -10,6 +10,7 @@ import { InventorySummaryGrid } from '@/components/inventory/InventorySummary';
 import { Config } from '@/lib/config';
 import { usePolling } from '@/hooks/use-polling';
 import { useManualInventoryStore } from '@/store/manualInventory';
+import { usePalette, type Palette } from '@/hooks/use-palette';
 
 export default function DashboardScreen() {
   const summary = useManualInventoryStore((state) => state.summary);
@@ -21,6 +22,8 @@ export default function DashboardScreen() {
   const refreshing = useManualInventoryStore((state) => state.refreshing);
   const lastError = useManualInventoryStore((state) => state.lastError);
   const bootstrapped = useManualInventoryStore((state) => state.bootstrapped);
+  const palette = usePalette();
+  const styles = useMemo(() => createStyles(palette), [palette]);
 
   useEffect(() => {
     if (!bootstrapped && !loading) {
@@ -37,6 +40,18 @@ export default function DashboardScreen() {
   const lowStock = summary?.lowStockProducts ?? [];
   const recentMovements = movements.slice(0, 3);
   const highlightedAlerts = alerts.slice(0, 3);
+  const adjustmentsToday = useMemo(() => {
+    const today = new Date();
+    return movements.filter((movement) => {
+      const when = new Date(movement.createdAt);
+      return (
+        when.getFullYear() === today.getFullYear() &&
+        when.getMonth() === today.getMonth() &&
+        when.getDate() === today.getDate()
+      );
+    }).length;
+  }, [movements]);
+  const activeAlerts = alerts.filter((alert) => !alert.read).length;
 
   if (loading && !summary) {
     return <LoadingState message="Sincronizando inventario..." />;
@@ -46,10 +61,17 @@ export default function DashboardScreen() {
     <ScrollView
       style={styles.container}
       contentContainerStyle={styles.content}
-      refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          tintColor={palette.tint}
+          colors={[palette.tint]}
+        />
+      }
     >
-      <SectionHeader title="Resumen operativo" subtitle="Estado actual de InventPro" />
-      <InventorySummaryGrid summary={summary} />
+      <SectionHeader title="Control diario de bodega" subtitle="KPIs esenciales para ajustes manuales" />
+      <InventorySummaryGrid summary={summary} alertsCount={activeAlerts} adjustmentsToday={adjustmentsToday} />
 
       {lastError ? <ErrorState message={lastError} onRetry={onRefresh} /> : null}
 
@@ -83,7 +105,13 @@ export default function DashboardScreen() {
         <SectionHeader
           title="Movimientos recientes"
           subtitle="Ultimos ajustes manuales"
-          trailing={<Text style={styles.link}>Historico</Text>}
+          trailing={
+            <Link href="/inventory" asChild>
+              <Pressable>
+                <Text style={styles.link}>Registrar ajuste</Text>
+              </Pressable>
+            </Link>
+          }
         />
         {recentMovements.length === 0 ? (
           <EmptyState title="Sin movimientos" description="Aun no se registran ajustes manuales." />
@@ -131,38 +159,43 @@ export default function DashboardScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    padding: 20,
-    gap: 24,
-  },
-  section: {
-    gap: 12,
-  },
-  link: {
-    color: '#0EA5E9',
-    fontWeight: '600',
-  },
-  notificationCard: {
-    padding: 16,
-    borderRadius: 16,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
-    gap: 4,
-  },
-  notificationTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  notificationMessage: {
-    color: '#475467',
-  },
-  notificationTime: {
-    fontSize: 12,
-    color: '#94A3B8',
-  },
-});
+const createStyles = (palette: Palette) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: palette.background,
+    },
+    content: {
+      padding: 20,
+      gap: 24,
+      paddingBottom: 32,
+    },
+    section: {
+      gap: 12,
+    },
+    link: {
+      color: palette.tint,
+      fontWeight: '600',
+    },
+    notificationCard: {
+      padding: 16,
+      borderRadius: 16,
+      backgroundColor: palette.card,
+      borderWidth: 1,
+      borderColor: palette.border,
+      gap: 4,
+    },
+    notificationTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: palette.text,
+    },
+    notificationMessage: {
+      color: palette.muted,
+    },
+    notificationTime: {
+      fontSize: 12,
+      color: palette.muted,
+    },
+  });
+

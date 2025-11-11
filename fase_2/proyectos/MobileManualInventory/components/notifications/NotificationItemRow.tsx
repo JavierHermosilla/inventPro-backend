@@ -1,45 +1,47 @@
 import { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { Colors } from '@/constants/theme';
 import type { InventoryAlert } from '@/store/manualInventory';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { usePalette, type Palette } from '@/hooks/use-palette';
 
 type NotificationItemProps = {
   alert: InventoryAlert;
   onPress?: (alert: InventoryAlert) => void;
 };
 
-const typeColor = (severity: InventoryAlert['severity']) => {
+const typeColor = (severity: InventoryAlert['severity'], palette: Palette) => {
   switch (severity) {
     case 'critical':
-      return '#EF4444';
+      return palette.danger;
     case 'warning':
-      return '#F97316';
+      return palette.warning;
     default:
-      return '#0EA5E9';
+      return palette.tint;
   }
 };
 
 export const NotificationItemRow = memo(({ alert, onPress }: NotificationItemProps) => {
-  const scheme = useColorScheme() ?? 'light';
-  const palette = Colors[scheme];
+  const palette = usePalette();
+  const badgeColor = typeColor(alert.severity, palette);
+  const unread = !alert.read;
   return (
     <Pressable
       style={[
         styles.container,
         {
-          backgroundColor: alert.read ? palette.card : '#EEF2FF',
-          borderColor: alert.read ? palette.border : '#C7D2FE',
+          backgroundColor: unread ? palette.tint + '22' : palette.card,
+          borderColor: unread ? palette.tint : palette.border,
         },
       ]}
       onPress={() => onPress?.(alert)}
     >
-      <View style={[styles.badge, { backgroundColor: typeColor(alert.severity) }]} />
+      <View style={[styles.badge, { backgroundColor: badgeColor }]} />
       <View style={styles.content}>
-        <Text style={styles.title}>{alert.title}</Text>
-        <Text style={styles.message}>{alert.message}</Text>
-        <Text style={styles.time}>{new Date(alert.createdAt).toLocaleString('es-CL')}</Text>
+        <Text style={[styles.title, { color: palette.text }]}>{alert.title}</Text>
+        <Text style={[styles.message, { color: palette.muted }]}>{alert.message}</Text>
+        <Text style={[styles.time, { color: palette.muted }]}>
+          {new Date(alert.createdAt).toLocaleString('es-CL')}
+        </Text>
       </View>
     </Pressable>
   );
@@ -70,11 +72,9 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 14,
-    color: '#475467',
   },
   time: {
     fontSize: 12,
-    color: '#94A3B8',
   },
 });
 

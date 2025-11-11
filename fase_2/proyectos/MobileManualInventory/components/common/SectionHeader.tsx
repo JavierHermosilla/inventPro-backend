@@ -1,20 +1,26 @@
 import { StyleSheet, Text, View } from 'react-native';
 
+import { usePalette } from '@/hooks/use-palette';
+
 type SectionHeaderProps = {
   title: string;
   subtitle?: string;
   trailing?: React.ReactNode;
 };
 
-export const SectionHeader = ({ title, subtitle, trailing }: SectionHeaderProps) => (
-  <View style={styles.container}>
-    <View style={styles.texts}>
-      <Text style={styles.title}>{title}</Text>
-      {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+export const SectionHeader = ({ title, subtitle, trailing }: SectionHeaderProps) => {
+  const palette = usePalette();
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.texts}>
+        <Text style={[styles.title, { color: palette.text }]}>{title}</Text>
+        {subtitle ? <Text style={[styles.subtitle, { color: palette.muted }]}>{subtitle}</Text> : null}
+      </View>
+      {trailing}
     </View>
-    {trailing}
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

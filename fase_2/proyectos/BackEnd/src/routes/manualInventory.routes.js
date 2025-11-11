@@ -1,3 +1,4 @@
+// src/routes/manualInventory.routes.js
 import { Router } from 'express'
 import {
   createManualInventory,

@@ -1,20 +1,18 @@
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { usePalette } from '@/hooks/use-palette';
 
 type LoadingStateProps = {
   message?: string;
 };
 
 export const LoadingState = ({ message = 'Cargando...' }: LoadingStateProps) => {
-  const scheme = useColorScheme() ?? 'light';
-  const palette = Colors[scheme];
+  const palette = usePalette();
 
   return (
     <View style={styles.container}>
       <ActivityIndicator size="large" color={palette.tint} />
-      <Text style={styles.message}>{message}</Text>
+      <Text style={[styles.message, { color: palette.muted }]}>{message}</Text>
     </View>
   );
 };
@@ -28,7 +26,6 @@ const styles = StyleSheet.create({
   },
   message: {
     fontSize: 14,
-    color: '#6B7280',
   },
 });
 

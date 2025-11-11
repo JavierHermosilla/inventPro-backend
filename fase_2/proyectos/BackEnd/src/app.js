@@ -1,4 +1,4 @@
-// app.js (reemplaza tu contenido relevante)
+// src/app.js
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
@@ -19,23 +19,27 @@ import categoryRoutes from './routes/category.routes.js'
 import clientRoutes from './routes/client.routes.js'
 import reportsRoutes from './routes/reports.routes.js'
 import OrderProductRoutes from './routes/orderProduct.routes.js'
+import exportRoutes from './routes/export.routes.js'
+import dashboardRoutes from './routes/dashboard.routes.js'
 
 import { sanitizeInput } from './middleware/sanitizeInput.js'
 import { zodErrorHandler } from './middleware/zodErrorHandler.js'
 import { attachClientIP } from './middleware/attachClientIP.middleware.js'
+import { globalRateLimiter } from './middleware/rateLimit.js'
 
 const app = express()
 app.disable('x-powered-by')
+// Ajusta según tu cadena de proxies/CDN (1 si hay 1 proxy como Nginx)
 app.set('trust proxy', 1)
 
-// Request ID para correlación
+// ▶️ Request ID para correlación
 app.use((req, res, next) => {
   req.id = req.headers['x-request-id'] || uuidv4()
   res.set('x-request-id', req.id)
   next()
 })
 
-// Middlewares globales
+// ▶️ Middlewares globales de seguridad y saneamiento
 app.use(express.json({ limit: '1mb' }))
 app.use(hpp())
 app.use(sanitizeInput)
@@ -46,7 +50,7 @@ app.use(helmet({
 app.use(morgan('dev'))
 app.use(cookieParser())
 
-// CORS por ENV
+// ▶️ CORS por ENV
 const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
   .split(',')
   .map(s => s.trim())
@@ -60,13 +64,16 @@ app.use(cors({
   credentials: true
 }))
 
-// IP
+// ▶️ IP real del cliente
 app.use(attachClientIP)
 
-// Swagger
+// ▶️ Rate limit GLOBAL (excluye /api/health, /metrics y swagger)
+app.use(globalRateLimiter)
+
+// ▶️ Swagger / OpenAPI
 setupSwagger(app)
 
-// Rutas
+// ▶️ Rutas de la API
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
@@ -77,23 +84,25 @@ app.use('/api/categories', categoryRoutes)
 app.use('/api/clients', clientRoutes)
 app.use('/api/reports', reportsRoutes)
 app.use('/api/order-products', OrderProductRoutes)
+app.use('/api/exports', exportRoutes)
+app.use('/api/dashboard', dashboardRoutes)
 
-// Healthz
+// ▶️ Healthz
 app.get('/api/health', async (_req, res) => {
   res.json({ status: 'ok' })
 })
 
-// Prometheus
+// ▶️ Prometheus metrics
 client.collectDefaultMetrics()
 app.get('/metrics', async (_req, res) => {
   res.set('Content-Type', client.register.contentType)
   res.end(await client.register.metrics())
 })
 
-// Zod handler
+// ▶️ Handler de errores Zod (validaciones)
 app.use(zodErrorHandler)
 
-// Error handler seguro
+// ▶️ Error handler seguro (sin filtrar detalles en producción)
 app.use((err, _req, res, _next) => {
   const status = err.status || 500
   const payload = { message: err.publicMessage || 'Internal server error' }

@@ -153,54 +153,39 @@ function withReflowedHeader (doc, cols, draw) {
 }
 
 function kvGridPanel (doc, entriesLeft, entriesRight) {
-  const colW = CONTENT_W / 2
-  const labelRatio = 0.55
-  const rowStep = ROW_H * 1.05
-  const rows = Math.max(entriesLeft.length, entriesRight.length)
+  const cards = [...entriesLeft, ...entriesRight].map(([label, value]) => ({ label, value }))
+  const cardsPerRow = 3
+  const gap = 14
+  const cardWidth = (CONTENT_W - gap * (cardsPerRow - 1)) / cardsPerRow
+  const cardHeight = 70
 
   doc.font('Helvetica-Bold').fontSize(14).text('Resumen', MARGIN_L)
   doc.moveDown(0.4)
-  doc.font('Helvetica').fontSize(10)
-  const yStart = doc.y
 
-  let y = yStart
-  for (let i = 0; i < rows; i++) {
-    ensurePage(doc)
-    const left = entriesLeft[i] ?? ['', '']
-    const right = entriesRight[i] ?? ['', '']
+  let idx = 0
+  while (idx < cards.length) {
+    ensureRowSpace(doc, cardHeight)
+    for (let col = 0; col < cardsPerRow && idx < cards.length; col++, idx++) {
+      const card = cards[idx]
+      const x = MARGIN_L + col * (cardWidth + gap)
+      const y = doc.y
+      doc.save()
+        .roundedRect(x, y, cardWidth, cardHeight, 9)
+        .fill('#fbfdff')
+        .strokeColor('#dae4ff')
+        .lineWidth(1)
+        .stroke()
+        .restore()
 
-    const leftLabel = left[0] ? `${left[0]}:` : ''
-    const leftValue = left[1] ?? ''
-    const rightLabel = right[0] ? `${right[0]}:` : ''
-    const rightValue = right[1] ?? ''
-
-    doc.text(leftLabel, MARGIN_L, y, {
-      width: colW * labelRatio,
-      ellipsis: true
-    })
-    doc.text(leftValue, MARGIN_L + colW * labelRatio, y, {
-      width: colW * (1 - labelRatio),
-      align: 'right',
-      ellipsis: true
-    })
-
-    const xRight = MARGIN_L + colW
-    doc.text(rightLabel, xRight, y, {
-      width: colW * labelRatio,
-      ellipsis: true
-    })
-    doc.text(rightValue, xRight + colW * labelRatio, y, {
-      width: colW * (1 - labelRatio),
-      align: 'right',
-      ellipsis: true
-    })
-
-    y += rowStep
+      doc.font('Helvetica').fontSize(9).fillColor('#5f6368')
+        .text(card.label.toUpperCase(), x + 12, y + 10, { width: cardWidth - 24 })
+      doc.font('Helvetica-Bold').fontSize(18).fillColor(BRAND_PRIMARY)
+        .text(card.value, x + 12, y + 28, { width: cardWidth - 24 })
+    }
+    doc.y += cardHeight + 12
   }
-
-  const yEnd = y
-  doc.strokeColor('#e9e9e9').roundedRect(MARGIN_L - 6, yStart - 6, CONTENT_W + 12, (yEnd - yStart) + 12, 6).stroke()
-  doc.y = yEnd + 8
+  doc.fillColor('black')
+  doc.moveDown(0.3)
 }
 
 // -------------------- datasets --------------------

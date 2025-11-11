@@ -91,19 +91,19 @@ function ensurePage (doc, rowsNeeded = 1) {
 }
 
 function tableHeaderFixed (doc, cols) {
-  const y0 = doc.y - 2
+  const y0 = doc.y
   let x = MARGIN_L
-  doc.save()
-  doc.rect(MARGIN_L, y0, CONTENT_W, ROW_H + 6).fill('#f5f5f5').restore()
+  doc.save().rect(MARGIN_L, y0 - 2, CONTENT_W, ROW_H + 4).fill('#f5f5f5').restore()
   doc.font('Helvetica-Bold').fillColor('#111').fontSize(10)
   for (const c of cols) {
-    doc.text(c.header, x + 6, doc.y + 2, { width: c.width - 12, align: c.align || 'left' })
+    doc.text(c.header, x + 6, y0 + 2, { width: c.width - 12, align: c.align || 'left' })
+    doc.y = y0
     x += c.width
   }
-  doc.moveDown()
-  doc.strokeColor('#ddd').lineWidth(1).moveTo(MARGIN_L, doc.y).lineTo(MARGIN_R, doc.y).stroke()
-  doc.moveDown(0.1)
+  const lineY = y0 + ROW_H
+  doc.strokeColor('#ddd').lineWidth(1).moveTo(MARGIN_L, lineY).lineTo(MARGIN_R, lineY).stroke()
   doc.font('Helvetica').fillColor('black')
+  doc.y = lineY + 2
 }
 
 function tableRowFixed (doc, cols, values, options = {}) {

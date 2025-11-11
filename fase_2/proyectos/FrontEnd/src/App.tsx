@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./store/auth";
+import { useSettingsStore } from "./store/settings";
+import { applyDocumentTheme } from "./lib/theme";
 
 // Páginas
 import LoginPage from "./pages/Login";
@@ -11,6 +13,7 @@ import UsersPage from "./pages/Users";
 import ProductsPage from "./pages/Products";
 import SuppliersPage from "./pages/Suppliers";
 import ClientsPage from "./pages/Clients";
+import CreateClientPage from "./pages/CreateClient";
 import CategoriesPage from "./pages/Categories";
 import OrdersPage from "./pages/Orders";
 import ManualInventoryPage from "./pages/ManualInventory";
@@ -25,6 +28,7 @@ const App = () => {
   const fetchMe = useAuthStore((s) => s.fetchMe);
   const loading = useAuthStore((s) => s.loading);
   const hydrated = useAuthStore((s) => s.hydrated);
+  const theme = useSettingsStore((s) => s.appearance.theme);
 
   // Evita múltiples llamadas a fetchMe por StrictMode o remounts
   const didInit = useRef(false);
@@ -37,6 +41,13 @@ const App = () => {
       }
     }
   }, [fetchMe, hydrated]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.debug("[theme] App effect", theme);
+    }
+    applyDocumentTheme(theme);
+  }, [theme]);
 
   if (!hydrated || loading) {
     return <div className="p-6">Cargando...</div>;
@@ -63,6 +74,7 @@ const App = () => {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/suppliers" element={<SuppliersPage />} />
           <Route path="/clients" element={<ClientsPage />} />
+          <Route path="/clients/create" element={<CreateClientPage />} />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/manual-inventory" element={<ManualInventoryPage />} />

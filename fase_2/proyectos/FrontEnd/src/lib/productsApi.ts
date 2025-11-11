@@ -78,7 +78,7 @@ const computeEstado = (stock: number): ProductItem["estado"] => {
   return "DISPONIBLE";
 };
 
-const mapApiRecordToItem = (record: ProductApiRecord): ProductItem => {
+export const mapProductRecordToItem = (record: ProductApiRecord): ProductItem => {
   const stock = parseNumber(record.stock, 0);
   return {
     id: record.id,
@@ -132,7 +132,7 @@ export const productsApi = {
       : ensureArray<ProductApiRecord>(metaSource.products ?? []);
 
     return {
-      items: records.map(mapApiRecordToItem),
+      items: records.map(mapProductRecordToItem),
       meta: {
         page: parseMetaNumber(metaSource.page, 1),
         limit: parseMetaNumber(metaSource.limit, defaultLimit),
@@ -147,7 +147,7 @@ export const productsApi = {
    */
   async get(id: string | number): Promise<ProductItem> {
     const response = await api.get(`/products/${id}`);
-    return mapApiRecordToItem(response.data as ProductApiRecord);
+    return mapProductRecordToItem(response.data as ProductApiRecord);
   },
 
   /**

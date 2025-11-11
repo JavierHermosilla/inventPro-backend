@@ -9,6 +9,152 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  background-color: #f1f5f9;
+}
+
+body {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+  background-color: #020617;
+}
+
+body.theme-dark {
+  background-color: #020617;
+  color: #e2e8f0;
+}
+
+html[data-theme="dark"] .bg-white:not(.keep-light) {
+  background-color: #111827 !important;
+}
+
+html[data-theme="dark"] .bg-gray-50 {
+  background-color: #1f2937 !important;
+}
+
+html[data-theme="dark"] .bg-gray-100 {
+  background-color: #0f172a !important;
+}
+
+html[data-theme="dark"] .bg-gray-200 {
+  background-color: #1e293b !important;
+}
+
+html[data-theme="dark"] .bg-blue-50 {
+  background-color: rgba(37, 99, 235, 0.14) !important;
+  color: #bfdbfe !important;
+}
+
+html[data-theme="dark"] .bg-blue-100 {
+  background-color: rgba(59, 130, 246, 0.2) !important;
+  color: #bfdbfe !important;
+}
+
+html[data-theme="dark"] .bg-amber-100 {
+  background-color: rgba(217, 119, 6, 0.2) !important;
+  color: #fcd34d !important;
+}
+
+html[data-theme="dark"] .bg-red-100 {
+  background-color: rgba(248, 113, 113, 0.2) !important;
+  color: #fecaca !important;
+}
+
+html[data-theme="dark"] .border-gray-100,
+html[data-theme="dark"] .border-gray-200 {
+  border-color: #1f2937 !important;
+}
+
+html[data-theme="dark"] .border-gray-300 {
+  border-color: #334155 !important;
+}
+
+html[data-theme="dark"] .text-gray-900,
+html[data-theme="dark"] .text-gray-800,
+html[data-theme="dark"] .text-gray-700 {
+  color: #f8fafc !important;
+}
+
+html[data-theme="dark"] .text-gray-600 {
+  color: #cbd5f5 !important;
+}
+
+html[data-theme="dark"] .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .text-gray-400 {
+  color: #64748b !important;
+}
+
+html[data-theme="dark"] .text-blue-600,
+html[data-theme="dark"] .text-blue-500 {
+  color: #60a5fa !important;
+}
+
+html[data-theme="dark"] .bg-blue-600 {
+  background-color: #2563eb !important;
+}
+
+html[data-theme="dark"] .bg-blue-500 {
+  background-color: #1d4ed8 !important;
+}
+
+html[data-theme="dark"] .hover\:bg-gray-50:hover,
+html[data-theme="dark"] .hover\:bg-gray-100:hover {
+  background-color: #1f2937 !important;
+}
+
+html[data-theme="dark"] input,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] select {
+  background-color: #0b1324;
+  color: #f8fafc;
+  border-color: #1f2937;
+}
+
+html[data-theme="dark"] input:focus,
+html[data-theme="dark"] textarea:focus,
+html[data-theme="dark"] select:focus {
+  border-color: #60a5fa;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+}
+
+html[data-theme="dark"] ::selection {
+  background: rgba(59, 130, 246, 0.35);
+  color: #f8fafc;
+}
+
+/* Fallbacks: if alguna clase dark:* queda aplicada durante el modo claro, heredamos los colores base */
+body.theme-light .dark\:bg-slate-900,
+body.theme-light .dark\:bg-slate-800,
+body.theme-light .dark\:bg-slate-700,
+body.theme-light .dark\:bg-gray-900,
+body.theme-light .dark\:bg-gray-800,
+body.theme-light .dark\:bg-gray-700 {
+  background-color: #ffffff !important;
+}
+
+body.theme-light .dark\:border-slate-700,
+body.theme-light .dark\:border-slate-600,
+body.theme-light .dark\:border-gray-700,
+body.theme-light .dark\:border-gray-600 {
+  border-color: #e2e8f0 !important;
+}
+
+body.theme-light .dark\:text-slate-100,
+body.theme-light .dark\:text-slate-200,
+body.theme-light .dark\:text-slate-300,
+body.theme-light .dark\:text-slate-400 {
+  color: #1f2937 !important;
+}
+
 /* Estilos personalizados para la barra de desplazamiento */
 ::-webkit-scrollbar {
   width: 8px;

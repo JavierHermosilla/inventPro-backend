@@ -1,0 +1,117 @@
+paths:
+  /exports/ping:
+    get:
+      tags: [Exports]
+      summary: Comprobación del módulo de exportación
+      description: Healthcheck del módulo de exportación.
+      security: []  # sin auth
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    example: true
+
+  /exports/full-inventory.pdf:
+    get:
+      tags: [Exports]
+      summary: Exporta reporte general en PDF
+      description: Genera un PDF con resumen, inventario, proveedores, clientes y últimas órdenes.
+      responses:
+        '200':
+          description: PDF generado correctamente
+          headers:
+            Content-Disposition:
+              description: Cabecera con el nombre sugerido del archivo
+              schema:
+                type: string
+                example: attachment; filename="full_inventory_2025-11-06T21-31-25-631Z.pdf"
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: No autorizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /exports/full-inventory.xlsx:
+    get:
+      tags: [Exports]
+      summary: Exporta reporte general en Excel (XLSX)
+      description: Genera un XLSX con hojas Resumen, Productos, Proveedores, Clientes, Órdenes e Items.
+      responses:
+        '200':
+          description: XLSX generado correctamente
+          headers:
+            Content-Disposition:
+              description: Cabecera con el nombre sugerido del archivo
+              schema:
+                type: string
+                example: attachment; filename="full_inventory_2025-11-06T21-31-25-772Z.xlsx"
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: No autorizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+
+  /exports/full-inventory.csv:
+    get:
+      tags: [Exports]
+      summary: Exporta reporte general en CSV o ZIP
+      description: |
+        Por defecto `mode=merged` devuelve un CSV plano (una sola hoja).
+        Con `mode=zip` devuelve un ZIP con múltiples CSV (productos, proveedores, clientes, órdenes, items).
+      parameters:
+        - $ref: '#/components/parameters/ExportMode'
+        - $ref: '#/components/parameters/ExportSep'
+      responses:
+        '200':
+          description: CSV plano (merged) o ZIP con múltiples CSV (zip)
+          headers:
+            Content-Disposition:
+              description: Cabecera con el nombre sugerido del archivo
+              schema:
+                type: string
+                example: attachment; filename="full_inventory_2025-11-06T21-31-25-900Z.csv"
+          content:
+            text/csv:
+              schema:
+                type: string
+                format: binary
+            application/zip:
+              schema:
+                type: string
+                format: binary
+        '401':
+          description: No autorizado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }
+        '500':
+          description: Error interno
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ErrorResponse' }

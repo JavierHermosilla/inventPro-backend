@@ -246,14 +246,23 @@ export async function exportFullInventoryPDF (req, res) {
 
     const doc = new PDFDocument({ size: 'LETTER', margin: 50, bufferPages: true })
     const chunks = []
+    let aborted = false
+
+    res.on('close', () => {
+      aborted = true
+      if (!doc.destroyed) doc.destroy()
+    })
+
     doc.on('data', (chunk) => chunks.push(chunk))
     doc.on('end', () => {
+      if (aborted) return
       if (!res.headersSent) {
         res.send(Buffer.concat(chunks))
       }
     })
     doc.on('error', (err) => {
       console.error('[pdf] stream error:', err)
+      if (aborted) return
       if (!res.headersSent) res.status(500).json({ message: 'Error generando PDF' })
     })
 
@@ -395,6 +404,7 @@ export async function exportFullInventoryPDF (req, res) {
     footer(doc)
     doc.end()
   } catch (err) {
+    console.error('[exports] full-inventory.pdf failed', err)
     res.status(err?.status || 500).json({ message: err?.message || 'Error generando PDF' })
   }
 }

@@ -20,7 +20,6 @@ const num = (n) => new Intl.NumberFormat('es-CL').format(Number(n || 0))
 const short = (s, n = 10) => String(s || '').slice(0, n)
 const safeStr = (s) => (s ?? '').toString()
 const cmp = (a, b) => a.localeCompare(b, 'es', { sensitivity: 'base' })
-const get = (o, p, d = '') => p.split('.').reduce((x, k) => (x?.[k] ?? d), o)
 const iso = (d) => (d ? new Date(d).toISOString() : '')
 const asDate = (d) => (d ? new Date(d) : null)
 
@@ -88,11 +87,6 @@ function footer (doc) {
   }
 }
 
-function ensurePage (doc, rowsNeeded = 1) {
-  const need = rowsNeeded * ROW_H + 40
-  if (doc.y + need > maxY(doc)) doc.addPage()
-}
-
 function ensureRowSpace (doc, height) {
   const need = height + 24
   if (doc.y + need > maxY(doc)) doc.addPage()
@@ -101,10 +95,15 @@ function ensureRowSpace (doc, height) {
 function tableHeaderFixed (doc, cols) {
   const y0 = doc.y
   let x = MARGIN_L
-  doc.save().rect(MARGIN_L, y0 - 2, CONTENT_W, ROW_H + 4).fill('#f5f5f5').restore()
+  doc.save().rect(MARGIN_L, y0 - 2, CONTENT_W, ROW_H + 4).fill(GREY_LIGHT).restore()
   doc.font('Helvetica-Bold').fillColor('#111').fontSize(10)
   for (const c of cols) {
-    doc.text(c.header, x + 6, y0 + 2, { width: c.width - 12, align: c.align || 'left' })
+    const headerText = fit(doc, c.header, c.width, { pad: 12, font: 'Helvetica-Bold', size: 10 })
+    doc.text(headerText, x + 6, y0 + 2, {
+      width: c.width - 12,
+      align: c.align || 'left',
+      lineBreak: false
+    })
     doc.y = y0
     x += c.width
   }
@@ -117,17 +116,23 @@ function tableHeaderFixed (doc, cols) {
 function tableRowFixed (doc, cols, values, options = {}) {
   const { bg, color, bold } = options
   const fontName = bold ? 'Helvetica-Bold' : 'Helvetica'
-  doc.font(fontName).fontSize(10)
+  const fontSize = 10
+  doc.font(fontName).fontSize(fontSize)
 
   const cells = cols.map((c, i) => {
-    const text = values[i] == null ? '' : String(values[i])
+    const raw = values[i] == null ? '' : String(values[i])
     const align = c.align || (typeof values[i] === 'number' ? 'right' : 'left')
-    const width = c.width - 12
-    const height = Math.max(doc.heightOfString(text, { width, align }), ROW_H - 4)
-    return { text, align, width, colWidth: c.width, height }
+    const text = fit(doc, raw, c.width, { pad: 12, font: fontName, size: fontSize })
+    return {
+      text,
+      align,
+      width: c.width - 12,
+      colWidth: c.width
+    }
   })
+  doc.font(fontName).fontSize(fontSize)
 
-  const rowHeight = Math.max(ROW_H, Math.ceil(Math.max(...cells.map(c => c.height)) + 4))
+  const rowHeight = ROW_H
   ensureRowSpace(doc, rowHeight)
 
   const y = doc.y
@@ -136,9 +141,10 @@ function tableRowFixed (doc, cols, values, options = {}) {
   if (color) doc.fillColor(color)
 
   for (const cell of cells) {
-    doc.text(cell.text, x + 6, y + 2, {
+    doc.text(cell.text, x + 6, y + 3, {
       width: cell.width,
-      align: cell.align
+      align: cell.align,
+      lineBreak: false
     })
     x += cell.colWidth
   }
@@ -158,34 +164,43 @@ function withReflowedHeader (doc, cols, draw) {
 function kvGridPanel (doc, entriesLeft, entriesRight) {
   const cards = [...entriesLeft, ...entriesRight].map(([label, value]) => ({ label, value }))
   const cardsPerRow = 3
-  const gap = 14
+  const gap = 20
   const cardWidth = (CONTENT_W - gap * (cardsPerRow - 1)) / cardsPerRow
-  const cardHeight = 70
+  const cardHeight = 76
 
   doc.font('Helvetica-Bold').fontSize(14).text('Resumen', MARGIN_L)
-  doc.moveDown(0.4)
+  doc.moveDown(0.5)
 
   let idx = 0
   while (idx < cards.length) {
     ensureRowSpace(doc, cardHeight)
+    const rowY = doc.y
     for (let col = 0; col < cardsPerRow && idx < cards.length; col++, idx++) {
       const card = cards[idx]
       const x = MARGIN_L + col * (cardWidth + gap)
-      const y = doc.y
+      const y = rowY
       doc.save()
         .roundedRect(x, y, cardWidth, cardHeight, 9)
         .fill('#fbfdff')
-        .strokeColor('#dae4ff')
+        .strokeColor(BRAND_ACCENT)
         .lineWidth(1)
         .stroke()
         .restore()
 
-      doc.font('Helvetica').fontSize(9).fillColor('#5f6368')
-        .text(card.label.toUpperCase(), x + 12, y + 10, { width: cardWidth - 24 })
+      const cachedY = doc.y
+      doc.font('Helvetica').fontSize(9).fillColor(BRAND_ACCENT)
+        .text(card.label.toUpperCase(), x + 12, y + 10, {
+          width: cardWidth - 24,
+          lineBreak: false
+        })
       doc.font('Helvetica-Bold').fontSize(18).fillColor(BRAND_PRIMARY)
-        .text(card.value, x + 12, y + 28, { width: cardWidth - 24 })
+        .text(card.value, x + 12, y + 28, {
+          width: cardWidth - 24,
+          lineBreak: false
+        })
+      doc.y = cachedY
     }
-    doc.y += cardHeight + 12
+    doc.y = rowY + cardHeight + 20
   }
   doc.fillColor('black')
   doc.moveDown(0.3)
@@ -292,11 +307,11 @@ export async function exportFullInventoryPDF (req, res) {
     doc.moveDown(0.3)
     const COLS_PROD = [
       { header: 'ID', width: 65, align: 'left' },
-      { header: 'Nombre', width: 150, align: 'left' },
+      { header: 'Nombre', width: 140, align: 'left' },
       { header: 'Categoría', width: 90, align: 'left' },
-      { header: 'Proveedor', width: 110, align: 'left' },
-      { header: 'Precio', width: 50, align: 'right' },
-      { header: 'Stock', width: 30, align: 'right' }
+      { header: 'Proveedor', width: 105, align: 'left' },
+      { header: 'Precio', width: 55, align: 'right' },
+      { header: 'Stock', width: 40, align: 'right' }
     ]
     tableHeaderFixed(doc, COLS_PROD)
     let zebra = false
@@ -319,10 +334,10 @@ export async function exportFullInventoryPDF (req, res) {
     doc.font('Helvetica-Bold').fontSize(14).text('Proveedores', MARGIN_L)
     doc.moveDown(0.3)
     const COLS_SUP = [
-      { header: 'Nombre', width: 165, align: 'left' },
+      { header: 'Nombre', width: 140, align: 'left' },
       { header: 'RUT', width: 80, align: 'left' },
-      { header: 'Teléfono', width: 85, align: 'left' },
-      { header: 'Email', width: 165, align: 'left' }
+      { header: 'Teléfono', width: 80, align: 'left' },
+      { header: 'Email', width: 195, align: 'left' }
     ]
     tableHeaderFixed(doc, COLS_SUP)
     zebra = false
@@ -342,11 +357,11 @@ export async function exportFullInventoryPDF (req, res) {
     doc.font('Helvetica-Bold').fontSize(14).text('Clientes', MARGIN_L)
     doc.moveDown(0.3)
     const COLS_CLI = [
-      { header: 'Nombre', width: 150, align: 'left' },
+      { header: 'Nombre', width: 135, align: 'left' },
       { header: 'RUT', width: 70, align: 'left' },
-      { header: 'Teléfono', width: 85, align: 'left' },
-      { header: 'Email', width: 130, align: 'left' },
-      { header: 'Dirección', width: 60, align: 'left' }
+      { header: 'Teléfono', width: 80, align: 'left' },
+      { header: 'Email', width: 110, align: 'left' },
+      { header: 'Dirección', width: 100, align: 'left' }
     ]
     tableHeaderFixed(doc, COLS_CLI)
     zebra = false
@@ -366,13 +381,13 @@ export async function exportFullInventoryPDF (req, res) {
     doc.font('Helvetica-Bold').fontSize(14).text('Órdenes (últimas 10)', MARGIN_L)
     doc.moveDown(0.3)
     const COLS_ORD = [
-      { header: 'ID', width: 95, align: 'left' },
-      { header: 'Fecha', width: 95, align: 'left' },
-      { header: 'Cliente', width: 135, align: 'left' },
+      { header: 'ID', width: 70, align: 'left' },
+      { header: 'Fecha', width: 90, align: 'left' },
+      { header: 'Cliente', width: 140, align: 'left' },
       { header: 'Estado', width: 55, align: 'center' },
-      { header: 'Backorder', width: 45, align: 'center' },
+      { header: 'Backorder', width: 40, align: 'center' },
       { header: 'Ítems', width: 40, align: 'right' },
-      { header: 'Total', width: 30, align: 'right' }
+      { header: 'Total', width: 60, align: 'right' }
     ]
     tableHeaderFixed(doc, COLS_ORD)
     zebra = false
@@ -393,14 +408,6 @@ export async function exportFullInventoryPDF (req, res) {
       zebra = !zebra
       withReflowedHeader(doc, COLS_ORD, () => {
         tableRowFixed(doc, COLS_ORD, linea, { bg: zebra ? '#fcfcfc' : null, color, bold: isRejected })
-        if (itemsCount) {
-          ensurePage(doc)
-          const names = o.items.map(it => `${it.quantity}× ${get(it, 'product.name', 'Producto')}`).join(', ')
-          const indent = COLS_ORD[0].width + COLS_ORD[1].width
-          doc.fontSize(9).fillColor('#555')
-            .text('• ' + fit(doc, names, CONTENT_W - indent), MARGIN_L + indent, doc.y - ROW_H + 3, { width: CONTENT_W - indent })
-          doc.fillColor('black').fontSize(10)
-        }
       })
     }
 
@@ -596,7 +603,9 @@ export async function exportFullInventoryXLSX (req, res) {
     styleHeader(wsP)
     wsP.getColumn('price').numFmt = '$ #,##0'
     wsP.getColumn('stock').numFmt = '#,##0'
-    ;['created_at', 'updated_at'].forEach(k => wsP.getColumn(k).numFmt = 'yyyy-mm-dd hh:mm')
+    ;['created_at', 'updated_at'].forEach((k) => {
+      wsP.getColumn(k).numFmt = 'yyyy-mm-dd hh:mm'
+    })
     // resaltar stock
     wsP.eachRow((row, idx) => {
       if (idx === 1) return
@@ -656,7 +665,9 @@ export async function exportFullInventoryXLSX (req, res) {
     })))
     styleHeader(wsO); zebra(wsO)
     wsO.getColumn('totalAmount').numFmt = '$ #,##0'
-    ;['created_at', 'updated_at'].forEach(k => wsO.getColumn(k).numFmt = 'yyyy-mm-dd hh:mm')
+    ;['created_at', 'updated_at'].forEach((k) => {
+      wsO.getColumn(k).numFmt = 'yyyy-mm-dd hh:mm'
+    })
     wsO.eachRow((row, idx) => {
       if (idx === 1) return
       const c = row.getCell('status')
@@ -700,4 +711,3 @@ export async function exportFullInventoryXLSX (req, res) {
     res.status(err?.status || 500).json({ message: err?.message || 'Error generando XLSX' })
   }
 }
-

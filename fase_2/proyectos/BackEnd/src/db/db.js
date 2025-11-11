@@ -19,31 +19,29 @@ import Client from '../models/client.model.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const candidateEnvPaths = [
-  // 1) BackEnd/.env  (estando en src/db/db.js)
-  path.resolve(__dirname, '../.env'),
-  // 2) fase_2/.env
-  path.resolve(__dirname, '../../.env'),
-  // 3) cwd/.env (por si corres desde otra ruta)
-  path.resolve(process.cwd(), '.env'),
-  // 4) Respeta DOTENV_CONFIG_PATH si lo defines en scripts
-  process.env.DOTENV_CONFIG_PATH
-].filter(Boolean)
-
 let loadedFrom = null
-for (const p of candidateEnvPaths) {
-  const res = dotenv.config({ path: p, override: false })
-  if (!res.error && res.parsed && Object.keys(res.parsed).length > 0) {
-    loadedFrom = p
-    break
-  }
-}
-if (!loadedFrom) {
-  // No reventamos aún: puede que vengan del entorno del sistema/CI.
-  // Dejamos que la validación más abajo avise si falta algo clave.
-  console.warn('[env] No .env file loaded via fallback paths. Using process.env as-is.')
+if (process.env.SKIP_LOCAL_DOTENV === '1') {
+  console.log('[env] SKIP_LOCAL_DOTENV=1 → skip loading local .env files.')
 } else {
-  console.log(`[env] loaded from: ${loadedFrom}`)
+  const candidateEnvPaths = [
+    path.resolve(__dirname, '../.env'),
+    path.resolve(__dirname, '../../.env'),
+    path.resolve(process.cwd(), '.env'),
+    process.env.DOTENV_CONFIG_PATH
+  ].filter(Boolean)
+
+  for (const p of candidateEnvPaths) {
+    const res = dotenv.config({ path: p, override: false })
+    if (!res.error && res.parsed && Object.keys(res.parsed).length > 0) {
+      loadedFrom = p
+      break
+    }
+  }
+  if (!loadedFrom) {
+    console.warn('[env] No .env file loaded via fallback paths. Using process.env as-is.')
+  } else {
+    console.log(`[env] loaded from: ${loadedFrom}`)
+  }
 }
 
 // ------- Esquema según ambiente -------

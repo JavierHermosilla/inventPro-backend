@@ -46,6 +46,9 @@ const MARGIN_L = 50
 const MARGIN_R = 545
 const CONTENT_W = MARGIN_R - MARGIN_L // 495 pt útiles
 const ROW_H = 16
+const BRAND_PRIMARY = '#0D47A1'
+const BRAND_ACCENT = '#00897B'
+const GREY_LIGHT = '#f5f5f5'
 
 function maxY (doc) {
   return doc.page.height - doc.page.margins.bottom - 22

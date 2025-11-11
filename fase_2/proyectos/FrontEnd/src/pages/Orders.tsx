@@ -432,6 +432,9 @@ export default function OrdersPage() {
     setCreating(true);
     try {
       const created = await ordersApi.create(payload);
+      if (!created?.id) {
+        throw new Error("El backend no devolvio el ID de la orden creada.");
+      }
       const detail = await ordersApi.get(created.id);
       setOrders((prev) => [detail, ...prev.filter((item) => item.id !== detail.id)]);
       setSelectedOrder(detail);

@@ -80,7 +80,12 @@ export type CreateOrderResponse = {
   status: OrderStatus;
   totalAmount: number;
   isBackorder: boolean;
-  items: Array<{ productId: string; quantity: number; unitPrice?: number }>;
+  items: Array<{
+    productId: string;
+    quantity: number;
+    unitPrice?: number;
+    price?: number | string;
+  }>;
 };
 
 export type OrderByRutResponse = {
@@ -173,13 +178,18 @@ const mapCreateOrderPayload = (data: unknown): CreateOrderResponse => {
     status: (payload.status ?? "pending") as OrderStatus,
     totalAmount: roundCurrency(toNumber(payload.totalAmount, 0)),
     isBackorder: Boolean(payload.isBackorder),
-    items: Array.isArray(payload.items)
-      ? payload.items.map((item) => ({
-          productId: item.productId ?? "",
-          quantity: ensurePositiveInt(item.quantity, 0),
-          unitPrice: roundCurrency(toNumber((item as { unitPrice?: number }).unitPrice ?? item.price, 0)),
-        }))
-      : [],
+      items: Array.isArray(payload.items)
+        ? payload.items.map((item) => ({
+            productId: item.productId ?? "",
+            quantity: ensurePositiveInt(item.quantity, 0),
+            unitPrice: roundCurrency(
+              toNumber(
+                typeof item.unitPrice === "number" ? item.unitPrice : item.price,
+                0,
+              ),
+            ),
+          }))
+        : [],
   };
 };
 

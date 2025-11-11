@@ -245,16 +245,17 @@ export async function exportFullInventoryPDF (req, res) {
     )
 
     const doc = new PDFDocument({ size: 'LETTER', margin: 50, bufferPages: true })
-    doc.on('error', (err) => {
-      console.error('[pdf] stream error:', err)
-      if (!doc.destroyed) doc.destroy()
-      if (res.headersSent) {
-        res.destroy(err)
-      } else {
-        res.status(500).json({ message: 'Error generando PDF' })
+    const chunks = []
+    doc.on('data', (chunk) => chunks.push(chunk))
+    doc.on('end', () => {
+      if (!res.headersSent) {
+        res.send(Buffer.concat(chunks))
       }
     })
-    doc.pipe(res)
+    doc.on('error', (err) => {
+      console.error('[pdf] stream error:', err)
+      if (!res.headersSent) res.status(500).json({ message: 'Error generando PDF' })
+    })
 
     header(doc, 'Reporte General')
 

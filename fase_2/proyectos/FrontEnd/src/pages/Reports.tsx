@@ -809,18 +809,39 @@ export default function ReportsPage() {
     setExecutingId(report.id);
     try {
       const exporter = getBackendExporterSafe(report);
-      if (!exporter) {
+      if (exporter) {
+        await exporter();
+        const stamp = new Date().toISOString();
+        setReports((prev) => prev.map((item) => (item.id === report.id ? { ...item, lastRunAt: stamp, updatedAt: stamp } : item)));
+        await showSuccess({ title: "Reporte generado", text: "Archivo descargado desde el backend." });
+        return;
+      }
+
+      // Fallback local para reportes aún no soportados por el backend
+      const dataset = await buildDataset(report);
+      if (!dataset) {
         await showInfo({
-          title: "Exportación no disponible",
-          text: "Este tipo o formato de reporte aún no cuenta con exportación en el backend.",
+          title: "Sin datos",
+          text: "No hay registros que coincidan con los filtros del reporte.",
         });
         return;
       }
 
-      await exporter();
+      if (report.format === "pdf") {
+        await downloadPdfFile(report, dataset);
+        await showSuccess({ title: "Reporte PDF generado", text: "Archivo creado localmente." });
+      } else if (report.format === "xls") {
+        downloadExcelFile(report, dataset);
+        await showSuccess({ title: "Reporte XLS generado", text: "Archivo creado localmente." });
+      } else {
+        await showInfo({
+          title: "Formato no soportado",
+          text: "Este tipo de reporte solo está disponible en PDF o XLS por ahora.",
+        });
+      }
+
       const stamp = new Date().toISOString();
       setReports((prev) => prev.map((item) => (item.id === report.id ? { ...item, lastRunAt: stamp, updatedAt: stamp } : item)));
-      await showSuccess({ title: "Reporte generado", text: "Archivo descargado desde el backend." });
     } catch (err) {
       const anyErr: any = err;
       const status = anyErr?.response?.status ?? anyErr?.status;

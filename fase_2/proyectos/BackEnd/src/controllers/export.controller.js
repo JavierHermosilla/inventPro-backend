@@ -98,9 +98,10 @@ function tableHeaderFixed (doc, cols) {
   doc.save().rect(MARGIN_L, y0 - 2, CONTENT_W, ROW_H + 4).fill(GREY_LIGHT).restore()
   doc.font('Helvetica-Bold').fillColor('#111').fontSize(10)
   for (const c of cols) {
-    const headerText = fit(doc, c.header, c.width, { pad: 12, font: 'Helvetica-Bold', size: 10 })
-    doc.text(headerText, x + 6, y0 + 2, {
-      width: c.width - 12,
+    const colPad = c.pad ?? 12
+    const headerText = fit(doc, c.header, c.width, { pad: colPad, font: 'Helvetica-Bold', size: 10 })
+    doc.text(headerText, x + colPad / 2, y0 + 2, {
+      width: c.width - colPad,
       align: c.align || 'left',
       lineBreak: false
     })
@@ -114,20 +115,21 @@ function tableHeaderFixed (doc, cols) {
 }
 
 function tableRowFixed (doc, cols, values, options = {}) {
-  const { bg, color, bold } = options
+  const { bg, color, bold, pad: defaultPad = 12, fontSize = 10 } = options
   const fontName = bold ? 'Helvetica-Bold' : 'Helvetica'
-  const fontSize = 10
   doc.font(fontName).fontSize(fontSize)
 
   const cells = cols.map((c, i) => {
     const raw = values[i] == null ? '' : String(values[i])
     const align = c.align || (typeof values[i] === 'number' ? 'right' : 'left')
-    const text = fit(doc, raw, c.width, { pad: 12, font: fontName, size: fontSize })
+    const colPad = c.pad ?? defaultPad
+    const text = fit(doc, raw, c.width, { pad: colPad, font: fontName, size: fontSize })
     return {
       text,
       align,
-      width: c.width - 12,
-      colWidth: c.width
+      width: c.width - colPad,
+      colWidth: c.width,
+      pad: colPad
     }
   })
   doc.font(fontName).fontSize(fontSize)
@@ -141,7 +143,7 @@ function tableRowFixed (doc, cols, values, options = {}) {
   if (color) doc.fillColor(color)
 
   for (const cell of cells) {
-    doc.text(cell.text, x + 6, y + 3, {
+    doc.text(cell.text, x + cell.pad / 2, y + 3, {
       width: cell.width,
       align: cell.align,
       lineBreak: false
@@ -381,13 +383,13 @@ export async function exportFullInventoryPDF (req, res) {
     doc.font('Helvetica-Bold').fontSize(14).text('Órdenes (últimas 10)', MARGIN_L)
     doc.moveDown(0.3)
     const COLS_ORD = [
-      { header: 'ID', width: 90, align: 'left' },
-      { header: 'Fecha', width: 110, align: 'left' },
-      { header: 'Cliente', width: 130, align: 'left' },
-      { header: 'Estado', width: 50, align: 'center' },
-      { header: 'Backorder', width: 40, align: 'center' },
-      { header: 'Ítems', width: 30, align: 'right' },
-      { header: 'Total', width: 45, align: 'right' }
+      { header: 'ID', width: 80, align: 'left', pad: 8 },
+      { header: 'Fecha', width: 100, align: 'left', pad: 8 },
+      { header: 'Cliente', width: 120, align: 'left', pad: 8 },
+      { header: 'Estado', width: 45, align: 'center', pad: 8 },
+      { header: 'Backorder', width: 35, align: 'center', pad: 8 },
+      { header: 'Ítems', width: 25, align: 'right', pad: 6 },
+      { header: 'Total', width: 90, align: 'right', pad: 8 }
     ]
     tableHeaderFixed(doc, COLS_ORD)
     zebra = false
@@ -407,7 +409,12 @@ export async function exportFullInventoryPDF (req, res) {
       const color = isRejected ? '#b00020' : undefined
       zebra = !zebra
       withReflowedHeader(doc, COLS_ORD, () => {
-        tableRowFixed(doc, COLS_ORD, linea, { bg: zebra ? '#fcfcfc' : null, color, bold: isRejected })
+        tableRowFixed(
+          doc,
+          COLS_ORD,
+          linea,
+          { bg: zebra ? '#fcfcfc' : null, color, bold: isRejected, fontSize: 9, pad: 8 }
+        )
       })
     }
 

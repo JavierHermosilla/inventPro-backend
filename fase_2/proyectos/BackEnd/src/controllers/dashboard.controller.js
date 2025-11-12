@@ -19,8 +19,8 @@ export const dashboardData = async (req, res) => {
       order: [['created_at', 'DESC']],
       limit: 5,
       include: role === 'admin'
-        ? [{ model: Client, as: 'customer', attributes: ['id', 'name', 'email'] }]
-        : [] // bodeguero no ve datos de cliente
+        ? [{ model: Client, as: 'client', attributes: ['id', 'name', 'email'] }]
+        : []
     })
 
     // Datos solo para admin

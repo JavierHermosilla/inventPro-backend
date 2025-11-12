@@ -18,7 +18,7 @@ const router = Router()
 router.post(
   '/',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole('admin'),
   validateSchema(createManualInventorySchema),
   createManualInventory
 )
@@ -44,7 +44,7 @@ router.get(
 router.delete(
   '/:id',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole('admin'),
   validateUUID('id'),
   deleteManualInventory
 )

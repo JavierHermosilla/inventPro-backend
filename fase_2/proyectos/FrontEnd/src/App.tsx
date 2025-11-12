@@ -101,7 +101,7 @@ const App = () => {
           <Route
             path="/manual-inventory"
             element={
-              <Protected allowedRoles={["admin"]}>
+              <Protected allowedRoles={["admin", "bodeguero"]}>
                 <ManualInventoryPage />
               </Protected>
             }
@@ -136,5 +136,4 @@ const App = () => {
 };
 
 export default App;
-
 

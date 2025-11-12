@@ -142,7 +142,7 @@ const navItems: NavItem[] = [
     label: "Inventario Manual",
     section: "Control operativo",
     icon: <InventoryIcon />,
-    roles: ["admin"],
+    roles: ["admin", "bodeguero"],
   },
   {
     to: "/reports",

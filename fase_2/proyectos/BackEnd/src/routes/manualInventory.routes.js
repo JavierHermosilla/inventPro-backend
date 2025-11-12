@@ -18,12 +18,8 @@ const router = Router()
 router.post(
   '/',
   verifyTokenMiddleware,
-  requireRole('admin'),
+  requireRole('admin', 'bodeguero'),
   validateSchema(createManualInventorySchema),
-  (req, res, next) => {
-    console.log('Entré a manualInventoryRoutes')
-    next()
-  },
   createManualInventory
 )
 
@@ -31,7 +27,7 @@ router.post(
 router.get(
   '/',
   verifyTokenMiddleware,
-  requireRole('admin'),
+  requireRole('admin', 'bodeguero'),
   getAllManualInventories
 )
 
@@ -39,7 +35,7 @@ router.get(
 router.get(
   '/:id',
   verifyTokenMiddleware,
-  requireRole('admin'),
+  requireRole('admin', 'bodeguero'),
   validateUUID('id'),
   manualInventoryById
 )
@@ -48,7 +44,7 @@ router.get(
 router.delete(
   '/:id',
   verifyTokenMiddleware,
-  requireRole('admin'),
+  requireRole('admin', 'bodeguero'),
   validateUUID('id'),
   deleteManualInventory
 )

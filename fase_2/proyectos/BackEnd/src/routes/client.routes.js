@@ -24,14 +24,14 @@ router.use(verifyTokenMiddleware)
 router.get('/export.pdf', requireRole('admin'), exportClientsPDF)
 router.get('/export.xlsx', requireRole('admin'), exportClientsXLSX)
 
-// Crear → admin
-router.post('/', requireRole('admin'), validateSchema(createClientSchema), createClient)
+// Crear → admin y vendedor (necesita registrar clientes antes de generar ventas)
+router.post('/', requireRole('admin', 'vendedor'), validateSchema(createClientSchema), createClient)
 
-// Listar / CSV (?export=csv) → admin y bodeguero
-router.get('/', requireRole('admin', 'bodeguero'), listClients)
+// Listar / CSV (?export=csv) → admin, bodeguero y vendedor
+router.get('/', requireRole('admin', 'bodeguero', 'vendedor'), listClients)
 
-// Obtener por ID → admin y bodeguero
-router.get('/:id', requireRole('admin', 'bodeguero'), validateUUID('id'), listClientById)
+// Obtener por ID → admin, bodeguero y vendedor
+router.get('/:id', requireRole('admin', 'bodeguero', 'vendedor'), validateUUID('id'), listClientById)
 
 // Actualizar → admin
 router.put('/:id', requireRole('admin'), validateUUID('id'), validateSchema(updateClientSchema), updateClient)

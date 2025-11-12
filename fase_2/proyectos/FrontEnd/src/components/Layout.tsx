@@ -100,12 +100,14 @@ const navItems: NavItem[] = [
     label: "Gestión de Productos",
     section: "Catálogo y stock",
     icon: <ProductsIcon />,
+    roles: ["admin", "bodeguero", "vendedor"],
   },
   {
     to: "/suppliers",
     label: "Gestión de Proveedores",
     section: "Compras y abastecimiento",
     icon: <SuppliersIcon />,
+    roles: ["admin", "bodeguero"],
   },
   {
     to: "/clients",
@@ -126,12 +128,14 @@ const navItems: NavItem[] = [
     label: "Gestión de Categorías",
     section: "Catálogo maestro",
     icon: <CategoriesIcon />,
+    roles: ["admin"],
   },
   {
     to: "/orders",
     label: "Órdenes de Compra",
     section: "Compras y logística",
     icon: <OrdersIcon />,
+    roles: ["admin", "bodeguero", "vendedor"],
   },
   {
     to: "/manual-inventory",

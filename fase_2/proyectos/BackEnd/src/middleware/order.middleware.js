@@ -29,13 +29,14 @@ export const canUpdateOrder = async (req, res, next) => {
       return res.status(403).json({ message: 'Only admins can cancel orders' })
     }
 
-    // Bodega solo pasa órdenes a "processing" desde "pending"
+    // Bodega solo puede avanzar: pending -> processing -> completed
     if (role === 'bodeguero') {
-      if (nextStatus !== 'processing') {
-        return res.status(403).json({ message: 'Bodegueros solo pueden mover órdenes a proceso' })
-      }
-      if (order.status !== 'pending') {
+      if (nextStatus === 'processing' && order.status !== 'pending') {
         return res.status(403).json({ message: 'La orden debe estar pendiente para que bodega la pase a proceso' })
+      } else if (nextStatus === 'completed' && order.status !== 'processing') {
+        return res.status(403).json({ message: 'Solo se pueden completar órdenes que ya estén en proceso' })
+      } else if (!['processing', 'completed'].includes(nextStatus)) {
+        return res.status(403).json({ message: 'Bodegueros solo pueden mover órdenes a proceso o completarlas' })
       }
     }
 

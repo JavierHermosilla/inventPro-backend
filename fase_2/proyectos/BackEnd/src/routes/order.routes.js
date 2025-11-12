@@ -49,7 +49,7 @@ router.post('/by-rut', requireRole('admin', 'vendedor'), validateSchema(orderByR
 router.get('/:id', validateUUID('id'), listOrderById)
 
 // ✏️ Actualizar estado
-router.patch('/:id', requireRole('admin'), validateUUID('id'), validateSchema(orderUpdateSchema), canUpdateOrder, updateOrder)
+router.patch('/:id', requireRole('admin', 'bodeguero'), validateUUID('id'), validateSchema(orderUpdateSchema), canUpdateOrder, updateOrder)
 
 // 🗑️ Eliminar
 router.delete('/:id', requireRole('admin'), validateUUID('id'), deleteOrder)

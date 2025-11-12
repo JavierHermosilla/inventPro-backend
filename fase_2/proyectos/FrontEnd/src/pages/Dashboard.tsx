@@ -567,7 +567,7 @@ const DashboardPage = () => {
 
   const userDisplayName = currentUser?.name ?? "Usuario";
   const effectiveRole = (currentUser?.role ?? authUser?.role ?? "user") as Role;
-  const isVendor = effectiveRole === "vendedor";
+  const isAdmin = effectiveRole === "admin";
   const userRoleLabel = USER_ROLE_LABELS[effectiveRole] ?? effectiveRole;
   const lowStockProducts = inventoryProducts.filter((product) => Number(product.stock) < LOW_STOCK_THRESHOLD);
 
@@ -747,7 +747,7 @@ const DashboardPage = () => {
 
       </div>
 
-      {!isVendor && (
+      {isAdmin && (
         <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
           <section className={cardClass}>
             <div className="flex items-center justify-between">

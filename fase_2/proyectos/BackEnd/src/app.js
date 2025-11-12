@@ -56,6 +56,7 @@ const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
   .split(',')
   .map(s => s.trim())
   .filter(Boolean)
+const ALLOW_ALL_ORIGINS = ALLOWED_ORIGINS.includes('*')
 
 const docsAuth = basicAuth({
   username: process.env.SWAGGER_USER,
@@ -71,8 +72,11 @@ const metricsAuth = basicAuth({
 
 app.use(cors({
   origin (origin, cb) {
-    if (!origin || ALLOWED_ORIGINS.includes(origin)) return cb(null, true)
-    return cb(new Error('Not allowed by CORS'))
+    if (ALLOW_ALL_ORIGINS || !origin) return cb(null, true)
+    const normalized = origin.replace(/\/$/, '')
+    const allowedNormalized = ALLOWED_ORIGINS.map(o => o.replace(/\/$/, ''))
+    if (allowedNormalized.includes(normalized)) return cb(null, true)
+    return cb(new Error(`Not allowed by CORS: ${origin}`))
   },
   credentials: true
 }))

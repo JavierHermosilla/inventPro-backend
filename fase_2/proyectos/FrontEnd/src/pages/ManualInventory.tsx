@@ -68,7 +68,7 @@ export default function ManualInventoryPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const userRole = useAuthStore((state) => state.user?.role);
-  const canAdjust = userRole === "admin";
+  const canAdjust = userRole === "admin" || userRole === "bodeguero";
 
   const fetchData = useCallback(async () => {
     setLoading(true);

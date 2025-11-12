@@ -8,7 +8,7 @@ import { categoriesApi, type CategoryItem, type CategoryListResult } from "../li
 import { suppliersApi, type SupplierItem, type SupplierListResult } from "../lib/suppliersApi";
 import { usersApi, USER_ROLE_LABELS, type UserItem, type UserListResult } from "../lib/usersApi";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
-import { useAuthStore, type User as AuthUser } from "../store/auth";
+import { useAuthStore, type Role, type User as AuthUser } from "../store/auth";
 import { useSettingsStore } from "../store/settings";
 
 type KpiData = {
@@ -566,7 +566,9 @@ const DashboardPage = () => {
   });
 
   const userDisplayName = currentUser?.name ?? "Usuario";
-  const userRoleLabel = currentUser?.role ? USER_ROLE_LABELS[currentUser.role] ?? currentUser.role : "Invitado";
+  const effectiveRole = (currentUser?.role ?? authUser?.role ?? "user") as Role;
+  const isVendor = effectiveRole === "vendedor";
+  const userRoleLabel = USER_ROLE_LABELS[effectiveRole] ?? effectiveRole;
   const lowStockProducts = inventoryProducts.filter((product) => Number(product.stock) < LOW_STOCK_THRESHOLD);
 
   const cardClass = isDarkMode
@@ -743,11 +745,14 @@ const DashboardPage = () => {
           )}
         </section>
 
-        <div className="space-y-6">
+      {!isVendor && (
+        <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
           <section className={cardClass}>
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Usuarios del sistema</h2>
-              <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-300">Resumen</span>
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Usuarios del sistema</h2>
+                <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-300">Resumen</span>
+              </div>
             </div>
             {systemUsers.length > 0 ? (
               <ul className="mt-4 space-y-3">
@@ -806,7 +811,7 @@ const DashboardPage = () => {
             )}
           </section>
         </div>
-      </div>
+      )}
 
       <div className="grid gap-6 xl:grid-cols-[2fr_1fr]">
         <section className={cardClass}>

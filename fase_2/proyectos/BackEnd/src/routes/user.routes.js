@@ -30,7 +30,7 @@ router.post(
 router.get(
   '/',
   verifyTokenMiddleware,
-  requireRole('admin'),
+  requireRole('admin', 'bodeguero', 'vendedor'),
   listUsers
 )
 

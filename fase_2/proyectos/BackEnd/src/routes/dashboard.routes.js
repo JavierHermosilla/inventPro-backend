@@ -8,14 +8,14 @@ const router = Router()
 router.get(
   '/',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole('admin', 'bodeguero', 'vendedor'),
   dashboardData
 )
 
 router.get(
   '/summary',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole('admin', 'bodeguero', 'vendedor'),
   dashboardData
 )
 

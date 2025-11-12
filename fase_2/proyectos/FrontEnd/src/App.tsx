@@ -79,7 +79,14 @@ const App = () => {
             }
           />
           <Route path="/products" element={<ProductsPage />} />
-          <Route path="/suppliers" element={<SuppliersPage />} />
+          <Route
+            path="/suppliers"
+            element={
+              <Protected allowedRoles={["admin", "bodeguero"]}>
+                <SuppliersPage />
+              </Protected>
+            }
+          />
           <Route
             path="/clients"
             element={
@@ -96,7 +103,14 @@ const App = () => {
               </Protected>
             }
           />
-          <Route path="/categories" element={<CategoriesPage />} />
+          <Route
+            path="/categories"
+            element={
+              <Protected allowedRoles={["admin"]}>
+                <CategoriesPage />
+              </Protected>
+            }
+          />
           <Route path="/orders" element={<OrdersPage />} />
           <Route
             path="/manual-inventory"
@@ -136,4 +150,3 @@ const App = () => {
 };
 
 export default App;
-

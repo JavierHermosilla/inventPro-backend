@@ -114,7 +114,7 @@ const navItems: NavItem[] = [
     label: "Gestión de Clientes",
     section: "Ventas y CRM",
     icon: <ClientsIcon />,
-    roles: ["admin", "bodeguero"],
+    roles: ["admin", "bodeguero", "vendedor"],
   },
   {
     to: "/users",

@@ -39,9 +39,13 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options)
 
-export default function setupSwagger (app) {
-  app.use(
-    '/docs',
+export default function setupSwagger (app, { protect } = {}) {
+  const middlewares = []
+  if (protect) {
+    middlewares.push(protect)
+  }
+
+  middlewares.push(
     swaggerUi.serve,
     swaggerUi.setup(swaggerSpec, {
       explorer: true,
@@ -52,4 +56,6 @@ export default function setupSwagger (app) {
       }
     })
   )
+
+  app.use('/docs', ...middlewares)
 }

@@ -6,12 +6,11 @@ import PDFDocument from 'pdfkit'
  * Si no está instalada, seguimos con un renderer simple.
  */
 let hasPdfTable = false
-try {
-  await import('pdfkit-table') // parchea PDFDocument para tener doc.table
-  hasPdfTable = true
-} catch {
-  console.warn('[pdf] pdfkit-table no instalado; usando fallback simple.')
-}
+import('pdfkit-table')
+  .then(() => { hasPdfTable = true })
+  .catch(() => {
+    console.warn('[pdf] pdfkit-table no instalado; usando fallback simple.')
+  })
 
 /** Dibuja una tabla básica (fallback) */
 function drawSimpleTable (doc, rows, columns, { headerBg = '#efefef', x = 36, y = null, rowH = 18 } = {}) {

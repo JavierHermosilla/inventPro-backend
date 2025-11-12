@@ -1,6 +1,8 @@
 // src/models/order.model.js
 import { DataTypes, Model } from 'sequelize'
 
+const SCHEMA = process.env.DB_SCHEMA || 'inventpro_user'
+
 class Order extends Model {
   static initialize (sequelize) {
     super.init(
@@ -15,10 +17,7 @@ class Order extends Model {
         clientId: {
           type: DataTypes.UUID,
           allowNull: true, // <- debe ser true para ON DELETE SET NULL
-          field: 'client_id',
-          references: { model: 'clients', key: 'id' },
-          onUpdate: 'CASCADE',
-          onDelete: 'SET NULL'
+          field: 'client_id'
         },
 
         status: {
@@ -60,7 +59,7 @@ class Order extends Model {
         sequelize,
         modelName: 'Order',
         tableName: 'orders',
-        schema: 'inventpro_user',
+        schema: SCHEMA,
 
         // Auditoría y naming
         timestamps: true,

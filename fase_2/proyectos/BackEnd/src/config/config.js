@@ -1,15 +1,13 @@
 // src/config/config.js
 import fs from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import dotenv from 'dotenv'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-const localEnvPath = path.resolve(__dirname, '../.env')
+const ROOT_DIR = process.cwd()
+const localEnvPath = path.resolve(ROOT_DIR, 'src/.env')
 
 if (process.env.SKIP_LOCAL_DOTENV !== '1' && fs.existsSync(localEnvPath)) {
-  const { config } = await import('dotenv')
-  config({ path: localEnvPath })
+  dotenv.config({ path: localEnvPath })
 }
 
 // Entorno / server

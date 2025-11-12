@@ -18,19 +18,26 @@ import { productSchema, productUpdateSchema } from '../schemas/product.schema.js
 
 const router = Router()
 
-// Export (solo admin) — primero para evitar colisión con '/:id'
-router.get('/export.csv', verifyTokenMiddleware, requireRole('admin'), exportProductsCSV)
-router.get('/export.pdf', verifyTokenMiddleware, requireRole('admin'), exportProductsPDF)
-router.get('/export.xlsx', verifyTokenMiddleware, requireRole('admin'), exportProductsXLSX)
+// Todas las rutas requieren autenticación
+router.use(verifyTokenMiddleware)
 
-// Públicos (lectura)
-router.get('/', products)
-router.get('/:id', validateUUID('id'), productById)
+// Export (solo admin) - primero para evitar colisión con '/:id'
+router.get('/export.csv', requireRole('admin'), exportProductsCSV)
+router.get('/export.pdf', requireRole('admin'), exportProductsPDF)
+router.get('/export.xlsx', requireRole('admin'), exportProductsXLSX)
+
+// Lectura (roles operativos)
+router.get('/', requireRole('admin', 'bodeguero', 'vendedor'), products)
+router.get(
+  '/:id',
+  requireRole('admin', 'bodeguero', 'vendedor'),
+  validateUUID('id'),
+  productById
+)
 
 // Mutaciones (solo admin)
 router.post(
   '/',
-  verifyTokenMiddleware,
   requireRole('admin'),
   validateSchema(productSchema),
   createProduct
@@ -38,7 +45,6 @@ router.post(
 
 router.put(
   '/:id',
-  verifyTokenMiddleware,
   requireRole('admin'),
   validateUUID('id'),
   validateSchema(productUpdateSchema),
@@ -47,7 +53,6 @@ router.put(
 
 router.delete(
   '/:id',
-  verifyTokenMiddleware,
   requireRole('admin'),
   validateUUID('id'),
   deleteProduct

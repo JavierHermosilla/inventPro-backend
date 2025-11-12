@@ -19,15 +19,6 @@
     "smoke": "powershell -ExecutionPolicy Bypass -File ./scripts/smoke.ps1",
     "db:smoke": "psql -h 127.0.0.1 -U inventpro_user -d inventpro -f scripts/smoke-db_v2.sql"
   },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/test/jest.setup.js"
-    ],
-    "testEnvironment": "node",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    }
-  },
   "babel": {
     "presets": [
       [
@@ -99,10 +90,12 @@
     "@testcontainers/postgresql": "11.5.1",
     "@types/jest": "30.0.0",
     "babel-jest": "30.0.5",
+    "babel-plugin-transform-import-meta": "2.3.3",
     "cross-env": "7.0.3",
     "jest": "30.0.5",
     "nodemon": "3.1.10",
     "sequelize-cli": "6.6.2",
+    "sqlite3": "^5.1.7",
     "standard": "17.1.2",
     "supertest": "7.1.4"
   },

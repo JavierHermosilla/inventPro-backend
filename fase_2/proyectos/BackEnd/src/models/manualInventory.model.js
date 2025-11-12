@@ -1,6 +1,8 @@
 // src/models/manualInventory.model.js
 import { DataTypes, Model } from 'sequelize'
 
+const SCHEMA = process.env.DB_SCHEMA || 'inventpro_user'
+
 class ManualInventory extends Model {
   static initialize (sequelize) {
     super.init(
@@ -52,7 +54,7 @@ class ManualInventory extends Model {
         sequelize,
         modelName: 'ManualInventory',
         tableName: 'manual_inventories',
-        schema: 'inventpro_user',
+        schema: SCHEMA,
 
         timestamps: true,
         underscored: true,

@@ -26,6 +26,7 @@ import { sanitizeInput } from './middleware/sanitizeInput.js'
 import { zodErrorHandler } from './middleware/zodErrorHandler.js'
 import { attachClientIP } from './middleware/attachClientIP.middleware.js'
 import { globalRateLimiter } from './middleware/rateLimit.js'
+import { basicAuth } from './middleware/basicAuth.js'
 
 const app = express()
 app.disable('x-powered-by')
@@ -56,6 +57,18 @@ const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
   .map(s => s.trim())
   .filter(Boolean)
 
+const docsAuth = basicAuth({
+  username: process.env.SWAGGER_USER,
+  password: process.env.SWAGGER_PASS,
+  realm: 'InventPro Docs'
+})
+
+const metricsAuth = basicAuth({
+  username: process.env.METRICS_USER || process.env.SWAGGER_USER,
+  password: process.env.METRICS_PASS || process.env.SWAGGER_PASS,
+  realm: 'InventPro Metrics'
+})
+
 app.use(cors({
   origin (origin, cb) {
     if (!origin || ALLOWED_ORIGINS.includes(origin)) return cb(null, true)
@@ -71,7 +84,7 @@ app.use(attachClientIP)
 app.use(globalRateLimiter)
 
 // ▶️ Swagger / OpenAPI
-setupSwagger(app)
+setupSwagger(app, { protect: docsAuth })
 
 // ▶️ Rutas de la API
 app.use('/api/auth', authRoutes)
@@ -94,7 +107,7 @@ app.get('/api/health', async (_req, res) => {
 
 // ▶️ Prometheus metrics
 client.collectDefaultMetrics()
-app.get('/metrics', async (_req, res) => {
+app.get('/metrics', metricsAuth, async (_req, res) => {
   res.set('Content-Type', client.register.contentType)
   res.end(await client.register.metrics())
 })

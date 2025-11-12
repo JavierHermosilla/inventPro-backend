@@ -2,7 +2,7 @@
 import Order from '../models/order.model.js'
 
 /**
- * Solo admin puede actualizar órdenes.
+ * Solo admin o bodeguero pueden actualizar órdenes.
  * (Extensible: si en el futuro quieres permitir que "vendedor" cancele,
  *  añade una regla basada en createdBy o similar.)
  */
@@ -17,9 +17,9 @@ export const canUpdateOrder = async (req, res, next) => {
       return res.status(404).json({ message: 'Order not found' })
     }
 
-    // Solo admin puede actualizar/cancelar
-    if (req.user?.role !== 'admin') {
-      return res.status(403).json({ message: 'Only admins can update orders' })
+    // Solo admin o bodeguero pueden actualizar/cancelar
+    if (!['admin', 'bodeguero'].includes(req.user?.role)) {
+      return res.status(403).json({ message: 'Only admins or bodegueros can update orders' })
     }
 
     // Si mandan el mismo status, evitamos trabajo innecesario (opcional)

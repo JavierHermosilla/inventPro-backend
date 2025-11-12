@@ -745,6 +745,8 @@ const DashboardPage = () => {
           )}
         </section>
 
+      </div>
+
       {!isVendor && (
         <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
           <section className={cardClass}>

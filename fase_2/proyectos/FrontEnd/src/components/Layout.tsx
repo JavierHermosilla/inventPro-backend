@@ -107,14 +107,14 @@ const navItems: NavItem[] = [
     label: "Gestión de Proveedores",
     section: "Compras y abastecimiento",
     icon: <SuppliersIcon />,
-    roles: ["admin", "bodeguero", "vendedor"],
+    roles: ["admin", "bodeguero"],
   },
   {
     to: "/clients",
     label: "Gestión de Clientes",
     section: "Ventas y CRM",
     icon: <ClientsIcon />,
-    roles: ["admin", "bodeguero", "vendedor"],
+    roles: ["admin", "bodeguero"],
   },
   {
     to: "/users",

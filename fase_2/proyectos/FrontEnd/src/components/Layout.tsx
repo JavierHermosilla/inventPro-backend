@@ -246,11 +246,11 @@ const Layout = () => {
     <div className="bg-gray-100 min-h-screen flex">
       <InventoryWatcher />
       <aside
-        className={`fixed z-40 inset-y-0 left-0 w-64 bg-white shadow-lg flex flex-col transform transition-transform duration-200 ease-in-out ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg flex h-screen flex-col transform transition-transform duration-200 ease-in-out ${
           open ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0 md:relative`}
+        } md:translate-x-0`}
       >
-        <div className="p-6 border-b flex flex-col items-center gap-3 text-center">
+        <div className="p-6 border-b flex flex-col items-center gap-3 text-center shrink-0">
           <img
             src={logoInventPro}
             alt="Logo Invent Pro"
@@ -288,7 +288,7 @@ const Layout = () => {
             ))}
         </nav>
 
-        <div className="p-4 border-t">
+        <div className="p-4 border-t bg-white sticky bottom-0">
           <button
             onClick={handleLogout}
             disabled={isLoggingOut}
@@ -302,7 +302,7 @@ const Layout = () => {
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col md:ml-0">
+      <div className="flex-1 flex flex-col md:ml-64">
         <header className="sticky top-0 z-30 bg-white border-b p-4 flex items-center justify-between">
           <button
             className="md:hidden px-3 py-2 rounded-lg border hover:bg-gray-50"

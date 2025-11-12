@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
-import { useAuthStore } from "../store/auth";
+import { useAuthStore, type Role } from "../store/auth";
 import NotificationBell from "./NotificationBell";
 import InventoryWatcher from "./InventoryWatcher";
 import logoInventPro from "../assets/logo-invent-pro.png";
@@ -13,7 +13,7 @@ type NavItem = {
   section: string;
   pageTitle?: string;
   icon: ReactNode;
-  roles?: Array<"admin" | "vendedor" | "bodeguero" | "user">;
+  roles?: Role[];
 };
 
 const iconClassName = "h-5 w-5 flex-shrink-0";
@@ -93,6 +93,7 @@ const navItems: NavItem[] = [
     section: "Resumen estratégico",
     pageTitle: "Panel Ejecutivo",
     icon: <DashboardIcon />,
+    roles: ["admin", "bodeguero", "vendedor"],
   },
   {
     to: "/products",
@@ -111,6 +112,7 @@ const navItems: NavItem[] = [
     label: "Gestión de Clientes",
     section: "Ventas y CRM",
     icon: <ClientsIcon />,
+    roles: ["admin", "bodeguero", "vendedor"],
   },
   {
     to: "/users",
@@ -136,12 +138,14 @@ const navItems: NavItem[] = [
     label: "Inventario Manual",
     section: "Control operativo",
     icon: <InventoryIcon />,
+    roles: ["admin"],
   },
   {
     to: "/reports",
     label: "Reportes",
     section: "Análisis y gestión",
     icon: <ReportsIcon />,
+    roles: ["admin"],
   },
   {
     to: "/settings",
@@ -189,7 +193,7 @@ const Layout = () => {
   const location = useLocation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const role = (user?.role ?? "user") as "admin" | "vendedor" | "bodeguero" | "user";
+  const role: Role = user?.role ?? "user";
   const rawAvatar = (user as { avatar?: string | null } | null)?.avatar ?? null;
   const avatarSrc = typeof rawAvatar === "string" && rawAvatar.trim().length > 0 ? rawAvatar : defaultProfilePhoto;
 
@@ -340,5 +344,3 @@ const Layout = () => {
 };
 
 export default Layout;
-
-

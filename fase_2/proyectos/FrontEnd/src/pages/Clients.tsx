@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import DataTable, { type Column } from "../components/DataTable";
 import { clientsApi, type ClientItem } from "../lib/clientsApi";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
+import { useAuthStore } from "../store/auth";
 
 const formatDate = (value?: string | null) => {
   if (!value) return "Sin registro";
@@ -40,6 +41,9 @@ const extractErrorMessage = (err: unknown, fallback: string): string => {
 };
 
 export default function ClientsPage() {
+  const role = useAuthStore((state) => state.user?.role ?? "user");
+  const canCreateClient = role === "admin" || role === "vendedor";
+  const canDeleteClient = role === "admin";
 
   const [clients, setClients] = useState<ClientItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,7 +83,7 @@ export default function ClientsPage() {
     fetchClients("").catch(() => {});
   };
 
-  const handleDelete = async (client: ClientItem) => {
+  const handleDelete = useCallback(async (client: ClientItem) => {
     const confirmed = await confirmAction({
       title: `Eliminar cliente "${client.name}"?`,
       text: "Esta acción no se puede deshacer.",
@@ -98,10 +102,10 @@ export default function ClientsPage() {
     } finally {
       setDeletingId(null);
     }
-  };
+  }, []);
 
-  const columns = useMemo<Column<ClientItem>[]>(
-    () => [
+  const columns = useMemo<Column<ClientItem>[]>(() => {
+    const base: Column<ClientItem>[] = [
       {
         key: "name",
         header: "Nombre",
@@ -137,7 +141,10 @@ export default function ClientsPage() {
           </div>
         ),
       },
-      {
+    ];
+
+    if (canDeleteClient) {
+      base.push({
         key: "actions",
         header: "Acciones",
         render: (row) => (
@@ -153,10 +160,11 @@ export default function ClientsPage() {
             </button>
           </div>
         ),
-      },
-    ],
-    [deletingId]
-  );
+      });
+    }
+
+    return base;
+  }, [canDeleteClient, deletingId, handleDelete]);
 
   const total = clients.length;
 
@@ -167,13 +175,19 @@ export default function ClientsPage() {
           <h1 className="text-2xl font-semibold text-gray-900">Gestión de Clientes</h1>
           <p className="text-sm text-gray-500">Administra la información de todos los clientes de tu negocio.</p>
         </div>
-        <Link
-          to="/clients/create"
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
-        >
-          <span className="text-lg leading-none">+</span>
-          Agregar Cliente
-        </Link>
+        {canCreateClient ? (
+          <Link
+            to="/clients/create"
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+          >
+            <span className="text-lg leading-none">+</span>
+            Agregar Cliente
+          </Link>
+        ) : (
+          <p className="text-xs text-gray-400">
+            Solo los administradores o vendedores pueden crear clientes nuevos.
+          </p>
+        )}
       </header>
 
       {error && (

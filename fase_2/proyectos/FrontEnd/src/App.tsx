@@ -70,15 +70,50 @@ const App = () => {
           }
         >
           <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Protected allowedRoles={["admin", "bodeguero", "vendedor"]}>
+                <DashboardPage />
+              </Protected>
+            }
+          />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/suppliers" element={<SuppliersPage />} />
-          <Route path="/clients" element={<ClientsPage />} />
-          <Route path="/clients/create" element={<CreateClientPage />} />
+          <Route
+            path="/clients"
+            element={
+              <Protected allowedRoles={["admin", "bodeguero", "vendedor"]}>
+                <ClientsPage />
+              </Protected>
+            }
+          />
+          <Route
+            path="/clients/create"
+            element={
+              <Protected allowedRoles={["admin", "vendedor"]}>
+                <CreateClientPage />
+              </Protected>
+            }
+          />
           <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/orders" element={<OrdersPage />} />
-          <Route path="/manual-inventory" element={<ManualInventoryPage />} />
-          <Route path="/reports" element={<ReportsPage />} />
+          <Route
+            path="/manual-inventory"
+            element={
+              <Protected allowedRoles={["admin"]}>
+                <ManualInventoryPage />
+              </Protected>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <Protected allowedRoles={["admin"]}>
+                <ReportsPage />
+              </Protected>
+            }
+          />
 
           {/* Solo admin */}
           <Route
@@ -101,6 +136,5 @@ const App = () => {
 };
 
 export default App;
-
 
 

@@ -52,11 +52,32 @@ app.use(morgan('dev'))
 app.use(cookieParser())
 
 // ▶️ CORS por ENV
+const normalizeOriginValue = (value = '') => value.replace(/\/$/, '').toLowerCase()
+
 const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
   .split(',')
   .map(s => s.trim())
   .filter(Boolean)
 const ALLOW_ALL_ORIGINS = ALLOWED_ORIGINS.includes('*')
+const EXACT_ALLOWED_ORIGINS = ALLOWED_ORIGINS
+  .filter(origin => origin !== '*' && !origin.includes('*'))
+  .map(normalizeOriginValue)
+
+const WILDCARD_ORIGIN_REGEXPS = ALLOWED_ORIGINS
+  .filter(origin => origin !== '*' && origin.includes('*'))
+  .map(origin => {
+    const pattern = normalizeOriginValue(origin)
+      .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
+      .replace(/\*/g, '.*')
+    return new RegExp(`^${pattern}$`, 'i')
+  })
+
+const isOriginAllowed = (origin) => {
+  if (!origin) return true
+  const normalized = normalizeOriginValue(origin)
+  if (EXACT_ALLOWED_ORIGINS.includes(normalized)) return true
+  return WILDCARD_ORIGIN_REGEXPS.some(regex => regex.test(normalized))
+}
 
 const docsAuth = basicAuth({
   username: process.env.SWAGGER_USER,
@@ -73,9 +94,7 @@ const metricsAuth = basicAuth({
 app.use(cors({
   origin (origin, cb) {
     if (ALLOW_ALL_ORIGINS || !origin) return cb(null, true)
-    const normalized = origin.replace(/\/$/, '')
-    const allowedNormalized = ALLOWED_ORIGINS.map(o => o.replace(/\/$/, ''))
-    if (allowedNormalized.includes(normalized)) return cb(null, true)
+    if (isOriginAllowed(origin)) return cb(null, true)
     return cb(new Error(`Not allowed by CORS: ${origin}`))
   },
   credentials: true

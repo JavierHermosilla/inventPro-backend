@@ -72,14 +72,26 @@ const buildWhere = ({ search = '' }) => {
 
 // Columnas export
 const XLSX_COLS = [
-  { key: 'id', header: 'id', width: 36 },
-  { key: 'rut', header: 'rut', width: 22 },
-  { key: 'name', header: 'name', width: 30 },
-  { key: 'email', header: 'email', width: 34 },
-  { key: 'phone', header: 'phone', width: 18 },
-  { key: 'address', header: 'address', width: 40 },
-  { key: 'created_at', header: 'created_at', width: 24, map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '' },
-  { key: 'updated_at', header: 'updated_at', width: 24, map: r => r?.updated_at?.toISOString?.() ?? r?.updated_at ?? '' }
+  { key: 'id', header: 'ID', width: 36 },
+  { key: 'rut', header: 'RUT', width: 22 },
+  { key: 'name', header: 'Nombre', width: 32 },
+  { key: 'email', header: 'Email', width: 34 },
+  { key: 'phone', header: 'Teléfono', width: 20 },
+  { key: 'address', header: 'Dirección', width: 40 },
+  {
+    key: 'created_at',
+    header: 'Creado',
+    width: 24,
+    map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '',
+    excel: { cast: 'date' }
+  },
+  {
+    key: 'updated_at',
+    header: 'Actualizado',
+    width: 24,
+    map: r => r?.updated_at?.toISOString?.() ?? r?.updated_at ?? '',
+    excel: { cast: 'date' }
+  }
 ]
 
 const PDF_COLS = [
@@ -121,13 +133,13 @@ export const listClients = async (req, res) => {
 
       const where = buildWhere(req.query)
       const columns = [
-        { key: 'id', header: 'id' },
-        { key: 'name', header: 'name' },
-        { key: 'rut', header: 'rut' },
-        { key: 'email', header: 'email' },
-        { key: 'phone', header: 'phone' },
-        { key: 'address', header: 'address' },
-        { key: 'created_at', header: 'created_at', map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '' }
+        { key: 'id', header: 'ID' },
+        { key: 'name', header: 'Nombre' },
+        { key: 'rut', header: 'RUT' },
+        { key: 'email', header: 'Email' },
+        { key: 'phone', header: 'Teléfono' },
+        { key: 'address', header: 'Dirección' },
+        { key: 'created_at', header: 'Creado', map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '' }
       ]
 
       const filename = `clients_${new Date().toISOString().replace(/[:.]/g, '-')}.csv`

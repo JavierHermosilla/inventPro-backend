@@ -148,26 +148,26 @@ export async function exportOrdersCSV (req, res) {
     }
 
     const columnsOrders = [
-      { key: 'order_id', header: 'order_id' },
-      { key: 'client_rut', header: 'client_rut' },
-      { key: 'client_name', header: 'client_name' },
-      { key: 'status', header: 'status' },
-      { key: 'total_amount', header: 'total_amount' },
-      { key: 'is_backorder', header: 'is_backorder' },
-      { key: 'items_count', header: 'items_count' },
-      { key: 'created_at', header: 'created_at' },
-      { key: 'updated_at', header: 'updated_at' }
+      { key: 'order_id', header: 'Order ID' },
+      { key: 'client_rut', header: 'Cliente RUT' },
+      { key: 'client_name', header: 'Cliente' },
+      { key: 'status', header: 'Estado' },
+      { key: 'total_amount', header: 'Total ($)' },
+      { key: 'is_backorder', header: 'Backorder' },
+      { key: 'items_count', header: 'Ítems' },
+      { key: 'created_at', header: 'Creado' },
+      { key: 'updated_at', header: 'Actualizado' }
     ]
 
     const columnsItems = [
-      { key: 'order_id', header: 'order_id' },
-      { key: 'status', header: 'order_status' },
-      { key: 'product_id', header: 'product_id' },
-      { key: 'product_name', header: 'product_name' },
-      { key: 'quantity', header: 'quantity' },
-      { key: 'unit_price', header: 'unit_price' },
-      { key: 'line_total', header: 'line_total' },
-      { key: 'created_at', header: 'order_created_at' }
+      { key: 'order_id', header: 'Order ID' },
+      { key: 'status', header: 'Estado Orden' },
+      { key: 'product_id', header: 'Producto ID' },
+      { key: 'product_name', header: 'Producto' },
+      { key: 'quantity', header: 'Cantidad' },
+      { key: 'unit_price', header: 'Precio Unitario' },
+      { key: 'line_total', header: 'Subtotal' },
+      { key: 'created_at', header: 'Creado' }
     ]
 
     const columns = mode === 'items' ? columnsItems : columnsOrders
@@ -260,13 +260,30 @@ export async function exportOrdersCSV (req, res) {
 // Export PDF/XLSX (admin)
 // =======================
 const ORDERS_XLSX_COLS = [
-  { key: 'id', header: 'order_id', width: 36 },
-  { key: 'created_at', header: 'created_at', width: 24, map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '' },
-  { key: 'status', header: 'status', width: 14 },
-  { key: 'client_rut', header: 'client_rut', width: 18 },
-  { key: 'client_name', header: 'client_name', width: 28 },
-  { key: 'items', header: 'items', width: 10 },
-  { key: 'total', header: 'total', width: 14, map: r => Number(r.total ?? 0) }
+  { key: 'id', header: 'Order ID', width: 36 },
+  {
+    key: 'created_at',
+    header: 'Creado',
+    width: 24,
+    map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '',
+    excel: { cast: 'date' }
+  },
+  { key: 'status', header: 'Estado', width: 16 },
+  { key: 'client_rut', header: 'Cliente RUT', width: 18 },
+  { key: 'client_name', header: 'Cliente', width: 30 },
+  {
+    key: 'items',
+    header: 'Ítems',
+    width: 10,
+    excel: { cast: 'number', alignment: { horizontal: 'right' } }
+  },
+  {
+    key: 'total',
+    header: 'Total ($)',
+    width: 16,
+    map: r => Number(r.total ?? 0),
+    excel: { cast: 'currency', alignment: { horizontal: 'right' } }
+  }
 ]
 
 const ORDERS_PDF_COLS = [
@@ -279,14 +296,37 @@ const ORDERS_PDF_COLS = [
 ]
 
 const ITEMS_XLSX_COLS = [
-  { key: 'order_id', header: 'order_id', width: 36 },
-  { key: 'created_at', header: 'created_at', width: 24, map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '' },
-  { key: 'client_rut', header: 'client_rut', width: 18 },
-  { key: 'client_name', header: 'client_name', width: 28 },
-  { key: 'product', header: 'product', width: 30 },
-  { key: 'quantity', header: 'qty', width: 10 },
-  { key: 'price', header: 'price', width: 12, align: 'right', map: r => Number(r.price ?? 0) },
-  { key: 'subtotal', header: 'subtotal', width: 14, align: 'right', map: r => Number(r.subtotal ?? 0) }
+  { key: 'order_id', header: 'Order ID', width: 36 },
+  {
+    key: 'created_at',
+    header: 'Creado',
+    width: 24,
+    map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '',
+    excel: { cast: 'date' }
+  },
+  { key: 'client_rut', header: 'Cliente RUT', width: 18 },
+  { key: 'client_name', header: 'Cliente', width: 30 },
+  { key: 'product', header: 'Producto', width: 32 },
+  {
+    key: 'quantity',
+    header: 'Cantidad',
+    width: 12,
+    excel: { cast: 'number', alignment: { horizontal: 'right' } }
+  },
+  {
+    key: 'price',
+    header: 'Precio Unitario',
+    width: 14,
+    map: r => Number(r.price ?? 0),
+    excel: { cast: 'currency', alignment: { horizontal: 'right' } }
+  },
+  {
+    key: 'subtotal',
+    header: 'Subtotal',
+    width: 16,
+    map: r => Number(r.subtotal ?? 0),
+    excel: { cast: 'currency', alignment: { horizontal: 'right' } }
+  }
 ]
 
 const ITEMS_PDF_COLS = [

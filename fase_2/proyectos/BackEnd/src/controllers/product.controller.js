@@ -51,15 +51,39 @@ const buildWhereFromQuery = ({ search = '', categoryId, supplierId, minStock, ma
 
 // Columnas para CSV/XLSX (completas)
 const exportColumnsFull = [
-  { key: 'id', header: 'id', width: 36 },
-  { key: 'name', header: 'name', width: 32 },
-  { key: 'description', header: 'description', width: 50 },
-  { key: 'price', header: 'price', width: 14, map: r => (r.price == null ? '' : Number(r.price)) },
-  { key: 'stock', header: 'stock', width: 10 },
-  { key: 'category', header: 'category', width: 22, map: r => r?.category?.name ?? '' },
-  { key: 'supplier', header: 'supplier', width: 22, map: r => r?.supplier?.name ?? '' },
-  { key: 'created_at', header: 'created_at', width: 24, map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '' },
-  { key: 'updated_at', header: 'updated_at', width: 24, map: r => r?.updated_at?.toISOString?.() ?? r?.updated_at ?? '' }
+  { key: 'id', header: 'ID', width: 36 },
+  { key: 'name', header: 'Nombre', width: 32 },
+  { key: 'description', header: 'Descripción', width: 50 },
+  {
+    key: 'price',
+    header: 'Precio',
+    width: 14,
+    map: r => (r.price == null ? '' : Number(r.price)),
+    excel: { cast: 'currency', alignment: { horizontal: 'right' } }
+  },
+  {
+    key: 'stock',
+    header: 'Stock',
+    width: 12,
+    map: r => (r.stock == null ? '' : Number(r.stock)),
+    excel: { cast: 'number', alignment: { horizontal: 'right' } }
+  },
+  { key: 'category', header: 'Categoría', width: 22, map: r => r?.category?.name ?? '' },
+  { key: 'supplier', header: 'Proveedor', width: 24, map: r => r?.supplier?.name ?? '' },
+  {
+    key: 'created_at',
+    header: 'Creado',
+    width: 24,
+    map: r => r?.created_at?.toISOString?.() ?? r?.created_at ?? '',
+    excel: { cast: 'date' }
+  },
+  {
+    key: 'updated_at',
+    header: 'Actualizado',
+    width: 24,
+    map: r => r?.updated_at?.toISOString?.() ?? r?.updated_at ?? '',
+    excel: { cast: 'date' }
+  }
 ]
 
 // Columnas compactas para PDF (A4 landscape)

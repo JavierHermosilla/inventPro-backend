@@ -246,9 +246,9 @@ const Layout = () => {
     <div className="bg-gray-100 min-h-screen flex">
       <InventoryWatcher />
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 bg-white shadow-lg flex h-screen flex-col transform transition-transform duration-200 ease-in-out ${
+        className={`z-40 w-64 bg-white shadow-lg flex h-screen flex-col transform transition-transform duration-200 ease-in-out fixed top-0 left-0 ${
           open ? "translate-x-0" : "-translate-x-full"
-        } md:translate-x-0`}
+        } md:translate-x-0 md:transform-none md:sticky md:top-0 md:left-auto md:flex-shrink-0`}
       >
         <div className="p-6 border-b flex flex-col items-center gap-3 text-center shrink-0">
           <img
@@ -302,7 +302,7 @@ const Layout = () => {
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col md:ml-64">
+      <div className="flex-1 flex flex-col min-h-screen">
         <header className="sticky top-0 z-30 bg-white border-b p-4 flex items-center justify-between">
           <button
             className="md:hidden px-3 py-2 rounded-lg border hover:bg-gray-50"
@@ -321,6 +321,22 @@ const Layout = () => {
 
           <div className="flex items-center gap-3">
             <NotificationBell />
+            <button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="hidden sm:inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <LogoutIcon />
+              {isLoggingOut ? "Cerrando..." : "Cerrar sesión"}
+            </button>
+            <button
+              onClick={handleLogout}
+              disabled={isLoggingOut}
+              className="sm:hidden inline-flex items-center justify-center rounded-full border border-slate-200 p-2 text-slate-600 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
+              aria-label="Cerrar sesión"
+            >
+              <LogoutIcon />
+            </button>
             <div className="hidden sm:flex items-center gap-2">
               <img
                 src={avatarSrc}
@@ -339,7 +355,7 @@ const Layout = () => {
           </div>
         </header>
 
-        <main className="p-4 md:p-6">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6">
           <Outlet />
         </main>
       </div>

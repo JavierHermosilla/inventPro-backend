@@ -15,12 +15,18 @@ export const dashboardData = async (req, res) => {
       limit: 5
     })
 
+    const clientAttributes = role === 'admin'
+      ? ['id', 'name', 'rut', 'email']
+      : ['id', 'name', 'rut']
+
     const recentOrders = await Order.findAll({
       order: [['created_at', 'DESC']],
       limit: 5,
-      include: role === 'admin'
-        ? [{ model: Client, as: 'client', attributes: ['id', 'name', 'email'] }]
-        : []
+      include: [{
+        model: Client,
+        as: 'client',
+        attributes: clientAttributes
+      }]
     })
 
     // Datos solo para admin

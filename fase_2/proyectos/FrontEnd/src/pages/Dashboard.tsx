@@ -35,14 +35,15 @@ type ApiOrder = {
   clientId?: string | null;
   createdAt?: string | null;
   status?: OrderStatus | null;
-  client?: { name?: string | null } | null;
+  client?: { name?: string | null; rut?: string | null } | null;
   customer?: { name?: string | null } | null;
   items?: ApiOrderItem[] | null;
 };
 
 type RecentOrder = {
   id: string;
-  clientName: string;
+  clientLabel: string;
+  clientMeta: string | null;
   orderDate: string;
   status: OrderStatus;
 };
@@ -157,6 +158,46 @@ const fallbackClientName = (identifier?: string | null) => {
   return clean ? `Cliente ${clean.slice(0, 6)}` : "Cliente sin identificar";
 };
 
+const shortIdentifier = (value?: string | null) => {
+  if (!value) return null;
+  const clean = value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+  return clean ? clean.slice(0, 6) : null;
+};
+
+const buildClientDisplay = ({
+  name,
+  rut,
+  fallbackId,
+  orderId,
+}: {
+  name?: string | null;
+  rut?: string | null;
+  fallbackId?: string | null;
+  orderId: string;
+}) => {
+  const safeName = name?.trim() || null;
+  const safeRut = rut?.trim() || null;
+  const fallback = fallbackId ?? orderId;
+  const shortId = shortIdentifier(fallback);
+
+  if (safeName && safeRut) {
+    return { primary: safeName, secondary: safeRut };
+  }
+
+  if (safeName) {
+    return { primary: safeName, secondary: shortId ? `ID: ${shortId}` : null };
+  }
+
+  if (safeRut) {
+    return { primary: safeRut, secondary: shortId ? `ID: ${shortId}` : null };
+  }
+
+  return {
+    primary: fallbackClientName(fallback),
+    secondary: shortId ? `ID: ${shortId}` : null,
+  };
+};
+
 const mapOrdersFromApi = (orders: ApiOrder[]): RecentOrder[] =>
   orders
     .filter((order): order is ApiOrder & { id: string } => Boolean(order?.id))
@@ -164,9 +205,17 @@ const mapOrdersFromApi = (orders: ApiOrder[]): RecentOrder[] =>
     .map((order) => {
       const clientName = order.client?.name?.trim();
       const customerName = order.customer?.name?.trim();
+      const clientRut = order.client?.rut?.trim();
+      const { primary, secondary } = buildClientDisplay({
+        name: clientName || customerName,
+        rut: clientRut,
+        fallbackId: order.clientId,
+        orderId: order.id!,
+      });
       return {
         id: order.id!,
-        clientName: clientName || customerName || fallbackClientName(order.clientId),
+        clientLabel: primary,
+        clientMeta: secondary,
         orderDate: order.createdAt ?? new Date().toISOString(),
         status: (order.status ?? "pending") as OrderStatus,
       };
@@ -176,12 +225,21 @@ const mapOrdersFromSummary = (orders: DashboardRecentOrder[]): RecentOrder[] =>
   orders
     .filter((order): order is DashboardRecentOrder & { id: string } => Boolean(order?.id))
     .slice(0, MAX_RECENT_ORDERS)
-    .map((order) => ({
-      id: order.id,
-      clientName: order.clientName ?? fallbackClientName(order.clientId),
-      orderDate: order.createdAt ?? new Date().toISOString(),
-      status: order.status,
-    }));
+    .map((order) => {
+      const { primary, secondary } = buildClientDisplay({
+        name: order.clientName,
+        rut: order.clientRut,
+        fallbackId: order.clientId,
+        orderId: order.id,
+      });
+      return {
+        id: order.id,
+        clientLabel: primary,
+        clientMeta: secondary,
+        orderDate: order.createdAt ?? new Date().toISOString(),
+        status: order.status,
+      };
+    });
 
 type KpiOverrides = Partial<Pick<KpiData, "totalProducts" | "lowStockItems" | "totalSalesCount" | "dailySalesCount">>;
 
@@ -723,8 +781,13 @@ const DashboardPage = () => {
                 </thead>
                 <tbody className="divide-y divide-slate-200">
                   {recentOrders.map((order) => (
-                    <tr key={order.id} className="text-sm text-slate-700">
-                      <td className="py-3 font-medium">{order.clientName}</td>
+                    <tr key={order.id} className="text-sm text-slate-700 dark:text-slate-100">
+                      <td className="py-3">
+                        <p className="font-medium">{order.clientLabel}</p>
+                        {order.clientMeta ? (
+                          <p className="text-xs text-slate-500 dark:text-slate-300">{order.clientMeta}</p>
+                        ) : null}
+                      </td>
                       <td className="py-3 text-slate-500 dark:text-slate-300">{formatDateLabel(order.orderDate)}</td>
                       <td className="py-3">
                         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusClasses(order.status, isDarkMode)}`}>

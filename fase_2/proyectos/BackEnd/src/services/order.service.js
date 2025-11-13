@@ -171,6 +171,11 @@ export async function listOrdersService () {
         model: OrderProduct,
         as: 'items',
         include: [{ model: Product, as: 'product' }]
+      },
+      {
+        model: Client,
+        as: 'client',
+        attributes: ['id', 'name', 'rut']
       }
     ],
     order: [['created_at', 'DESC']]
@@ -185,6 +190,11 @@ export async function getOrderService (id) {
         model: OrderProduct,
         as: 'items',
         include: [{ model: Product, as: 'product' }]
+      },
+      {
+        model: Client,
+        as: 'client',
+        attributes: ['id', 'name', 'rut']
       }
     ]
   })

@@ -433,11 +433,18 @@ const csvEscape = (v) => {
   const s = String(v)
   return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s
 }
+const sanitizeCell = (value) => {
+  if (typeof value !== 'string') return value
+  return value.replace(/[\r\n]+/g, ' ').trim()
+}
 function toCSV (rows, sep = ',') {
-  if (!rows.length) return BOM
+  if (!rows.length) return BOM + `sep=${sep}\r\n`
   const headers = Object.keys(rows[0])
-  const lines = [BOM + headers.join(sep)]
-  for (const r of rows) lines.push(headers.map(h => csvEscape(r[h])).join(sep))
+  const lines = [BOM + `sep=${sep}`, headers.map(csvEscape).join(sep)]
+  for (const r of rows) {
+    const formatted = headers.map(h => csvEscape(sanitizeCell(r[h])))
+    lines.push(formatted.join(sep))
+  }
   // CRLF para compatibilidad con Excel
   return lines.join('\r\n')
 }

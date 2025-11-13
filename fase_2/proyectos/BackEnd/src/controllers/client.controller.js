@@ -145,8 +145,10 @@ export const listClients = async (req, res) => {
       const filename = `clients_${new Date().toISOString().replace(/[:.]/g, '-')}.csv`
       res.setHeader('Content-Type', 'text/csv; charset=utf-8')
       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
+      const sep = String(req.query.sep || ';')
       res.write('\uFEFF')
-      res.write(objectsToCsvLines([], columns)[0] + '\n')
+      res.write(`sep=${sep}\n`)
+      res.write(objectsToCsvLines([], columns, { separator: sep })[0] + '\n')
 
       const batchSize = 1000
       let fetched = 0
@@ -164,7 +166,7 @@ export const listClients = async (req, res) => {
         })
         if (!rows.length) break
 
-        const lines = objectsToCsvLines(rows, columns)
+        const lines = objectsToCsvLines(rows, columns, { separator: sep })
         for (let i = 1; i < lines.length; i++) res.write(lines[i] + '\n')
 
         fetched += rows.length

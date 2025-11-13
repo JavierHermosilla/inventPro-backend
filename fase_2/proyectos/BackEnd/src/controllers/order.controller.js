@@ -118,6 +118,7 @@ export async function exportOrdersCSV (req, res) {
   try {
     const { status, clientRut, start, end, limit } = req.query
     const mode = safeMode(String(req.query.mode).toLowerCase())
+    const sep = String(req.query.sep || ';')
 
     const CSV_MAX = Math.max(
       1,
@@ -176,7 +177,8 @@ export async function exportOrdersCSV (req, res) {
     res.setHeader('Content-Type', 'text/csv; charset=utf-8')
     res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
     res.write('\uFEFF')
-    res.write(objectsToCsvLines([], columns)[0] + '\n')
+    res.write(`sep=${sep}\n`)
+    res.write(objectsToCsvLines([], columns, { separator: sep })[0] + '\n')
 
     const batchSize = 1000
     let fetched = 0
@@ -225,7 +227,7 @@ export async function exportOrdersCSV (req, res) {
           }
         }
         if (itemRows.length) {
-          const lines = objectsToCsvLines(itemRows, columns)
+          const lines = objectsToCsvLines(itemRows, columns, { separator: sep })
           for (let i = 1; i < lines.length; i++) res.write(lines[i] + '\n')
         }
       } else {
@@ -240,7 +242,7 @@ export async function exportOrdersCSV (req, res) {
           created_at: o.created_at?.toISOString?.() ?? o.created_at ?? '',
           updated_at: o.updated_at?.toISOString?.() ?? o.updated_at ?? ''
         }))
-        const lines = objectsToCsvLines(orderRows, columns)
+        const lines = objectsToCsvLines(orderRows, columns, { separator: sep })
         for (let i = 1; i < lines.length; i++) res.write(lines[i] + '\n')
       }
 

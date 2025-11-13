@@ -192,11 +192,13 @@ export const exportProductsCSV = async (req, res) => {
   try {
     const where = buildWhereFromQuery(req.query)
     const MAX = capLimit(req.query.limit)
+    const sep = String(req.query.sep || ';')
 
     const filename = `products_${new Date().toISOString().replace(/[:.]/g, '-')}.csv`
     setNoStoreDownloadHeaders(res, filename, 'text/csv')
     res.write('\uFEFF') // BOM
-    res.write(objectsToCsvLines([], exportColumnsFull)[0] + '\n') // header
+    res.write(`sep=${sep}\n`)
+    res.write(objectsToCsvLines([], exportColumnsFull, { separator: sep })[0] + '\n') // header
 
     // stream por lotes
     const batch = 1000
@@ -221,7 +223,7 @@ export const exportProductsCSV = async (req, res) => {
 
       if (!rows.length) break
 
-      const lines = objectsToCsvLines(rows, exportColumnsFull)
+      const lines = objectsToCsvLines(rows, exportColumnsFull, { separator: sep })
       for (let i = 1; i < lines.length; i++) res.write(lines[i] + '\n')
 
       fetched += rows.length

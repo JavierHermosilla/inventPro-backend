@@ -20,16 +20,24 @@ export function csvEscape (val) {
  * @param {Array<{key:string, header:string, map?:(row)=>any}>} columns
  * @returns {string[]} líneas CSV (sin salto final)
  */
-export function objectsToCsvLines (rows, columns) {
+export function objectsToCsvLines (rows, columns, options = {}) {
+  const {
+    separator = ',',
+    sanitizeNewlines = true
+  } = options
+
   const header = columns.map(c => csvEscape(c.header))
-  const lines = [header.join(',')]
+  const lines = [header.join(separator)]
 
   for (const row of rows) {
     const vals = columns.map(c => {
       const raw = typeof c.map === 'function' ? c.map(row) : row[c.key]
-      return csvEscape(raw)
+      const normalized = sanitizeNewlines && typeof raw === 'string'
+        ? raw.replace(/[\r\n]+/g, ' ').trim()
+        : raw
+      return csvEscape(normalized)
     })
-    lines.push(vals.join(','))
+    lines.push(vals.join(separator))
   }
   return lines
 }

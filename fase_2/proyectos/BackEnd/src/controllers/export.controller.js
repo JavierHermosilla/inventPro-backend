@@ -437,10 +437,14 @@ const sanitizeCell = (value) => {
   if (typeof value !== 'string') return value
   return value.replace(/[\r\n]+/g, ' ').trim()
 }
-function toCSV (rows, sep = ',') {
-  if (!rows.length) return BOM + `sep=${sep}\r\n`
+function toCSV (rows, sep = ',', options = {}) {
+  const { includeSepRow = false } = options
+  if (!rows.length) {
+    const prefix = includeSepRow ? `${BOM}sep=${sep}\r\n` : BOM
+    return prefix
+  }
   const headers = Object.keys(rows[0])
-  const lines = [BOM + `sep=${sep}`, headers.map(csvEscape).join(sep)]
+  const lines = [BOM + (includeSepRow ? `sep=${sep}\r\n` : ''), headers.map(csvEscape).join(sep)]
   for (const r of rows) {
     const formatted = headers.map(h => csvEscape(sanitizeCell(r[h])))
     lines.push(formatted.join(sep))
@@ -454,6 +458,7 @@ export async function exportFullInventoryCSV (req, res) {
     const { products, suppliers, clients, orders } = await loadDatasets()
     const mode = String(req.query.mode || 'merged').toLowerCase() // ← CSV plano por defecto
     const sep = String(req.query.sep || ',')
+    const includeSepRow = String(req.query.excel).toLowerCase() === 'true'
 
     const productsRows = products.map(p => ({
       id: p.id,
@@ -502,7 +507,7 @@ export async function exportFullInventoryCSV (req, res) {
       for (const r of ordersRows) merged.push({ section: 'order', ...r })
       for (const r of itemsRows) merged.push({ section: 'item', ...r })
 
-      const csv = toCSV(merged, sep)
+      const csv = toCSV(merged, sep, { includeSepRow })
       res.setHeader('Content-Type', 'text/csv; charset=utf-8')
       res.setHeader(
         'Content-Disposition',
@@ -522,11 +527,11 @@ export async function exportFullInventoryCSV (req, res) {
     archive.on('error', (err) => { throw err })
     archive.pipe(res)
 
-    archive.append(toCSV(productsRows, sep), { name: 'productos.csv' })
-    archive.append(toCSV(suppliersRows, sep), { name: 'proveedores.csv' })
-    archive.append(toCSV(clientsRows, sep), { name: 'clientes.csv' })
-    archive.append(toCSV(ordersRows, sep), { name: 'ordenes.csv' })
-    archive.append(toCSV(itemsRows, sep), { name: 'items.csv' })
+    archive.append(toCSV(productsRows, sep, { includeSepRow }), { name: 'productos.csv' })
+    archive.append(toCSV(suppliersRows, sep, { includeSepRow }), { name: 'proveedores.csv' })
+    archive.append(toCSV(clientsRows, sep, { includeSepRow }), { name: 'clientes.csv' })
+    archive.append(toCSV(ordersRows, sep, { includeSepRow }), { name: 'ordenes.csv' })
+    archive.append(toCSV(itemsRows, sep, { includeSepRow }), { name: 'items.csv' })
 
     await archive.finalize()
   } catch (err) {

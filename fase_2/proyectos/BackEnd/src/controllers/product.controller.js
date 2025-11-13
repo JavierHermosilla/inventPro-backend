@@ -193,11 +193,12 @@ export const exportProductsCSV = async (req, res) => {
     const where = buildWhereFromQuery(req.query)
     const MAX = capLimit(req.query.limit)
     const sep = String(req.query.sep || ';')
+    const includeSepRow = String(req.query.excel).toLowerCase() === 'true'
 
     const filename = `products_${new Date().toISOString().replace(/[:.]/g, '-')}.csv`
     setNoStoreDownloadHeaders(res, filename, 'text/csv')
     res.write('\uFEFF') // BOM
-    res.write(`sep=${sep}\n`)
+    if (includeSepRow) res.write(`sep=${sep}\n`)
     res.write(objectsToCsvLines([], exportColumnsFull, { separator: sep })[0] + '\n') // header
 
     // stream por lotes

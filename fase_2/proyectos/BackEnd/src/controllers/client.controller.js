@@ -146,8 +146,9 @@ export const listClients = async (req, res) => {
       res.setHeader('Content-Type', 'text/csv; charset=utf-8')
       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
       const sep = String(req.query.sep || ';')
+      const includeSepRow = String(req.query.excel).toLowerCase() === 'true'
       res.write('\uFEFF')
-      res.write(`sep=${sep}\n`)
+      if (includeSepRow) res.write(`sep=${sep}\n`)
       res.write(objectsToCsvLines([], columns, { separator: sep })[0] + '\n')
 
       const batchSize = 1000

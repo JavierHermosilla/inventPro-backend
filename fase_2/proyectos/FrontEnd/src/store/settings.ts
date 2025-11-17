@@ -163,8 +163,8 @@ const defaultAppearance: AppearanceSettings = {
 const defaultNotificationPreferences: NotificationPreferences = {
   lowStockEnabled: true,
   lowStockThreshold: LOW_STOCK_THRESHOLD,
-  checkEveryMinutes: 10,
-  repeatMinutes: 60,
+  checkEveryMinutes: 2,
+  repeatMinutes: 15,
   pushEnabled: false,
   soundEnabled: false,
   emailDigestEnabled: true,

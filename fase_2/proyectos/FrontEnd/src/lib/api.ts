@@ -1,6 +1,6 @@
 import axios, { AxiosHeaders, type AxiosError, type InternalAxiosRequestConfig } from "axios";
 
-const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/register", "/auth/refresh"];
+const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/refresh"];
 
 const resolveBaseUrl = () => {
   const candidate = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_API_URL;

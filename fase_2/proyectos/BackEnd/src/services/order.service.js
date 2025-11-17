@@ -123,8 +123,17 @@ export async function createOrderService (payload, user) {
         throw e
       }
 
+      // Actualiza el stock directamente para evitar que el inventario quede igual
+      const [updated] = await Product.update(
+        { stock: after },
+        { where: { id: p.id }, transaction: t }
+      )
+      if (updated !== 1) {
+        const e = new Error(`No se pudo actualizar el stock del producto ${p.id}`)
+        e.status = 409
+        throw e
+      }
       p.stock = after
-      await p.save({ transaction: t })
 
       totalAmount += unitPrice * qty
 

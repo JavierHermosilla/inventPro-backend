@@ -7,6 +7,7 @@ import {
   type SupplierStatus,
 } from "../lib/suppliersApi";
 import { showError, showSuccess, showWarning } from "../lib/alerts";
+import { useAuthStore } from "../store/auth";
 
 const formatDate = (value?: string | null) => {
   if (!value) return "Sin registro";
@@ -65,6 +66,8 @@ const statusStyles: Record<SupplierStatus, string> = {
 };
 
 export default function SuppliersPage() {
+  const role = useAuthStore((state) => state.user?.role ?? "user");
+  const canManageSuppliers = role === "admin";
   const [suppliers, setSuppliers] = useState<SupplierItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -116,6 +119,13 @@ export default function SuppliersPage() {
 
   const handleCreateSupplier = useCallback(async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!canManageSuppliers) {
+      await showWarning({
+        title: "Sin permisos",
+        text: "Solo un administrador puede crear proveedores. Ingresa con una cuenta con rol administrador.",
+      });
+      return;
+    }
     setFormError(null);
 
     const trimmedName = form.name.trim();
@@ -174,7 +184,7 @@ export default function SuppliersPage() {
     } finally {
       setIsSubmitting(false);
     }
-  }, [fetchSuppliers, form, resetForm]);
+  }, [canManageSuppliers, fetchSuppliers, form, resetForm]);
 
 
   const filteredSuppliers = useMemo(() => {
@@ -294,17 +304,24 @@ export default function SuppliersPage() {
             Registra y controla la información clave de tus proveedores.
           </p>
         </div>
-        <button
-          type="button"
-          onClick={() => {
-            resetForm();
-            setIsModalOpen(true);
-          }}
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
-        >
-          <span className="text-lg leading-none">+</span>
-          Nuevo proveedor
-        </button>
+        {!canManageSuppliers && (
+          <p className="text-xs text-amber-600">
+            Vista de solo lectura: los bodegueros no pueden crear ni editar proveedores.
+          </p>
+        )}
+        {canManageSuppliers && (
+          <button
+            type="button"
+            onClick={() => {
+              resetForm();
+              setIsModalOpen(true);
+            }}
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+          >
+            <span className="text-lg leading-none">+</span>
+            Nuevo proveedor
+          </button>
+        )}
       </header>
 
       {error && (

@@ -244,7 +244,7 @@ const Layout = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex">
-      <InventoryWatcher />
+      {["admin", "bodeguero"].includes(role) ? <InventoryWatcher /> : null}
       <aside
         className={`z-40 w-64 bg-white shadow-lg flex h-screen flex-col transform transition-transform duration-200 ease-in-out fixed top-0 left-0 ${
           open ? "translate-x-0" : "-translate-x-full"

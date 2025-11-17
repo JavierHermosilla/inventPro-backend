@@ -626,6 +626,7 @@ const DashboardPage = () => {
   const userDisplayName = currentUser?.name ?? "Usuario";
   const effectiveRole = (currentUser?.role ?? authUser?.role ?? "user") as Role;
   const isAdmin = effectiveRole === "admin";
+  const isWarehouse = effectiveRole === "bodeguero";
   const userRoleLabel = USER_ROLE_LABELS[effectiveRole] ?? effectiveRole;
   const lowStockProducts = inventoryProducts.filter((product) => Number(product.stock) < LOW_STOCK_THRESHOLD);
 
@@ -693,6 +694,9 @@ const DashboardPage = () => {
       ),
     },
   ];
+  const metricCardsToShow = isWarehouse
+    ? metricCards.filter((metric) => metric.id === "products" || metric.id === "low-stock")
+    : metricCards;
 
   return (
     <div className="space-y-6">
@@ -704,6 +708,11 @@ const DashboardPage = () => {
             <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
               Rol actual: <span className="font-semibold text-blue-600 dark:text-blue-300">{userRoleLabel}</span>. Gestiona tu inventario y pedidos desde aqui.
             </p>
+            {isWarehouse ? (
+              <p className="text-xs font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-200">
+                Vista de bodega: priorizamos stock bajo y órdenes pendientes.
+              </p>
+            ) : null}
             {notice ? (
               <div
                 className={`mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium ${
@@ -737,7 +746,7 @@ const DashboardPage = () => {
       </section>
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {metricCards.map((metric) => (
+        {metricCardsToShow.map((metric) => (
           <article
             key={metric.id}
             className={compactCardClass}

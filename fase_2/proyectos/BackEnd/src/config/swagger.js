@@ -2,6 +2,8 @@
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 
+const serverUrl = process.env.SWAGGER_SERVER_URL || 'http://localhost:3000/api'
+
 const definition = {
   openapi: '3.0.0',
   info: {
@@ -11,8 +13,10 @@ const definition = {
   },
   servers: [
     {
-      url: 'http://localhost:3000/api',
-      description: 'Servidor local'
+      url: serverUrl,
+      description: serverUrl.includes('localhost')
+        ? 'Servidor local'
+        : 'Servidor configurado por SWAGGER_SERVER_URL'
     }
   ],
   components: {

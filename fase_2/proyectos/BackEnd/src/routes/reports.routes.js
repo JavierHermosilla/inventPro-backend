@@ -28,19 +28,19 @@ router.post(
   createReport
 )
 
-// Listar todos los reportes → admin + bodeguero
+// Listar todos los reportes → Solo admins
 router.get(
   '/',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole(...ADMIN_ROLES),
   getReports
 )
 
-// Obtener un reporte por ID → admin + bodeguero
+// Obtener un reporte por ID → Solo admins
 router.get(
   '/:id',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole(...ADMIN_ROLES),
   getReportById
 )
 

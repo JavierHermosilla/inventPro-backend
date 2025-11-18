@@ -394,7 +394,7 @@ export default function UsersPage() {
         </button>
       </header>
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <article className="rounded-xl bg-white p-4 shadow">
           <p className="text-sm text-gray-500">Usuarios totales</p>
           <p className="mt-2 text-2xl font-semibold text-gray-900">{totalUsers}</p>
@@ -483,7 +483,7 @@ export default function UsersPage() {
             </header>
 
             <form onSubmit={handleSubmitUser} className="px-6 py-4" noValidate>
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 lg:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="name">
                     Nombre completo *
@@ -570,7 +570,7 @@ export default function UsersPage() {
                 </div>
               </div>
 
-              <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <div className="mt-4 grid gap-4 lg:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="address">
                     Dirección

@@ -394,7 +394,7 @@ export default function UsersPage() {
         </button>
       </header>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <article className="rounded-xl bg-white p-4 shadow">
           <p className="text-sm text-gray-500">Usuarios totales</p>
           <p className="mt-2 text-2xl font-semibold text-gray-900">{totalUsers}</p>

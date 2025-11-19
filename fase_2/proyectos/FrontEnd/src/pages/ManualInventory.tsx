@@ -270,7 +270,7 @@ export default function ManualInventoryPage() {
         </button>
       </header>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard title="Productos con stock" value={numberFormatter.format(stats.totalProducts)} />
         <StatCard
           title="Unidades disponibles"
@@ -548,7 +548,7 @@ export default function ManualInventoryPage() {
                 </div>
               )}
 
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="movementType" className="text-sm font-medium text-gray-600">
                     Tipo de movimiento

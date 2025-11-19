@@ -294,7 +294,7 @@ export default function CategoriesPage() {
         </div>
       )}
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <article className="rounded-xl border border-blue-100 bg-white p-5 shadow">
           <p className="text-xs font-semibold uppercase text-blue-500">Total categorías</p>
           <p className="mt-2 text-3xl font-black text-blue-700">{summary.total}</p>

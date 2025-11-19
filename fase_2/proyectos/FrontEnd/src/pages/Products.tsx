@@ -376,7 +376,7 @@ export default function Products() {
         </div>
       </header>
 
-      <section className="grid gap-4 md:grid-cols-4">
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <article className="rounded-xl bg-white p-5 shadow-lg border border-blue-100">
           <h2 className="text-sm font-semibold text-blue-600 uppercase tracking-wide">Productos totales</h2>
           <p className="mt-3 text-3xl font-black text-blue-700">{summary.total}</p>
@@ -397,7 +397,7 @@ export default function Products() {
 
       <section className="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-lg">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 lg:flex-1">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:flex-1">
             <div className="flex flex-col">
               <label className="text-sm font-medium text-gray-600" htmlFor="search">Buscador</label>
               <input
@@ -543,7 +543,7 @@ export default function Products() {
             {formError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{formError}</div>}
 
             <form onSubmit={handleSubmit} noValidate className="space-y-4">
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="nombre">Nombre *</label>
                   <input
@@ -573,7 +573,7 @@ export default function Products() {
                 </div>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="stock">Stock *</label>
                   <input
@@ -607,7 +607,7 @@ export default function Products() {
                 </div>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="proveedor">Proveedor *</label>
                   <select

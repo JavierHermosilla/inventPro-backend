@@ -714,7 +714,7 @@ export default function OrdersPage() {
             {renderStatusBadge(selectedOrder.status)}
           </header>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-6 sm:grid-cols-2">
             <div className="rounded-lg border border-gray-100 bg-gray-50 p-4">
               <h3 className="text-sm font-semibold text-gray-700">Cliente</h3>
               <dl className="mt-3 space-y-2 text-sm text-gray-600">
@@ -816,7 +816,7 @@ export default function OrdersPage() {
           </p>
         </header>
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div>
             <label className="text-xs font-semibold uppercase text-gray-500" htmlFor="document-type">
               Tipo de documento
@@ -850,7 +850,7 @@ export default function OrdersPage() {
           </div>
         </div>
 
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
           {customerMode === "client" ? (
             <div>
               <label className="text-xs font-semibold uppercase text-gray-500" htmlFor="client-id">

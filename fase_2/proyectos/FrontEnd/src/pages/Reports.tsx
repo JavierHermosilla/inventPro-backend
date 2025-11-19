@@ -961,7 +961,7 @@ export default function ReportsPage() {
       )}
 
       {activeTab === 'mis' && (
-      <section className="grid gap-3 md:grid-cols-3">
+      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         <label className="flex flex-col gap-1 text-sm text-slate-500">
           Estado
           <select
@@ -1019,7 +1019,7 @@ export default function ReportsPage() {
           </header>
 
           <form onSubmit={handleSubmit} className="mt-6 space-y-6">
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-4 sm:grid-cols-2">
               <label className="flex flex-col gap-1 text-sm text-slate-600">
                 Nombre del reporte
                 <input
@@ -1139,7 +1139,7 @@ export default function ReportsPage() {
               </div>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <label className="flex flex-col gap-1 text-sm text-slate-600">
                 Formato
                 <select
@@ -1228,7 +1228,7 @@ export default function ReportsPage() {
             No encontramos reportes con los filtros actuales.
           </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {filteredReports.map((report) => {
               const statusClass =
                 report.status === "active"

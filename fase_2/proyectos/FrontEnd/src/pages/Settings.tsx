@@ -138,7 +138,7 @@ const SettingsPage = () => {
             />
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <label className="block text-sm font-medium text-gray-700 dark:text-slate-200">
               Umbral de stock (unidades)
               <input
@@ -188,7 +188,7 @@ const SettingsPage = () => {
             </label>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex items-center justify-between rounded-lg border border-gray-200 px-4 py-3 dark:border-slate-700">
               <div>
                 <p className="text-sm font-semibold text-gray-800 dark:text-slate-100">Notificaciones push</p>

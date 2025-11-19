@@ -588,9 +588,9 @@ export default function OrdersPage() {
                 const clientInfo = resolveOrderClientInfo(order);
                 return (
                   <tr key={order.id} className="hover:bg-gray-50">
-                    <td className="whitespace-nowrap px-4 py-3 font-medium text-blue-600">
-                      <span>#{code}</span>
-                      <span className="ml-2 text-xs text-gray-400">({order.id.slice(0, 8)}...)</span>
+                    <td className="px-4 py-3 font-medium text-blue-600">
+                      <div className="whitespace-nowrap">#{code}</div>
+                      <p className="text-[11px] font-mono text-gray-500 break-all">ID: {order.id.toUpperCase()}</p>
                     </td>
                     <td className="px-4 py-3">
                       <p className="font-semibold text-gray-900">{clientInfo.name ?? "Sin asignar"}</p>

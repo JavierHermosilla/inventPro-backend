@@ -17,13 +17,18 @@
  *         quantity:  { type: integer, minimum: 1 }
  *     OrderCreateInput:
  *       type: object
- *       required: [clientId, items]
+ *       required: [products]
  *       properties:
- *         clientId: { type: string, format: uuid, description: "Cliente dueño de la orden" }
- *         items:
+ *         clientId: { type: string, format: uuid, description: "Cliente dueño de la orden (exclusivo con rut)" }
+ *         rut: { type: string, description: "Alternativa al clientId, acepta RUT chileno válido", example: "12345678-5" }
+ *         products:
  *           type: array
+ *           minItems: 1
+ *           maxItems: 100
  *           items: { $ref: '#/components/schemas/OrderItemInput' }
- *         notes: { type: string }
+ *         notes: { type: string, maxLength: 500 }
+ *         reference: { type: string, maxLength: 100, example: "OC-1234" }
+ *         channel: { type: string, enum: [web, pos, api], example: "api" }
  *     Order:
  *       type: object
  *       properties:
@@ -62,11 +67,24 @@
  *     summary: Crear una orden (permite backorder)
  *     description: >
  *       El sistema permite stock negativo; si una orden deja stock < 0, se marca `isBackorder=true`.
+ *       Debes enviar **exactamente uno** de `clientId` o `rut` y al menos un producto.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema: { $ref: '#/components/schemas/OrderCreateInput' }
+ *           schema:
+ *             allOf:
+ *               - $ref: '#/components/schemas/OrderCreateInput'
+ *             example:
+ *               clientId: "0e9e6f02-5a8e-4055-955e-c5b704d73fb0"
+ *               products:
+ *                 - productId: "135cfe80-cdec-42e3-b92a-5faea86ecf14"
+ *                   quantity: 2
+ *                 - productId: "2a1e5ec9-0a32-4749-8a07-9b4e9fc515a6"
+ *                   quantity: 1
+ *               notes: "Pedido online"
+ *               reference: "OC-1234"
+ *               channel: "api"
  *     responses:
  *       201:
  *         description: Orden creada

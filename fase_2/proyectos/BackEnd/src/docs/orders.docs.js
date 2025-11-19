@@ -132,57 +132,11 @@
 /**
  * @swagger
  * /orders/{id}/items:
- *   post:
- *     tags: [Orders]
- *     summary: Agregar/merge items en orden
- *     parameters:
- *       - $ref: '#/components/parameters/UUIDId'
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: array
- *             items: { $ref: '#/components/schemas/OrderItemInput' }
- *     responses:
- *       200: { description: Ítems agregados/actualizados }
- */
-
-/**
- * @swagger
- * /orders/{id}/items/{itemId}:
- *   put:
- *     tags: [Orders]
- *     summary: Actualizar cantidad de un ítem por delta
- *     parameters:
- *       - $ref: '#/components/parameters/UUIDId'
- *       - in: path
- *         name: itemId
- *         required: true
- *         schema:
- *           type: string
- *           format: uuid
- *           example: "f66ac286-2869-45ba-85d3-ead2450c30c8"
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required: [delta]
- *             properties:
- *               delta: { type: integer, description: "positivo o negativo" }
- *     responses:
- *       200: { description: Ítem actualizado }
  *   delete:
  *     tags: [Orders]
- *     summary: Eliminar ítem de la orden (ajusta totales/stock)
+ *     summary: Eliminar orden (restaura stock)
  *     parameters:
  *       - $ref: '#/components/parameters/UUIDId'
- *       - in: path
- *         name: itemId
- *         required: true
- *         schema: { type: string, format: uuid }
  *     responses:
- *       204: { description: Ítem eliminado }
+ *       204: { description: Eliminada }
  */

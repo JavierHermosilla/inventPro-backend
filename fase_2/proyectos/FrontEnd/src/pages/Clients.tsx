@@ -79,6 +79,15 @@ export default function ClientsPage() {
     return hasPlus ? `+${digits}` : digits;
   };
 
+  const prettifyText = useCallback((value: string) => {
+    return value
+      .split(" ")
+      .filter((chunk) => chunk.trim().length > 0)
+      .map((chunk) => chunk.trim())
+      .map((chunk) => chunk[0].toUpperCase() + chunk.slice(1).toLowerCase())
+      .join(" ");
+  }, []);
+
   const fetchClients = useCallback(async (search?: string) => {
     setLoading(true);
     setError(null);
@@ -162,13 +171,15 @@ export default function ClientsPage() {
     }
 
     const normalizedPhone = sanitizePhone(editForm.phone);
+    const prettyName = prettifyText(editForm.name);
+    const prettyAddress = prettifyText(editForm.address);
 
     setIsUpdating(true);
     try {
       await clientsApi.update(editingClient.id, {
-        name: editForm.name.trim(),
+        name: prettyName,
         email: editForm.email.trim(),
-        address: editForm.address.trim(),
+        address: prettyAddress,
         phone: normalizedPhone,
         avatar: editForm.avatar.trim() || null,
         rut: editForm.rut.trim(),
@@ -179,9 +190,9 @@ export default function ClientsPage() {
           c.id === editingClient.id
             ? {
                 ...c,
-                name: editForm.name.trim(),
+                name: prettyName,
                 email: editForm.email.trim(),
-                address: editForm.address.trim(),
+                address: prettyAddress,
                 phone: normalizedPhone,
                 avatar: editForm.avatar.trim() || null,
                 rut: editForm.rut.trim(),
@@ -190,7 +201,7 @@ export default function ClientsPage() {
         )
       );
 
-      await showSuccess({ title: "Cliente actualizado", text: `${editForm.name} se guardó correctamente.` });
+      await showSuccess({ title: "Cliente actualizado", text: `${prettyName} se guardó correctamente.` });
       closeEditModal();
     } catch (err) {
       const message = extractErrorMessage(err, "No se pudo actualizar el cliente.");

@@ -13,6 +13,30 @@ const normalizeToken = (value?: string | null) => {
   return trimmed.length > 0 ? trimmed : null;
 };
 
+const TOKEN_KEY = "auth_token";
+
+const loadStoredToken = () => {
+  if (typeof window === "undefined") return null;
+  try {
+    return normalizeToken(window.localStorage.getItem(TOKEN_KEY));
+  } catch {
+    return null;
+  }
+};
+
+const persistToken = (token: string | null) => {
+  if (typeof window === "undefined") return;
+  try {
+    if (token) {
+      window.localStorage.setItem(TOKEN_KEY, token);
+    } else {
+      window.localStorage.removeItem(TOKEN_KEY);
+    }
+  } catch {
+    // silenciosamente ignora problemas de storage (modo incógnito, etc.)
+  }
+};
+
 const baseURL = resolveBaseUrl();
 
 const api = axios.create({
@@ -40,7 +64,9 @@ const applyDefaultAuthHeader = (token: string | null) => {
   }
 };
 
-let inMemoryToken: string | null = null;
+let inMemoryToken: string | null = loadStoredToken();
+applyDefaultAuthHeader(inMemoryToken);
+
 let refreshPromise: Promise<string | null> | null = null;
 
 const shouldSkipAuth = (url?: string) => {
@@ -131,6 +157,7 @@ api.interceptors.response.use(
 const setToken = (token: string | null) => {
   inMemoryToken = token;
   applyDefaultAuthHeader(token);
+  persistToken(token);
 };
 
 export function saveToken(token: string | null) {

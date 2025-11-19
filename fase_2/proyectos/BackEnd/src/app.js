@@ -59,9 +59,11 @@ const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
   .map(s => s.trim())
   .filter(Boolean)
 const ALLOW_ALL_ORIGINS = ALLOWED_ORIGINS.includes('*')
-const EXACT_ALLOWED_ORIGINS = ALLOWED_ORIGINS
-  .filter(origin => origin !== '*' && !origin.includes('*'))
-  .map(normalizeOriginValue)
+const EXACT_ALLOWED_ORIGINS = new Set(
+  ALLOWED_ORIGINS
+    .filter(origin => origin !== '*' && !origin.includes('*'))
+    .map(normalizeOriginValue)
+)
 
 const WILDCARD_ORIGIN_REGEXPS = ALLOWED_ORIGINS
   .filter(origin => origin !== '*' && origin.includes('*'))
@@ -72,10 +74,33 @@ const WILDCARD_ORIGIN_REGEXPS = ALLOWED_ORIGINS
     return new RegExp(`^${pattern}$`, 'i')
   })
 
-const isOriginAllowed = (origin) => {
-  if (!origin) return true
+const addExactOrigin = (origin) => {
   const normalized = normalizeOriginValue(origin)
-  if (EXACT_ALLOWED_ORIGINS.includes(normalized)) return true
+  if (normalized) EXACT_ALLOWED_ORIGINS.add(normalized)
+}
+
+const originFromUrl = (value) => {
+  if (!value) return null
+  const tryParse = (candidate) => {
+    try {
+      const parsed = new URL(candidate)
+      return parsed.origin
+    } catch {
+      return null
+    }
+  }
+
+  return tryParse(value) ?? tryParse(`https://${value}`)
+}
+
+// Permite automáticamente el mismo dominio configurado para Swagger (docs).
+const swaggerOrigin = originFromUrl(process.env.SWAGGER_SERVER_URL)
+if (swaggerOrigin) addExactOrigin(swaggerOrigin)
+
+const isOriginAllowed = (origin) => {
+  if (ALLOW_ALL_ORIGINS || !origin) return true
+  const normalized = normalizeOriginValue(origin)
+  if (EXACT_ALLOWED_ORIGINS.has(normalized)) return true
   return WILDCARD_ORIGIN_REGEXPS.some(regex => regex.test(normalized))
 }
 

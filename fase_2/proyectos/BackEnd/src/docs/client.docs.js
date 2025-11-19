@@ -38,7 +38,7 @@
  *     parameters:
  *       - in: query
  *         name: search
- *         schema: { type: string }
+ *         schema: { type: string, example: "Fabricio" }
  *     responses:
  *       200:
  *         description: Lista de clientes

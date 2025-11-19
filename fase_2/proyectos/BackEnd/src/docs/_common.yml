@@ -4,7 +4,10 @@ components:
       in: path
       name: id
       required: true
-      schema: { type: string, format: uuid }
+      schema:
+        type: string
+        format: uuid
+        example: "0e9e6f02-5a8e-4055-955e-c5b704d73fb0"
     ExportMode:
       in: query
       name: mode

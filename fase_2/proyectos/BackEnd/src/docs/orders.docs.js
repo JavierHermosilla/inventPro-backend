@@ -45,16 +45,16 @@
  *     parameters:
  *       - in: query
  *         name: page
- *         schema: { type: integer, minimum: 1 }
+ *         schema: { type: integer, minimum: 1, example: 1 }
  *       - in: query
  *         name: limit
- *         schema: { type: integer, minimum: 1, maximum: 100 }
+ *         schema: { type: integer, minimum: 1, maximum: 100, example: 20 }
  *       - in: query
  *         name: status
- *         schema: { type: string, enum: [pending, processing, completed, cancelled] }
+ *         schema: { type: string, enum: [pending, processing, completed, cancelled], example: "processing" }
  *       - in: query
  *         name: clientId
- *         schema: { type: string, format: uuid }
+ *         schema: { type: string, format: uuid, example: "0e9e6f02-5a8e-4055-955e-c5b704d73fb0" }
  *     responses:
  *       200: { description: Lista de órdenes }
  *   post:
@@ -138,7 +138,10 @@
  *       - in: path
  *         name: itemId
  *         required: true
- *         schema: { type: string, format: uuid }
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *           example: "f66ac286-2869-45ba-85d3-ead2450c30c8"
  *     requestBody:
  *       required: true
  *       content:

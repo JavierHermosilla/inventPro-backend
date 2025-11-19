@@ -40,16 +40,16 @@
  *     parameters:
  *       - in: query
  *         name: page
- *         schema: { type: integer, minimum: 1 }
+ *         schema: { type: integer, minimum: 1, example: 1 }
  *       - in: query
  *         name: limit
- *         schema: { type: integer, minimum: 1, maximum: 100 }
+ *         schema: { type: integer, minimum: 1, maximum: 100, example: 50 }
  *       - in: query
  *         name: search
- *         schema: { type: string }
+ *         schema: { type: string, example: "inventario" }
  *       - in: query
  *         name: categoryId
- *         schema: { type: string, format: uuid }
+ *         schema: { type: string, format: uuid, example: "12a52eea-cc5c-4f33-9f0f-0c8a6c1931e9" }
  *     responses:
  *       200:
  *         description: Lista de productos

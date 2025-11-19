@@ -3,6 +3,7 @@ import type { ConfigContext, ExpoConfig } from "@expo/config";
 const APP_NAME = "MobileManualInventory";
 const DEFAULT_API_URL = "http://10.0.2.2:3000/api";
 const DEFAULT_POLLING_MS = 20000;
+const DEFAULT_EAS_PROJECT_ID = "c87e7ca0-55d5-415c-a8fe-a0918b1482aa";
 
 const parseBoolean = (value: string | undefined, fallback: boolean) => {
   if (value === undefined) return fallback;
@@ -79,7 +80,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       useMocks,
       tasksPollingMs,
       eas: {
-        projectId: process.env.EXPO_PROJECT_ID,
+        projectId: process.env.EXPO_PROJECT_ID ?? DEFAULT_EAS_PROJECT_ID,
       },
     },
   };

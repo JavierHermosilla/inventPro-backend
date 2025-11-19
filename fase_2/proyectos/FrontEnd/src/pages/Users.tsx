@@ -309,6 +309,7 @@ export default function UsersPage() {
           <div>
             <p className="font-semibold text-gray-900">{user.name}</p>
             <p className="text-xs text-gray-500">@{user.username}</p>
+            <p className="text-[11px] text-gray-400 break-all">ID: {user.id}</p>
           </div>
         ),
       },

@@ -546,7 +546,7 @@ const DashboardPage = () => {
     } catch (err) {
       if (!isMountedRef.current) return;
       console.error("[dashboard] fetch error", err);
-      setError("No se pudieron cargar los datos del dashboard. Verifique la conexion al backend o su sesion.");
+      setError("No se pudieron cargar los datos del dashboard. Verifique la conexión al backend o su sesión.");
     } finally {
       if (isMountedRef.current) {
         setLoading(false);
@@ -595,9 +595,9 @@ const DashboardPage = () => {
     if (!isMountedRef.current || isLoggingOut) return;
 
     const confirmed = await confirmAction({
-      title: "Cerrar sesion",
-      text: "Estas seguro de que deseas cerrar tu sesion",
-      confirmButtonText: "Si, cerrar sesion",
+      title: "Cerrar sesión",
+      text: "¿Estás seguro de que deseas cerrar tu sesión?",
+      confirmButtonText: "Sí, cerrar sesión",
     });
 
     if (!confirmed) return;
@@ -611,23 +611,23 @@ const DashboardPage = () => {
 
       await showSuccess({
         title: "Sesion cerrada",
-        text: "Has cerrado sesion correctamente.",
-        confirmButtonText: "Ir a iniciar sesion",
+        text: "Has cerrado sesión correctamente.",
+        confirmButtonText: "Ir a iniciar sesión",
       });
 
       if (!isMountedRef.current) return;
       navigate("/login", { replace: true });
     } catch (err) {
-      console.error("Error al cerrar sesion:", err);
+      console.error("Error al cerrar sesión:", err);
       const message =
         err instanceof Error && err.message.trim().length > 0
           ? err.message
-          : "No se pudo cerrar la sesion. Intenta nuevamente.";
+          : "No se pudo cerrar la sesión. Intenta nuevamente.";
       if (isMountedRef.current) {
         setLogoutError(message);
       }
       await showError({
-        title: "Error al cerrar sesion",
+        title: "Error al cerrar sesión",
         text: message,
       });
     } finally {
@@ -742,7 +742,7 @@ const DashboardPage = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-500 dark:text-blue-300">Panel principal</p>
             <h1 className="mt-2 text-3xl font-bold text-slate-900 dark:text-slate-100 md:text-4xl">Hola, {userDisplayName}</h1>
             <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-              Rol actual: <span className="font-semibold text-blue-600 dark:text-blue-300">{userRoleLabel}</span>. Gestiona tu inventario y pedidos desde aqui.
+            Rol actual: <span className="font-semibold text-blue-600 dark:text-blue-300">{userRoleLabel}</span>. Gestiona tu inventario y pedidos desde aquí.
             </p>
             {isWarehouse ? (
               <p className="text-xs font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-200">
@@ -773,7 +773,7 @@ const DashboardPage = () => {
                   disabled={isLoggingOut}
                   className="inline-flex justify-center rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                {isLoggingOut ? "Cerrando..." : "Cerrar sesion"}
+                {isLoggingOut ? "Cerrando..." : "Cerrar sesión"}
               </button>
               {logoutError ? <p className="text-center text-xs text-red-600">{logoutError}</p> : null}
             </div>

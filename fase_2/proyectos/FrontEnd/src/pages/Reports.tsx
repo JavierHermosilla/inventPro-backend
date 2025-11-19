@@ -932,7 +932,7 @@ export default function ReportsPage() {
       {activeTab === 'mis' && (
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">Gestion de reportes</h1>
+          <h1 className="text-2xl font-semibold text-slate-900">Gestión de reportes</h1>
           <p className="text-sm text-slate-500">
             Usa el calendario y los filtros exactos que consume el backend para asegurar reportes consistentes.
           </p>
@@ -1246,7 +1246,7 @@ export default function ReportsPage() {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <h3 className="text-base font-semibold text-slate-800">{report.name}</h3>
-                        <p className="text-sm text-slate-500">{report.description || "Sin descripcion"}</p>
+                        <p className="text-sm text-slate-500">{report.description || "Sin descripción"}</p>
                       </div>
                       <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusClass}`}>
                         {REPORT_STATUS_OPTIONS.find((option) => option.value === report.status)?.label ?? report.status}

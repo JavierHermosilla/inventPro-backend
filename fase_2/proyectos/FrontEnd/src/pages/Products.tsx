@@ -61,12 +61,6 @@ const extractErrorMessage = (err: unknown, fallback: string) => {
   }
   return fallback;
 };
-const shortId = (id: string | number) => {
-  const raw = String(id);
-  if (raw.length <= 8) return raw.toUpperCase();
-  return raw.slice(0, 4).toUpperCase() + "..." + raw.slice(-4).toUpperCase();
-};
-
 const parseCurrencyInput = (value: string): number | null => {
   if (value.trim() === "") return null;
   const numeric = Number(value);
@@ -493,7 +487,7 @@ export default function Products() {
               <tbody className="divide-y divide-gray-200 bg-white text-sm text-gray-700">
                 {filteredItems.map((item) => (
                   <tr key={item.id} className="transition hover:bg-gray-50">
-                    <td className="px-4 py-3 font-mono text-xs text-gray-500">{shortId(item.id)}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-gray-500 break-all">{String(item.id).toUpperCase()}</td>
                     <td className="px-4 py-3 font-semibold text-gray-900">{item.nombre}</td>
                     <td className="px-4 py-3">{formatCategoryName(item.categoryName)}</td>
                     <td className="px-4 py-3">{item.supplierName ?? "Sin proveedor"}</td>

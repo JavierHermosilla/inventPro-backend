@@ -866,7 +866,7 @@ const DashboardPage = () => {
           </div>
 
           {orderStatusStats.total > 0 ? (
-            <div className="mt-auto flex items-end gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-800/40">
+            <div className="mt-4 flex-1 flex items-end gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-800/40 min-h-[120px]">
               {orderStatusStats.entries.map((entry) => (
                 <div key={entry.id} className="flex-1">
                   <div

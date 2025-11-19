@@ -4,6 +4,17 @@ import User from '../models/user.model.js'
 import { Op, col } from 'sequelize'
 import logger from '../utils/logger.js'
 
+const ALLOWED_STATUSES = ['active', 'archived', 'draft']
+const ALLOWED_FORMATS = ['pdf', 'xls', 'dashboard']
+
+const normalizeString = (value) => (typeof value === 'string' ? value.trim().toLowerCase() : '')
+
+const createBadRequestError = (message) => {
+  const err = new Error(message)
+  err.status = 400
+  return err
+}
+
 export const listReports = async ({ page = 1, limit = 10, search, status, type }) => {
   try {
     const pageInt = Math.max(parseInt(page, 10) || 1, 1)
@@ -11,8 +22,22 @@ export const listReports = async ({ page = 1, limit = 10, search, status, type }
     const offset = (pageInt - 1) * limitInt
 
     const where = {}
-    if (status) where.status = status
-    if (type) where.type = type
+    const normalizedStatus = normalizeString(status)
+    if (normalizedStatus) {
+      if (!ALLOWED_STATUSES.includes(normalizedStatus)) {
+        throw createBadRequestError(`Filtro de estado inválido. Valores permitidos: ${ALLOWED_STATUSES.join(', ')}`)
+      }
+      where.status = normalizedStatus
+    }
+
+    const normalizedType = normalizeString(type)
+    if (normalizedType) {
+      if (!ALLOWED_FORMATS.includes(normalizedType)) {
+        throw createBadRequestError(`Filtro de formato inválido. Valores permitidos: ${ALLOWED_FORMATS.join(', ')}`)
+      }
+      where.format = normalizedType
+    }
+
     if (search) where.name = { [Op.iLike]: `%${search}%` }
 
     const { count, rows } = await Report.findAndCountAll({

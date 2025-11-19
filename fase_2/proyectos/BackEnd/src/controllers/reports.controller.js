@@ -32,8 +32,12 @@ export const getReports = async (req, res) => {
     const data = await listReports(req.query)
     res.json(data)
   } catch (err) {
+    if (err.status && err.status >= 400 && err.status < 500) {
+      logger.warn(`Invalid reports query: ${err.message}`)
+      return res.status(err.status).json({ error: err.message })
+    }
     logger.error(`Error fetching reports: ${err.message}`, { stack: err.stack })
-    res.status(500).json({ error: err.message })
+    return res.status(500).json({ error: err.message })
   }
 }
 

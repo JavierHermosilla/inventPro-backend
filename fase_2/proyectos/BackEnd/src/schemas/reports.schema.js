@@ -15,7 +15,7 @@ const scheduleSchema = z.preprocess((value) => {
   }
 }, baseScheduleSchema).optional()
 
-const filtersSchema = z.record(z.any()).optional()
+const filtersSchema = z.record(z.string(), z.any()).optional()
 
 export const createReportSchema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),

@@ -14,19 +14,22 @@
  *       properties:
  *         id:     { type: string, format: uuid }
  *         name:   { type: string }
- *         rut:    { type: string, example: "12.345.678-5" }
- *         email:  { type: string, format: email, nullable: true }
- *         phone:  { type: string, nullable: true }
+ *         rut:    { type: string, example: "12345678-5" }
+ *         email:  { type: string, format: email }
+ *         phone:  { type: string, example: "+56912345678" }
+ *         address:{ type: string, example: "Av. Libertador 1234, Santiago" }
  *         createdAt: { type: string, format: date-time }
  *         updatedAt: { type: string, format: date-time }
  *     CreateClientInput:
  *       type: object
- *       required: [name, rut]
+ *       required: [name, rut, email, phone, address]
  *       properties:
- *         name:  { type: string }
- *         rut:   { type: string, description: "RUT válido" }
- *         email: { type: string, format: email }
- *         phone: { type: string }
+ *         name:  { type: string, example: "Cliente Demo" }
+ *         rut:   { type: string, description: "RUT válido sin puntos", example: "12345678-5" }
+ *         email: { type: string, format: email, example: "cliente.demo@example.com" }
+ *         phone: { type: string, example: "+56912345678" }
+ *         address: { type: string, example: "Av. Siempre Viva 742" }
+ *         avatar: { type: string, format: uri, example: "https://cdn.inventpro.cl/avatars/demo.png" }
  */
 
 /**
@@ -49,7 +52,15 @@
  *       required: true
  *       content:
  *         application/json:
- *           schema: { $ref: '#/components/schemas/CreateClientInput' }
+ *           schema:
+ *             allOf:
+ *               - $ref: '#/components/schemas/CreateClientInput'
+ *             example:
+ *               name: "Cliente Demo"
+ *               rut: "12345678-5"
+ *               email: "cliente.demo@example.com"
+ *               phone: "+56912345678"
+ *               address: "Av. Siempre Viva 742"
  *     responses:
  *       201:
  *         description: Cliente creado
@@ -77,7 +88,15 @@
  *       required: true
  *       content:
  *         application/json:
- *           schema: { $ref: '#/components/schemas/CreateClientInput' }
+ *           schema:
+ *             allOf:
+ *               - $ref: '#/components/schemas/CreateClientInput'
+ *             example:
+ *               name: "Cliente Actualizado"
+ *               rut: "12345678-5"
+ *               email: "cliente@example.com"
+ *               phone: "+56912345678"
+ *               address: "Nueva dirección 123"
  *     responses:
  *       200:
  *         description: Actualizado

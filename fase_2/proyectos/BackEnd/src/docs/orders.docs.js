@@ -128,15 +128,3 @@
  *     responses:
  *       204: { description: Eliminada }
  */
-
-/**
- * @swagger
- * /orders/{id}/items:
- *   delete:
- *     tags: [Orders]
- *     summary: Eliminar orden (restaura stock)
- *     parameters:
- *       - $ref: '#/components/parameters/UUIDId'
- *     responses:
- *       204: { description: Eliminada }
- */

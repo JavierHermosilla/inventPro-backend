@@ -104,9 +104,9 @@
  *     responses:
  *       200: { description: Orden }
  *       404: { description: No encontrada }
- *   put:
+ *   patch:
  *     tags: [Orders]
- *     summary: Actualizar orden (estado, notas)
+ *     summary: Actualizar estado de la orden
  *     parameters:
  *       - $ref: '#/components/parameters/UUIDId'
  *     requestBody:
@@ -115,6 +115,9 @@
  *         application/json:
  *           schema:
  *             type: object
+ *             required: [status]
+ *             properties:
+ *               status: { type: string, enum: [pending, processing, completed, cancelled], example: "processing" }
  *     responses:
  *       200: { description: Orden actualizada }
  *   delete:

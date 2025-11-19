@@ -3,6 +3,7 @@ import type { ConfigContext, ExpoConfig } from "@expo/config";
 const APP_NAME = "MobileManualInventory";
 const DEFAULT_API_URL = "http://10.0.2.2:3000/api";
 const DEFAULT_POLLING_MS = 20000;
+const EXPO_OWNER = "javieer1234";
 const DEFAULT_EAS_PROJECT_ID = "c87e7ca0-55d5-415c-a8fe-a0918b1482aa";
 
 const parseBoolean = (value: string | undefined, fallback: boolean) => {
@@ -23,6 +24,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
 
   return {
     ...config,
+    owner: EXPO_OWNER,
     name: APP_NAME,
     slug: "MobileManualInventory",
     version: "1.0.0",

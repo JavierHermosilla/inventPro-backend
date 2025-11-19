@@ -14,14 +14,16 @@
         "simulator": true
       },
       "env": {
-        "EXPO_PUBLIC_USE_API_MOCKS": "false"
+        "EXPO_PUBLIC_USE_API_MOCKS": "false",
+        "EAS_PROJECT_ROOT": "fase_2/proyectos/MobileManualInventory"
       }
     },
     "production": {
       "developmentClient": false,
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_USE_API_MOCKS": "false"
+        "EXPO_PUBLIC_USE_API_MOCKS": "false",
+        "EAS_PROJECT_ROOT": "fase_2/proyectos/MobileManualInventory"
       }
     }
   },

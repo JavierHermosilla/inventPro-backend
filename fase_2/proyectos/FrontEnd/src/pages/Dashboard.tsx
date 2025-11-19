@@ -587,8 +587,8 @@ const DashboardPage = () => {
       color: STATUS_COLORS[key] ?? STATUS_COLORS.other,
     }));
 
-    const max = Math.max(...entries.map((entry) => entry.value), 1);
-    return { entries, max, total: recentOrders.length };
+    const total = recentOrders.length;
+    return { entries, total: total === 0 ? 1 : total };
   }, [recentOrders]);
 
   const handleLogout = useCallback(async () => {
@@ -866,14 +866,14 @@ const DashboardPage = () => {
           </div>
 
           {orderStatusStats.total > 0 ? (
-            <div className="mt-4 flex-1 flex items-end gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-800/40 min-h-[120px]">
+            <div className="mt-4 flex-1 h-44 min-h-[160px] flex items-end gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-800/40">
               {orderStatusStats.entries.map((entry) => (
                 <div key={entry.id} className="flex-1">
                   <div
                     className={`rounded-t-lg ${entry.color} transition-all`}
                     style={{
-                      height: `${(entry.value / orderStatusStats.max) * 100}%`,
-                      minHeight: entry.value > 0 ? "16px" : "6px",
+                      height: `${Math.max((entry.value / orderStatusStats.total) * 100, entry.value > 0 ? 12 : 6)}%`,
+                      minHeight: entry.value > 0 ? "18px" : "8px",
                     }}
                   />
                   <div className="mt-2 text-center text-xs text-slate-500 dark:text-slate-300">

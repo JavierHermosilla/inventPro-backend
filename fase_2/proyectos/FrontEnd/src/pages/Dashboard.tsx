@@ -853,7 +853,7 @@ const DashboardPage = () => {
           )}
         </section>
 
-        <aside className={`${cardClass} md:p-8`}>
+        <aside className={`${cardClass} md:p-8 flex flex-col`}>
           <div className="flex items-center justify-between">
             <div>
               <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Estado de ordenes</h2>
@@ -866,7 +866,7 @@ const DashboardPage = () => {
           </div>
 
           {orderStatusStats.total > 0 ? (
-            <div className="mt-6 flex items-end gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-800/40">
+            <div className="mt-auto flex items-end gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-800/40">
               {orderStatusStats.entries.map((entry) => (
                 <div key={entry.id} className="flex-1">
                   <div

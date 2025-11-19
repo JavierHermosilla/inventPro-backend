@@ -32,10 +32,17 @@ export const listReports = async ({ page = 1, limit = 10, search, status, type }
 
     const normalizedType = normalizeString(type)
     if (normalizedType) {
-      if (!ALLOWED_FORMATS.includes(normalizedType)) {
+      // Si coincide con alguno de los estados permitidos, asumimos que el usuario lo puso en el filtro equivocado
+      if (ALLOWED_STATUSES.includes(normalizedType)) {
+        if (normalizedStatus && normalizedStatus !== normalizedType) {
+          throw createBadRequestError(`Combinación de filtros inválida. Usa 'status=${normalizedStatus}' y 'type=${ALLOWED_FORMATS.join(', ')}'.`)
+        }
+        where.status = normalizedType
+      } else if (ALLOWED_FORMATS.includes(normalizedType)) {
+        where.format = normalizedType
+      } else {
         throw createBadRequestError(`Filtro de formato inválido. Valores permitidos: ${ALLOWED_FORMATS.join(', ')}`)
       }
-      where.format = normalizedType
     }
 
     if (search) where.name = { [Op.iLike]: `%${search}%` }

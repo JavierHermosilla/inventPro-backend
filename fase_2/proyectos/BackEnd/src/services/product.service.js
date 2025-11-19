@@ -152,11 +152,12 @@ export async function listProductsService (params = {}) {
         ]
       })
     } else {
+      const pattern = `%${s}%`
       and.push({
         [Op.or]: [
-          { [col('Product.name')]: { [Op.iLike]: `%${s}%` } },
-          { '$category.name$': { [Op.iLike]: `%${s}%` } },
-          { '$supplier.name$': { [Op.iLike]: `%${s}%` } }
+          sqWhere(col('Product.name'), { [Op.iLike]: pattern }),
+          sqWhere(col('category.name'), { [Op.iLike]: pattern }),
+          sqWhere(col('supplier.name'), { [Op.iLike]: pattern })
         ]
       })
     }

@@ -221,6 +221,7 @@ export default function ClientsPage() {
           <div>
             <p className="font-semibold text-gray-900">{row.name}</p>
             <p className="text-xs text-gray-400">RUT: {row.rut}</p>
+            <p className="text-[11px] text-gray-400 break-all">ID: {row.id}</p>
           </div>
         ),
       },

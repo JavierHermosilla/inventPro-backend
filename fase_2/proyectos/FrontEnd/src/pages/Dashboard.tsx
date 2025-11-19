@@ -91,6 +91,14 @@ const CATEGORY_COLOR_CLASSES = [
   "bg-fuchsia-500",
 ];
 
+const STATUS_COLORS: Record<OrderStatus | "other", string> = {
+  completed: "bg-emerald-500",
+  processing: "bg-blue-500",
+  pending: "bg-amber-500",
+  cancelled: "bg-rose-500",
+  other: "bg-slate-400",
+};
+
 const DEFAULT_KPIS: KpiData = {
   totalProducts: 0,
   lowStockItems: 0,
@@ -555,6 +563,34 @@ const DashboardPage = () => {
     return () => clearInterval(timer);
   }, []);
 
+  const orderStatusStats = useMemo(() => {
+    const counts: Record<OrderStatus | "other", number> = {
+      completed: 0,
+      processing: 0,
+      pending: 0,
+      cancelled: 0,
+      other: 0,
+    };
+
+    recentOrders.forEach((order) => {
+      if (counts[order.status] !== undefined) {
+        counts[order.status] += 1;
+      } else {
+        counts.other += 1;
+      }
+    });
+
+    const entries = (Object.keys(counts) as Array<keyof typeof counts>).map((key) => ({
+      id: key,
+      label: getStatusLabel(key as OrderStatus),
+      value: counts[key],
+      color: STATUS_COLORS[key] ?? STATUS_COLORS.other,
+    }));
+
+    const max = Math.max(...entries.map((entry) => entry.value), 1);
+    return { entries, max, total: recentOrders.length };
+  }, [recentOrders]);
+
   const handleLogout = useCallback(async () => {
     if (!isMountedRef.current || isLoggingOut) return;
 
@@ -816,6 +852,43 @@ const DashboardPage = () => {
             </p>
           )}
         </section>
+
+        <aside className={`${cardClass} md:p-8`}>
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Estado de ordenes</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-300">Resumen segun ultimas ordenes.</p>
+            </div>
+            <div className="text-right">
+              <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{orderStatusStats.total}</p>
+              <p className="text-[11px] uppercase tracking-wide text-slate-400 dark:text-slate-300">ordenes</p>
+            </div>
+          </div>
+
+          {orderStatusStats.total > 0 ? (
+            <div className="mt-6 flex items-end gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-800/40">
+              {orderStatusStats.entries.map((entry) => (
+                <div key={entry.id} className="flex-1">
+                  <div
+                    className={`rounded-t-lg ${entry.color} transition-all`}
+                    style={{
+                      height: `${(entry.value / orderStatusStats.max) * 100}%`,
+                      minHeight: entry.value > 0 ? "16px" : "6px",
+                    }}
+                  />
+                  <div className="mt-2 text-center text-xs text-slate-500 dark:text-slate-300">
+                    <p className="font-semibold text-slate-800 dark:text-slate-100">{entry.value}</p>
+                    <p className="capitalize">{entry.label}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-4 rounded-xl border border-dashed p-6 text-center text-sm text-slate-500 dark:border-slate-600 dark:bg-slate-800/40 dark:text-slate-300">
+              Aun no hay ordenes para graficar.
+            </p>
+          )}
+        </aside>
 
       </div>
 

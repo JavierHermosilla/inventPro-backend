@@ -125,10 +125,10 @@ export const refresh = async (req, res) => {
 
     const access = await signAccessToken({ id: decoded.id, role: decoded.role })
 
-    // (Opcional) Rotación de refresh para mayor seguridad:
-    // const newRt = await signRefreshToken({ id: decoded.id, role: decoded.role })
-    // res.cookie('refresh_token', newRt, refreshCookieOpts)
-    // Revocar jti anterior en whitelist si la usas
+    // Rotación de refresh para mantener sesiones activas mientras haya actividad
+    const newRt = await signRefreshToken({ id: decoded.id, role: decoded.role })
+    res.cookie('refresh_token', newRt, refreshCookieOpts)
+    // Si usas whitelist/jti, aquí deberías invalidar el token anterior
 
     return res.json({ token: access })
   } catch {

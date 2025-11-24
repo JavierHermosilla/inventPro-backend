@@ -1,0 +1,10 @@
+# Ignora contenido ajeno a la app móvil en builds desde GitHub
+fase_1/**
+fase_2/Evidencia_Grupal/**
+fase_2/Evidencia_Individual/**
+fase_2/proyectos/BackEnd/**
+fase_2/proyectos/FrontEnd/**
+
+# Ignora dependencias y cachés
+**/node_modules
+**/.expo

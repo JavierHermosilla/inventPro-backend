@@ -9,7 +9,7 @@
     "dev": "nodemon src/server.js",
     "lint": "standard",
     "lint:fix": "standard --fix",
-    "test": "cross-env NODE_ENV=test jest --detectOpenHandles --forceExit",
+    "test": "cross-env NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest --runInBand --testTimeout=30000 --detectOpenHandles --forceExit",
     "db:reset": "node ./scripts/db-reset.cjs",
     "db:migrate": "sequelize-cli db:migrate --config config/config.cjs",
     "db:migrate:undo": "sequelize-cli db:migrate:undo --config config/config.cjs",
@@ -18,15 +18,6 @@
     "db:seed:undo": "sequelize-cli db:seed:undo --config config/config.cjs",
     "smoke": "powershell -ExecutionPolicy Bypass -File ./scripts/smoke.ps1",
     "db:smoke": "psql -h 127.0.0.1 -U inventpro_user -d inventpro -f scripts/smoke-db_v2.sql"
-  },
-  "jest": {
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/test/jest.setup.js"
-    ],
-    "testEnvironment": "node",
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    }
   },
   "babel": {
     "presets": [

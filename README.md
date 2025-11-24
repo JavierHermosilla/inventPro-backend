@@ -343,8 +343,9 @@ curl http://localhost:3000/api/users \
 
 ## 🧪 Pruebas (si aplica en tu repo)
 
-* Ejecuta `npm test` (si tu proyecto incluye tests configurados).
-* Para **entorno de test**, asegúrate de un `.env.test` y de que la BD de prueba esté configurada.
+* Ejecuta `npm test`. Levanta un PostgreSQL efímero con Testcontainers (requiere Docker corriendo y acceso a la imagen `postgres:16-alpine`).
+* Las suites actuales cubren constraints de clientes y el flujo completo de **manual inventory** (altas, bajas, listados, permisos).
+* No necesitas `.env.test`; los secretos básicos (`JWT_SECRET`, credenciales DB) se inyectan en tiempo de prueba.
 
 ---
 
@@ -429,5 +430,4 @@ Usa `SWAGGER_USER` / `SWAGGER_PASS` del `.env`.
 Proyecto académico MIT.
 
 ---
-
 

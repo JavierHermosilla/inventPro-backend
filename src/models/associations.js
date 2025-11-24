@@ -10,10 +10,7 @@ import Client from './client.model.js'
 import Report from './reports.model.js'
 
 // Usa el esquema dinámico (test → "test"; de lo contrario, respeta DB_SCHEMA si viene definido)
-const schema =
-  process.env.NODE_ENV === 'test'
-    ? 'test'
-    : (process.env.DB_SCHEMA || undefined)
+const schema = process.env.DB_SCHEMA || undefined
 
 // ==========================
 // Supplier ↔ Category (M:N)

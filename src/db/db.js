@@ -1,6 +1,5 @@
 // 📦 src/db/db.js
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 import dotenv from 'dotenv'
 import { Sequelize } from 'sequelize'
 
@@ -16,17 +15,12 @@ import Report from '../models/reports.model.js'
 import Client from '../models/client.model.js'
 
 // ------- Carga robusta de .env (independiente del cwd) -------
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
 const candidateEnvPaths = [
-  // 1) BackEnd/.env  (estando en src/db/db.js)
-  path.resolve(__dirname, '../.env'),
-  // 2) fase_2/.env
-  path.resolve(__dirname, '../../.env'),
-  // 3) cwd/.env (por si corres desde otra ruta)
+  // 1) src/.env
+  path.resolve(process.cwd(), 'src/.env'),
+  // 2) repo/.env
   path.resolve(process.cwd(), '.env'),
-  // 4) Respeta DOTENV_CONFIG_PATH si lo defines en scripts
+  // 3) Respeta DOTENV_CONFIG_PATH si lo defines en scripts
   process.env.DOTENV_CONFIG_PATH
 ].filter(Boolean)
 
@@ -47,10 +41,7 @@ if (!loadedFrom) {
 }
 
 // ------- Esquema según ambiente -------
-const DB_SCHEMA =
-  process.env.NODE_ENV === 'test'
-    ? 'test'
-    : (process.env.DB_SCHEMA || 'inventpro_user')
+const DB_SCHEMA = process.env.DB_SCHEMA || 'inventpro_user'
 
 // ------- Validación de variables de entorno críticas -------
 const REQUIRED = ['DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST', 'DB_PORT']

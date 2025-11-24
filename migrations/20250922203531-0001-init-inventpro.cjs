@@ -289,10 +289,26 @@ END $$;
       }
     )
 
-    await queryInterface.addConstraint(
-      { tableName: 'SupplierCategories', schema },
-      { type: 'primary key', fields: ['supplier_id', 'category_id'], name: 'pk_supplier_categories' }
-    )
+    // Evita fallo por PK existente si la migración se reejecuta
+    await queryInterface.sequelize.query(`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1
+          FROM pg_constraint c
+          JOIN pg_class t ON t.oid = c.conrelid
+          JOIN pg_namespace n ON n.oid = t.relnamespace
+          WHERE c.conname = 'pk_supplier_categories'
+            AND n.nspname = '${schema}'
+            AND t.relname = 'SupplierCategories'
+        ) THEN
+          ALTER TABLE "${schema}"."SupplierCategories"
+          ADD CONSTRAINT "pk_supplier_categories"
+          PRIMARY KEY ("supplier_id", "category_id");
+        END IF;
+      END
+      $$;
+    `)
 
     // === Índices útiles (no duplicar los UNIQUE ya definidos en createTable) ===
 

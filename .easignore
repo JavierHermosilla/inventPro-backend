@@ -1,10 +1,12 @@
-# Ignora contenido ajeno a la app móvil en builds desde GitHub
-fase_1/**
-fase_2/Evidencia_Grupal/**
-fase_2/Evidencia_Individual/**
-fase_2/proyectos/BackEnd/**
-fase_2/proyectos/FrontEnd/**
+# Excluir todo por defecto y luego permitir solo la app móvil
+*
 
-# Ignora dependencias y cachés
+!.easignore
+!eas.json
+!fase_2/
+!fase_2/proyectos/
+!fase_2/proyectos/MobileManualInventory/**
+
+# Ignora dependencias y cachés incluso dentro del allowlist
 **/node_modules
 **/.expo

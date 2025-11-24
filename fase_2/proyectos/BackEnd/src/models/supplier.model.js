@@ -1,4 +1,3 @@
-// src/models/reports.model.js
 import { DataTypes, Model } from 'sequelize'
 
 class Supplier extends Model {

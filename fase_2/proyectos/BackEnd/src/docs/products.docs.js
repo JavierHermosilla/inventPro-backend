@@ -29,8 +29,6 @@
  *         price:       { type: number, format: float, minimum: 0 }
  *         stock:       { type: integer }
  *         categoryId:  { type: string, format: uuid }
- *         supplierId:  { type: string, format: uuid, description: "Proveedor dueño del producto (usar junto a categoryId)" }
- *         supplierRut: { type: string, description: "Alternativa a supplierId. Envía solo uno de los dos." }
  */
 
 /**
@@ -42,37 +40,27 @@
  *     parameters:
  *       - in: query
  *         name: page
- *         schema: { type: integer, minimum: 1, example: 1 }
+ *         schema: { type: integer, minimum: 1 }
  *       - in: query
  *         name: limit
- *         schema: { type: integer, minimum: 1, maximum: 100, example: 50 }
+ *         schema: { type: integer, minimum: 1, maximum: 100 }
  *       - in: query
  *         name: search
- *         schema: { type: string, example: "inventario" }
+ *         schema: { type: string }
  *       - in: query
  *         name: categoryId
- *         schema: { type: string, format: uuid, example: "12a52eea-cc5c-4f33-9f0f-0c8a6c1931e9" }
+ *         schema: { type: string, format: uuid }
  *     responses:
  *       200:
  *         description: Lista de productos
  *   post:
  *     tags: [Products]
  *     summary: Crear producto (admin)
- *     description: Debes indicar `supplierId` **o** `supplierRut` (al menos uno) además del resto de campos obligatorios.
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             allOf:
- *               - $ref: '#/components/schemas/CreateProductInput'
- *             example:
- *               name: "Zapatilla Inventario"
- *               description: "Modelo edición limitada"
- *               price: 49990
- *               stock: 50
- *               categoryId: "12a52eea-cc5c-4f33-9f0f-0c8a6c1931e9"
- *               supplierId: "f1884cb9-4961-4722-bf3d-8e2f73f34a7b"
+ *           schema: { $ref: '#/components/schemas/CreateProductInput' }
  *     responses:
  *       201:
  *         description: Producto creado
@@ -100,16 +88,7 @@
  *       required: true
  *       content:
  *         application/json:
- *           schema:
- *             allOf:
- *               - $ref: '#/components/schemas/CreateProductInput'
- *             example:
- *               name: "Zapatilla Inventario PRO"
- *               description: "Versión 2025"
- *               price: 54990
- *               stock: 80
- *               categoryId: "12a52eea-cc5c-4f33-9f0f-0c8a6c1931e9"
- *               supplierRut: "76.543.210-9"
+ *           schema: { $ref: '#/components/schemas/CreateProductInput' }
  *     responses:
  *       200:
  *         description: Producto actualizado

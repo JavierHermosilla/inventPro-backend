@@ -38,37 +38,34 @@ function DataTable<T extends { id?: string | number }>({
   }
 
   return (
-    <div className="bg-white rounded-xl shadow overflow-x-auto dark:bg-slate-900 dark:text-slate-100">
-      <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
-        <thead className="bg-gray-50 dark:bg-slate-800">
+    <div className="bg-white rounded-xl shadow overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead className="bg-gray-50">
           <tr>
             {columns.map((column) => (
               <th
                 key={String(column.key)}
-                className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider dark:text-slate-200"
+                className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
               >
                 {column.header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200 dark:bg-slate-900 dark:divide-slate-800">
+        <tbody className="bg-white divide-y divide-gray-200">
           {data.length === 0 ? (
             <tr>
-              <td className="px-4 py-6 text-center text-gray-500 dark:text-slate-300" colSpan={columns.length}>
+              <td className="px-4 py-6 text-center text-gray-500" colSpan={columns.length}>
                 {emptyMessage}
               </td>
             </tr>
           ) : (
             data.map((row, index) => (
-              <tr
-                key={(row.id ?? index) as Key}
-                className="hover:bg-gray-50 dark:hover:bg-slate-800/80"
-              >
+              <tr key={(row.id ?? index) as Key} className="hover:bg-gray-50">
                 {columns.map((column) => (
                   <td
                     key={String(column.key)}
-                    className={`px-4 py-3 text-sm text-gray-700 dark:text-slate-100 ${column.className ?? ""}`}
+                    className={`px-4 py-3 text-sm text-gray-700 ${column.className ?? ""}`}
                   >
                     {resolveCellValue(row, column)}
                   </td>
@@ -83,3 +80,4 @@ function DataTable<T extends { id?: string | number }>({
 }
 
 export default DataTable;
+

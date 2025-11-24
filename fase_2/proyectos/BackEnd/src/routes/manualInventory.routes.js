@@ -1,4 +1,3 @@
-// src/routes/manualInventory.routes.js
 import { Router } from 'express'
 import {
   createManualInventory,
@@ -18,8 +17,12 @@ const router = Router()
 router.post(
   '/',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole('admin'),
   validateSchema(createManualInventorySchema),
+  (req, res, next) => {
+    console.log('Entré a manualInventoryRoutes')
+    next()
+  },
   createManualInventory
 )
 
@@ -27,7 +30,7 @@ router.post(
 router.get(
   '/',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole('admin'),
   getAllManualInventories
 )
 
@@ -35,7 +38,7 @@ router.get(
 router.get(
   '/:id',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole('admin'),
   validateUUID('id'),
   manualInventoryById
 )
@@ -44,7 +47,7 @@ router.get(
 router.delete(
   '/:id',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero'),
+  requireRole('admin'),
   validateUUID('id'),
   deleteManualInventory
 )

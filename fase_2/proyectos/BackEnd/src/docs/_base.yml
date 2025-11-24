@@ -24,7 +24,6 @@ tags:
   - name: ManualInventory
   - name: Reports
   - name: Dashboard
-  - name: Exports
 
 components:
   securitySchemes:
@@ -32,6 +31,5 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-
 security:
   - bearerAuth: []

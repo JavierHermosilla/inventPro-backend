@@ -1,17 +1,10 @@
 // src/services/product.service.js
-import { Op, fn, col, where as sqWhere } from 'sequelize'
-import { models } from '../models/index.js'
+import { Op } from 'sequelize'
+import Product from '../models/product.model.js'
+import Category from '../models/category.model.js'
+import Supplier from '../models/supplier.model.js'
 
-const { Product, Category, Supplier } = models
-
-// Activa modo acentos-insensible si en .env: SEARCH_ACCENT_INSENSITIVE=true
-// En Postgres: CREATE EXTENSION IF NOT EXISTS unaccent;
-const ACCENT_INSENSITIVE = String(process.env.SEARCH_ACCENT_INSENSITIVE || 'false').toLowerCase() === 'true'
-
-/** Quita tildes a nivel JS (fallback para construir patrón) */
-const deaccent = (s = '') => s.normalize('NFD').replace(/\p{Diacritic}/gu, '')
-
-// ---------- mapper de salida pública ----------
+// --- Mapper para sanitizar salida pública ---
 function sanitizeProduct (p) {
   return {
     id: p.id,
@@ -21,14 +14,11 @@ function sanitizeProduct (p) {
     stock: p.stock,
     category: p.category ? { id: p.category.id, name: p.category.name } : null,
     supplier: p.supplier ? { id: p.supplier.id, name: p.supplier.name } : null,
-    createdAt: p.createdAt,
-    updatedAt: p.updatedAt
+    createdAt: p.created_at,
+    updatedAt: p.updated_at
   }
 }
 
-// =======================
-// Create
-// =======================
 export async function createProductService (payload) {
   const { name, description, price, stock, categoryId, supplierId, supplierRut } = payload
 
@@ -102,105 +92,30 @@ export async function createProductService (payload) {
   return sanitizeProduct(newProduct)
 }
 
-// =======================
-// List (con búsqueda y orden seguro)
-// =======================
-export async function listProductsService (params = {}) {
-  const {
-    page = 1,
-    limit = 10,
-    search = '',
-    categoryId,
-    supplierId,
-    minStock,
-    maxStock,
-    orderBy = 'created_at', // name|price|stock|created_at|updated_at
-    sort = 'DESC' // ASC|DESC
-  } = params
-
+export async function listProductsService ({ page = 1, limit = 10 }) {
   const pageInt = Math.max(parseInt(page, 10) || 1, 1)
-  const limitInt = Math.min(Math.max(parseInt(limit, 10) || 10, 1), 100)
+  const limitInt = Math.max(parseInt(limit, 10) || 10, 1)
   const offset = (pageInt - 1) * limitInt
 
-  const where = {}
-  const and = []
-
-  // Filtros directos
-  if (categoryId) where.categoryId = categoryId
-  if (supplierId) where.supplierId = supplierId
-
-  const toFinite = (v) => { const n = Number(v); return Number.isFinite(n) ? n : undefined }
-  const gte = toFinite(minStock)
-  const lte = toFinite(maxStock)
-  if (gte !== undefined || lte !== undefined) {
-    where.stock = {}
-    if (gte !== undefined) where.stock[Op.gte] = gte
-    if (lte !== undefined) where.stock[Op.lte] = lte
-  }
-
-  // Búsqueda por nombre de producto/categoría/proveedor
-  const s = String(search).trim()
-  if (s) {
-    if (ACCENT_INSENSITIVE) {
-      const pattern = `%${deaccent(s)}%`
-      and.push({
-        [Op.or]: [
-          // Todas las columnas calificadas para evitar ambigüedad:
-          sqWhere(fn('unaccent', col('Product.name')), { [Op.iLike]: pattern }),
-          sqWhere(fn('unaccent', col('category.name')), { [Op.iLike]: pattern }),
-          sqWhere(fn('unaccent', col('supplier.name')), { [Op.iLike]: pattern })
-        ]
-      })
-    } else {
-      const pattern = `%${s}%`
-      and.push({
-        [Op.or]: [
-          sqWhere(col('Product.name'), { [Op.iLike]: pattern }),
-          sqWhere(col('category.name'), { [Op.iLike]: pattern }),
-          sqWhere(col('supplier.name'), { [Op.iLike]: pattern })
-        ]
-      })
-    }
-  }
-  if (and.length) where[Op.and] = and
-
-  // Orden seguro, calificado
-  const allowed = ['name', 'price', 'stock', 'created_at', 'updated_at']
-  const field = allowed.includes(String(orderBy)) ? String(orderBy) : 'created_at'
-  const dir = String(sort).toUpperCase() === 'ASC' ? 'ASC' : 'DESC'
-  const orderMap = {
-    name: col('Product.name'),
-    price: col('Product.price'),
-    stock: col('Product.stock'),
-    created_at: col('Product.created_at'),
-    updated_at: col('Product.updated_at')
-  }
-
   const { count: total, rows } = await Product.findAndCountAll({
-    where,
     include: [
-      { model: Category, as: 'category', attributes: ['id', 'name'], required: false },
-      { model: Supplier, as: 'supplier', attributes: ['id', 'name'], required: false }
+      { model: Category, as: 'category' },
+      { model: Supplier, as: 'supplier' }
     ],
-    order: [[orderMap[field], dir]],
+    order: [['created_at', 'DESC']],
     limit: limitInt,
-    offset,
-    distinct: true, // evita sobreconteo por los JOINs
-    subQuery: false // genera SQL más limpio con include + order calificado
+    offset
   })
 
   return {
     page: pageInt,
     limit: limitInt,
     total,
-    totalPages: Math.ceil(total / limitInt) || 1,
+    totalPages: Math.ceil(total / limitInt),
     products: rows.map(sanitizeProduct)
   }
 }
 
-// =======================
-// Get by ID
-// =======================
 export async function getProductByIdService (id) {
   const product = await Product.findByPk(id, {
     include: [
@@ -216,9 +131,6 @@ export async function getProductByIdService (id) {
   return sanitizeProduct(product)
 }
 
-// =======================
-// Update
-// =======================
 export async function updateProductService (id, payload, options = {}) {
   const product = await Product.findByPk(id)
   if (!product) {
@@ -250,7 +162,6 @@ export async function updateProductService (id, payload, options = {}) {
     }
   }
 
-  // Resolver supplier por RUT opcionalmente
   if (data.supplierRut && !data.supplierId) {
     const sup = await Supplier.findOne({ where: { rut: data.supplierRut } })
     if (!sup) {
@@ -291,26 +202,11 @@ export async function updateProductService (id, payload, options = {}) {
   }
 
   await product.update(data)
-
-  const refreshed = await Product.findByPk(id, {
-    include: [
-      { model: Category, as: 'category' },
-      { model: Supplier, as: 'supplier' }
-    ]
-  })
-  return sanitizeProduct(refreshed)
+  return sanitizeProduct(product)
 }
 
-// =======================
-// Delete
-// =======================
 export async function deleteProductService (id) {
-  const product = await Product.findByPk(id, {
-    include: [
-      { model: Category, as: 'category' },
-      { model: Supplier, as: 'supplier' }
-    ]
-  })
+  const product = await Product.findByPk(id)
   if (!product) {
     const err = new Error('Product not found.')
     err.status = 404

@@ -1,8 +1,6 @@
 // src/models/product.model.js
 import { DataTypes, Model } from 'sequelize'
 
-const SCHEMA = process.env.DB_SCHEMA || 'inventpro_user'
-
 class Product extends Model {
   static initialize (sequelize) {
     super.init(
@@ -61,7 +59,7 @@ class Product extends Model {
         sequelize,
         modelName: 'Product',
         tableName: 'products',
-        schema: SCHEMA,
+
         timestamps: true,
         paranoid: true,
         underscored: true,

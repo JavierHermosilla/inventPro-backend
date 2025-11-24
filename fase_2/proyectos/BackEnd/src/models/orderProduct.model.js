@@ -30,11 +30,12 @@ class OrderProduct extends Model {
           }
         },
 
+        // Snapshot del precio al momento de crear la línea
         price: {
           type: DataTypes.DECIMAL(10, 2),
           allowNull: false,
           defaultValue: 0, // si tu migración tiene DEFAULT 0, ok
-          field: 'price', // columna real en DB (ver migración 20250929155018)
+          field: 'unit_price', // ⬅️ mapea al nombre real de la columna
           validate: {
             isDecimal: { msg: 'price debe ser decimal' },
             min: { args: [0], msg: 'price no puede ser negativo' }

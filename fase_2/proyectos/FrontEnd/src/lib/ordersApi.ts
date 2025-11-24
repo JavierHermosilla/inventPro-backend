@@ -80,12 +80,7 @@ export type CreateOrderResponse = {
   status: OrderStatus;
   totalAmount: number;
   isBackorder: boolean;
-  items: Array<{
-    productId: string;
-    quantity: number;
-    unitPrice?: number;
-    price?: number | string;
-  }>;
+  items: Array<{ productId: string; quantity: number; unitPrice?: number }>;
 };
 
 export type OrderByRutResponse = {
@@ -162,37 +157,6 @@ export const normalizeOrderRecord = (record: OrderApiRecord): OrderSnapshot => {
   };
 };
 
-const mapCreateOrderPayload = (data: unknown): CreateOrderResponse => {
-  const order = (data as { order?: unknown })?.order ?? data;
-  if (!order || typeof order !== "object") {
-    throw new Error("Respuesta inválida al crear la orden.");
-  }
-
-  const payload = order as Partial<CreateOrderResponse> & { items?: OrderItemApiRecord[] };
-  if (!payload.id) {
-    throw new Error("El backend no devolvió el ID de la orden creada.");
-  }
-
-  return {
-    id: String(payload.id),
-    status: (payload.status ?? "pending") as OrderStatus,
-    totalAmount: roundCurrency(toNumber(payload.totalAmount, 0)),
-    isBackorder: Boolean(payload.isBackorder),
-      items: Array.isArray(payload.items)
-        ? payload.items.map((item) => ({
-            productId: item.productId ?? "",
-            quantity: ensurePositiveInt(item.quantity, 0),
-            unitPrice: roundCurrency(
-              toNumber(
-                typeof item.unitPrice === "number" ? item.unitPrice : item.price,
-                0,
-              ),
-            ),
-          }))
-        : [],
-  };
-};
-
 export const ordersApi = {
   async list(): Promise<OrderSnapshot[]> {
     const response = await api.get<OrderApiRecord[]>("/orders");
@@ -214,8 +178,8 @@ export const ordersApi = {
         quantity: Math.trunc(product.quantity),
       })),
     };
-    const response = await api.post<CreateOrderResponse | { order: CreateOrderResponse }>("/orders", body);
-    return mapCreateOrderPayload(response.data);
+    const response = await api.post<CreateOrderResponse>("/orders", body);
+    return response.data;
   },
 
   async createByRut(payload: { rut: string; products: CreateOrderProductInput[] }): Promise<CreateOrderResponse> {
@@ -226,8 +190,8 @@ export const ordersApi = {
         quantity: Math.trunc(product.quantity),
       })),
     };
-    const response = await api.post<CreateOrderResponse | { order: CreateOrderResponse }>("/orders/by-rut", body);
-    return mapCreateOrderPayload(response.data);
+    const response = await api.post<CreateOrderResponse>("/orders/by-rut", body);
+    return response.data;
   },
 
   async listByRut(rut: string): Promise<OrderByRutResponse> {

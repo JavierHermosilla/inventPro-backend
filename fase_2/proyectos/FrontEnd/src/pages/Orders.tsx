@@ -432,9 +432,6 @@ export default function OrdersPage() {
     setCreating(true);
     try {
       const created = await ordersApi.create(payload);
-      if (!created?.id) {
-        throw new Error("El backend no devolvio el ID de la orden creada.");
-      }
       const detail = await ordersApi.get(created.id);
       setOrders((prev) => [detail, ...prev.filter((item) => item.id !== detail.id)]);
       setSelectedOrder(detail);
@@ -588,9 +585,9 @@ export default function OrdersPage() {
                 const clientInfo = resolveOrderClientInfo(order);
                 return (
                   <tr key={order.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 font-medium text-blue-600">
-                      <div className="whitespace-nowrap">#{code}</div>
-                      <p className="text-[11px] font-mono text-gray-500 break-all">ID: {order.id.toUpperCase()}</p>
+                    <td className="whitespace-nowrap px-4 py-3 font-medium text-blue-600">
+                      <span>#{code}</span>
+                      <span className="ml-2 text-xs text-gray-400">({order.id.slice(0, 8)}...)</span>
                     </td>
                     <td className="px-4 py-3">
                       <p className="font-semibold text-gray-900">{clientInfo.name ?? "Sin asignar"}</p>
@@ -714,7 +711,7 @@ export default function OrdersPage() {
             {renderStatusBadge(selectedOrder.status)}
           </header>
 
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-lg border border-gray-100 bg-gray-50 p-4">
               <h3 className="text-sm font-semibold text-gray-700">Cliente</h3>
               <dl className="mt-3 space-y-2 text-sm text-gray-600">
@@ -816,7 +813,7 @@ export default function OrdersPage() {
           </p>
         </header>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-3">
           <div>
             <label className="text-xs font-semibold uppercase text-gray-500" htmlFor="document-type">
               Tipo de documento
@@ -850,7 +847,7 @@ export default function OrdersPage() {
           </div>
         </div>
 
-        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
           {customerMode === "client" ? (
             <div>
               <label className="text-xs font-semibold uppercase text-gray-500" htmlFor="client-id">

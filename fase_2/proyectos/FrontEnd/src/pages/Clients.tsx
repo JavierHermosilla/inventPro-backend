@@ -3,7 +3,6 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import DataTable, { type Column } from "../components/DataTable";
 import { clientsApi, type ClientItem } from "../lib/clientsApi";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
-import { useAuthStore } from "../store/auth";
 
 const formatDate = (value?: string | null) => {
   if (!value) return "Sin registro";
@@ -41,52 +40,12 @@ const extractErrorMessage = (err: unknown, fallback: string): string => {
 };
 
 export default function ClientsPage() {
-  const role = useAuthStore((state) => state.user?.role ?? "user");
-  const canCreateClient = role === "admin" || role === "vendedor";
-  const canDeleteClient = role === "admin";
-  const canEditClient = role === "admin";
 
   const [clients, setClients] = useState<ClientItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [editingClient, setEditingClient] = useState<ClientItem | null>(null);
-  const [editForm, setEditForm] = useState<{
-    name: string;
-    email: string;
-    phone: string;
-    address: string;
-    avatar: string;
-    rut: string;
-  }>({
-    name: "",
-    email: "",
-    phone: "",
-    address: "",
-    avatar: "",
-    rut: "",
-  });
-  const [editError, setEditError] = useState<string | null>(null);
-  const [isUpdating, setIsUpdating] = useState(false);
-
-  const sanitizePhone = (value: string) => {
-    const raw = String(value ?? "").trim();
-    if (!raw) return "";
-    const hasPlus = raw.startsWith("+");
-    const digits = raw.replace(/[^\d]/g, "");
-    if (!digits) return "";
-    return hasPlus ? `+${digits}` : digits;
-  };
-
-  const prettifyText = useCallback((value: string) => {
-    return value
-      .split(" ")
-      .filter((chunk) => chunk.trim().length > 0)
-      .map((chunk) => chunk.trim())
-      .map((chunk) => chunk[0].toUpperCase() + chunk.slice(1).toLowerCase())
-      .join(" ");
-  }, []);
 
   const fetchClients = useCallback(async (search?: string) => {
     setLoading(true);
@@ -120,7 +79,7 @@ export default function ClientsPage() {
     fetchClients("").catch(() => {});
   };
 
-  const handleDelete = useCallback(async (client: ClientItem) => {
+  const handleDelete = async (client: ClientItem) => {
     const confirmed = await confirmAction({
       title: `Eliminar cliente "${client.name}"?`,
       text: "Esta acción no se puede deshacer.",
@@ -139,81 +98,10 @@ export default function ClientsPage() {
     } finally {
       setDeletingId(null);
     }
-  }, []);
+  };
 
-  const openEditModal = useCallback((client: ClientItem) => {
-    setEditingClient(client);
-    setEditError(null);
-    setEditForm({
-      name: client.name,
-      email: client.email,
-      phone: client.phone,
-      address: client.address,
-      avatar: client.avatar ?? "",
-      rut: client.rut,
-    });
-  }, []);
-
-  const closeEditModal = useCallback(() => {
-    if (isUpdating) return;
-    setEditingClient(null);
-    setEditError(null);
-  }, [isUpdating]);
-
-  const handleUpdate = useCallback(async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!editingClient) return;
-    setEditError(null);
-
-    if (!editForm.name.trim() || !editForm.email.trim() || !editForm.address.trim()) {
-      setEditError("Nombre, correo y dirección son obligatorios.");
-      return;
-    }
-
-    const normalizedPhone = sanitizePhone(editForm.phone);
-    const prettyName = prettifyText(editForm.name);
-    const prettyAddress = prettifyText(editForm.address);
-
-    setIsUpdating(true);
-    try {
-      await clientsApi.update(editingClient.id, {
-        name: prettyName,
-        email: editForm.email.trim(),
-        address: prettyAddress,
-        phone: normalizedPhone,
-        avatar: editForm.avatar.trim() || null,
-        rut: editForm.rut.trim(),
-      });
-
-      setClients((prev) =>
-        prev.map((c) =>
-          c.id === editingClient.id
-            ? {
-                ...c,
-                name: prettyName,
-                email: editForm.email.trim(),
-                address: prettyAddress,
-                phone: normalizedPhone,
-                avatar: editForm.avatar.trim() || null,
-                rut: editForm.rut.trim(),
-              }
-            : c
-        )
-      );
-
-      await showSuccess({ title: "Cliente actualizado", text: `${prettyName} se guardó correctamente.` });
-      closeEditModal();
-    } catch (err) {
-      const message = extractErrorMessage(err, "No se pudo actualizar el cliente.");
-      setEditError(message);
-      await showError({ title: "Error al actualizar cliente", text: message });
-    } finally {
-      setIsUpdating(false);
-    }
-  }, [closeEditModal, editForm.address, editForm.avatar, editForm.email, editForm.name, editForm.phone, editForm.rut, editingClient, sanitizePhone]);
-
-  const columns = useMemo<Column<ClientItem>[]>(() => {
-    const base: Column<ClientItem>[] = [
+  const columns = useMemo<Column<ClientItem>[]>(
+    () => [
       {
         key: "name",
         header: "Nombre",
@@ -221,7 +109,6 @@ export default function ClientsPage() {
           <div>
             <p className="font-semibold text-gray-900">{row.name}</p>
             <p className="text-xs text-gray-400">RUT: {row.rut}</p>
-            <p className="text-[11px] text-gray-400 break-all">ID: {row.id}</p>
           </div>
         ),
       },
@@ -250,38 +137,26 @@ export default function ClientsPage() {
           </div>
         ),
       },
-    ];
-
-    if (canEditClient) {
-      base.push({
+      {
         key: "actions",
         header: "Acciones",
         render: (row) => (
           <div className="flex gap-2">
+            <span className="cursor-not-allowed text-blue-600 text-xs">Editar</span>
             <button
               type="button"
-              onClick={() => openEditModal(row)}
-              className="rounded-lg border border-blue-200 px-3 py-1 text-xs font-medium text-blue-600 hover:bg-blue-50"
+              onClick={() => handleDelete(row)}
+              disabled={deletingId === row.id}
+              className="rounded-lg border border-red-200 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-60"
             >
-              Editar
+              {deletingId === row.id ? "Eliminando..." : "Eliminar"}
             </button>
-            {canDeleteClient && (
-              <button
-                type="button"
-                onClick={() => handleDelete(row)}
-                disabled={deletingId === row.id}
-                className="rounded-lg border border-red-200 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-60"
-              >
-                {deletingId === row.id ? "Eliminando..." : "Eliminar"}
-              </button>
-            )}
           </div>
         ),
-      });
-    }
-
-    return base;
-  }, [canDeleteClient, canEditClient, deletingId, handleDelete, openEditModal]);
+      },
+    ],
+    [deletingId]
+  );
 
   const total = clients.length;
 
@@ -292,19 +167,13 @@ export default function ClientsPage() {
           <h1 className="text-2xl font-semibold text-gray-900">Gestión de Clientes</h1>
           <p className="text-sm text-gray-500">Administra la información de todos los clientes de tu negocio.</p>
         </div>
-        {canCreateClient ? (
-          <Link
-            to="/clients/create"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
-          >
-            <span className="text-lg leading-none">+</span>
-            Agregar Cliente
-          </Link>
-        ) : (
-          <p className="text-xs text-gray-400">
-            Solo los administradores o vendedores pueden crear clientes nuevos.
-          </p>
-        )}
+        <Link
+          to="/clients/create"
+          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+        >
+          <span className="text-lg leading-none">+</span>
+          Agregar Cliente
+        </Link>
       </header>
 
       {error && (
@@ -365,124 +234,6 @@ export default function ClientsPage() {
           emptyMessage={loading ? "Cargando clientes..." : "Aún no hay clientes registrados."}
         />
       </section>
-
-      {editingClient && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="absolute inset-0" onClick={closeEditModal} />
-          <div className="relative w-full max-w-2xl rounded-2xl bg-white shadow-xl">
-            <header className="flex items-start justify-between border-b px-6 py-4">
-              <div>
-                <h2 className="text-lg font-semibold text-gray-900">Editar cliente</h2>
-                <p className="text-sm text-gray-500">Actualiza los datos del cliente seleccionado.</p>
-              </div>
-              <button
-                type="button"
-                onClick={closeEditModal}
-                className="rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                aria-label="Cerrar"
-              >
-                <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path
-                    fillRule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </header>
-
-            <form onSubmit={handleUpdate} className="px-6 py-4 space-y-4" noValidate>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="edit-rut">RUT</label>
-                  <input
-                    id="edit-rut"
-                    type="text"
-                    value={editForm.rut}
-                    onChange={(e) => setEditForm((prev) => ({ ...prev, rut: e.target.value }))}
-                    className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="edit-name">Nombre</label>
-                  <input
-                    id="edit-name"
-                    type="text"
-                    required
-                    value={editForm.name}
-                    onChange={(e) => setEditForm((prev) => ({ ...prev, name: e.target.value }))}
-                    className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="edit-email">Correo</label>
-                  <input
-                    id="edit-email"
-                    type="email"
-                    required
-                    value={editForm.email}
-                    onChange={(e) => setEditForm((prev) => ({ ...prev, email: e.target.value }))}
-                    className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="edit-phone">Teléfono</label>
-                  <input
-                    id="edit-phone"
-                    type="tel"
-                    value={editForm.phone}
-                    onChange={(e) => setEditForm((prev) => ({ ...prev, phone: e.target.value }))}
-                    className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="text-sm font-medium text-gray-600" htmlFor="edit-address">Dirección</label>
-                  <input
-                    id="edit-address"
-                    type="text"
-                    required
-                    value={editForm.address}
-                    onChange={(e) => setEditForm((prev) => ({ ...prev, address: e.target.value }))}
-                    className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label className="text-sm font-medium text-gray-600" htmlFor="edit-avatar">Avatar (URL)</label>
-                  <input
-                    id="edit-avatar"
-                    type="url"
-                    value={editForm.avatar}
-                    onChange={(e) => setEditForm((prev) => ({ ...prev, avatar: e.target.value }))}
-                    className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                  />
-                </div>
-              </div>
-
-              {editError && (
-                <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-600">{editError}</p>
-              )}
-
-              <footer className="flex justify-end gap-2 pt-2">
-                <button
-                  type="button"
-                  onClick={closeEditModal}
-                  className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
-                  disabled={isUpdating}
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  disabled={isUpdating}
-                  className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-700 disabled:opacity-70"
-                >
-                  {isUpdating ? "Guardando..." : "Guardar cambios"}
-                </button>
-              </footer>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

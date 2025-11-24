@@ -2,8 +2,6 @@
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
 
-const serverUrl = process.env.SWAGGER_SERVER_URL || 'http://localhost:3000/api'
-
 const definition = {
   openapi: '3.0.0',
   info: {
@@ -13,10 +11,8 @@ const definition = {
   },
   servers: [
     {
-      url: serverUrl,
-      description: serverUrl.includes('localhost')
-        ? 'Servidor local'
-        : 'Servidor configurado por SWAGGER_SERVER_URL'
+      url: 'http://localhost:3000/api',
+      description: 'Servidor local'
     }
   ],
   components: {
@@ -43,13 +39,9 @@ const options = {
 
 const swaggerSpec = swaggerJSDoc(options)
 
-export default function setupSwagger (app, { protect } = {}) {
-  const middlewares = []
-  if (protect) {
-    middlewares.push(protect)
-  }
-
-  middlewares.push(
+export default function setupSwagger (app) {
+  app.use(
+    '/docs',
     swaggerUi.serve,
     swaggerUi.setup(swaggerSpec, {
       explorer: true,
@@ -60,6 +52,4 @@ export default function setupSwagger (app, { protect } = {}) {
       }
     })
   )
-
-  app.use('/docs', ...middlewares)
 }

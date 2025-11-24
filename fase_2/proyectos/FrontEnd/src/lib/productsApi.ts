@@ -44,8 +44,8 @@ export type ProductListResult = {
 export type ProductPayload = {
   nombre: string;
   descripcion?: string | null;
-  stock: number | null;
-  precio: number | null;
+  stock: number;
+  precio: number;
   categoryId?: string | number | null;
   supplierId?: string | number | null;
   supplierRut?: string | null;
@@ -176,6 +176,7 @@ export const productsApi = {
     return response.data;
   },
 };
+
 
 
 

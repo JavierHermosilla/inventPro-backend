@@ -7,8 +7,8 @@ import {
   type UserItem,
   type UserListMeta,
 } from "../lib/usersApi";
-import { confirmAction, showError, showSuccess, showWarning } from "../lib/alerts";
-import { useAuthStore, type Role } from "../store/auth";
+import { showError, showSuccess, showWarning } from "../lib/alerts";
+import type { Role } from "../store/auth";
 
 type FormState = {
   username: string;
@@ -32,7 +32,9 @@ const EMPTY_FORM: FormState = {
   avatar: "",
 };
 
-const PASSWORD_RULES: Array<{ test: (value: string) => boolean; message: string }> = [
+type PasswordRule = { test: (value: string) => boolean; message: string };
+
+const PASSWORD_RULES: PasswordRule[] = [
   { test: (value) => value.length >= 8, message: "Debe tener al menos 8 caracteres" },
   { test: (value) => /[A-Z]/.test(value), message: "Debe incluir una letra mayúscula" },
   { test: (value) => /[a-z]/.test(value), message: "Debe incluir una letra minúscula" },
@@ -73,15 +75,11 @@ const extractErrorMessage = (err: unknown, fallback: string) => {
 };
 
 export default function UsersPage() {
-  const currentUserId = useAuthStore((state) => state.user?.id ?? null);
-
   const [users, setUsers] = useState<UserItem[]>([]);
   const [meta, setMeta] = useState<UserListMeta | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingUserId, setEditingUserId] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -95,7 +93,6 @@ export default function UsersPage() {
   const resetForm = useCallback(() => {
     setForm(EMPTY_FORM);
     setFormError(null);
-    setEditingUserId(null);
   }, []);
 
   const fetchUsers = useCallback(async (search?: string) => {
@@ -122,13 +119,10 @@ export default function UsersPage() {
     fetchUsers().catch(() => {});
   }, [fetchUsers]);
 
-  const handleSearchSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      fetchUsers(searchTerm).catch(() => {});
-    },
-    [fetchUsers, searchTerm]
-  );
+  const handleSearchSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    fetchUsers(searchTerm).catch(() => {});
+  }, [fetchUsers, searchTerm]);
 
   const clearFilters = useCallback(() => {
     setSearchTerm("");
@@ -140,252 +134,179 @@ export default function UsersPage() {
     return failedRule?.message ?? null;
   }, []);
 
-  const openCreateModal = useCallback(() => {
-    resetForm();
-    setIsModalOpen(true);
-  }, [resetForm]);
-
-  const openEditModal = useCallback((user: UserItem) => {
-    setEditingUserId(user.id);
-    setForm({
-      username: user.username,
-      name: user.name,
-      email: user.email,
-      password: "",
-      role: user.role,
-      phone: user.phone ?? "",
-      address: user.address ?? "",
-      avatar: user.avatar ?? "",
-    });
+  const handleCreateUser = useCallback(async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setFormError(null);
-    setIsModalOpen(true);
-  }, []);
 
-  const handleDeleteUser = useCallback(
-    async (user: UserItem) => {
-      if (user.id === currentUserId) {
-        await showWarning({
-          title: "Acción no permitida",
-          text: "No puedes eliminar tu propia cuenta mientras estás conectado.",
-        });
-        return;
-      }
+    const trimmedName = form.name.trim();
+    const trimmedUsername = form.username.trim();
+    const trimmedEmail = form.email.trim();
+    const trimmedPassword = form.password.trim();
 
-      const confirmed = await confirmAction({
-        title: "Eliminar usuario",
-        text: `¿Seguro que deseas eliminar a ${user.name}? Esta acción no se puede deshacer.`,
-        confirmButtonColor: "#dc2626",
+    if (!trimmedName) {
+      const message = "El nombre del usuario es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "Nombre requerido",
+        text: message,
       });
-      if (!confirmed) return;
+      return;
+    }
 
-      try {
-        await usersApi.remove(user.id);
-        await showSuccess({
-          title: "Usuario eliminado",
-          text: `${user.name} se eliminó correctamente.`,
-        });
-        fetchUsers(searchTerm).catch(() => {});
-      } catch (err) {
-        const message = extractErrorMessage(err, "No se pudo eliminar el usuario.");
-        await showError({
-          title: "Error al eliminar",
-          text: message,
-        });
-      }
+    if (!trimmedUsername) {
+      const message = "El usuario es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "Usuario requerido",
+        text: message,
+      });
+      return;
+    }
+
+    if (!trimmedEmail) {
+      const message = "El correo electr?nico es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "Correo requerido",
+        text: message,
+      });
+      return;
+    }
+
+    if (!trimmedPassword) {
+      const message = "La contrase?a es obligatoria.";
+      setFormError(message);
+      await showWarning({
+        title: "Contraseña requerida",
+        text: message,
+      });
+      return;
+    }
+
+    const passwordIssue = validatePassword(trimmedPassword);
+    if (passwordIssue) {
+      setFormError(passwordIssue);
+      await showWarning({
+        title: "Contraseña inválida",
+        text: passwordIssue,
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        username: trimmedUsername,
+        name: trimmedName,
+        email: trimmedEmail,
+        password: trimmedPassword,
+        role: form.role,
+        phone: form.phone.trim().length > 0 ? form.phone.trim() : null,
+        address: form.address.trim().length > 0 ? form.address.trim() : null,
+        avatar: form.avatar.trim().length > 0 ? form.avatar.trim() : null,
+      };
+
+      await usersApi.create(payload);
+      await showSuccess({
+        title: "Usuario creado",
+        text: `${payload.name} se registro correctamente.`,
+      });
+      setIsModalOpen(false);
+      resetForm();
+      fetchUsers(searchTerm).catch(() => {});
+    } catch (err) {
+      const message = extractErrorMessage(err, "No se pudo crear el usuario.");
+      setFormError(message);
+      await showError({
+        title: "Error al crear usuario",
+        text: message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [fetchUsers, form, resetForm, searchTerm, validatePassword]);
+
+
+  const columns = useMemo<Column<UserItem>[]>(() => [
+    {
+      key: "name",
+      header: "Nombre",
+      render: (user) => (
+        <div>
+          <p className="font-semibold text-gray-900">{user.name}</p>
+          <p className="text-xs text-gray-500">@{user.username}</p>
+        </div>
+      ),
     },
-    [currentUserId, fetchUsers, searchTerm]
-  );
-
-  const handleSubmitUser = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      setFormError(null);
-
-      const trimmedName = form.name.trim();
-      const trimmedUsername = form.username.trim();
-      const trimmedEmail = form.email.trim();
-      const trimmedPassword = form.password.trim();
-      const isEditing = Boolean(editingUserId);
-
-      if (!trimmedName) {
-        const message = "El nombre del usuario es obligatorio.";
-        setFormError(message);
-        await showWarning({ title: "Nombre requerido", text: message });
-        return;
-      }
-      if (!trimmedUsername) {
-        const message = "El usuario es obligatorio.";
-        setFormError(message);
-        await showWarning({ title: "Usuario requerido", text: message });
-        return;
-      }
-      if (!trimmedEmail) {
-        const message = "El correo electrónico es obligatorio.";
-        setFormError(message);
-        await showWarning({ title: "Correo requerido", text: message });
-        return;
-      }
-
-      let passwordToSend: string | null = null;
-      if (!isEditing) {
-        if (!trimmedPassword) {
-          const message = "La contraseña es obligatoria.";
-          setFormError(message);
-          await showWarning({ title: "Contraseña requerida", text: message });
-          return;
-        }
-        const passwordIssue = validatePassword(trimmedPassword);
-        if (passwordIssue) {
-          setFormError(passwordIssue);
-          await showWarning({ title: "Contraseña inválida", text: passwordIssue });
-          return;
-        }
-        passwordToSend = trimmedPassword;
-      } else if (trimmedPassword) {
-        const passwordIssue = validatePassword(trimmedPassword);
-        if (passwordIssue) {
-          setFormError(passwordIssue);
-          await showWarning({ title: "Contraseña inválida", text: passwordIssue });
-          return;
-        }
-        passwordToSend = trimmedPassword;
-      }
-
-      setIsSubmitting(true);
-      try {
-        if (isEditing && editingUserId) {
-          const payload = {
-            username: trimmedUsername,
-            name: trimmedName,
-            email: trimmedEmail,
-            role: form.role,
-            phone: form.phone.trim().length > 0 ? form.phone.trim() : null,
-            address: form.address.trim().length > 0 ? form.address.trim() : null,
-            avatar: form.avatar.trim().length > 0 ? form.avatar.trim() : null,
-            ...(passwordToSend ? { password: passwordToSend } : {}),
-          };
-          await usersApi.update(editingUserId, payload);
-          await showSuccess({
-            title: "Usuario actualizado",
-            text: `${payload.name} se actualizó correctamente.`,
-          });
-        } else {
-          const payload = {
-            username: trimmedUsername,
-            name: trimmedName,
-            email: trimmedEmail,
-            password: passwordToSend ?? trimmedPassword,
-            role: form.role,
-            phone: form.phone.trim().length > 0 ? form.phone.trim() : null,
-            address: form.address.trim().length > 0 ? form.address.trim() : null,
-            avatar: form.avatar.trim().length > 0 ? form.avatar.trim() : null,
-          };
-          await usersApi.create(payload);
-          await showSuccess({
-            title: "Usuario creado",
-            text: `${payload.name} se registró correctamente.`,
-          });
-        }
-        setIsModalOpen(false);
-        resetForm();
-        fetchUsers(searchTerm).catch(() => {});
-      } catch (err) {
-        const message = extractErrorMessage(err, "No se pudo guardar el usuario.");
-        setFormError(message);
-        await showError({ title: "Error al guardar usuario", text: message });
-      } finally {
-        setIsSubmitting(false);
-      }
+    {
+      key: "email",
+      header: "Correo",
+      render: (user) => (
+        <div>
+          <p className="text-gray-700">{user.email}</p>
+          {user.phone && <p className="text-xs text-gray-400">{user.phone}</p>}
+        </div>
+      ),
     },
-    [editingUserId, fetchUsers, form, resetForm, searchTerm, validatePassword]
-  );
-
-  const columns = useMemo<Column<UserItem>[]>(
-    () => [
-      {
-        key: "name",
-        header: "Nombre",
-        render: (user) => (
-          <div>
-            <p className="font-semibold text-gray-900">{user.name}</p>
-            <p className="text-xs text-gray-500">@{user.username}</p>
-            <p className="text-[11px] text-gray-400 break-all">ID: {user.id}</p>
-          </div>
-        ),
+    {
+      key: "role",
+      header: "Rol",
+      render: (user) => {
+        const style = roleStyles[user.role] ?? roleStyles.user;
+        const label = USER_ROLE_LABELS[user.role] ?? user.role;
+        return (
+          <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${style.className}`}>
+            {label}
+          </span>
+        );
       },
-      {
-        key: "email",
-        header: "Correo",
-        render: (user) => (
-          <div>
-            <p className="text-gray-700">{user.email}</p>
-            {user.phone ? <p className="text-xs text-gray-400">{user.phone}</p> : null}
-          </div>
-        ),
-      },
-      {
-        key: "role",
-        header: "Rol",
-        render: (user) => {
-          const style = roleStyles[user.role] ?? roleStyles.user;
-          const label = USER_ROLE_LABELS[user.role] ?? user.role;
-          return <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${style.className}`}>{label}</span>;
-        },
-      },
-      {
-        key: "createdAt",
-        header: "Registrado",
-        render: (user) => <span className="text-sm text-gray-600">{formatDate(user.createdAt)}</span>,
-      },
-      {
-        key: "address",
-        header: "Dirección",
-        render: (user) => (
-          <span className="text-sm text-gray-600">{user.address && user.address.trim().length > 0 ? user.address : "Sin registro"}</span>
-        ),
-      },
-      {
-        key: "actions",
-        header: "Acciones",
-        className: "text-right",
-        render: (user) => (
-          <div className="flex justify-end gap-2 text-xs">
-            <button
-              type="button"
-              onClick={() => openEditModal(user)}
-              className="rounded-lg border border-blue-200 px-3 py-1 font-semibold text-blue-600 hover:bg-blue-50"
-            >
-              Editar
-            </button>
-            <button
-              type="button"
-              disabled={user.id === currentUserId}
-              onClick={() => handleDeleteUser(user)}
-              className="rounded-lg border border-red-200 px-3 py-1 font-semibold text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Eliminar
-            </button>
-          </div>
-        ),
-      },
-    ],
-    [currentUserId, handleDeleteUser, openEditModal]
-  );
+    },
+    {
+      key: "createdAt",
+      header: "Registrado",
+      render: (user) => <span className="text-sm text-gray-600">{formatDate(user.createdAt)}</span>,
+    },
+    {
+      key: "address",
+      header: "Direcci?n",
+      render: (user) => (
+        <span className="text-sm text-gray-600">
+          {user.address && user.address.trim().length > 0 ? user.address : "Sin registro"}
+        </span>
+      ),
+    },
+    {
+      key: "actions",
+      header: "Acciones",
+      className: "text-right",
+      render: () => (
+        <div className="flex justify-end gap-2 text-xs text-gray-400">
+          <span className="cursor-not-allowed">Editar</span>
+          <span className="cursor-not-allowed">Eliminar</span>
+        </div>
+      ),
+    },
+  ], []);
 
   const totalUsers = meta?.total ?? users.length;
   const adminCount = useMemo(() => users.filter((user) => user.role === "admin").length, [users]);
-  const staffCount = useMemo(() => users.filter((user) => user.role !== "admin").length, [users]);
-  const isEditing = Boolean(editingUserId);
+  const staffCount = useMemo(
+    () => users.filter((user) => user.role !== "admin").length,
+    [users],
+  );
 
   return (
     <div className="space-y-6">
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Gestión de usuarios</h1>
-          <p className="text-sm text-gray-500">Crea, edita o elimina cuentas según su rol.</p>
+          <h1 className="text-2xl font-semibold text-gray-900">Gesti?n de usuarios</h1>
+          <p className="text-sm text-gray-500">Crea y administra cuentas con sus roles correspondientes.</p>
         </div>
         <button
-          onClick={openCreateModal}
+          onClick={() => {
+            resetForm();
+            setIsModalOpen(true);
+          }}
           className="inline-flex items-center gap-2 self-start rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
         >
           <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -395,7 +316,7 @@ export default function UsersPage() {
         </button>
       </header>
 
-      <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <section className="grid gap-4 md:grid-cols-3">
         <article className="rounded-xl bg-white p-4 shadow">
           <p className="text-sm text-gray-500">Usuarios totales</p>
           <p className="mt-2 text-2xl font-semibold text-gray-900">{totalUsers}</p>
@@ -443,11 +364,18 @@ export default function UsersPage() {
         </form>
       </section>
 
-      {error ? (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</div>
-      ) : null}
+      {error && (
+        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+          {error}
+        </div>
+      )}
 
-      <DataTable columns={columns} data={users} loading={loading} emptyMessage="Aún no hay usuarios registrados." />
+      <DataTable
+        columns={columns}
+        data={users}
+        loading={loading}
+        emptyMessage="A?n no hay usuarios registrados."
+      />
 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4">
@@ -455,21 +383,14 @@ export default function UsersPage() {
           <div className="relative w-full max-w-2xl rounded-2xl bg-white shadow-xl">
             <header className="flex items-start justify-between border-b px-6 py-4">
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">
-                  {isEditing ? "Editar usuario" : "Registrar nuevo usuario"}
-                </h2>
+                <h2 className="text-lg font-semibold text-gray-900">Registrar nuevo usuario</h2>
                 <p className="text-sm text-gray-500">
-                  {isEditing ? "Actualiza los datos del usuario seleccionado." : "Ingresa los datos requeridos para crear la cuenta."}
+                  Ingresa los datos segun el mockup. El rol determinara los permisos en la plataforma.
                 </p>
               </div>
               <button
                 type="button"
-                onClick={() => {
-                  if (!isSubmitting) {
-                    setIsModalOpen(false);
-                    resetForm();
-                  }
-                }}
+                onClick={() => !isSubmitting && setIsModalOpen(false)}
                 className="rounded-full p-1 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
                 aria-label="Cerrar"
               >
@@ -483,12 +404,10 @@ export default function UsersPage() {
               </button>
             </header>
 
-            <form onSubmit={handleSubmitUser} className="px-6 py-4" noValidate>
-              <div className="grid gap-4 lg:grid-cols-2">
+            <form onSubmit={handleCreateUser} className="px-6 py-4" noValidate>
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="name">
-                    Nombre completo *
-                  </label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="name">Nombre completo *</label>
                   <input
                     id="name"
                     type="text"
@@ -499,9 +418,7 @@ export default function UsersPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="username">
-                    Usuario *
-                  </label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="username">Usuario *</label>
                   <input
                     id="username"
                     type="text"
@@ -512,9 +429,7 @@ export default function UsersPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="email">
-                    Correo electrónico *
-                  </label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="email">Correo electr?nico *</label>
                   <input
                     id="email"
                     type="email"
@@ -525,23 +440,19 @@ export default function UsersPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="password">
-                    {isEditing ? "Contraseña (dejar en blanco para mantener)" : "Contraseña *"}
-                  </label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="password">Contraseña *</label>
                   <input
                     id="password"
                     type="password"
-                    required={!isEditing}
+                    required
                     value={form.password}
                     onChange={(event) => updateFormField("password", event.target.value)}
                     className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                    placeholder={isEditing ? "Deja vacío para no cambiarla" : "Usa mayúsculas, números y símbolos"}
+                    placeholder="Usa mayúsculas, números y símbolos"
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="role">
-                    Rol *
-                  </label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="role">Rol *</label>
                   <select
                     id="role"
                     required
@@ -557,9 +468,7 @@ export default function UsersPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="phone">
-                    Teléfono
-                  </label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="phone">Tel?fono</label>
                   <input
                     id="phone"
                     type="tel"
@@ -571,11 +480,9 @@ export default function UsersPage() {
                 </div>
               </div>
 
-              <div className="mt-4 grid gap-4 lg:grid-cols-2">
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="address">
-                    Dirección
-                  </label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="address">Direcci?n</label>
                   <input
                     id="address"
                     type="text"
@@ -586,9 +493,7 @@ export default function UsersPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium text-gray-600" htmlFor="avatar">
-                    URL de avatar
-                  </label>
+                  <label className="text-sm font-medium text-gray-600" htmlFor="avatar">URL de avatar</label>
                   <input
                     id="avatar"
                     type="url"
@@ -600,9 +505,11 @@ export default function UsersPage() {
                 </div>
               </div>
 
-              {formError ? (
-                <p className="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">{formError}</p>
-              ) : null}
+              {formError && (
+                <p className="mt-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-600">
+                  {formError}
+                </p>
+              )}
 
               <footer className="mt-6 flex justify-end gap-2">
                 <button
@@ -618,10 +525,10 @@ export default function UsersPage() {
                 </button>
                 <button
                   type="submit"
+                  className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
                   disabled={isSubmitting}
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                  {isSubmitting ? "Guardando..." : isEditing ? "Guardar cambios" : "Crear usuario"}
+                  {isSubmitting ? "Guardando..." : "Guardar usuario"}
                 </button>
               </footer>
             </form>
@@ -631,3 +538,6 @@ export default function UsersPage() {
     </div>
   );
 }
+
+
+

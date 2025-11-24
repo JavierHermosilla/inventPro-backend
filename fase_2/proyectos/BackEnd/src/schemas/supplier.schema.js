@@ -1,4 +1,3 @@
-// src/schemas/supplier.schema.js
 import { z } from 'zod'
 import { isValidRut } from '../utils/rut.js'
 

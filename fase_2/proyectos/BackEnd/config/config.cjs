@@ -1,13 +1,6 @@
-// backend/config/config.cjs
+// config/config.cjs
 const path = require('path')
-const fs = require('fs')
-
-const localEnvPath = path.resolve(__dirname, '../src/.env')
-const shouldLoadLocalEnv = process.env.SKIP_LOCAL_DOTENV !== '1' && fs.existsSync(localEnvPath)
-
-if (shouldLoadLocalEnv) {
-  require('dotenv').config({ path: localEnvPath })
-}
+require('dotenv').config({ path: path.resolve(__dirname, '../src/.env') })
 
 const toInt = (v, def) => Number.isFinite(Number(v)) ? Number(v) : def
 const toStr = (v, def = '') => (v ?? def).toString()

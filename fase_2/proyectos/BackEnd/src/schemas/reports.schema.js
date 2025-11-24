@@ -1,21 +1,16 @@
-// src/schemas/reports.schema.js
 import { z } from 'zod'
 
-const baseScheduleSchema = z.object({
+const scheduleSchema = z.object({
   cron: z.string().min(1, 'Cron es obligatorio'),
-  timezone: z.string().min(1, 'Timezone es obligatorio').optional()
-})
+  timezone: z.string().min(1, 'Timezone es obligatorio')
+}).optional()
 
-const scheduleSchema = z.preprocess((value) => {
-  if (value == null || typeof value !== 'object') return value
-  const typed = value
-  return {
-    cron: typed.cron,
-    timezone: typed.timezone ?? 'UTC'
-  }
-}, baseScheduleSchema).optional()
-
-const filtersSchema = z.record(z.string(), z.any()).optional()
+const filtersSchema = z.object({
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
+  productIds: z.array(z.string().uuid()).optional(),
+  userIds: z.array(z.string().uuid()).optional()
+}).optional()
 
 export const createReportSchema = z.object({
   name: z.string().min(1, 'El nombre es obligatorio'),
@@ -26,7 +21,7 @@ export const createReportSchema = z.object({
   status: z.enum(['active', 'archived', 'draft']).optional(),
   schedule: scheduleSchema,
   deliveryMethod: z.string().optional(),
-  sharedWith: z.array(z.string().min(1)).optional()
+  sharedWith: z.array(z.string().uuid()).optional()
 })
 
 export const updateReportSchema = z.object({
@@ -38,7 +33,7 @@ export const updateReportSchema = z.object({
   status: z.enum(['active', 'archived', 'draft']).optional(),
   schedule: scheduleSchema,
   deliveryMethod: z.string().optional(),
-  sharedWith: z.array(z.string().min(1)).optional(),
+  sharedWith: z.array(z.string().uuid()).optional(),
   lastRunAt: z.date().optional(),
   executionTimeMs: z.number().int().optional()
 })

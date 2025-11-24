@@ -20,12 +20,7 @@ export async function createUserService (data, actor) {
 }
 
 export async function listUsersService (params, actor) {
-  const role = actor?.role ?? ''
-  const allowedRoles = ['admin', 'bodeguero', 'vendedor']
-  if (!allowedRoles.includes(role)) {
-    const e = new Error('No tienes permisos'); e.status = 403; throw e
-  }
-  const isAdmin = role === 'admin'
+  if (actor?.role !== 'admin') { const e = new Error('No tienes permisos'); e.status = 403; throw e }
   const page = Math.max(parseInt(params?.page ?? 1, 10), 1)
   const limit = Math.min(Math.max(parseInt(params?.limit ?? 10, 10), 1), 100)
   const offset = (page - 1) * limit
@@ -43,9 +38,7 @@ export async function listUsersService (params, actor) {
     limit,
     offset,
     order: [['created_at', 'DESC'], ['id', 'DESC']],
-    attributes: isAdmin
-      ? { exclude: ['password'] }
-      : ['id', 'username', 'name', 'role', 'created_at']
+    attributes: { exclude: ['password'] }
   })
   return { total: count, page, pages: Math.max(Math.ceil(count / limit), 1), users: rows }
 }

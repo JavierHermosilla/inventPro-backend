@@ -1,4 +1,3 @@
-// src/routes/user.routes.js
 import { Router } from 'express'
 import {
   listUsers,
@@ -30,7 +29,7 @@ router.post(
 router.get(
   '/',
   verifyTokenMiddleware,
-  requireRole('admin', 'bodeguero', 'vendedor'),
+  requireRole('admin'),
   listUsers
 )
 

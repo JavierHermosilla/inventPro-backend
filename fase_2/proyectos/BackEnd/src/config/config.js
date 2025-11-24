@@ -1,14 +1,5 @@
 // src/config/config.js
-import fs from 'node:fs'
-import path from 'node:path'
-import dotenv from 'dotenv'
-
-const ROOT_DIR = process.cwd()
-const localEnvPath = path.resolve(ROOT_DIR, 'src/.env')
-
-if (process.env.SKIP_LOCAL_DOTENV !== '1' && fs.existsSync(localEnvPath)) {
-  dotenv.config({ path: localEnvPath })
-}
+import 'dotenv/config'
 
 // Entorno / server
 export const NODE_ENV = process.env.NODE_ENV ?? 'development'

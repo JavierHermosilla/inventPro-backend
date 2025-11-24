@@ -1,4 +1,4 @@
-// src/app.js
+// app.js (reemplaza tu contenido relevante)
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import helmet from 'helmet'
@@ -19,28 +19,23 @@ import categoryRoutes from './routes/category.routes.js'
 import clientRoutes from './routes/client.routes.js'
 import reportsRoutes from './routes/reports.routes.js'
 import OrderProductRoutes from './routes/orderProduct.routes.js'
-import exportRoutes from './routes/export.routes.js'
-import dashboardRoutes from './routes/dashboard.routes.js'
 
 import { sanitizeInput } from './middleware/sanitizeInput.js'
 import { zodErrorHandler } from './middleware/zodErrorHandler.js'
 import { attachClientIP } from './middleware/attachClientIP.middleware.js'
-import { globalRateLimiter } from './middleware/rateLimit.js'
-import { basicAuth } from './middleware/basicAuth.js'
 
 const app = express()
 app.disable('x-powered-by')
-// Ajusta según tu cadena de proxies/CDN (1 si hay 1 proxy como Nginx)
 app.set('trust proxy', 1)
 
-// ▶️ Request ID para correlación
+// Request ID para correlación
 app.use((req, res, next) => {
   req.id = req.headers['x-request-id'] || uuidv4()
   res.set('x-request-id', req.id)
   next()
 })
 
-// ▶️ Middlewares globales de seguridad y saneamiento
+// Middlewares globales
 app.use(express.json({ limit: '1mb' }))
 app.use(hpp())
 app.use(sanitizeInput)
@@ -51,90 +46,27 @@ app.use(helmet({
 app.use(morgan('dev'))
 app.use(cookieParser())
 
-// ▶️ CORS por ENV
-const normalizeOriginValue = (value = '') => value.replace(/\/$/, '').toLowerCase()
-
+// CORS por ENV
 const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
   .split(',')
   .map(s => s.trim())
   .filter(Boolean)
-const ALLOW_ALL_ORIGINS = ALLOWED_ORIGINS.includes('*')
-const EXACT_ALLOWED_ORIGINS = new Set(
-  ALLOWED_ORIGINS
-    .filter(origin => origin !== '*' && !origin.includes('*'))
-    .map(normalizeOriginValue)
-)
-
-const WILDCARD_ORIGIN_REGEXPS = ALLOWED_ORIGINS
-  .filter(origin => origin !== '*' && origin.includes('*'))
-  .map(origin => {
-    const pattern = normalizeOriginValue(origin)
-      .replace(/[.+?^${}()|[\]\\]/g, '\\$&')
-      .replace(/\*/g, '.*')
-    return new RegExp(`^${pattern}$`, 'i')
-  })
-
-const addExactOrigin = (origin) => {
-  const normalized = normalizeOriginValue(origin)
-  if (normalized) EXACT_ALLOWED_ORIGINS.add(normalized)
-}
-
-const originFromUrl = (value) => {
-  if (!value) return null
-  const tryParse = (candidate) => {
-    try {
-      const parsed = new URL(candidate)
-      return parsed.origin
-    } catch {
-      return null
-    }
-  }
-
-  return tryParse(value) ?? tryParse(`https://${value}`)
-}
-
-// Permite automáticamente el mismo dominio configurado para Swagger (docs).
-const swaggerOrigin = originFromUrl(process.env.SWAGGER_SERVER_URL)
-if (swaggerOrigin) addExactOrigin(swaggerOrigin)
-
-const isOriginAllowed = (origin) => {
-  if (ALLOW_ALL_ORIGINS || !origin) return true
-  const normalized = normalizeOriginValue(origin)
-  if (EXACT_ALLOWED_ORIGINS.has(normalized)) return true
-  return WILDCARD_ORIGIN_REGEXPS.some(regex => regex.test(normalized))
-}
-
-const docsAuth = basicAuth({
-  username: process.env.SWAGGER_USER,
-  password: process.env.SWAGGER_PASS,
-  realm: 'InventPro Docs'
-})
-
-const metricsAuth = basicAuth({
-  username: process.env.METRICS_USER || process.env.SWAGGER_USER,
-  password: process.env.METRICS_PASS || process.env.SWAGGER_PASS,
-  realm: 'InventPro Metrics'
-})
 
 app.use(cors({
   origin (origin, cb) {
-    if (ALLOW_ALL_ORIGINS || !origin) return cb(null, true)
-    if (isOriginAllowed(origin)) return cb(null, true)
-    return cb(new Error(`Not allowed by CORS: ${origin}`))
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) return cb(null, true)
+    return cb(new Error('Not allowed by CORS'))
   },
   credentials: true
 }))
 
-// ▶️ IP real del cliente
+// IP
 app.use(attachClientIP)
 
-// ▶️ Rate limit GLOBAL (excluye /api/health, /metrics y swagger)
-app.use(globalRateLimiter)
+// Swagger
+setupSwagger(app)
 
-// ▶️ Swagger / OpenAPI
-setupSwagger(app, { protect: docsAuth })
-
-// ▶️ Rutas de la API
+// Rutas
 app.use('/api/auth', authRoutes)
 app.use('/api/users', userRoutes)
 app.use('/api/products', productRoutes)
@@ -145,25 +77,23 @@ app.use('/api/categories', categoryRoutes)
 app.use('/api/clients', clientRoutes)
 app.use('/api/reports', reportsRoutes)
 app.use('/api/order-products', OrderProductRoutes)
-app.use('/api/exports', exportRoutes)
-app.use('/api/dashboard', dashboardRoutes)
 
-// ▶️ Healthz
+// Healthz
 app.get('/api/health', async (_req, res) => {
   res.json({ status: 'ok' })
 })
 
-// ▶️ Prometheus metrics
+// Prometheus
 client.collectDefaultMetrics()
-app.get('/metrics', metricsAuth, async (_req, res) => {
+app.get('/metrics', async (_req, res) => {
   res.set('Content-Type', client.register.contentType)
   res.end(await client.register.metrics())
 })
 
-// ▶️ Handler de errores Zod (validaciones)
+// Zod handler
 app.use(zodErrorHandler)
 
-// ▶️ Error handler seguro (sin filtrar detalles en producción)
+// Error handler seguro
 app.use((err, _req, res, _next) => {
   const status = err.status || 500
   const payload = { message: err.publicMessage || 'Internal server error' }

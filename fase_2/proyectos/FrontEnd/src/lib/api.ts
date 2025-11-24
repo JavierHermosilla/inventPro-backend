@@ -1,10 +1,10 @@
 import axios, { AxiosHeaders, type AxiosError, type InternalAxiosRequestConfig } from "axios";
 
-const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/refresh"];
+const TOKEN_KEY = "inventpro_access_token";
 
 const resolveBaseUrl = () => {
   const candidate = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_API_URL;
-  return candidate && candidate.trim().length > 0 ? candidate : "/api"; // fallback seguro
+  return candidate && candidate.trim().length > 0 ? candidate : "/api"; // ✅ fallback seguro
 };
 
 const normalizeToken = (value?: string | null) => {
@@ -13,9 +13,7 @@ const normalizeToken = (value?: string | null) => {
   return trimmed.length > 0 ? trimmed : null;
 };
 
-const TOKEN_KEY = "auth_token";
-
-const loadStoredToken = () => {
+const readStoredToken = (): string | null => {
   if (typeof window === "undefined") return null;
   try {
     return normalizeToken(window.localStorage.getItem(TOKEN_KEY));
@@ -24,28 +22,9 @@ const loadStoredToken = () => {
   }
 };
 
-const persistToken = (token: string | null) => {
-  if (typeof window === "undefined") return;
-  try {
-    if (token) {
-      window.localStorage.setItem(TOKEN_KEY, token);
-    } else {
-      window.localStorage.removeItem(TOKEN_KEY);
-    }
-  } catch {
-    // silenciosamente ignora problemas de storage (modo incógnito, etc.)
-  }
-};
-
 const baseURL = resolveBaseUrl();
 
 const api = axios.create({
-  baseURL,
-  withCredentials: true,
-  headers: { "Content-Type": "application/json" },
-});
-
-const refreshClient = axios.create({
   baseURL,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
@@ -64,53 +43,8 @@ const applyDefaultAuthHeader = (token: string | null) => {
   }
 };
 
-let inMemoryToken: string | null = loadStoredToken();
-applyDefaultAuthHeader(inMemoryToken);
-
-let refreshPromise: Promise<string | null> | null = null;
-
-const shouldSkipAuth = (url?: string) => {
-  if (!url) return false;
-  return PUBLIC_ENDPOINTS.some((path) => url.includes(path));
-};
-
-const requestRefreshToken = async (): Promise<string | null> => {
-  try {
-    const response = await refreshClient.post<{ token?: string }>("/auth/refresh");
-    const token = normalizeToken(response.data?.token ?? null);
-    setToken(token);
-    return token;
-  } catch {
-    setToken(null);
-    return null;
-  }
-};
-
-const ensureAccessToken = async (force = false): Promise<string | null> => {
-  if (!force && inMemoryToken) return inMemoryToken;
-  if (force) {
-    inMemoryToken = null;
-    refreshPromise = null;
-  }
-  if (!refreshPromise) {
-    refreshPromise = (async () => {
-      try {
-        return await requestRefreshToken();
-      } finally {
-        refreshPromise = null;
-      }
-    })();
-  }
-  return refreshPromise;
-};
-
-const attachAuthToken = async (config: InternalAxiosRequestConfig) => {
-  if (shouldSkipAuth(config.url)) {
-    return config;
-  }
-
-  const token = await ensureAccessToken();
-
+const attachAuthToken = (config: InternalAxiosRequestConfig) => {
+  const token = readStoredToken();
   if (token) {
     if (!config.headers) config.headers = new AxiosHeaders();
 
@@ -124,49 +58,47 @@ const attachAuthToken = async (config: InternalAxiosRequestConfig) => {
   } else if (config.headers) {
     delete (config.headers as Record<string, string>)["Authorization"];
   }
-
   return config;
 };
 
 api.interceptors.request.use(attachAuthToken);
 
-type RetriableRequest = InternalAxiosRequestConfig & { _retry?: boolean };
-
 api.interceptors.response.use(
   (response) => response,
-  async (error: AxiosError) => {
-    const status = error.response?.status;
-    const originalRequest = error.config as RetriableRequest | undefined;
-
-    if ((status === 401 || status === 403) && originalRequest && !shouldSkipAuth(originalRequest.url)) {
-      saveToken(null);
-
-      if (!originalRequest._retry) {
-        originalRequest._retry = true;
-        const newToken = await ensureAccessToken(true);
-        if (newToken) {
-          return api(originalRequest);
+  (error: AxiosError) => {
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      console.error("Token expirado o invalido. Limpiando sesion localmente.");
+      if (typeof window !== "undefined") {
+        try {
+          window.localStorage.removeItem(TOKEN_KEY);
+        } catch {
+          /* noop: limpiar token es best effort */
         }
       }
+      applyDefaultAuthHeader(null);
     }
-
     return Promise.reject(error);
   }
 );
 
-const setToken = (token: string | null) => {
-  inMemoryToken = token;
-  applyDefaultAuthHeader(token);
-  persistToken(token);
-};
+const initialToken = readStoredToken();
+if (initialToken) applyDefaultAuthHeader(initialToken);
 
 export function saveToken(token: string | null) {
   const normalized = normalizeToken(token);
-  setToken(normalized);
+  if (typeof window !== "undefined") {
+    try {
+      if (normalized) window.localStorage.setItem(TOKEN_KEY, normalized);
+      else window.localStorage.removeItem(TOKEN_KEY);
+    } catch {
+      /* noop: almacenamiento local puede fallar por quota */
+    }
+  }
+  applyDefaultAuthHeader(normalized);
 }
 
 export function getToken() {
-  return inMemoryToken;
+  return readStoredToken();
 }
 
 export default api;

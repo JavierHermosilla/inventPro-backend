@@ -5,10 +5,8 @@ import {
   listClients,
   listClientById,
   updateClient,
-  deleteClient,
-  exportClientsPDF,
-  exportClientsXLSX
-} from '../controllers/client.controller.js'
+  deleteClient
+} from '../controllers/clients.controller.js'
 
 import { verifyTokenMiddleware, requireRole } from '../middleware/auth.middleware.js'
 import { validateUUID } from '../middleware/validateUUID.middleware.js'
@@ -17,26 +15,47 @@ import { createClientSchema, updateClientSchema } from '../schemas/client.schema
 
 const router = Router()
 
-// 🔒 todas autenticadas
+// 🔒 Todas las rutas requieren estar autenticado
 router.use(verifyTokenMiddleware)
 
-// Exports (solo admin)
-router.get('/export.pdf', requireRole('admin'), exportClientsPDF)
-router.get('/export.xlsx', requireRole('admin'), exportClientsXLSX)
+// Crear cliente → solo admin
+router.post(
+  '/',
+  requireRole('admin'),
+  validateSchema(createClientSchema),
+  createClient
+)
 
-// Crear → admin y vendedor (necesita registrar clientes antes de generar ventas)
-router.post('/', requireRole('admin', 'vendedor'), validateSchema(createClientSchema), createClient)
+// Listar clientes → admin y bodeguero
+router.get(
+  '/',
+  requireRole('admin', 'bodeguero'),
+  listClients
+)
 
-// Listar / CSV (?export=csv) → admin, bodeguero y vendedor
-router.get('/', requireRole('admin', 'bodeguero', 'vendedor'), listClients)
+// Obtener cliente por ID → admin y bodeguero
+router.get(
+  '/:id',
+  requireRole('admin', 'bodeguero'),
+  validateUUID('id'),
+  listClientById
+)
 
-// Obtener por ID → admin, bodeguero y vendedor
-router.get('/:id', requireRole('admin', 'bodeguero', 'vendedor'), validateUUID('id'), listClientById)
+// Actualizar cliente → solo admin
+router.put(
+  '/:id',
+  requireRole('admin'),
+  validateUUID('id'),
+  validateSchema(updateClientSchema),
+  updateClient
+)
 
-// Actualizar → admin
-router.put('/:id', requireRole('admin'), validateUUID('id'), validateSchema(updateClientSchema), updateClient)
-
-// Eliminar → admin
-router.delete('/:id', requireRole('admin'), validateUUID('id'), deleteClient)
+// Eliminar cliente → solo admin
+router.delete(
+  '/:id',
+  requireRole('admin'),
+  validateUUID('id'),
+  deleteClient
+)
 
 export default router

@@ -229,7 +229,7 @@ export default function CategoriesPage() {
         key: "description",
         header: "Descripción",
         render: (category) => (
-          <p className="text-sm text-gray-600">{category.description ?? "Sin descripción"}</p>
+          <p className="text-sm text-gray-600">{category.description ?? "Sin descripcion"}</p>
         ),
       },
       {
@@ -294,17 +294,17 @@ export default function CategoriesPage() {
         </div>
       )}
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="grid gap-4 md:grid-cols-3">
         <article className="rounded-xl border border-blue-100 bg-white p-5 shadow">
           <p className="text-xs font-semibold uppercase text-blue-500">Total categorías</p>
           <p className="mt-2 text-3xl font-black text-blue-700">{summary.total}</p>
         </article>
         <article className="rounded-xl border border-emerald-100 bg-white p-5 shadow">
-          <p className="text-xs font-semibold uppercase text-emerald-500">Con descripción</p>
+          <p className="text-xs font-semibold uppercase text-emerald-500">Con descripcion</p>
           <p className="mt-2 text-3xl font-black text-emerald-600">{summary.withDescription}</p>
         </article>
         <article className="rounded-xl border border-amber-100 bg-white p-5 shadow">
-          <p className="text-xs font-semibold uppercase text-amber-500">Sin descripción</p>
+          <p className="text-xs font-semibold uppercase text-amber-500">Sin descripcion</p>
           <p className="mt-2 text-3xl font-black text-amber-600">{summary.withoutDescription}</p>
         </article>
       </section>
@@ -365,7 +365,7 @@ export default function CategoriesPage() {
               {summary.recent.map((category) => (
                 <li key={category.id} className="rounded-lg border border-gray-100 p-3">
                   <p className="font-medium text-gray-800">{prettifyName(category.name)}</p>
-                  <p className="text-xs text-gray-500">{category.description ?? "Sin descripción"}</p>
+                  <p className="text-xs text-gray-500">{category.description ?? "Sin descripcion"}</p>
                   <p className="mt-1 text-xs text-gray-400">Creada el {formatDate(category.createdAt)}</p>
                 </li>
               ))}

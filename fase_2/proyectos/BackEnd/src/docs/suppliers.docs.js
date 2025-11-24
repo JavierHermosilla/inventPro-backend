@@ -1,112 +1,92 @@
 /**
  * @swagger
  * tags:
- *   name: Reports
- *   description: Listado, detalle y exportación de reportes
+ *   name: Suppliers
+ *   description: Gestión de proveedores (incluye RUT chileno)
  */
 
 /**
  * @swagger
  * components:
  *   schemas:
- *     Report:
+ *     Supplier:
  *       type: object
  *       properties:
- *         id:      { type: string, format: uuid }
- *         type:    { type: string, example: "sales-summary" }
- *         status:  { type: string, enum: [pending, processing, ready, failed], example: "ready" }
- *         payload: { type: object, additionalProperties: true }
+ *         id:     { type: string, format: uuid }
+ *         name:   { type: string }
+ *         rut:    { type: string, example: "76.123.456-7" }
+ *         email:  { type: string, format: email, nullable: true }
+ *         phone:  { type: string, nullable: true }
  *         createdAt: { type: string, format: date-time }
  *         updatedAt: { type: string, format: date-time }
- *     CreateReportInput:
+ *     CreateSupplierInput:
  *       type: object
- *       required: [type]
+ *       required: [name, rut]
  *       properties:
- *         type:    { type: string }
- *         payload: { type: object, additionalProperties: true }
+ *         name:  { type: string }
+ *         rut:   { type: string, description: "RUT válido (con guion y dígito verificador)" }
+ *         email: { type: string, format: email }
+ *         phone: { type: string }
  */
 
 /**
  * @swagger
- * /reports:
+ * /suppliers:
  *   get:
- *     tags: [Reports]
- *     summary: Listar reportes (paginado y filtros)
+ *     tags: [Suppliers]
+ *     summary: Listar proveedores
  *     parameters:
  *       - in: query
- *         name: page
- *         schema: { type: integer, minimum: 1 }
- *       - in: query
- *         name: limit
- *         schema: { type: integer, minimum: 1, maximum: 100 }
- *       - in: query
- *         name: status
- *         schema: { type: string, enum: [pending, processing, ready, failed] }
- *       - in: query
- *         name: type
+ *         name: search
  *         schema: { type: string }
  *     responses:
- *       200: { description: Lista de reportes }
+ *       200:
+ *         description: Lista de proveedores
  *   post:
- *     tags: [Reports]
- *     summary: Crear reporte
+ *     tags: [Suppliers]
+ *     summary: Crear proveedor
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
- *           schema: { $ref: '#/components/schemas/CreateReportInput' }
+ *           schema: { $ref: '#/components/schemas/CreateSupplierInput' }
  *     responses:
- *       201: { description: Reporte creado }
+ *       201:
+ *         description: Proveedor creado
  */
 
 /**
  * @swagger
- * /reports/{id}:
+ * /suppliers/{id}:
  *   get:
- *     tags: [Reports]
- *     summary: Obtener reporte por id
+ *     tags: [Suppliers]
+ *     summary: Obtener proveedor
  *     parameters:
  *       - $ref: '#/components/parameters/UUIDId'
- *     responses:
- *       200: { description: Reporte }
- *       404: { description: No encontrado }
- *   put:
- *     tags: [Reports]
- *     summary: Actualizar reporte
- *     parameters:
- *       - $ref: '#/components/parameters/UUIDId'
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *     responses:
- *       200: { description: Reporte actualizado }
- *   delete:
- *     tags: [Reports]
- *     summary: Eliminar reporte
- *     parameters:
- *       - $ref: '#/components/parameters/UUIDId'
- *     responses:
- *       204: { description: Eliminado }
- */
-
-/**
- * @swagger
- * /reports/{id}/export:
- *   get:
- *     tags: [Reports]
- *     summary: Exportar reporte
- *     description: Exporta a PDF o XLSX según `format`.
- *     parameters:
- *       - $ref: '#/components/parameters/UUIDId'
- *       - in: query
- *         name: format
- *         schema: { type: string, enum: [pdf, xlsx], default: pdf }
  *     responses:
  *       200:
- *         description: Archivo exportado (stream)
+ *         description: Proveedor
  *       404:
- *         description: Reporte no encontrado
+ *         description: No encontrado
+ *   put:
+ *     tags: [Suppliers]
+ *     summary: Actualizar proveedor
+ *     parameters:
+ *       - $ref: '#/components/parameters/UUIDId'
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema: { $ref: '#/components/schemas/CreateSupplierInput' }
+ *     responses:
+ *       200:
+ *         description: Actualizado
+ *   delete:
+ *     tags: [Suppliers]
+ *     summary: Eliminar proveedor
+ *     parameters:
+ *       - $ref: '#/components/parameters/UUIDId'
+ *     responses:
+ *       204:
+ *         description: Eliminado
  */

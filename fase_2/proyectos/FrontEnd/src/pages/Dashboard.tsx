@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../lib/api";
 import dashboardApi, { type DashboardRecentOrder, type DashboardSummary } from "../lib/dashboardApi";
@@ -8,7 +8,7 @@ import { categoriesApi, type CategoryItem, type CategoryListResult } from "../li
 import { suppliersApi, type SupplierItem, type SupplierListResult } from "../lib/suppliersApi";
 import { usersApi, USER_ROLE_LABELS, type UserItem, type UserListResult } from "../lib/usersApi";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
-import { useAuthStore, type Role, type User as AuthUser } from "../store/auth";
+import { useAuthStore, type User as AuthUser } from "../store/auth";
 import { useSettingsStore } from "../store/settings";
 
 type KpiData = {
@@ -35,15 +35,14 @@ type ApiOrder = {
   clientId?: string | null;
   createdAt?: string | null;
   status?: OrderStatus | null;
-  client?: { name?: string | null; rut?: string | null } | null;
+  client?: { name?: string | null } | null;
   customer?: { name?: string | null } | null;
   items?: ApiOrderItem[] | null;
 };
 
 type RecentOrder = {
   id: string;
-  clientLabel: string;
-  clientMeta: string | null;
+  clientName: string;
   orderDate: string;
   status: OrderStatus;
 };
@@ -90,14 +89,6 @@ const CATEGORY_COLOR_CLASSES = [
   "bg-lime-500",
   "bg-fuchsia-500",
 ];
-
-const STATUS_COLORS: Record<OrderStatus | "other", string> = {
-  completed: "bg-emerald-500",
-  processing: "bg-blue-500",
-  pending: "bg-amber-500",
-  cancelled: "bg-rose-500",
-  other: "bg-slate-400",
-};
 
 const DEFAULT_KPIS: KpiData = {
   totalProducts: 0,
@@ -166,46 +157,6 @@ const fallbackClientName = (identifier?: string | null) => {
   return clean ? `Cliente ${clean.slice(0, 6)}` : "Cliente sin identificar";
 };
 
-const shortIdentifier = (value?: string | null) => {
-  if (!value) return null;
-  const clean = value.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
-  return clean ? clean.slice(0, 6) : null;
-};
-
-const buildClientDisplay = ({
-  name,
-  rut,
-  fallbackId,
-  orderId,
-}: {
-  name?: string | null;
-  rut?: string | null;
-  fallbackId?: string | null;
-  orderId: string;
-}) => {
-  const safeName = name?.trim() || null;
-  const safeRut = rut?.trim() || null;
-  const fallback = fallbackId ?? orderId;
-  const shortId = shortIdentifier(fallback);
-
-  if (safeName && safeRut) {
-    return { primary: safeName, secondary: safeRut };
-  }
-
-  if (safeName) {
-    return { primary: safeName, secondary: shortId ? `ID: ${shortId}` : null };
-  }
-
-  if (safeRut) {
-    return { primary: safeRut, secondary: shortId ? `ID: ${shortId}` : null };
-  }
-
-  return {
-    primary: fallbackClientName(fallback),
-    secondary: shortId ? `ID: ${shortId}` : null,
-  };
-};
-
 const mapOrdersFromApi = (orders: ApiOrder[]): RecentOrder[] =>
   orders
     .filter((order): order is ApiOrder & { id: string } => Boolean(order?.id))
@@ -213,17 +164,9 @@ const mapOrdersFromApi = (orders: ApiOrder[]): RecentOrder[] =>
     .map((order) => {
       const clientName = order.client?.name?.trim();
       const customerName = order.customer?.name?.trim();
-      const clientRut = order.client?.rut?.trim();
-      const { primary, secondary } = buildClientDisplay({
-        name: clientName || customerName,
-        rut: clientRut,
-        fallbackId: order.clientId,
-        orderId: order.id!,
-      });
       return {
         id: order.id!,
-        clientLabel: primary,
-        clientMeta: secondary,
+        clientName: clientName || customerName || fallbackClientName(order.clientId),
         orderDate: order.createdAt ?? new Date().toISOString(),
         status: (order.status ?? "pending") as OrderStatus,
       };
@@ -233,21 +176,12 @@ const mapOrdersFromSummary = (orders: DashboardRecentOrder[]): RecentOrder[] =>
   orders
     .filter((order): order is DashboardRecentOrder & { id: string } => Boolean(order?.id))
     .slice(0, MAX_RECENT_ORDERS)
-    .map((order) => {
-      const { primary, secondary } = buildClientDisplay({
-        name: order.clientName,
-        rut: order.clientRut,
-        fallbackId: order.clientId,
-        orderId: order.id,
-      });
-      return {
-        id: order.id,
-        clientLabel: primary,
-        clientMeta: secondary,
-        orderDate: order.createdAt ?? new Date().toISOString(),
-        status: order.status,
-      };
-    });
+    .map((order) => ({
+      id: order.id,
+      clientName: order.clientName ?? fallbackClientName(order.clientId),
+      orderDate: order.createdAt ?? new Date().toISOString(),
+      status: order.status,
+    }));
 
 type KpiOverrides = Partial<Pick<KpiData, "totalProducts" | "lowStockItems" | "totalSalesCount" | "dailySalesCount">>;
 
@@ -546,7 +480,7 @@ const DashboardPage = () => {
     } catch (err) {
       if (!isMountedRef.current) return;
       console.error("[dashboard] fetch error", err);
-      setError("No se pudieron cargar los datos del dashboard. Verifique la conexión al backend o su sesión.");
+      setError("No se pudieron cargar los datos del dashboard. Verifique la conexion al backend o su sesion.");
     } finally {
       if (isMountedRef.current) {
         setLoading(false);
@@ -563,41 +497,13 @@ const DashboardPage = () => {
     return () => clearInterval(timer);
   }, []);
 
-  const orderStatusStats = useMemo(() => {
-    const counts: Record<OrderStatus | "other", number> = {
-      completed: 0,
-      processing: 0,
-      pending: 0,
-      cancelled: 0,
-      other: 0,
-    };
-
-    recentOrders.forEach((order) => {
-      if (counts[order.status] !== undefined) {
-        counts[order.status] += 1;
-      } else {
-        counts.other += 1;
-      }
-    });
-
-    const entries = (Object.keys(counts) as Array<keyof typeof counts>).map((key) => ({
-      id: key,
-      label: getStatusLabel(key as OrderStatus),
-      value: counts[key],
-      color: STATUS_COLORS[key] ?? STATUS_COLORS.other,
-    }));
-
-    const total = recentOrders.length;
-    return { entries, total: total === 0 ? 1 : total };
-  }, [recentOrders]);
-
   const handleLogout = useCallback(async () => {
     if (!isMountedRef.current || isLoggingOut) return;
 
     const confirmed = await confirmAction({
-      title: "Cerrar sesión",
-      text: "¿Estás seguro de que deseas cerrar tu sesión?",
-      confirmButtonText: "Sí, cerrar sesión",
+      title: "Cerrar sesion",
+      text: "Estas seguro de que deseas cerrar tu sesion",
+      confirmButtonText: "Si, cerrar sesion",
     });
 
     if (!confirmed) return;
@@ -611,23 +517,23 @@ const DashboardPage = () => {
 
       await showSuccess({
         title: "Sesion cerrada",
-        text: "Has cerrado sesión correctamente.",
-        confirmButtonText: "Ir a iniciar sesión",
+        text: "Has cerrado sesion correctamente.",
+        confirmButtonText: "Ir a iniciar sesion",
       });
 
       if (!isMountedRef.current) return;
       navigate("/login", { replace: true });
     } catch (err) {
-      console.error("Error al cerrar sesión:", err);
+      console.error("Error al cerrar sesion:", err);
       const message =
         err instanceof Error && err.message.trim().length > 0
           ? err.message
-          : "No se pudo cerrar la sesión. Intenta nuevamente.";
+          : "No se pudo cerrar la sesion. Intenta nuevamente.";
       if (isMountedRef.current) {
         setLogoutError(message);
       }
       await showError({
-        title: "Error al cerrar sesión",
+        title: "Error al cerrar sesion",
         text: message,
       });
     } finally {
@@ -636,8 +542,6 @@ const DashboardPage = () => {
       }
     }
   }, [isLoggingOut, logout, navigate]);
-
-  // Botón de exportar PDF retirado: generación desde Reportes
 
   if (loading) {
     return <div className="p-6 text-center text-gray-500">Cargando datos del dashboard...</div>;
@@ -660,10 +564,7 @@ const DashboardPage = () => {
   });
 
   const userDisplayName = currentUser?.name ?? "Usuario";
-  const effectiveRole = (currentUser?.role ?? authUser?.role ?? "user") as Role;
-  const isAdmin = effectiveRole === "admin";
-  const isWarehouse = effectiveRole === "bodeguero";
-  const userRoleLabel = USER_ROLE_LABELS[effectiveRole] ?? effectiveRole;
+  const userRoleLabel = currentUser?.role ? USER_ROLE_LABELS[currentUser.role] ?? currentUser.role : "Invitado";
   const lowStockProducts = inventoryProducts.filter((product) => Number(product.stock) < LOW_STOCK_THRESHOLD);
 
   const cardClass = isDarkMode
@@ -730,9 +631,6 @@ const DashboardPage = () => {
       ),
     },
   ];
-  const metricCardsToShow = isWarehouse
-    ? metricCards.filter((metric) => metric.id === "products" || metric.id === "low-stock")
-    : metricCards;
 
   return (
     <div className="space-y-6">
@@ -742,13 +640,8 @@ const DashboardPage = () => {
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-500 dark:text-blue-300">Panel principal</p>
             <h1 className="mt-2 text-3xl font-bold text-slate-900 dark:text-slate-100 md:text-4xl">Hola, {userDisplayName}</h1>
             <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
-            Rol actual: <span className="font-semibold text-blue-600 dark:text-blue-300">{userRoleLabel}</span>. Gestiona tu inventario y pedidos desde aquí.
+              Rol actual: <span className="font-semibold text-blue-600 dark:text-blue-300">{userRoleLabel}</span>. Gestiona tu inventario y pedidos desde aqui.
             </p>
-            {isWarehouse ? (
-              <p className="text-xs font-semibold uppercase tracking-wide text-amber-600 dark:text-amber-200">
-                Vista de bodega: priorizamos stock bajo y órdenes pendientes.
-              </p>
-            ) : null}
             {notice ? (
               <div
                 className={`mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium ${
@@ -762,18 +655,18 @@ const DashboardPage = () => {
               </div>
             ) : null}
           </div>
-            <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-end lg:w-auto">
-              <div className="text-right">
-                <p className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{formattedTime}</p>
-                <p className="text-xs text-slate-500 dark:text-slate-300 capitalize">{formattedDate}</p>
-              </div>
-              <div className="flex flex-col gap-2 sm:w-52">
-                <button
-                  onClick={handleLogout}
-                  disabled={isLoggingOut}
-                  className="inline-flex justify-center rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                {isLoggingOut ? "Cerrando..." : "Cerrar sesión"}
+          <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-end lg:w-auto">
+            <div className="text-right">
+              <p className="text-2xl font-semibold text-slate-900 dark:text-slate-100">{formattedTime}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-300 capitalize">{formattedDate}</p>
+            </div>
+            <div className="flex flex-col gap-2 sm:w-52">
+              <button
+                onClick={handleLogout}
+                disabled={isLoggingOut}
+                className="inline-flex justify-center rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isLoggingOut ? "Cerrando..." : "Cerrar sesion"}
               </button>
               {logoutError ? <p className="text-center text-xs text-red-600">{logoutError}</p> : null}
             </div>
@@ -782,7 +675,7 @@ const DashboardPage = () => {
       </section>
 
       <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {metricCardsToShow.map((metric) => (
+        {metricCards.map((metric) => (
           <article
             key={metric.id}
             className={compactCardClass}
@@ -826,13 +719,8 @@ const DashboardPage = () => {
                 </thead>
                 <tbody className="divide-y divide-slate-200">
                   {recentOrders.map((order) => (
-                    <tr key={order.id} className="text-sm text-slate-700 dark:text-slate-100">
-                      <td className="py-3">
-                        <p className="font-medium">{order.clientLabel}</p>
-                        {order.clientMeta ? (
-                          <p className="text-xs text-slate-500 dark:text-slate-300">{order.clientMeta}</p>
-                        ) : null}
-                      </td>
+                    <tr key={order.id} className="text-sm text-slate-700">
+                      <td className="py-3 font-medium">{order.clientName}</td>
                       <td className="py-3 text-slate-500 dark:text-slate-300">{formatDateLabel(order.orderDate)}</td>
                       <td className="py-3">
                         <span className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusClasses(order.status, isDarkMode)}`}>
@@ -853,53 +741,11 @@ const DashboardPage = () => {
           )}
         </section>
 
-        <aside className={`${cardClass} md:p-8 flex flex-col`}>
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Estado de ordenes</h2>
-              <p className="text-xs text-slate-500 dark:text-slate-300">Resumen segun ultimas ordenes.</p>
-            </div>
-            <div className="text-right">
-              <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{orderStatusStats.total}</p>
-              <p className="text-[11px] uppercase tracking-wide text-slate-400 dark:text-slate-300">ordenes</p>
-            </div>
-          </div>
-
-          {orderStatusStats.total > 0 ? (
-            <div className="mt-4 flex-1 h-44 min-h-[160px] flex items-end gap-4 rounded-xl bg-slate-50 p-4 dark:bg-slate-800/40">
-              {orderStatusStats.entries.map((entry) => (
-                <div key={entry.id} className="flex-1">
-                  <div
-                    className={`rounded-t-lg ${entry.color} transition-all`}
-                    style={{
-                      height: `${Math.max((entry.value / orderStatusStats.total) * 100, entry.value > 0 ? 12 : 6)}%`,
-                      minHeight: entry.value > 0 ? "18px" : "8px",
-                    }}
-                  />
-                  <div className="mt-2 text-center text-xs text-slate-500 dark:text-slate-300">
-                    <p className="font-semibold text-slate-800 dark:text-slate-100">{entry.value}</p>
-                    <p className="capitalize">{entry.label}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="mt-4 rounded-xl border border-dashed p-6 text-center text-sm text-slate-500 dark:border-slate-600 dark:bg-slate-800/40 dark:text-slate-300">
-              Aun no hay ordenes para graficar.
-            </p>
-          )}
-        </aside>
-
-      </div>
-
-      {isAdmin && (
-        <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
+        <div className="space-y-6">
           <section className={cardClass}>
             <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Usuarios del sistema</h2>
-                <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-300">Resumen</span>
-              </div>
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Usuarios del sistema</h2>
+              <span className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-slate-300">Resumen</span>
             </div>
             {systemUsers.length > 0 ? (
               <ul className="mt-4 space-y-3">
@@ -958,7 +804,7 @@ const DashboardPage = () => {
             )}
           </section>
         </div>
-      )}
+      </div>
 
       <div className="grid gap-6 xl:grid-cols-[2fr_1fr]">
         <section className={cardClass}>

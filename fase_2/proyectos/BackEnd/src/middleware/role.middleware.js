@@ -1,4 +1,3 @@
-// src/middleware/role.middleware.js
 import logger from '../utils/logger.js'
 
 /**

@@ -1,6 +1,4 @@
-// src/models/reports.model.js
 import { DataTypes, Model } from 'sequelize'
-const SCHEMA = process.env.DB_SCHEMA || 'inventpro_user'
 
 class Report extends Model {
   static initialize (sequelize) {
@@ -100,7 +98,7 @@ class Report extends Model {
         sequelize,
         modelName: 'Report',
         tableName: 'reports',
-        schema: SCHEMA,
+        schema: 'inventpro_user',
 
         timestamps: true,
         paranoid: false, // suele no ser necesario en “reports”; cámbialo si de verdad usas deleted_at

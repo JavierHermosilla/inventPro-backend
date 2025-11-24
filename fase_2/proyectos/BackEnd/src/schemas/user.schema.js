@@ -1,4 +1,3 @@
-// src/schemas/user.schema.js
 import { z } from 'zod'
 import { ROLES } from '../config/roles.js'
 

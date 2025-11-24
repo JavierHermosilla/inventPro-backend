@@ -1,4 +1,3 @@
-// src/migrations/20250929173000-dedup-clients-rut-and-orders-fk.cjs
 'use strict'
 
 module.exports = {

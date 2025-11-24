@@ -42,13 +42,13 @@
  *     parameters:
  *       - in: query
  *         name: page
- *         schema: { type: integer, minimum: 1, example: 1 }
+ *         schema: { type: integer, minimum: 1 }
  *       - in: query
  *         name: limit
- *         schema: { type: integer, minimum: 1, maximum: 100, example: 20 }
+ *         schema: { type: integer, minimum: 1, maximum: 100 }
  *       - in: query
  *         name: search
- *         schema: { type: string, example: "Roberto" }
+ *         schema: { type: string }
  *     responses:
  *       200:
  *         description: Lista de usuarios

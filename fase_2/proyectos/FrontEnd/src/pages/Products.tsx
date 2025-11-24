@@ -23,8 +23,8 @@ type FilterState = {
 const EMPTY_FORM: ProductPayload = {
   nombre: "",
   descripcion: "",
-  stock: null,
-  precio: null,
+  stock: 0,
+  precio: 0,
   categoryId: null,
   supplierId: null,
   supplierRut: null,
@@ -61,16 +61,20 @@ const extractErrorMessage = (err: unknown, fallback: string) => {
   }
   return fallback;
 };
-const parseCurrencyInput = (value: string): number | null => {
-  if (value.trim() === "") return null;
-  const numeric = Number(value);
-  return Number.isFinite(numeric) && numeric >= 0 ? numeric : null;
+const shortId = (id: string | number) => {
+  const raw = String(id);
+  if (raw.length <= 8) return raw.toUpperCase();
+  return raw.slice(0, 4).toUpperCase() + "..." + raw.slice(-4).toUpperCase();
 };
 
-const parseStockInput = (value: string): number | null => {
-  if (value.trim() === "") return null;
+const parseCurrencyInput = (value: string) => {
   const numeric = Number(value);
-  if (!Number.isFinite(numeric) || numeric < 0) return null;
+  return Number.isFinite(numeric) && numeric >= 0 ? numeric : 0;
+};
+
+const parseStockInput = (value: string) => {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric) || numeric < 0) return 0;
   return Math.trunc(numeric);
 };
 
@@ -266,32 +270,10 @@ export default function Products() {
       return;
     }
 
-    if (form.precio === null) {
-      const message = "Ingresa un precio válido (puede quedar en 0 si lo necesitas).";
-      setFormError(message);
-      await showWarning({
-        title: "Precio requerido",
-        text: message,
-      });
-      return;
-    }
-
-    if (form.stock === null) {
-      const message = "Ingresa un stock válido (puede ser 0 si no hay inventario).";
-      setFormError(message);
-      await showWarning({
-        title: "Stock requerido",
-        text: message,
-      });
-      return;
-    }
-
     const payload: ProductPayload = {
       ...form,
       nombre: trimmedName,
       descripcion: trimmedDescription.length > 0 ? trimmedDescription : "",
-      precio: form.precio ?? 0,
-      stock: form.stock ?? 0,
     };
 
     setIsSubmitting(true);
@@ -370,7 +352,7 @@ export default function Products() {
         </div>
       </header>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="grid gap-4 md:grid-cols-4">
         <article className="rounded-xl bg-white p-5 shadow-lg border border-blue-100">
           <h2 className="text-sm font-semibold text-blue-600 uppercase tracking-wide">Productos totales</h2>
           <p className="mt-3 text-3xl font-black text-blue-700">{summary.total}</p>
@@ -391,7 +373,7 @@ export default function Products() {
 
       <section className="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-lg">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:flex-1">
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3 lg:flex-1">
             <div className="flex flex-col">
               <label className="text-sm font-medium text-gray-600" htmlFor="search">Buscador</label>
               <input
@@ -487,7 +469,7 @@ export default function Products() {
               <tbody className="divide-y divide-gray-200 bg-white text-sm text-gray-700">
                 {filteredItems.map((item) => (
                   <tr key={item.id} className="transition hover:bg-gray-50">
-                    <td className="px-4 py-3 font-mono text-xs text-gray-500 break-all">{String(item.id).toUpperCase()}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-gray-500">{shortId(item.id)}</td>
                     <td className="px-4 py-3 font-semibold text-gray-900">{item.nombre}</td>
                     <td className="px-4 py-3">{formatCategoryName(item.categoryName)}</td>
                     <td className="px-4 py-3">{item.supplierName ?? "Sin proveedor"}</td>
@@ -537,7 +519,7 @@ export default function Products() {
             {formError && <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">{formError}</div>}
 
             <form onSubmit={handleSubmit} noValidate className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="nombre">Nombre *</label>
                   <input
@@ -558,7 +540,7 @@ export default function Products() {
                       min={0}
                       step={1}
                       className="w-full rounded-lg border border-gray-200 py-2 pl-8 pr-3 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                      value={form.precio ?? ""}
+                      value={form.precio}
                       onChange={(event) => updateFormField("precio", parseCurrencyInput(event.target.value))}
                       required
                     />
@@ -567,7 +549,7 @@ export default function Products() {
                 </div>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="stock">Stock *</label>
                   <input
@@ -575,7 +557,7 @@ export default function Products() {
                     type="number"
                     min={0}
                     className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                    value={form.stock ?? ""}
+                    value={form.stock}
                     onChange={(event) => updateFormField("stock", parseStockInput(event.target.value))}
                     required
                   />
@@ -601,7 +583,7 @@ export default function Products() {
                 </div>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="proveedor">Proveedor *</label>
                   <select

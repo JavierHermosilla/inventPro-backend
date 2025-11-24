@@ -6,6 +6,8 @@ import { applyDocumentTheme } from "./lib/theme";
 
 // Páginas
 import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/Register";
+import ForgotPasswordPage from "./pages/ForgotPassword";
 import DashboardPage from "./pages/Dashboard";
 import UsersPage from "./pages/Users";
 import ProductsPage from "./pages/Products";
@@ -56,6 +58,8 @@ const App = () => {
       <Routes>
         {/* Públicas */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Protegidas con Layout */}
         <Route
@@ -66,64 +70,15 @@ const App = () => {
           }
         >
           <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route
-            path="/dashboard"
-            element={
-              <Protected allowedRoles={["admin", "bodeguero", "vendedor"]}>
-                <DashboardPage />
-              </Protected>
-            }
-          />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/products" element={<ProductsPage />} />
-          <Route
-            path="/suppliers"
-            element={
-              <Protected allowedRoles={["admin", "bodeguero"]}>
-                <SuppliersPage />
-              </Protected>
-            }
-          />
-          <Route
-            path="/clients"
-            element={
-              <Protected allowedRoles={["admin", "bodeguero", "vendedor"]}>
-                <ClientsPage />
-              </Protected>
-            }
-          />
-          <Route
-            path="/clients/create"
-            element={
-              <Protected allowedRoles={["admin", "vendedor"]}>
-                <CreateClientPage />
-              </Protected>
-            }
-          />
-          <Route
-            path="/categories"
-            element={
-              <Protected allowedRoles={["admin"]}>
-                <CategoriesPage />
-              </Protected>
-            }
-          />
+          <Route path="/suppliers" element={<SuppliersPage />} />
+          <Route path="/clients" element={<ClientsPage />} />
+          <Route path="/clients/create" element={<CreateClientPage />} />
+          <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/orders" element={<OrdersPage />} />
-          <Route
-            path="/manual-inventory"
-            element={
-              <Protected allowedRoles={["admin", "bodeguero"]}>
-                <ManualInventoryPage />
-              </Protected>
-            }
-          />
-          <Route
-            path="/reports"
-            element={
-              <Protected allowedRoles={["admin"]}>
-                <ReportsPage />
-              </Protected>
-            }
-          />
+          <Route path="/manual-inventory" element={<ManualInventoryPage />} />
+          <Route path="/reports" element={<ReportsPage />} />
 
           {/* Solo admin */}
           <Route
@@ -146,3 +101,6 @@ const App = () => {
 };
 
 export default App;
+
+
+

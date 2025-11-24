@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
 import { showError, showSuccess, showWarning } from "../lib/alerts";
 import logoInventPro from "../assets/logo-invent-pro.png";
@@ -125,9 +125,9 @@ const Login = () => {
                 </span>
               </div>
               <div className="flex justify-between items-center text-sm mt-2">
-                <span className="text-gray-500">
-                  ¿Olvidaste tu contraseña? Contacta a un administrador para restaurar el acceso.
-                </span>
+                <Link to="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
+                  ¿Olvidaste tu contraseña?
+                </Link>
               </div>
             </div>
 
@@ -141,7 +141,10 @@ const Login = () => {
 
           <div className="mt-8 text-center">
             <p className="text-sm text-gray-600">
-              El registro de usuarios lo gestiona el administrador del sistema.
+              ¿No tienes una cuenta?{" "}
+              <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
+                Regístrate
+              </Link>
             </p>
           </div>
         </div>

@@ -1,4 +1,3 @@
-// src/controllers/category.controller.js
 import {
   createCategoryService,
   listCategoriesService,

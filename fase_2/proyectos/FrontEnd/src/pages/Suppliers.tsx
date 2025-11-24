@@ -3,12 +3,10 @@ import DataTable, { type Column } from "../components/DataTable";
 import {
   suppliersApi,
   SUPPLIER_STATUS_LABELS,
-  type CreateSupplierPayload,
   type SupplierItem,
   type SupplierStatus,
 } from "../lib/suppliersApi";
 import { showError, showSuccess, showWarning } from "../lib/alerts";
-import { useAuthStore } from "../store/auth";
 
 const formatDate = (value?: string | null) => {
   if (!value) return "Sin registro";
@@ -67,8 +65,6 @@ const statusStyles: Record<SupplierStatus, string> = {
 };
 
 export default function SuppliersPage() {
-  const role = useAuthStore((state) => state.user?.role ?? "user");
-  const canManageSuppliers = role === "admin";
   const [suppliers, setSuppliers] = useState<SupplierItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -78,7 +74,6 @@ export default function SuppliersPage() {
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [editingSupplier, setEditingSupplier] = useState<SupplierItem | null>(null);
 
   const updateFormField = useCallback(<K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -87,7 +82,6 @@ export default function SuppliersPage() {
   const resetForm = useCallback(() => {
     setForm(EMPTY_FORM);
     setFormError(null);
-    setEditingSupplier(null);
   }, []);
 
   const fetchSuppliers = useCallback(async () => {
@@ -120,126 +114,67 @@ export default function SuppliersPage() {
     setSearchTerm("");
   }, []);
 
-  const openCreateSupplierModal = useCallback(() => {
-    resetForm();
-    setIsModalOpen(true);
-  }, [resetForm]);
+  const handleCreateSupplier = useCallback(async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFormError(null);
 
-  const handleEditSupplier = useCallback(
-    async (supplier: SupplierItem) => {
-      if (!canManageSuppliers) {
-        await showWarning({
-          title: "Sin permisos",
-          text: "Solo un administrador puede editar proveedores. Ingresa con una cuenta con rol administrador.",
-        });
-        return;
-      }
-      setEditingSupplier(supplier);
-      setForm({
-        name: supplier.name ?? "",
-        rut: supplier.rut ?? "",
-        contactName: supplier.contactName ?? "",
-        email: supplier.email ?? "",
-        phone: supplier.phone ?? "",
-        address: supplier.address ?? "",
-        website: supplier.website ?? "",
-        paymentTerms: supplier.paymentTerms ?? "",
-        notes: supplier.notes ?? "",
-        status: supplier.status ?? "active",
+    const trimmedName = form.name.trim();
+    const trimmedRut = form.rut.trim();
+
+    if (!trimmedName) {
+      const message = "El nombre del proveedor es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "Nombre requerido",
+        text: message,
       });
-      setFormError(null);
-      setIsModalOpen(true);
-    },
-    [canManageSuppliers],
-  );
+      return;
+    }
 
-  const handleSubmitSupplier = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      if (!canManageSuppliers) {
-        await showWarning({
-          title: "Sin permisos",
-          text: editingSupplier
-            ? "Solo un administrador puede editar proveedores. Ingresa con una cuenta con rol administrador."
-            : "Solo un administrador puede crear proveedores. Ingresa con una cuenta con rol administrador.",
-        });
-        return;
-      }
-      setFormError(null);
+    if (!trimmedRut) {
+      const message = "El RUT del proveedor es obligatorio.";
+      setFormError(message);
+      await showWarning({
+        title: "RUT requerido",
+        text: message,
+      });
+      return;
+    }
 
-      const trimmedName = form.name.trim();
-      const trimmedRut = form.rut.trim();
-
-      if (!trimmedName) {
-        const message = "El nombre del proveedor es obligatorio.";
-        setFormError(message);
-        await showWarning({
-          title: "Nombre requerido",
-          text: message,
-        });
-        return;
-      }
-
-      if (!trimmedRut) {
-        const message = "El RUT del proveedor es obligatorio.";
-        setFormError(message);
-        await showWarning({
-          title: "RUT requerido",
-          text: message,
-        });
-        return;
-      }
-
-      const normalizeOptional = (value: string) => {
-        const trimmed = value.trim();
-        return trimmed.length > 0 ? trimmed : undefined;
-      };
-
-      const payload: CreateSupplierPayload = {
+    setIsSubmitting(true);
+    try {
+      const payload = {
         name: trimmedName,
         rut: trimmedRut,
-        contactName: normalizeOptional(form.contactName),
-        email: normalizeOptional(form.email)?.toLowerCase(),
-        phone: normalizeOptional(form.phone),
-        address: normalizeOptional(form.address),
-        website: normalizeOptional(form.website),
-        paymentTerms: normalizeOptional(form.paymentTerms),
+        contactName: form.contactName.trim().length > 0 ? form.contactName.trim() : null,
+        email: form.email.trim().length > 0 ? form.email.trim() : null,
+        phone: form.phone.trim().length > 0 ? form.phone.trim() : null,
+        address: form.address.trim().length > 0 ? form.address.trim() : null,
+        website: form.website.trim().length > 0 ? form.website.trim() : null,
+        paymentTerms: form.paymentTerms.trim().length > 0 ? form.paymentTerms.trim() : null,
         status: form.status,
-        notes: normalizeOptional(form.notes),
+        notes: form.notes.trim().length > 0 ? form.notes.trim() : null,
       };
 
-      setIsSubmitting(true);
-      try {
-        if (editingSupplier) {
-          await suppliersApi.update(editingSupplier.id, payload);
-          await showSuccess({
-            title: "Proveedor actualizado",
-            text: `${payload.name} se actualizó correctamente.`,
-          });
-        } else {
-          await suppliersApi.create(payload);
-          await showSuccess({
-            title: "Proveedor creado",
-            text: `${payload.name} se registró correctamente.`,
-          });
-        }
-        setIsModalOpen(false);
-        resetForm();
-        fetchSuppliers().catch(() => {});
-      } catch (err) {
-        const fallback = editingSupplier ? "No se pudo actualizar el proveedor." : "No se pudo crear el proveedor.";
-        const message = extractErrorMessage(err, fallback);
-        setFormError(message);
-        await showError({
-          title: editingSupplier ? "Error al actualizar proveedor" : "Error al crear proveedor",
-          text: message,
-        });
-      } finally {
-        setIsSubmitting(false);
-      }
-    },
-    [canManageSuppliers, editingSupplier, fetchSuppliers, form, resetForm],
-  );
+      await suppliersApi.create(payload);
+      await showSuccess({
+        title: "Proveedor creado",
+        text: `${payload.name} se registro correctamente.`,
+      });
+      setIsModalOpen(false);
+      resetForm();
+      fetchSuppliers().catch(() => {});
+    } catch (err) {
+      const message = extractErrorMessage(err, "No se pudo crear el proveedor.");
+      setFormError(message);
+      await showError({
+        title: "Error al crear proveedor",
+        text: message,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [fetchSuppliers, form, resetForm]);
 
 
   const filteredSuppliers = useMemo(() => {
@@ -272,8 +207,7 @@ export default function SuppliersPage() {
     [suppliers],
   );
 
-  const columns = useMemo<Column<SupplierItem>[]>(() => {
-    const base: Column<SupplierItem>[] = [
+  const columns = useMemo<Column<SupplierItem>[]>(() => [
     {
       key: "name",
       header: "Proveedor",
@@ -349,27 +283,7 @@ export default function SuppliersPage() {
         </div>
       ),
     },
-    ];
-
-    if (canManageSuppliers) {
-      base.push({
-        key: "actions",
-        header: "Acciones",
-        className: "w-28 text-right",
-        render: (supplier) => (
-          <button
-            type="button"
-            onClick={() => handleEditSupplier(supplier)}
-            className="rounded-lg border border-blue-200 px-3 py-1 text-sm font-medium text-blue-600 hover:bg-blue-50"
-          >
-            Editar
-          </button>
-        ),
-      });
-    }
-
-    return base;
-  }, [canManageSuppliers, handleEditSupplier]);
+  ], []);
 
   return (
     <div className="space-y-6">
@@ -380,21 +294,17 @@ export default function SuppliersPage() {
             Registra y controla la información clave de tus proveedores.
           </p>
         </div>
-        {!canManageSuppliers && (
-          <p className="text-xs text-amber-600">
-            Vista de solo lectura: los bodegueros no pueden crear ni editar proveedores.
-          </p>
-        )}
-        {canManageSuppliers && (
-          <button
-            type="button"
-            onClick={openCreateSupplierModal}
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
-          >
-            <span className="text-lg leading-none">+</span>
-            Nuevo proveedor
-          </button>
-        )}
+        <button
+          type="button"
+          onClick={() => {
+            resetForm();
+            setIsModalOpen(true);
+          }}
+          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+        >
+          <span className="text-lg leading-none">+</span>
+          Nuevo proveedor
+        </button>
       </header>
 
       {error && (
@@ -454,7 +364,7 @@ export default function SuppliersPage() {
           columns={columns}
           data={filteredSuppliers}
           loading={loading}
-          emptyMessage={searchTerm ? "No hay proveedores que coincidan con la búsqueda." : "Aún no hay proveedores registrados."}
+          emptyMessage={searchTerm ? "No hay proveedores que coincidan con la b?squeda." : "Aún no hay proveedores registrados."}
         />
       </section>
 
@@ -463,12 +373,8 @@ export default function SuppliersPage() {
           <div className="w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
             <header className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
               <div>
-                <h2 className="text-lg font-semibold text-gray-900">
-                  {editingSupplier ? "Editar proveedor" : "Nuevo proveedor"}
-                </h2>
-                <p className="text-sm text-gray-500">
-                  {editingSupplier ? "Actualiza los datos necesarios y guarda los cambios." : "Completa los datos requeridos para registrar el proveedor."}
-                </p>
+                <h2 className="text-lg font-semibold text-gray-900">Nuevo proveedor</h2>
+                <p className="text-sm text-gray-500">Completa los datos requeridos para registrar el proveedor.</p>
               </div>
               <button
                 type="button"
@@ -477,14 +383,13 @@ export default function SuppliersPage() {
                   setIsModalOpen(false);
                 }}
                 className="rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-                aria-label="Cerrar"
               >
-                &times;
+                ?
               </button>
             </header>
 
-            <form onSubmit={handleSubmitSupplier} className="px-6 py-4" noValidate>
-              <div className="grid gap-4 sm:grid-cols-2">
+            <form onSubmit={handleCreateSupplier} className="px-6 py-4" noValidate>
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-gray-600" htmlFor="supplier-name">Nombre *</label>
                   <input
@@ -623,7 +528,7 @@ export default function SuppliersPage() {
                   className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Guardando..." : editingSupplier ? "Guardar cambios" : "Crear proveedor"}
+                  {isSubmitting ? "Guardando..." : "Guardar proveedor"}
                 </button>
               </footer>
             </form>

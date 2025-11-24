@@ -4,7 +4,7 @@ import { normalizeRut } from '../utils/rut.js'
 const { Order, OrderProduct, Product, Client, Supplier } = models
 
 // ================== Config negocio ==================
-const ALLOW_NEGATIVE_STOCK = String(process.env.ALLOW_NEGATIVE_STOCK ?? 'true').toLocaleLowerCase() === 'true'
+const ALLOW_NEGATIVE_STOCK = true // reglas actuales: descontar aunque deje negativo
 
 // ================== Helpers ==================
 const asNum = (v) => Number(v ?? 0)
@@ -31,7 +31,7 @@ const allowedTransitions = new Set([
  * - Input: { clientId? | rut?, products[{ productId, quantity }] }
  * - Resuelve clientId por RUT si corresponde
  * - Toma unitPrice desde Product.price
- * - Persiste ítems con el atributo `price` (mapeado a columna DB `price`)
+ * - Persiste ítems con el atributo `price` (mapeado a columna DB `unit_price`)
  * - Descuenta stock (permite negativo si ALLOW_NEGATIVE_STOCK)
  * - Devuelve { id, status, totalAmount, isBackorder, items[] }
  */
@@ -123,22 +123,14 @@ export async function createOrderService (payload, user) {
         throw e
       }
 
-      // Actualiza el stock directamente para evitar que el inventario quede igual
-      const [updated] = await Product.update(
-        { stock: after },
-        { where: { id: p.id }, transaction: t }
-      )
-      if (updated !== 1) {
-        const e = new Error(`No se pudo actualizar el stock del producto ${p.id}`)
-        e.status = 409
-        throw e
-      }
       p.stock = after
+      await p.save({ transaction: t })
 
       totalAmount += unitPrice * qty
 
       // IMPORTANTE:
-      // El atributo del modelo es "price" y en la DB la columna también se llama "price"
+      // El atributo del modelo es "price" pero en DB debe mapear a columna "unit_price"
+      // (defínelo así en el modelo: price: { type: DECIMAL, allowNull:false, field:'unit_price' })
       itemsRows.push({
         orderId: order.id,
         productId: p.id,
@@ -180,11 +172,6 @@ export async function listOrdersService () {
         model: OrderProduct,
         as: 'items',
         include: [{ model: Product, as: 'product' }]
-      },
-      {
-        model: Client,
-        as: 'client',
-        attributes: ['id', 'name', 'rut']
       }
     ],
     order: [['created_at', 'DESC']]
@@ -199,11 +186,6 @@ export async function getOrderService (id) {
         model: OrderProduct,
         as: 'items',
         include: [{ model: Product, as: 'product' }]
-      },
-      {
-        model: Client,
-        as: 'client',
-        attributes: ['id', 'name', 'rut']
       }
     ]
   })

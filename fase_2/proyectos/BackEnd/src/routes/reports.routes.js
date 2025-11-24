@@ -1,4 +1,3 @@
-// src/routes/reports.routes.js
 import express from 'express'
 import {
   createReport,
@@ -28,19 +27,17 @@ router.post(
   createReport
 )
 
-// Listar todos los reportes → Solo admins
+// Listar todos los reportes → Todos los usuarios autenticados
 router.get(
   '/',
   verifyTokenMiddleware,
-  requireRole(...ADMIN_ROLES),
   getReports
 )
 
-// Obtener un reporte por ID → Solo admins
+// Obtener un reporte por ID → Todos los usuarios autenticados
 router.get(
   '/:id',
   verifyTokenMiddleware,
-  requireRole(...ADMIN_ROLES),
   getReportById
 )
 

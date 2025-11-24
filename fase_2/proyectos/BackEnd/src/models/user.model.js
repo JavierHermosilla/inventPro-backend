@@ -6,8 +6,6 @@ import { ROLES } from '../config/roles.js'
 const isBcryptHash = (val) =>
   typeof val === 'string' && /^\$2[aby]\$\d{2}\$[./A-Za-z0-9]{53}$/.test(val)
 
-const SCHEMA = process.env.DB_SCHEMA || 'inventpro_user'
-
 class User extends Model {
   static initialize (sequelize) {
     super.init(
@@ -95,7 +93,7 @@ class User extends Model {
         sequelize,
         modelName: 'User',
         tableName: 'users',
-        schema: SCHEMA,
+        schema: 'inventpro_user',
 
         timestamps: true,
         paranoid: true,

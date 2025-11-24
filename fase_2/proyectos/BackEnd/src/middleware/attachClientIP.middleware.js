@@ -1,4 +1,3 @@
-// src/middleware/attachClientIP.middleware.js
 import { getClientIP } from '../utils/ip.js'
 
 export const attachClientIP = (req, res, next) => {

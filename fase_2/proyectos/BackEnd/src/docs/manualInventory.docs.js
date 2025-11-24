@@ -40,13 +40,13 @@
  *     parameters:
  *       - in: query
  *         name: page
- *         schema: { type: integer, minimum: 1, example: 1 }
+ *         schema: { type: integer, minimum: 1 }
  *       - in: query
  *         name: limit
- *         schema: { type: integer, minimum: 1, maximum: 100, example: 20 }
+ *         schema: { type: integer, minimum: 1, maximum: 100 }
  *       - in: query
  *         name: productId
- *         schema: { type: string, format: uuid, example: "f66ac286-2869-45ba-85d3-ead2450c30c8" }
+ *         schema: { type: string, format: uuid }
  *     responses:
  *       200: { description: Lista de movimientos }
  *   post:

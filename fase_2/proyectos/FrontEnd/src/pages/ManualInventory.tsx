@@ -68,7 +68,7 @@ export default function ManualInventoryPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const userRole = useAuthStore((state) => state.user?.role);
-  const canAdjust = userRole === "admin" || userRole === "bodeguero";
+  const canAdjust = userRole === "admin";
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -270,7 +270,7 @@ export default function ManualInventoryPage() {
         </button>
       </header>
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard title="Productos con stock" value={numberFormatter.format(stats.totalProducts)} />
         <StatCard
           title="Unidades disponibles"
@@ -548,7 +548,7 @@ export default function ManualInventoryPage() {
                 </div>
               )}
 
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
                   <label htmlFor="movementType" className="text-sm font-medium text-gray-600">
                     Tipo de movimiento
@@ -671,3 +671,4 @@ function StatCard({ title, value, subtitle }: StatCardProps) {
     </div>
   );
 }
+

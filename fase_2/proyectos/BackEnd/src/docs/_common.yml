@@ -4,29 +4,7 @@ components:
       in: path
       name: id
       required: true
-      schema:
-        type: string
-        format: uuid
-        example: "0e9e6f02-5a8e-4055-955e-c5b704d73fb0"
-    ExportMode:
-      in: query
-      name: mode
-      required: false
-      schema:
-        type: string
-        enum: [merged, zip]
-        default: merged
-      description: |
-        merged = CSV plano en un archivo.
-        zip    = ZIP con múltiples CSV (productos, proveedores, clientes, órdenes, items).
-    ExportSep:
-      in: query
-      name: sep
-      required: false
-      schema:
-        type: string
-        default: ","
-      description: Separador de columnas del CSV (ej. "," o ";").
+      schema: { type: string, format: uuid }
   schemas:
     ErrorResponse:
       type: object

@@ -1,4 +1,3 @@
-// src/controllers/dashboard.controller.js
 import { Op } from 'sequelize'
 import Client from '../models/client.model.js'
 import Order from '../models/order.model.js'
@@ -15,18 +14,12 @@ export const dashboardData = async (req, res) => {
       limit: 5
     })
 
-    const clientAttributes = role === 'admin'
-      ? ['id', 'name', 'rut', 'email']
-      : ['id', 'name', 'rut']
-
     const recentOrders = await Order.findAll({
-      order: [['created_at', 'DESC']],
+      order: [['createdAt', 'DESC']],
       limit: 5,
-      include: [{
-        model: Client,
-        as: 'client',
-        attributes: clientAttributes
-      }]
+      include: role === 'admin'
+        ? [{ model: Client, as: 'customer', attributes: ['id', 'name', 'email'] }]
+        : [] // bodeguero no ve datos de cliente
     })
 
     // Datos solo para admin

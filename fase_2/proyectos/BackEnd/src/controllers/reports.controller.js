@@ -1,4 +1,3 @@
-// src/controllers/reports.controller.js
 import Report from '../models/reports.model.js'
 import User from '../models/user.model.js'
 import { createReportSchema, updateReportSchema } from '../schemas/reports.schema.js'
@@ -32,12 +31,8 @@ export const getReports = async (req, res) => {
     const data = await listReports(req.query)
     res.json(data)
   } catch (err) {
-    if (err.status && err.status >= 400 && err.status < 500) {
-      logger.warn(`Invalid reports query: ${err.message}`)
-      return res.status(err.status).json({ error: err.message })
-    }
     logger.error(`Error fetching reports: ${err.message}`, { stack: err.stack })
-    return res.status(500).json({ error: err.message })
+    res.status(500).json({ error: err.message })
   }
 }
 

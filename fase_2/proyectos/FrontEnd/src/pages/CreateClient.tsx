@@ -168,7 +168,7 @@ export default function CreateClientPage() {
         <h2 className="text-lg font-semibold text-gray-800">Informacion del Cliente</h2>
 
         <form onSubmit={handleSubmit} className="mt-4 space-y-4" noValidate>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 md:grid-cols-2">
             <div>
               <label className="text-sm font-medium text-gray-600" htmlFor="rut">
                 RUT *

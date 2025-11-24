@@ -79,19 +79,18 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const userIP = req.clientIP || req.ip || 'unknown'
   try {
-    const { email: identifier, password } = req.body
-    const normalized = normEmail(identifier)
-    const lookupField = normalized.includes('@') ? 'email' : 'username'
+    const { email, password } = req.body
+    const emailNorm = normEmail(email)
 
-    const user = await User.scope('withPassword').findOne({ where: { [lookupField]: normalized } })
+    const user = await User.scope('withPassword').findOne({ where: { email: emailNorm } })
     if (!user) {
-      logger.warn(`Login failed: user not found (${lookupField}=${normalized}), IP=${userIP}`)
+      logger.warn(`Login failed: email not found (${emailNorm}), IP=${userIP}`)
       return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
     }
 
     const ok = await bcrypt.compare(password, user.password)
     if (!ok) {
-      logger.warn(`Login failed: wrong password (${lookupField}=${normalized}), IP=${userIP}`)
+      logger.warn(`Login failed: wrong password (${emailNorm}), IP=${userIP}`)
       return res.status(401).json({ message: 'Usuario o contraseña incorrectos.' })
     }
 
@@ -101,7 +100,7 @@ export const login = async (req, res) => {
     // Cookie de sesión con refresh
     res.cookie('refresh_token', refresh, refreshCookieOpts)
 
-    logger.info(`Login OK: ${lookupField}=${normalized}, id=${user.id}, IP=${userIP}`)
+    logger.info(`Login OK: ${emailNorm}, id=${user.id}, IP=${userIP}`)
 
     return res.status(200).json({
       token: access,
@@ -125,10 +124,10 @@ export const refresh = async (req, res) => {
 
     const access = await signAccessToken({ id: decoded.id, role: decoded.role })
 
-    // Rotación de refresh para mantener sesiones activas mientras haya actividad
-    const newRt = await signRefreshToken({ id: decoded.id, role: decoded.role })
-    res.cookie('refresh_token', newRt, refreshCookieOpts)
-    // Si usas whitelist/jti, aquí deberías invalidar el token anterior
+    // (Opcional) Rotación de refresh para mayor seguridad:
+    // const newRt = await signRefreshToken({ id: decoded.id, role: decoded.role })
+    // res.cookie('refresh_token', newRt, refreshCookieOpts)
+    // Revocar jti anterior en whitelist si la usas
 
     return res.json({ token: access })
   } catch {

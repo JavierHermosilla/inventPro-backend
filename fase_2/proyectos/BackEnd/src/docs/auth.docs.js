@@ -13,12 +13,8 @@
  *       type: object
  *       required: [email, password]
  *       properties:
- *         email: { type: string, format: email, example: "admin@inventpro.cl" }
- *         password:
- *           type: string
- *           minLength: 8
- *           description: "Política fuerte (8+, mayúscula, minúscula, número y símbolo)"
- *           example: "Admin123!"
+ *         email: { type: string, format: email }
+ *         password: { type: string, minLength: 8, description: "Política fuerte (8+, mayúscula, minúscula, número y símbolo)" }
  *     LoginResponse:
  *       type: object
  *       properties:
@@ -38,7 +34,6 @@
  *       content:
  *         application/json:
  *           schema: { $ref: '#/components/schemas/LoginInput' }
- *     description: Usa las credenciales emitidas por el administrador (admin@inventpro.cl en los seeds).
  *     responses:
  *       200:
  *         description: Sesión iniciada
@@ -55,7 +50,6 @@
  *   post:
  *     tags: [Auth]
  *     summary: Refrescar token
- *     description: Requiere el `refresh_token` entregado como cookie httpOnly durante el login.
  *     security: []
  *     requestBody:
  *       required: true
@@ -64,9 +58,7 @@
  *           schema:
  *             type: object
  *             properties:
- *               refreshToken:
- *                 type: string
- *                 description: "Opcional: si no se envía también se toma desde la cookie"
+ *               refreshToken: { type: string }
  *     responses:
  *       200:
  *         description: Token refrescado
@@ -83,7 +75,6 @@
  *   get:
  *     tags: [Auth]
  *     summary: Perfil del usuario autenticado
- *     description: Requiere el token JWT en la cabecera Authorization.
  *     responses:
  *       200:
  *         description: Datos del perfil
@@ -97,7 +88,6 @@
  *   post:
  *     tags: [Auth]
  *     summary: Cerrar sesión
- *     description: Limpia la cookie `refresh_token`. Necesita JWT.
  *     responses:
  *       204:
  *         description: Sesión cerrada

@@ -1,4 +1,3 @@
-// src/schemas/auth.schema.js
 import { ROLES } from '../config/roles.js'
 import { z } from 'zod'
 
@@ -23,14 +22,10 @@ export const registerSchema = z.object({
 })
 
 export const loginSchema = z.object({
-  email: z
-    .string()
-    .trim()
-    .min(3, { message: 'Ingresa tu correo o tu nombre de usuario.' })
-    .max(150, { message: 'El identificador no puede superar 150 caracteres.' }),
+  email: z.string().email({ message: 'Debe ser un correo electrónico válido.' }),
   password: z.string().min(6, { message: 'La contraseña debe tener al menos 6 caracteres.' })
 })
 
 export const userIdParamSchema = z.object({
-  id: z.string().uuid({ message: 'ID de usuario inválido.' })
+  id: z.string().regex(/^[0-9a-fA-F]{24}$/, { message: 'Formato de ID de usuario inválido' })
 })

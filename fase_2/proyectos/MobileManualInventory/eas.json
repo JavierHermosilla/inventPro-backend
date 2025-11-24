@@ -14,14 +14,16 @@
         "simulator": true
       },
       "env": {
-        "EXPO_PUBLIC_USE_API_MOCKS": "false"
+        "EXPO_PUBLIC_USE_API_MOCKS": "false",
+        "EXPO_PUBLIC_API_URL": "https://inventpro-backend-production.up.railway.app/api"
       }
     },
     "production": {
       "developmentClient": false,
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_USE_API_MOCKS": "false"
+        "EXPO_PUBLIC_USE_API_MOCKS": "false",
+        "EXPO_PUBLIC_API_URL": "https://inventpro-backend-production.up.railway.app/api"
       }
     }
   },

@@ -1,0 +1,3 @@
+# Excluir dependencias y cachés locales
+node_modules
+.expo

@@ -4,7 +4,8 @@ import app from './app.js'
 import { sequelize } from './db/db.js'
 
 const PORT = Number(process.env.PORT) || 3000
-const HOST = process.env.HOST || '127.0.0.1'
+// En contenedores (Railway/Vercel/etc.) debe escuchar en 0.0.0.0
+const HOST = process.env.HOST || '0.0.0.0'
 
 const DB_SYNC_MODE = (process.env.DB_SYNC || 'off').toLowerCase()
 

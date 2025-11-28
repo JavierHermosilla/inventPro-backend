@@ -47,14 +47,26 @@ app.use(morgan('dev'))
 app.use(cookieParser())
 
 // CORS por ENV
-const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || '')
+const rawOrigins = (process.env.CORS_ORIGINS || '')
   .split(',')
   .map(s => s.trim())
   .filter(Boolean)
 
+// Soportar wildcards simples tipo https://*.vercel.app
+const exactOrigins = rawOrigins.filter(o => !o.includes('*'))
+const wildcardOrigins = rawOrigins
+  .filter(o => o.includes('*'))
+  .map(o => {
+    const pattern = o.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace('\\*', '.*')
+    return new RegExp(`^${pattern}$`, 'i')
+  })
+
 app.use(cors({
   origin (origin, cb) {
-    if (!origin || ALLOWED_ORIGINS.includes(origin)) return cb(null, true)
+    if (!origin) return cb(null, true)
+    if (exactOrigins.includes(origin) || wildcardOrigins.some(re => re.test(origin))) {
+      return cb(null, true)
+    }
     return cb(new Error('Not allowed by CORS'))
   },
   credentials: true

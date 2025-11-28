@@ -19,6 +19,7 @@ import categoryRoutes from './routes/category.routes.js'
 import clientRoutes from './routes/client.routes.js'
 import reportsRoutes from './routes/reports.routes.js'
 import OrderProductRoutes from './routes/orderProduct.routes.js'
+import dashboardRoutes from './routes/dashboard.routes.js'
 
 import { sanitizeInput } from './middleware/sanitizeInput.js'
 import { zodErrorHandler } from './middleware/zodErrorHandler.js'
@@ -89,6 +90,7 @@ app.use('/api/categories', categoryRoutes)
 app.use('/api/clients', clientRoutes)
 app.use('/api/reports', reportsRoutes)
 app.use('/api/order-products', OrderProductRoutes)
+app.use('/api/dashboard', dashboardRoutes)
 
 // Healthz
 app.get('/api/health', async (_req, res) => {

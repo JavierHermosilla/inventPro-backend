@@ -15,82 +15,97 @@ import ManualInventory from '../models/manualInventory.model.js'
 import Report from '../models/reports.model.js'
 import Client from '../models/client.model.js'
 
+const IS_TEST = process.env.NODE_ENV === 'test'
+const TEST_DATABASE_URL = process.env.DB_TEST_URL || process.env.TEST_DATABASE_URL
+
 // ------- Carga robusta de .env (independiente del cwd) -------
+let sequelize = null
+let models = {}
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const candidateEnvPaths = [
-  // 1) BackEnd/.env  (estando en src/db/db.js)
-  path.resolve(__dirname, '../.env'),
-  // 2) fase_2/.env
-  path.resolve(__dirname, '../../.env'),
-  // 3) cwd/.env (por si corres desde otra ruta)
-  path.resolve(process.cwd(), '.env'),
-  // 4) Respeta DOTENV_CONFIG_PATH si lo defines en scripts
-  process.env.DOTENV_CONFIG_PATH
-].filter(Boolean)
+if (!IS_TEST) {
+  const candidateEnvPaths = [
+    // 1) BackEnd/.env  (estando en src/db/db.js)
+    path.resolve(__dirname, '../.env'),
+    // 2) fase_2/.env
+    path.resolve(__dirname, '../../.env'),
+    // 3) cwd/.env (por si corres desde otra ruta)
+    path.resolve(process.cwd(), '.env'),
+    // 4) Respeta DOTENV_CONFIG_PATH si lo defines en scripts
+    process.env.DOTENV_CONFIG_PATH
+  ].filter(Boolean)
 
-let loadedFrom = null
-for (const p of candidateEnvPaths) {
-  const res = dotenv.config({ path: p, override: false })
-  if (!res.error && res.parsed && Object.keys(res.parsed).length > 0) {
-    loadedFrom = p
-    break
+  let loadedFrom = null
+  for (const p of candidateEnvPaths) {
+    const res = dotenv.config({ path: p, override: false })
+    if (!res.error && res.parsed && Object.keys(res.parsed).length > 0) {
+      loadedFrom = p
+      break
+    }
   }
-}
-if (!loadedFrom) {
-  // No reventamos aún: puede que vengan del entorno del sistema/CI.
-  // Dejamos que la validación más abajo avise si falta algo clave.
-  console.warn('[env] No .env file loaded via fallback paths. Using process.env as-is.')
-} else {
-  console.log(`[env] loaded from: ${loadedFrom}`)
+  if (!loadedFrom) {
+    console.warn('[env] No .env file loaded via fallback paths. Using process.env as-is.')
+  } else {
+    console.log(`[env] loaded from: ${loadedFrom}`)
+  }
 }
 
 // ------- Esquema según ambiente -------
-const DB_SCHEMA =
-  process.env.NODE_ENV === 'test'
-    ? 'test'
-    : (process.env.DB_SCHEMA || 'inventpro_user')
+// En producción usamos "public" por defecto (Railway), a menos que se configure explícitamente.
+const DB_SCHEMA = IS_TEST ? undefined : (process.env.DB_SCHEMA || 'public')
 
-// ------- Validación de variables de entorno críticas -------
-const REQUIRED = ['DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST', 'DB_PORT']
-const missing = REQUIRED.filter(k => !process.env[k] || String(process.env[k]).length === 0)
-if (missing.length) {
-  // Mensaje claro y único para que no te quedes atrapado
-  throw new Error(`Missing required env vars: ${missing.join(', ')}. ` +
-                  'Asegúrate de tener BackEnd/.env con esas claves.')
+if (IS_TEST && TEST_DATABASE_URL) {
+  sequelize = new Sequelize(TEST_DATABASE_URL, {
+    logging: false,
+    dialect: 'postgres',
+    define: {
+      underscored: true,
+      paranoid: true,
+      freezeTableName: true
+    }
+  })
+} else {
+  // ------- Validación de variables de entorno críticas -------
+  const REQUIRED = ['DB_NAME', 'DB_USER', 'DB_PASSWORD', 'DB_HOST', 'DB_PORT']
+  const missing = REQUIRED.filter(k => !process.env[k] || String(process.env[k]).length === 0)
+  if (missing.length) {
+    throw new Error(`Missing required env vars: ${missing.join(', ')}. ` +
+                    'Asegúrate de tener BackEnd/.env con esas claves.')
+  }
+
+  // ------- Casteos seguros -------
+  const DB_NAME = String(process.env.DB_NAME)
+  const DB_USER = String(process.env.DB_USER)
+  const DB_PASSWORD = String(process.env.DB_PASSWORD)
+  const DB_HOST = String(process.env.DB_HOST || '127.0.0.1')
+  const DB_PORT = Number(process.env.DB_PORT || 5432)
+
+  // ⚠ Nota: timezone aquí afecta serialización; para TZ de sesión usa PGTZ a nivel de conexión.
+  sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+    host: DB_HOST,
+    port: DB_PORT,
+    dialect: 'postgres',
+    logging: false,
+    timezone: 'America/Santiago',
+    define: {
+      schema: DB_SCHEMA,
+      underscored: true, // created_at / updated_at / deleted_at
+      paranoid: true, // soft delete
+      freezeTableName: true // respeta tableName exacto
+    },
+    pool: {
+      max: 10,
+      min: 0,
+      acquire: 30000,
+      idle: 10000
+    }
+  })
 }
 
-// ------- Casteos seguros -------
-const DB_NAME = String(process.env.DB_NAME)
-const DB_USER = String(process.env.DB_USER)
-const DB_PASSWORD = String(process.env.DB_PASSWORD)
-const DB_HOST = String(process.env.DB_HOST || '127.0.0.1')
-const DB_PORT = Number(process.env.DB_PORT || 5432)
-
-// ⚠ Nota: timezone aquí afecta serialización; para TZ de sesión usa PGTZ a nivel de conexión.
-export const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
-  host: DB_HOST,
-  port: DB_PORT,
-  dialect: 'postgres',
-  logging: false,
-  timezone: 'America/Santiago',
-  define: {
-    schema: DB_SCHEMA,
-    underscored: true, // created_at / updated_at / deleted_at
-    paranoid: true, // soft delete
-    freezeTableName: true // respeta tableName exacto
-  },
-  pool: {
-    max: 10,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
-})
-
 // ------- Registrar e inicializar modelos -------
-export const models = {
+const modelRegistry = {
   User,
   Product,
   Order,
@@ -102,12 +117,34 @@ export const models = {
   Client
 }
 
-Object.values(models).forEach(model => model.initialize(sequelize))
+export const initializeModels = async (sequelizeInstance, options = {}) => {
+  const { schema = DB_SCHEMA, withAssociations = true } = options
+  const targetSchema = schema || DB_SCHEMA
 
-// ------- Asociaciones -------
-import('../models/associations.js')
-  .then(() => console.log('Associations loaded'))
-  .catch(err => console.error('Failed to load associations:', err))
+  Object.values(modelRegistry).forEach(model => {
+    model.initialize(sequelizeInstance)
+    if (targetSchema) model.schema(targetSchema)
+  })
+
+  if (withAssociations) {
+    try {
+      await import('../models/associations.js')
+    } catch (error) {
+      console.error('Failed to load associations:', error)
+      throw error
+    }
+  }
+
+  if (IS_TEST) {
+    sequelize = sequelizeInstance
+  }
+  models = modelRegistry
+  return modelRegistry
+}
+
+if (sequelize) {
+  await initializeModels(sequelize)
+}
 
 // ------- Helpers -------
 export const syncDB = async () => {
@@ -120,6 +157,7 @@ export const syncDB = async () => {
 }
 
 export const connectDB = async () => {
+  if (!sequelize) return
   try {
     await sequelize.authenticate()
     console.log('>>> PostgreSQL connected successfully!')
@@ -129,4 +167,5 @@ export const connectDB = async () => {
   }
 }
 
+export { sequelize, models }
 export default sequelize

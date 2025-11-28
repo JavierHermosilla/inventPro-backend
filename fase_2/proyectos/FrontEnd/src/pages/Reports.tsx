@@ -17,8 +17,22 @@ import { productsApi, type ProductItem } from "../lib/productsApi";
 import manualInventoryApi, { type ManualInventoryItem } from "../lib/manualInventoryApi";
 import { usersApi, type UserItem } from "../lib/usersApi";
 
-const pdfMakeWithVfs = pdfMake as typeof pdfMake & { vfs: Record<string, string> };
-pdfMakeWithVfs.vfs = pdfMakeVfs;
+type PdfMakeInstance = typeof pdfMake & {
+  default?: typeof pdfMake;
+  addVirtualFileSystem?: (vfs: Record<string, string>) => void;
+  vfs?: Record<string, string>;
+};
+
+// pdfmake's module namespace is frozen in some bundlers; use the actual instance under .default.
+const pdfMakeInstance = (pdfMake as PdfMakeInstance).default ?? (pdfMake as PdfMakeInstance);
+
+if (!pdfMakeInstance.vfs) {
+  if (typeof pdfMakeInstance.addVirtualFileSystem === "function") {
+    pdfMakeInstance.addVirtualFileSystem(pdfMakeVfs);
+  } else {
+    pdfMakeInstance.vfs = pdfMakeVfs;
+  }
+}
 
 const DEFAULT_LEGAL_NOTES = [
   "Respalda la informacion conforme a la Resolucion Exenta SII 45/2003 y sus actualizaciones.",

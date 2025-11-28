@@ -24,13 +24,14 @@ type PdfMakeInstance = typeof pdfMake & {
 };
 
 // pdfmake's module namespace is frozen in some bundlers; use the actual instance under .default.
-const pdfMakeInstance = (pdfMake as PdfMakeInstance).default ?? (pdfMake as PdfMakeInstance);
+const pdfMakeInstance = pdfMake as unknown as PdfMakeInstance;
+const pdfMakeRuntime = (pdfMakeInstance.default ?? pdfMakeInstance) as PdfMakeInstance;
 
-if (!pdfMakeInstance.vfs) {
-  if (typeof pdfMakeInstance.addVirtualFileSystem === "function") {
-    pdfMakeInstance.addVirtualFileSystem(pdfMakeVfs);
+if (!pdfMakeRuntime.vfs) {
+  if (typeof pdfMakeRuntime.addVirtualFileSystem === "function") {
+    pdfMakeRuntime.addVirtualFileSystem(pdfMakeVfs);
   } else {
-    pdfMakeInstance.vfs = pdfMakeVfs;
+    pdfMakeRuntime.vfs = pdfMakeVfs;
   }
 }
 

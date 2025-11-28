@@ -2,6 +2,7 @@
 import 'dotenv/config' // Carga variables de entorno primero (side-effect)
 import app from './app.js'
 import { sequelize } from './db/db.js'
+import { ensureAdminUser } from './db/adminBootstrap.js'
 
 const PORT = Number(process.env.PORT) || 3000
 // En contenedores (Railway/Vercel/etc.) debe escuchar en 0.0.0.0
@@ -32,6 +33,15 @@ async function bootstrap () {
       console.log(`✅ Server running on http://${HOST}:${PORT}`)
       console.log(`🌱 NODE_ENV=${process.env.NODE_ENV || 'development'} • DB_SYNC=${DB_SYNC_MODE}`)
     })
+
+    try {
+      const created = await ensureAdminUser()
+      if (created) {
+        console.log('🔑 Usuario admin creado automáticamente (ADMIN_EMAIL / ADMIN_PASSWORD).')
+      }
+    } catch (e) {
+      console.error('⚠️  No se pudo verificar/crear el admin inicial:', e.message)
+    }
 
     // Maneja errores del servidor (p.ej., EADDRINUSE)
     server.on('error', (err) => {

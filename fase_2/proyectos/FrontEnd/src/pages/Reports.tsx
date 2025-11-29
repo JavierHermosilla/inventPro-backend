@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import * as pdfMake from "pdfmake/build/pdfmake";
-import { vfs as pdfMakeVfs } from "pdfmake/build/vfs_fonts";
+import * as pdfMakeFonts from "pdfmake/build/vfs_fonts";
 import type { Content, TDocumentDefinitions } from "pdfmake/interfaces";
 import { confirmAction, showError, showInfo, showSuccess } from "../lib/alerts";
 import {
@@ -21,19 +21,35 @@ type PdfMakeInstance = typeof pdfMake & {
   default?: typeof pdfMake;
   addVirtualFileSystem?: (vfs: Record<string, string>) => void;
   vfs?: Record<string, string>;
+  fonts?: Record<string, unknown>;
 };
 
 // pdfmake's module namespace is frozen in some bundlers; use the actual instance under .default.
 const pdfMakeInstance = pdfMake as unknown as PdfMakeInstance;
 const pdfMakeRuntime = (pdfMakeInstance.default ?? pdfMakeInstance) as PdfMakeInstance;
 
-if (!pdfMakeRuntime.vfs) {
+// Asegura que las fuentes Roboto estén disponibles en tiempo de ejecución (build y dev).
+const pdfVfs =
+  (pdfMakeFonts as unknown as { pdfMake?: { vfs?: Record<string, string> } }).pdfMake?.vfs ??
+  (pdfMakeFonts as unknown as { vfs?: Record<string, string> }).vfs;
+
+if (pdfVfs) {
   if (typeof pdfMakeRuntime.addVirtualFileSystem === "function") {
-    pdfMakeRuntime.addVirtualFileSystem(pdfMakeVfs);
+    pdfMakeRuntime.addVirtualFileSystem(pdfVfs);
   } else {
-    pdfMakeRuntime.vfs = pdfMakeVfs;
+    pdfMakeRuntime.vfs = pdfVfs;
   }
 }
+
+// Mapea fuentes por defecto para evitar "Roboto-Medium.ttf not found"
+pdfMakeRuntime.fonts = pdfMakeRuntime.fonts ?? {
+  Roboto: {
+    normal: "Roboto-Regular.ttf",
+    bold: "Roboto-Medium.ttf",
+    italics: "Roboto-Italic.ttf",
+    bolditalics: "Roboto-MediumItalic.ttf",
+  },
+};
 
 const DEFAULT_LEGAL_NOTES = [
   "Respalda la informacion conforme a la Resolucion Exenta SII 45/2003 y sus actualizaciones.",

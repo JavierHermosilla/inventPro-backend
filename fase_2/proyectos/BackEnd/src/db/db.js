@@ -14,6 +14,7 @@ import Supplier from '../models/supplier.model.js'
 import ManualInventory from '../models/manualInventory.model.js'
 import Report from '../models/reports.model.js'
 import Client from '../models/client.model.js'
+import applyAssociations from '../models/associations.js'
 
 const IS_TEST = process.env.NODE_ENV === 'test'
 const TEST_DATABASE_URL = process.env.DB_TEST_URL || process.env.TEST_DATABASE_URL
@@ -53,8 +54,8 @@ if (!IS_TEST) {
 }
 
 // ------- Esquema según ambiente -------
-// En producción usamos "public" por defecto (Railway), a menos que se configure explícitamente.
-const DB_SCHEMA = IS_TEST ? undefined : (process.env.DB_SCHEMA || 'public')
+// Alineado con migrations/config: por defecto usamos "inventpro_user" (no "public")
+const DB_SCHEMA = IS_TEST ? undefined : (process.env.DB_SCHEMA || 'inventpro_user')
 
 if (IS_TEST && TEST_DATABASE_URL) {
   sequelize = new Sequelize(TEST_DATABASE_URL, {
@@ -127,12 +128,7 @@ export const initializeModels = async (sequelizeInstance, options = {}) => {
   })
 
   if (withAssociations) {
-    try {
-      await import('../models/associations.js')
-    } catch (error) {
-      console.error('Failed to load associations:', error)
-      throw error
-    }
+    applyAssociations(modelRegistry, targetSchema)
   }
 
   if (IS_TEST) {

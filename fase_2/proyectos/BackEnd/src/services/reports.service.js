@@ -1,5 +1,4 @@
 import Report from '../models/reports.model.js'
-import User from '../models/user.model.js'
 import { Op, col } from 'sequelize'
 import logger from '../utils/logger.js'
 
@@ -14,11 +13,19 @@ export const listReports = async ({ page = 1, limit = 10, search, status, type }
     if (type) where.type = type
     if (search) where.name = { [Op.iLike]: `%${search}%` }
 
+    const includeCreator = Report.associations?.creator
+      ? [{ association: 'creator', attributes: ['id', 'name', 'email'] }]
+      : []
+
+    if (includeCreator.length === 0) {
+      logger.warn('Asociación Report→User no encontrada; se omite el include de creator')
+    }
+
     const { count, rows } = await Report.findAndCountAll({
       where,
       limit: limitInt,
       offset,
-      include: [{ model: User, as: 'creator', attributes: ['id', 'name', 'email'] }],
+      include: includeCreator,
       order: [[col('created_at'), 'DESC']]
     })
 

@@ -3,6 +3,7 @@ import Client from '../models/client.model.js'
 import Order from '../models/order.model.js'
 import Product from '../models/product.model.js'
 import OrderProduct from '../models/orderProduct.model.js'
+import logger from '../utils/logger.js'
 
 export const dashboardData = async (req, res) => {
   try {
@@ -18,10 +19,14 @@ export const dashboardData = async (req, res) => {
     const recentOrders = await Order.findAll({
       order: [['createdAt', 'DESC']],
       limit: 5,
-      include: role === 'admin'
-        ? [{ model: Client, as: 'client', attributes: ['id', 'name', 'email'] }]
+      include: role === 'admin' && Order.associations?.client
+        ? [{ association: 'client', attributes: ['id', 'name', 'email'] }]
         : [] // bodeguero no ve datos de cliente
     })
+
+    if (role === 'admin' && !Order.associations?.client) {
+      logger.warn('Asociación Order→Client no encontrada; se omite include en dashboardData')
+    }
 
     // Datos solo para admin
     let totalClients, totalOrders, totalProducts
@@ -39,6 +44,7 @@ export const dashboardData = async (req, res) => {
       recentOrders
     })
   } catch (err) {
+    logger.error('Error obteniendo dashboardData', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'Error interno del servidor', error: err.message })
   }
 }
@@ -64,12 +70,20 @@ export const dashboardSummary = async (_req, res) => {
       Order.sum('totalAmount')
     ])
 
+    const includeProduct = OrderProduct.associations?.product
+      ? [{ association: 'product', attributes: ['name', 'stock'] }]
+      : []
+
+    if (!OrderProduct.associations?.product) {
+      logger.warn('Asociación OrderProduct→Product no encontrada; se omite include en dashboardSummary')
+    }
+
     const topProducts = await OrderProduct.findAll({
       attributes: ['productId', [Order.sequelize.fn('SUM', Order.sequelize.col('quantity')), 'units']],
       group: ['productId'],
       order: [[Order.sequelize.literal('units'), 'DESC']],
       limit: 5,
-      include: [{ model: Product, as: 'product', attributes: ['name', 'stock'] }]
+      include: includeProduct
     })
 
     res.json({
@@ -83,6 +97,7 @@ export const dashboardSummary = async (_req, res) => {
       topProducts
     })
   } catch (err) {
+    logger.error('Error obteniendo dashboardSummary', { message: err.message, stack: err.stack })
     res.status(500).json({ message: 'Error interno del servidor', error: err.message })
   }
 }

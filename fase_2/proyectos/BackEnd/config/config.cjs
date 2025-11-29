@@ -62,10 +62,20 @@ module.exports = {
 
   production: {
     use_env_variable: 'DATABASE_URL',
-    dialect: 'postgres'
-    // Si usas un proveedor gestionado con SSL:
-    // dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
-    // searchPath: DB_SCHEMA,
-    // define: { schema: DB_SCHEMA, underscored: true, freezeTableName: true }
+    dialect: 'postgres',
+    searchPath: DB_SCHEMA,
+    define: {
+      schema: DB_SCHEMA,
+      underscored: true,
+      freezeTableName: true
+    },
+    migrationStorage: 'sequelize',
+    migrationStorageTableName: 'SequelizeMeta',
+    migrationStorageTableSchema: DB_SCHEMA,
+    seederStorage: 'sequelize',
+    seederStorageTableName: 'SequelizeData',
+    seederStorageTableSchema: DB_SCHEMA
+    // Si Railway exige SSL descomenta:
+    // dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }
   }
 }

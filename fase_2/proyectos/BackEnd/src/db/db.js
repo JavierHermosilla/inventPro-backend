@@ -100,7 +100,13 @@ if (IS_TEST && TEST_DATABASE_URL) {
       max: 10,
       min: 0,
       acquire: 30000,
-      idle: 10000
+      idle: 10000,
+      async afterCreate (connection) {
+        if (DB_SCHEMA) {
+          // Fuerza el search_path en cada conexión del pool
+          await connection.query(`SET search_path TO "${DB_SCHEMA}", public;`)
+        }
+      }
     }
   })
 }

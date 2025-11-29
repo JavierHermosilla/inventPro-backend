@@ -93,11 +93,11 @@ type ReportDefinition = {
 };
 
 const REPORT_DEFINITIONS: ReportDefinition[] = [
-  { value: "sales", label: "Ordenes de ventas", description: "Detalle de ordenes generadas y ventas con impuestos.", requiresDateRange: true, supportsProductFilter: true, supportsUserFilter: false },
+  { value: "sales", label: "Ordenes de ventas", description: "Ordenes generadas y ventas con impuestos.", requiresDateRange: true, supportsProductFilter: true, supportsUserFilter: false },
   { value: "clients", label: "Clientes", description: "Listado general de clientes.", requiresDateRange: true, supportsProductFilter: false, supportsUserFilter: false },
   { value: "suppliers", label: "Proveedores", description: "Proveedores y condiciones comerciales.", requiresDateRange: true, supportsProductFilter: false, supportsUserFilter: false },
-  { value: "stock", label: "Productos con stock", description: "Inventario disponible y valorizado.", requiresDateRange: false, supportsProductFilter: true, supportsUserFilter: false },
-  { value: "movements", label: "Inventario manual", description: "Movimientos manuales con responsable.", requiresDateRange: true, supportsProductFilter: true, supportsUserFilter: true },
+  { value: "stock", label: "Productos con stock", description: "Productos con stock disponible y valorizacion.", requiresDateRange: false, supportsProductFilter: true, supportsUserFilter: false },
+  { value: "movements", label: "Inventario manual con responsable", description: "Movimientos manuales con responsable.", requiresDateRange: true, supportsProductFilter: true, supportsUserFilter: true },
 ];
 
 const REPORT_FORMAT_OPTIONS: Array<{ value: ReportFormat; label: string }> = [

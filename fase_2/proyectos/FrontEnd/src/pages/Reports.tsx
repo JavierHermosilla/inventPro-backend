@@ -18,10 +18,6 @@ import manualInventoryApi, { type ManualInventoryItem } from "../lib/manualInven
 import { usersApi, type UserItem } from "../lib/usersApi";
 import { clientsApi } from "../lib/clientsApi";
 import { suppliersApi } from "../lib/suppliersApi";
-import dashboardApi from "../lib/dashboardApi";
-import { clientsApi } from "../lib/clientsApi";
-import { suppliersApi } from "../lib/suppliersApi";
-import dashboardApi from "../lib/dashboardApi";
 
 type PdfMakeInstance = typeof pdfMake & {
   default?: typeof pdfMake;
@@ -64,10 +60,6 @@ const DEFAULT_LEGAL_NOTES = [
 ];
 
 const TYPE_SPECIFIC_LEGAL_NOTES: Partial<Record<ReportTypeId, string[]>> = {
-  general: [
-    "Resumen ejecutivo generado desde el panel InventPro.",
-    "Incluye indicadores consolidados y productos con stock bajo.",
-  ],
   sales: [
     "La informacion facilita la conciliacion con el Formulario 29 y cruces de DTE aceptados por el SII.",
     "Incluye solo documentos tributarios vigentes y con folio autorizado.",
@@ -87,7 +79,7 @@ const PDF_PAGE_FOOTER = (currentPage: number, pageCount: number) => ({
   style: "footer",
 });
 
-type ReportTypeId = "general" | "sales" | "stock" | "clients" | "suppliers" | "movements";
+type ReportTypeId = "sales" | "clients" | "suppliers" | "stock" | "movements";
 
 type Option = { value: string; label: string };
 
@@ -101,12 +93,11 @@ type ReportDefinition = {
 };
 
 const REPORT_DEFINITIONS: ReportDefinition[] = [
-  { value: "general", label: "General", description: "Reporte ejecutivo combinado (clientes, ordenes, stock).", requiresDateRange: false, supportsProductFilter: false, supportsUserFilter: false },
-  { value: "sales", label: "Ventas", description: "Resumen de ventas registradas en el backend.", requiresDateRange: true, supportsProductFilter: true, supportsUserFilter: false },
-  { value: "stock", label: "Stock", description: "Inventario disponible y valorizado.", requiresDateRange: false, supportsProductFilter: true, supportsUserFilter: false },
+  { value: "sales", label: "Ordenes de ventas", description: "Detalle de ordenes generadas y ventas con impuestos.", requiresDateRange: true, supportsProductFilter: true, supportsUserFilter: false },
   { value: "clients", label: "Clientes", description: "Listado general de clientes.", requiresDateRange: true, supportsProductFilter: false, supportsUserFilter: false },
   { value: "suppliers", label: "Proveedores", description: "Proveedores y condiciones comerciales.", requiresDateRange: true, supportsProductFilter: false, supportsUserFilter: false },
-  { value: "movements", label: "Movimientos", description: "Ajustes manuales de inventario.", requiresDateRange: true, supportsProductFilter: true, supportsUserFilter: true },
+  { value: "stock", label: "Productos con stock", description: "Inventario disponible y valorizado.", requiresDateRange: false, supportsProductFilter: true, supportsUserFilter: false },
+  { value: "movements", label: "Inventario manual", description: "Movimientos manuales con responsable.", requiresDateRange: true, supportsProductFilter: true, supportsUserFilter: true },
 ];
 
 const REPORT_FORMAT_OPTIONS: Array<{ value: ReportFormat; label: string }> = [
@@ -153,7 +144,7 @@ const INITIAL_FORM_STATE: ReportFormState = {
   userIds: [],
 };
 
-const buildVirtualGeneralReports = (): ReportItem[] => {
+const buildVirtualReports = (): ReportItem[] => {
   const now = new Date();
   const start = new Date(now.getTime() - 29 * 24 * 60 * 60 * 1000);
   const filters: ReportFilters = {
@@ -163,25 +154,223 @@ const buildVirtualGeneralReports = (): ReportItem[] => {
     userIds: null,
   };
 
-  const common: Omit<ReportItem, "id" | "name" | "format"> = {
-    description: "Resumen ejecutivo con inventario, ventas y proveedores.",
-    type: "general",
-    filters,
-    status: "active",
-    deliveryMethod: "immediate-download",
-    createdAt: null,
-    updatedAt: null,
-    createdById: null,
-    createdByName: "Sistema",
-    createdByEmail: null,
-    lastRunAt: null,
-    executionTimeMs: null,
-    virtual: true,
-  };
-
   return [
-    { ...common, id: "general-report-pdf", name: "Reporte general (PDF)", format: "pdf" },
-    { ...common, id: "general-report-xls", name: "Reporte general (Excel)", format: "xls" },
+    {
+      id: "clients-report-pdf",
+      name: "Reporte de clientes (PDF)",
+      description: "Datos de contacto y RUT de clientes registrados.",
+      type: "clients",
+      filters,
+      format: "pdf",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "clients-report-xls",
+      name: "Reporte de clientes (Excel)",
+      description: "Datos de contacto y RUT de clientes registrados.",
+      type: "clients",
+      filters,
+      format: "xls",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "suppliers-report-pdf",
+      name: "Reporte de proveedores (PDF)",
+      description: "Proveedores, contactos y estado comercial.",
+      type: "suppliers",
+      filters,
+      format: "pdf",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "suppliers-report-xls",
+      name: "Reporte de proveedores (Excel)",
+      description: "Proveedores, contactos y estado comercial.",
+      type: "suppliers",
+      filters,
+      format: "xls",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "sales-report-pdf",
+      name: "Reporte de ordenes de ventas (PDF)",
+      description: "Ordenes y ventas generadas en el periodo.",
+      type: "sales",
+      filters,
+      format: "pdf",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "sales-report-xls",
+      name: "Reporte de ordenes de ventas (Excel)",
+      description: "Ordenes y ventas generadas en el periodo.",
+      type: "sales",
+      filters,
+      format: "xls",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "suppliers-report-pdf",
+      name: "Reporte de proveedores (PDF)",
+      description: "Proveedores, contactos y estado comercial.",
+      type: "suppliers",
+      filters,
+      format: "pdf",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "suppliers-report-xls",
+      name: "Reporte de proveedores (Excel)",
+      description: "Proveedores, contactos y estado comercial.",
+      type: "suppliers",
+      filters,
+      format: "xls",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "stock-report-pdf",
+      name: "Reporte de productos con stock (PDF)",
+      description: "Inventario valorizado y unidades disponibles.",
+      type: "stock",
+      filters,
+      format: "pdf",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "stock-report-xls",
+      name: "Reporte de productos con stock (Excel)",
+      description: "Inventario valorizado y unidades disponibles.",
+      type: "stock",
+      filters,
+      format: "xls",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "movements-report-pdf",
+      name: "Reporte de inventario manual con responsable (PDF)",
+      description: "Movimientos manuales con responsable.",
+      type: "movements",
+      filters,
+      format: "pdf",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
+    {
+      id: "movements-report-xls",
+      name: "Reporte de inventario manual con responsable (Excel)",
+      description: "Movimientos manuales con responsable.",
+      type: "movements",
+      filters,
+      format: "xls",
+      status: "active",
+      deliveryMethod: "immediate-download",
+      createdAt: null,
+      updatedAt: null,
+      createdById: null,
+      createdByName: "Sistema",
+      createdByEmail: null,
+      lastRunAt: null,
+      executionTimeMs: null,
+      virtual: true,
+    },
   ];
 };
 
@@ -423,7 +612,7 @@ export default function ReportsPage() {
   const [catalogLoading, setCatalogLoading] = useState(false);
 
   const ensureVirtualReports = useCallback((items: ReportItem[]): ReportItem[] => {
-    const virtuals = buildVirtualGeneralReports();
+    const virtuals = buildVirtualReports();
     const cleanItems = items.filter((item) => !virtuals.some((virtual) => virtual.id === item.id));
     return [...virtuals, ...cleanItems];
   }, []);
@@ -581,7 +770,7 @@ export default function ReportsPage() {
 
   const handleEdit = (report: ReportItem) => {
     if (report.virtual) {
-      showInfo({ title: "Reporte fijo", text: "El reporte general no se puede editar." }).catch(() => {});
+      showInfo({ title: "Reporte fijo", text: "Los reportes predefinidos no se pueden editar." }).catch(() => {});
       return;
     }
     const filters = extractFormFilters(report.filters);
@@ -603,7 +792,7 @@ export default function ReportsPage() {
 
   const handleDelete = async (report: ReportItem) => {
     if (report.virtual) {
-      showInfo({ title: "Reporte fijo", text: "El reporte general no se puede eliminar." }).catch(() => {});
+      showInfo({ title: "Reporte fijo", text: "Los reportes predefinidos no se pueden eliminar." }).catch(() => {});
       return;
     }
     const confirmed = await confirmAction({
@@ -774,51 +963,9 @@ export default function ReportsPage() {
     return buildDatasetResult(report, { summary, table });
   }, []);
 
-  const buildGeneralDataset = useCallback(async (report: ReportItem): Promise<ReportDataset | null> => {
-    const [summaryData, orders] = await Promise.all([dashboardApi.summary(), ordersApi.list()]);
-
-    const totalRevenue = orders.reduce((acc, order) => acc + (order.totalWithTax ?? 0), 0);
-    const completed = orders.filter((order) => order.status === "completed").length;
-    const pending = orders.filter((order) => order.status === "pending").length;
-
-    const summary = [
-      { label: "Clientes", value: numberCL.format(summaryData.totals.clients ?? 0) },
-      { label: "Productos", value: numberCL.format(summaryData.totals.products ?? 0) },
-      { label: "Ordenes", value: numberCL.format(summaryData.totals.orders ?? 0) },
-      { label: "Ordenes completadas", value: numberCL.format(completed) },
-      { label: "Ordenes pendientes", value: numberCL.format(pending) },
-      { label: "Ventas estimadas (CLP)", value: currencyCL.format(totalRevenue) },
-      { label: "Productos con stock bajo", value: numberCL.format(summaryData.lowStockProducts.length) },
-    ];
-
-    const lowStockRows =
-      summaryData.lowStockProducts.length > 0
-        ? summaryData.lowStockProducts.map((product) => [
-            String(product.id),
-            product.nombre,
-            product.categoryName ?? "Sin categoria",
-            numberCL.format(product.stock),
-            currencyCL.format(product.precio),
-          ])
-        : [["-", "Sin productos con stock bajo", "-", "-", "-"]];
-
-    const table = {
-      headers: ["ID", "Producto", "Categoria", "Stock", "Precio"],
-      rows: lowStockRows,
-    };
-
-    return buildDatasetResult(report, {
-      summary,
-      table,
-      legalNotes: ["Incluye un vistazo rapido de stock bajo y ordenes recientes."],
-    });
-  }, []);
-
   const buildDataset = useCallback(
     async (report: ReportItem): Promise<ReportDataset | null> => {
       switch (report.type as ReportTypeId) {
-        case "general":
-          return buildGeneralDataset(report);
         case "sales":
           return buildSalesDataset(report);
         case "stock":
@@ -833,7 +980,7 @@ export default function ReportsPage() {
           return null;
       }
     },
-    [buildGeneralDataset, buildSalesDataset, buildStockDataset, buildMovementsDataset, buildClientsDataset, buildSuppliersDataset],
+    [buildSalesDataset, buildStockDataset, buildMovementsDataset, buildClientsDataset, buildSuppliersDataset],
   );
 
   const triggerFileDownload = (blob: Blob, filename: string) => {

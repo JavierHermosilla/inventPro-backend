@@ -16,6 +16,12 @@ import { ordersApi, type OrderSnapshot } from "../lib/ordersApi";
 import { productsApi, type ProductItem } from "../lib/productsApi";
 import manualInventoryApi, { type ManualInventoryItem } from "../lib/manualInventoryApi";
 import { usersApi, type UserItem } from "../lib/usersApi";
+import { clientsApi } from "../lib/clientsApi";
+import { suppliersApi } from "../lib/suppliersApi";
+import dashboardApi from "../lib/dashboardApi";
+import { clientsApi } from "../lib/clientsApi";
+import { suppliersApi } from "../lib/suppliersApi";
+import dashboardApi from "../lib/dashboardApi";
 
 type PdfMakeInstance = typeof pdfMake & {
   default?: typeof pdfMake;
@@ -58,6 +64,10 @@ const DEFAULT_LEGAL_NOTES = [
 ];
 
 const TYPE_SPECIFIC_LEGAL_NOTES: Partial<Record<ReportTypeId, string[]>> = {
+  general: [
+    "Resumen ejecutivo generado desde el panel InventPro.",
+    "Incluye indicadores consolidados y productos con stock bajo.",
+  ],
   sales: [
     "La informacion facilita la conciliacion con el Formulario 29 y cruces de DTE aceptados por el SII.",
     "Incluye solo documentos tributarios vigentes y con folio autorizado.",
@@ -77,7 +87,7 @@ const PDF_PAGE_FOOTER = (currentPage: number, pageCount: number) => ({
   style: "footer",
 });
 
-type ReportTypeId = "sales" | "stock" | "clients" | "suppliers" | "movements";
+type ReportTypeId = "general" | "sales" | "stock" | "clients" | "suppliers" | "movements";
 
 type Option = { value: string; label: string };
 
@@ -91,6 +101,7 @@ type ReportDefinition = {
 };
 
 const REPORT_DEFINITIONS: ReportDefinition[] = [
+  { value: "general", label: "General", description: "Reporte ejecutivo combinado (clientes, ordenes, stock).", requiresDateRange: false, supportsProductFilter: false, supportsUserFilter: false },
   { value: "sales", label: "Ventas", description: "Resumen de ventas registradas en el backend.", requiresDateRange: true, supportsProductFilter: true, supportsUserFilter: false },
   { value: "stock", label: "Stock", description: "Inventario disponible y valorizado.", requiresDateRange: false, supportsProductFilter: true, supportsUserFilter: false },
   { value: "clients", label: "Clientes", description: "Listado general de clientes.", requiresDateRange: true, supportsProductFilter: false, supportsUserFilter: false },
@@ -140,6 +151,38 @@ const INITIAL_FORM_STATE: ReportFormState = {
   endDate: "",
   productIds: [],
   userIds: [],
+};
+
+const buildVirtualGeneralReports = (): ReportItem[] => {
+  const now = new Date();
+  const start = new Date(now.getTime() - 29 * 24 * 60 * 60 * 1000);
+  const filters: ReportFilters = {
+    startDate: start.toISOString(),
+    endDate: now.toISOString(),
+    productIds: null,
+    userIds: null,
+  };
+
+  const common: Omit<ReportItem, "id" | "name" | "format"> = {
+    description: "Resumen ejecutivo con inventario, ventas y proveedores.",
+    type: "general",
+    filters,
+    status: "active",
+    deliveryMethod: "immediate-download",
+    createdAt: null,
+    updatedAt: null,
+    createdById: null,
+    createdByName: "Sistema",
+    createdByEmail: null,
+    lastRunAt: null,
+    executionTimeMs: null,
+    virtual: true,
+  };
+
+  return [
+    { ...common, id: "general-report-pdf", name: "Reporte general (PDF)", format: "pdf" },
+    { ...common, id: "general-report-xls", name: "Reporte general (Excel)", format: "xls" },
+  ];
 };
 
 type ReportDataset = {
@@ -379,19 +422,25 @@ export default function ReportsPage() {
   const [userOptions, setUserOptions] = useState<Option[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(false);
 
+  const ensureVirtualReports = useCallback((items: ReportItem[]): ReportItem[] => {
+    const virtuals = buildVirtualGeneralReports();
+    const cleanItems = items.filter((item) => !virtuals.some((virtual) => virtual.id === item.id));
+    return [...virtuals, ...cleanItems];
+  }, []);
+
   const loadReports = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await reportsApi.list();
-      setReports(response.items);
+      setReports(ensureVirtualReports(response.items));
     } catch (err) {
       const message = err instanceof Error ? err.message : "No fue posible cargar los reportes.";
       setError(message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [ensureVirtualReports]);
 
   useEffect(() => {
     loadReports().catch(() => {});
@@ -531,6 +580,10 @@ export default function ReportsPage() {
   };
 
   const handleEdit = (report: ReportItem) => {
+    if (report.virtual) {
+      showInfo({ title: "Reporte fijo", text: "El reporte general no se puede editar." }).catch(() => {});
+      return;
+    }
     const filters = extractFormFilters(report.filters);
     setFormState({
       name: report.name,
@@ -549,6 +602,10 @@ export default function ReportsPage() {
   };
 
   const handleDelete = async (report: ReportItem) => {
+    if (report.virtual) {
+      showInfo({ title: "Reporte fijo", text: "El reporte general no se puede eliminar." }).catch(() => {});
+      return;
+    }
     const confirmed = await confirmAction({
       title: `Eliminar "${report.name}"`,
       text: "La operacion no se puede deshacer.",
@@ -666,20 +723,117 @@ export default function ReportsPage() {
     });
   }, []);
 
+  const buildClientsDataset = useCallback(async (report: ReportItem): Promise<ReportDataset | null> => {
+    const clientsResult = await clientsApi.list({ limit: 200 });
+    if (clientsResult.items.length === 0) return null;
+
+    const summary = [
+      { label: "Clientes totales", value: numberCL.format(clientsResult.items.length) },
+      { label: "Email registrados", value: numberCL.format(clientsResult.items.filter((c) => Boolean(c.email)).length) },
+    ];
+
+    const table = {
+      headers: ["Nombre", "RUT", "Correo", "Telefono", "Direccion"],
+      rows: clientsResult.items.map((client) => [
+        client.name,
+        client.rut,
+        client.email ?? "Sin correo",
+        client.phone ?? "Sin telefono",
+        client.address ?? "Sin direccion",
+      ]),
+    };
+
+    return buildDatasetResult(report, { summary, table });
+  }, []);
+
+  const buildSuppliersDataset = useCallback(async (report: ReportItem): Promise<ReportDataset | null> => {
+    const suppliersResult = await suppliersApi.list();
+    if (suppliersResult.items.length === 0) return null;
+
+    const active = suppliersResult.items.filter((s) => s.status === "active").length;
+    const inactive = suppliersResult.items.length - active;
+
+    const summary = [
+      { label: "Proveedores totales", value: numberCL.format(suppliersResult.items.length) },
+      { label: "Activos", value: numberCL.format(active) },
+      { label: "Inactivos", value: numberCL.format(inactive) },
+    ];
+
+    const table = {
+      headers: ["Proveedor", "RUT", "Contacto", "Correo", "Telefono", "Estado"],
+      rows: suppliersResult.items.map((supplier) => [
+        supplier.name,
+        supplier.rut,
+        supplier.contactName ?? "No informado",
+        supplier.email ?? "Sin correo",
+        supplier.phone ?? "Sin telefono",
+        supplier.status === "active" ? "Activo" : "Inactivo",
+      ]),
+    };
+
+    return buildDatasetResult(report, { summary, table });
+  }, []);
+
+  const buildGeneralDataset = useCallback(async (report: ReportItem): Promise<ReportDataset | null> => {
+    const [summaryData, orders] = await Promise.all([dashboardApi.summary(), ordersApi.list()]);
+
+    const totalRevenue = orders.reduce((acc, order) => acc + (order.totalWithTax ?? 0), 0);
+    const completed = orders.filter((order) => order.status === "completed").length;
+    const pending = orders.filter((order) => order.status === "pending").length;
+
+    const summary = [
+      { label: "Clientes", value: numberCL.format(summaryData.totals.clients ?? 0) },
+      { label: "Productos", value: numberCL.format(summaryData.totals.products ?? 0) },
+      { label: "Ordenes", value: numberCL.format(summaryData.totals.orders ?? 0) },
+      { label: "Ordenes completadas", value: numberCL.format(completed) },
+      { label: "Ordenes pendientes", value: numberCL.format(pending) },
+      { label: "Ventas estimadas (CLP)", value: currencyCL.format(totalRevenue) },
+      { label: "Productos con stock bajo", value: numberCL.format(summaryData.lowStockProducts.length) },
+    ];
+
+    const lowStockRows =
+      summaryData.lowStockProducts.length > 0
+        ? summaryData.lowStockProducts.map((product) => [
+            String(product.id),
+            product.nombre,
+            product.categoryName ?? "Sin categoria",
+            numberCL.format(product.stock),
+            currencyCL.format(product.precio),
+          ])
+        : [["-", "Sin productos con stock bajo", "-", "-", "-"]];
+
+    const table = {
+      headers: ["ID", "Producto", "Categoria", "Stock", "Precio"],
+      rows: lowStockRows,
+    };
+
+    return buildDatasetResult(report, {
+      summary,
+      table,
+      legalNotes: ["Incluye un vistazo rapido de stock bajo y ordenes recientes."],
+    });
+  }, []);
+
   const buildDataset = useCallback(
     async (report: ReportItem): Promise<ReportDataset | null> => {
       switch (report.type as ReportTypeId) {
+        case "general":
+          return buildGeneralDataset(report);
         case "sales":
           return buildSalesDataset(report);
         case "stock":
           return buildStockDataset(report);
         case "movements":
           return buildMovementsDataset(report);
+        case "clients":
+          return buildClientsDataset(report);
+        case "suppliers":
+          return buildSuppliersDataset(report);
         default:
           return null;
       }
     },
-    [buildSalesDataset, buildStockDataset, buildMovementsDataset],
+    [buildGeneralDataset, buildSalesDataset, buildStockDataset, buildMovementsDataset, buildClientsDataset, buildSuppliersDataset],
   );
 
   const triggerFileDownload = (blob: Blob, filename: string) => {
@@ -1186,21 +1340,25 @@ export default function ReportsPage() {
                     >
                       {executingId === report.id ? "Generando..." : "Generar"}
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => handleEdit(report)}
-                      className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => void handleDelete(report)}
-                      disabled={deletingId === report.id}
-                      className="rounded-lg border border-rose-200 px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-60"
-                    >
-                      {deletingId === report.id ? "Eliminando..." : "Eliminar"}
-                    </button>
+                    {!report.virtual && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => handleEdit(report)}
+                          className="rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100"
+                        >
+                          Editar
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => void handleDelete(report)}
+                          disabled={deletingId === report.id}
+                          className="rounded-lg border border-rose-200 px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {deletingId === report.id ? "Eliminando..." : "Eliminar"}
+                        </button>
+                      </>
+                    )}
                   </div>
                 </article>
               );

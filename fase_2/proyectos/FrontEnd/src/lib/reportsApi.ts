@@ -53,6 +53,7 @@ export type ReportItem = {
   createdByEmail: string | null;
   lastRunAt: string | null;
   executionTimeMs: number | null;
+  virtual?: boolean;
 };
 
 export type ReportListResult = {
@@ -126,6 +127,7 @@ const normalize = (record: ReportApiRecord): ReportItem => ({
   createdByEmail: record.creator?.email ?? null,
   lastRunAt: record.lastRunAt ?? record.last_run_at ?? null,
   executionTimeMs: typeof record.executionTimeMs === "number" ? record.executionTimeMs : record.execution_time_ms ?? null,
+  virtual: false,
 });
 
 export const reportsApi = {

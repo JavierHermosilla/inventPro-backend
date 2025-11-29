@@ -91,6 +91,9 @@ app.use('/api/clients', clientRoutes)
 app.use('/api/reports', reportsRoutes)
 app.use('/api/order-products', OrderProductRoutes)
 app.use('/api/dashboard', dashboardRoutes)
+// Alias sin prefijo /api para clientes/front que lo omiten por configuración
+app.use('/reports', reportsRoutes)
+app.use('/dashboard', dashboardRoutes)
 
 // Healthz
 app.get('/api/health', async (_req, res) => {

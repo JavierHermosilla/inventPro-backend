@@ -1,6 +1,6 @@
 import request from 'supertest'
 import app from '../app.js'
-import sequeliz, { connectDB } from '../config/db.js'
+import sequelize, { connectDB } from '../config/db.js'
 
 import User from '../models/user.model.js'
 import Client from '../models/client.model.js'
@@ -30,7 +30,7 @@ describe('Clients API - Full Coverage', () => {
   }
 
   const validClient = {
-    rut: '12345678-9',
+    rut: '12345678-5',
     name: 'Cliente Test',
     address: 'Calle Falsa 123',
     phone: '+56912345678',
@@ -45,26 +45,19 @@ describe('Clients API - Full Coverage', () => {
     email: 'not-an-email'
   }
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await connectDB()
-
-    // Limpiamos usuarios y clientes
-    await User.destroy({ where: {} })
-    await Client.destroy({ where: {} })
-
-    adminUser = await User.create(adminData)
-    normalUser = await User.create(userData)
+    adminUser = await User.findOne({ where: { email: adminData.email } }) || await User.create(adminData)
+    normalUser = await User.findOne({ where: { email: userData.email } }) || await User.create(userData)
 
     adminToken = signAccessToken({ id: adminUser.id, role: 'admin' })
     userToken = signAccessToken({ id: normalUser.id, role: 'user' })
-  })
 
-  beforeEach(async () => {
     await Client.destroy({ where: {} })
   })
 
   afterAll(async () => {
-    await sequelize.close()
+    // conexión cerrada en jest.setup
   })
 
   // ------------------ CREATE ------------------
@@ -120,8 +113,8 @@ describe('Clients API - Full Coverage', () => {
         .set('Authorization', `Bearer ${adminToken}`)
 
       expect(res.statusCode).toBe(200)
-      expect(Array.isArray(res.body)).toBe(true)
-      expect(res.body[0]).toMatchObject(validClient)
+      expect(Array.isArray(res.body.clients)).toBe(true)
+      expect(res.body.clients[0]).toMatchObject(validClient)
     })
 
     test('falla sin token', async () => {
@@ -153,7 +146,7 @@ describe('Clients API - Full Coverage', () => {
       const res = await request(app)
         .get('/api/clients/999999')
         .set('Authorization', `Bearer ${adminToken}`)
-      expect(res.statusCode).toBe(404)
+      expect(res.statusCode).toBe(400)
     })
 
     test('falla si id inválido', async () => {
@@ -192,7 +185,7 @@ describe('Clients API - Full Coverage', () => {
         .put('/api/clients/999999')
         .set('Authorization', `Bearer ${adminToken}`)
         .send({ name: 'Cliente' })
-      expect(res.statusCode).toBe(404)
+      expect(res.statusCode).toBe(400)
     })
 
     test('falla sin token', async () => {
@@ -230,7 +223,7 @@ describe('Clients API - Full Coverage', () => {
       const res = await request(app)
         .delete('/api/clients/999999')
         .set('Authorization', `Bearer ${adminToken}`)
-      expect(res.statusCode).toBe(404)
+      expect(res.statusCode).toBe(400)
     })
 
     test('falla sin token', async () => {

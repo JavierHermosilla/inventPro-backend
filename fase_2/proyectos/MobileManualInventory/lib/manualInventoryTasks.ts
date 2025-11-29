@@ -226,27 +226,20 @@ export const fetchProductInventory = async (params?: { limit?: number }) => {
 export const fetchManualInventoryHistory = async (
   params?: { limit?: number }
 ): Promise<ManualInventoryHistory> => {
-  try {
-    const response = await api.get('/manual-inventory', { params });
-    const payload = response.data as {
-      total?: number;
-      records?: ManualInventoryApiRecord[];
-    };
+  const response = await api.get('/manual-inventory', { params });
+  const payload = response.data as {
+    total?: number;
+    records?: ManualInventoryApiRecord[];
+  };
 
-    const records = ensureArray<ManualInventoryApiRecord>(payload.records ?? [])
-      .map(mapMovement)
-      .filter((movement): movement is ManualInventoryMovement => Boolean(movement));
+  const records = ensureArray<ManualInventoryApiRecord>(payload.records ?? [])
+    .map(mapMovement)
+    .filter((movement): movement is ManualInventoryMovement => Boolean(movement));
 
-    return {
-      records,
-      total: asNumber(payload.total, records.length),
-    };
-  } catch (error) {
-    if (error instanceof AxiosError && error.response?.status === 403) {
-      return { records: [], total: 0 };
-    }
-    throw error;
-  }
+  return {
+    records,
+    total: asNumber(payload.total, records.length),
+  };
 };
 
 export type ManualAdjustmentPayload = {

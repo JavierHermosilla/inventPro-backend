@@ -132,10 +132,22 @@ class Client extends Model {
         underscored: true,
         createdAt: 'created_at',
         updatedAt: 'updated_at',
-        deletedAt: 'deleted_at'
+        deletedAt: 'deleted_at',
 
-        // ⚠️ No declaramos índices/unique aquí: ya existen en migraciones (incluidos los parciales)
-        // indexes: []
+        indexes: [
+          {
+            name: 'clients_unique_rut_active',
+            unique: true,
+            fields: ['rut'],
+            where: { deleted_at: null }
+          },
+          {
+            name: 'clients_unique_email_active',
+            unique: true,
+            fields: ['email'],
+            where: { deleted_at: null }
+          }
+        ]
       }
     )
   }

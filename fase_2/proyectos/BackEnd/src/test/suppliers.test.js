@@ -1,48 +1,19 @@
 // src/test/suppliers.test.js
 import request from 'supertest'
 import app from '../app.js'
-import sequelize, { connectDB } from '../config/db.js'
+import { connectDB } from '../config/db.js'
 
 import User from '../models/user.model.js'
-import { signAccessToken } from '../libs/jwt.js'
+import Supplier from '../models/supplier.model.js'
 
 /** @jest-environment node */
 
 describe('Suppliers API', () => {
   let adminToken, userToken
 
-  beforeAll(async () => {
-    await User.deleteMany({})
-    beforeAll(async () => {
+  beforeEach(async () => {
     await connectDB()
 
-    // Crear admin
-    let admin = await User.findOne({ where: { email: 'admin@test.com' } })
-    if (!admin) {
-      admin = await User.create({
-        username: 'adminTest',
-        name: 'Admin Test',
-        email: 'admin@test.com',
-        password: 'Password123',
-        phone: '+56912345678',
-        role: 'admin'
-      })
-    }
-
-    // Crear usuario normal
-    let normalUser = await User.findOne({ where: { email: 'user@test.com' } })
-    if (!normalUser) {
-      normalUser = await User.create({
-        username: 'userTest',
-        name: 'User Test',
-        email: 'user@test.com',
-        password: 'Password123',
-        phone: '+56987654321',
-        role: 'user'
-      })
-    }
-
-     // Login para obtener tokens
     const loginAdmin = await request(app)
       .post('/api/auth/login')
       .send({ email: 'admin@test.com', password: 'Password123' })
@@ -54,11 +25,6 @@ describe('Suppliers API', () => {
     userToken = loginUser.body.token
   })
 
-  beforeEach(async () => {
-    // Limpiar tabla suppliers antes de cada test
-    await Supplier.destroy({ where: {} })
-  })
-
   const createSupplier = async (data, token = adminToken) => {
     const res = await request(app)
       .post('/api/suppliers')
@@ -66,7 +32,8 @@ describe('Suppliers API', () => {
       .send(data)
     return res.body.supplier?.id
   }
-// ---------- POST ----------
+
+  // ---------- POST ----------
   it('Admin puede crear supplier válido', async () => {
     const res = await request(app)
       .post('/api/suppliers')
@@ -122,9 +89,5 @@ describe('Suppliers API', () => {
       .set('Authorization', `Bearer ${adminToken}`)
     expect(res.statusCode).toBe(200)
     expect(res.body.message).toMatch(/deleted/i)
-  })
-
-  afterAll(async () => {
-    await sequelize.close()
   })
 })

@@ -4,7 +4,7 @@ Aplicación Expo + React Native exclusiva para personal de **Bodega** (`bodeguer
 
 ## Características
 
-- Inicio de sesión contra `/api/auth` con tokens persistidos en `AsyncStorage`.
+- Inicio de sesión contra `/api/auth` con tokens guardados en `SecureStore`.
 - Tab **Resumen**: métricas clave, tareas urgentes y alertas recientes.
 - Tab **Ajustes**: confirmación o rechazo de discrepancias con captura de cantidad contada y notas.
 - Tab **Alertas**: bandeja para notificaciones operativas (marcar como leídas).

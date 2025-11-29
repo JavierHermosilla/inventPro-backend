@@ -11,28 +11,19 @@ let adminToken, userToken
 let admin, user
 let product1Id, product2Id
 
-beforeAll(async () => {
+beforeEach(async () => {
   await connectDB()
 
-  // Obtener usuarios de la DB
   admin = await User.findOne({ where: { role: 'admin' } })
   user = await User.findOne({ where: { role: 'user' } })
 
   adminToken = signAccessToken({ id: admin.id, role: 'admin' })
   userToken = signAccessToken({ id: user.id, role: 'user' })
 
-  // Productos de prueba
-  const products = await Product.findAll({ limit: 2 })
+  const products = await Product.findAll({ order: [['created_at', 'ASC']], limit: 2 })
   product1Id = products[0].id
   product2Id = products[1].id
-})
 
-afterAll(async () => {
-  await sequelize.close()
-})
-
-beforeEach(async () => {
-  // Resetear stock de productos
   await Product.update({ stock: 10 }, { where: { id: product1Id } })
   await Product.update({ stock: 5 }, { where: { id: product2Id } })
 

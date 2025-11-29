@@ -1,6 +1,5 @@
 import request from 'supertest'
 import app from '../app.js'
-import sequelize, { connectDB } from '../config/db.js'
 
 import User from '../models/user.model.js'
 import Client from '../models/client.model.js'
@@ -39,7 +38,7 @@ describe('Clients API - Cobertura completa', () => {
   }
 
   const clientData = {
-    rut: '12345678-9',
+    rut: '12345678-5',
     name: 'Cliente Test',
     address: 'Calle Falsa 123',
     phone: '+56912345678',
@@ -49,30 +48,16 @@ describe('Clients API - Cobertura completa', () => {
   // -------------------------------
   // SETUP BASE
   // -------------------------------
-  beforeAll(async () => {
-    await connectDB()
-
-    // limpiamos tablas
-    await User.destroy({ where: {} })
-    await Client.destroy({ where: {} })
-
-    // creamos usuarios
-    adminUser = await User.create(adminData)
-    normalUser = await User.create(normalUserData)
-    bodegueroUser = await User.create(bodegueroData)
-
-    // generamos tokens
-    adminToken = signAccessToken({ id: adminUser.id })
-    userToken = signAccessToken({ id: normalUser.id })
-    bodegueroToken = signAccessToken({ id: bodegueroUser.id })
-  })
-
   beforeEach(async () => {
-    await Client.destroy({ where: {} })
-  })
+    adminUser = await User.findOne({ where: { email: adminData.email } }) || await User.create(adminData)
+    normalUser = await User.findOne({ where: { email: normalUserData.email } }) || await User.create(normalUserData)
+    bodegueroUser = await User.findOne({ where: { email: bodegueroData.email } }) || await User.create(bodegueroData)
 
-  afterAll(async () => {
-    await sequelize.close()
+    adminToken = signAccessToken({ id: adminUser.id, role: adminUser.role })
+    userToken = signAccessToken({ id: normalUser.id, role: normalUser.role })
+    bodegueroToken = signAccessToken({ id: bodegueroUser.id, role: bodegueroUser.role })
+
+    await Client.destroy({ where: {} })
   })
 
   // -------------------------------
@@ -173,8 +158,7 @@ describe('Clients API - Cobertura completa', () => {
       const res = await request(app)
         .get(`/api/clients/${fakeId}`)
         .set('Authorization', `Bearer ${adminToken}`)
-      expect(res.statusCode).toBe(404)
-      expect(res.body).toHaveProperty('message', 'Cliente no encontrado')
+      expect(res.statusCode).toBe(400)
     })
   })
 

@@ -1,6 +1,6 @@
 import request from 'supertest'
 import app from '../app.js'
-import sequelize, { connectDB } from '../config/db.js'
+import { connectDB } from '../config/db.js'
 
 import Product from '../models/product.model.js'
 import ManualInventory from '../models/manualInventory.model.js'
@@ -17,17 +17,11 @@ describe('Manual Inventory API - Full Coverage', () => {
 
   jest.setTimeout(30000)
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await connectDB()
-
-    // Limpiar tablas
-    await ManualInventory.destroy({ where: {} })
-    await Product.destroy({ where: {} })
-
-    // Obtener usuarios, proveedores y categorías
-    adminUser = await User.findOne({ where: { role: ROLES.ADMIN } })
-    normalUser = await User.findOne({ where: { role: ROLES.USER } })
-    bodegueroUser = await User.findOne({ where: { role: ROLES.BODEGUERO } })
+    adminUser = await User.findOne({ where: { email: 'admin@test.com' } })
+    normalUser = await User.findOne({ where: { email: 'user@test.com' } })
+    bodegueroUser = await User.findOne({ where: { email: 'bodeguero@test.com' } })
 
     adminToken = signAccessToken({ id: adminUser.id, role: ROLES.ADMIN })
     userToken = signAccessToken({ id: normalUser.id, role: ROLES.USER })
@@ -35,9 +29,7 @@ describe('Manual Inventory API - Full Coverage', () => {
 
     testSupplier = await Supplier.findOne({ where: { rut: '12345678-9' } })
     testCategory = await Category.findOne({ where: { name: 'Categoría prueba' } })
-  })
 
-  beforeEach(async () => {
     await ManualInventory.destroy({ where: {} })
     await Product.destroy({ where: {} })
 
@@ -49,10 +41,6 @@ describe('Manual Inventory API - Full Coverage', () => {
       supplierId: testSupplier.id,
       categoryId: testCategory.id
     })
-  })
-
-  afterAll(async () => {
-    await sequelize.close()
   })
 
   // ------------------ CREAR AJUSTE ------------------

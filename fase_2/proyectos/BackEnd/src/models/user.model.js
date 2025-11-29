@@ -93,7 +93,6 @@ class User extends Model {
         sequelize,
         modelName: 'User',
         tableName: 'users',
-        schema: 'inventpro_user',
 
         timestamps: true,
         paranoid: true,

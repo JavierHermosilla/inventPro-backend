@@ -1,1 +1,1 @@
-export { sequelize, models } from '../db/db.js'
+export { sequelize, models, initializeModels } from '../db/db.js'

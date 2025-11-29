@@ -17,7 +17,7 @@ type AdjustmentSheetProps = {
   product: ProductInventoryItem | null;
   visible: boolean;
   onClose: () => void;
-  onSubmit: (payload: ManualAdjustmentPayload) => void;
+  onSubmit: (payload: ManualAdjustmentPayload) => Promise<void> | void;
 };
 
 export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: AdjustmentSheetProps) => {
@@ -26,28 +26,42 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
   const [type, setType] = useState<ManualAdjustmentPayload['type']>('increase');
   const [quantity, setQuantity] = useState('1');
   const [reason, setReason] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (visible) {
       setType('increase');
       setQuantity('1');
       setReason('');
+      setSubmitting(false);
+      setError(null);
     }
   }, [visible, product]);
 
-  const submit = () => {
-    if (!product) return;
+  const submit = async () => {
+    if (!product || submitting) return;
     const parsed = Number(quantity);
     if (!Number.isFinite(parsed) || parsed <= 0) {
+      setError('Ingresa una cantidad valida.');
       return;
     }
-    onSubmit({
-      productId: product.id,
-      type,
-      quantity: Math.trunc(parsed),
-      reason: reason.trim() || null,
-    });
-    onClose();
+    setSubmitting(true);
+    setError(null);
+    try {
+      await onSubmit({
+        productId: product.id,
+        type,
+        quantity: Math.trunc(parsed),
+        reason: reason.trim() || null,
+      });
+      onClose();
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'No se pudo registrar el ajuste.';
+      setError(message);
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -84,7 +98,10 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
             <TextInput
               keyboardType="numeric"
               value={quantity}
-              onChangeText={setQuantity}
+              onChangeText={(value) => {
+                setQuantity(value);
+                if (error) setError(null);
+              }}
               style={styles.input}
               placeholder="1"
               placeholderTextColor={palette.muted}
@@ -104,12 +121,14 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
             />
           </View>
 
+          {error ? <Text style={styles.error}>{error}</Text> : null}
+
           <View style={styles.actions}>
             <Pressable style={styles.cancel} onPress={onClose}>
               <Text style={styles.cancelText}>Cancelar</Text>
             </Pressable>
-            <Pressable style={styles.submit} onPress={submit}>
-              <Text style={styles.submitText}>Guardar</Text>
+            <Pressable style={[styles.submit, submitting ? styles.submitDisabled : null]} onPress={submit} disabled={submitting}>
+              <Text style={styles.submitText}>{submitting ? 'Guardando...' : 'Guardar'}</Text>
             </Pressable>
           </View>
         </View>
@@ -191,6 +210,10 @@ const createStyles = (palette: Palette) =>
       minHeight: 80,
       textAlignVertical: 'top',
     },
+    error: {
+      color: palette.danger,
+      fontSize: 14,
+    },
     actions: {
       flexDirection: 'row',
       gap: 12,
@@ -211,6 +234,9 @@ const createStyles = (palette: Palette) =>
       borderRadius: 12,
       alignItems: 'center',
       backgroundColor: palette.tint,
+    },
+    submitDisabled: {
+      opacity: 0.6,
     },
     cancelText: {
       fontWeight: '600',

@@ -52,7 +52,6 @@ class ManualInventory extends Model {
         sequelize,
         modelName: 'ManualInventory',
         tableName: 'manual_inventories',
-        schema: 'inventpro_user',
 
         timestamps: true,
         underscored: true,

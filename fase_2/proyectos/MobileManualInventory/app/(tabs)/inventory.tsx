@@ -84,11 +84,8 @@ export default function InventoryScreen() {
         visible={Boolean(selectedProduct)}
         onClose={() => setSelectedProduct(null)}
         onSubmit={async (payload) => {
-          try {
-            await adjustStock(payload);
-          } finally {
-            setSelectedProduct(null);
-          }
+          await adjustStock(payload);
+          setSelectedProduct(null);
         }}
       />
     </View>

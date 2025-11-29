@@ -1,10 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios, {
-  AxiosError,
-  AxiosHeaders,
-  type InternalAxiosRequestConfig,
-  type AxiosInstance,
-} from 'axios';
+import * as SecureStore from 'expo-secure-store';
+import axios, { AxiosError, AxiosHeaders, type InternalAxiosRequestConfig, type AxiosInstance } from 'axios';
 
 import { Config } from '@/lib/config';
 
@@ -21,24 +16,33 @@ const normalizeToken = (value?: string | null) => {
 
 const readTokenFromStorage = async () => {
   if (!tokenLoaded) {
-    const raw = await AsyncStorage.getItem(TOKEN_KEY);
-    tokenCache = normalizeToken(raw);
-    tokenLoaded = true;
+    try {
+      const raw = await SecureStore.getItemAsync(TOKEN_KEY);
+      tokenCache = normalizeToken(raw);
+    } catch (error) {
+      console.warn('[api] No se pudo leer el token seguro', error);
+      tokenCache = null;
+    } finally {
+      tokenLoaded = true;
+    }
   }
   return tokenCache;
 };
 
 const persistToken = async (token: string | null) => {
-  if (token) {
-    await AsyncStorage.setItem(TOKEN_KEY, token);
-  } else {
-    await AsyncStorage.removeItem(TOKEN_KEY);
+  try {
+    if (token) {
+      await SecureStore.setItemAsync(TOKEN_KEY, token);
+    } else {
+      await SecureStore.deleteItemAsync(TOKEN_KEY);
+    }
+  } catch (error) {
+    console.warn('[api] No se pudo persistir el token seguro', error);
   }
 };
 
 const api: AxiosInstance = axios.create({
   baseURL: Config.apiUrl,
-  withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 });
 

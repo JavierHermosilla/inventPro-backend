@@ -17,7 +17,7 @@ export const dashboardData = async (req, res) => {
     })
 
     const recentOrders = await Order.findAll({
-      order: [['createdAt', 'DESC']],
+      order: [['created_at', 'DESC']], // usar la columna real en BD (underscored)
       limit: 5,
       include: role === 'admin' && Order.associations?.client
         ? [{ association: 'client', attributes: ['id', 'name', 'email'] }]

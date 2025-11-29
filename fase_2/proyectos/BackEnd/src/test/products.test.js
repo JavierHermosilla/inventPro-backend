@@ -23,50 +23,20 @@ describe('Products API', () => {
   }
 
   // ------------------ SETUP ------------------
-  beforeAll(async () => {
+  beforeEach(async () => {
     await connectDB()
 
-    let admin = await User.findOne({ where: { email: adminUser.email } })
-    if (!admin) {
-      admin = await User.create({
-        username: 'adminuser',
-        name: 'Admin User',
-        email: adminUser.email,
-        password: adminUser.password,
-        phone: '+56912345678',
-        role: 'admin'
-      })
-    }
-
-    // login para token
     const loginRes = await request(app)
       .post('/api/auth/login')
       .send({ email: adminUser.email, password: adminUser.password })
 
     token = loginRes.body.token
-  })
 
-  beforeEach(async () => {
-    // Limpiamos las tablas antes de cada test
-    await Product.destroy({ where: {} })
-    await Category.destroy({ where: {} })
-    await Supplier.destroy({ where: {} })
+    const category = await Category.findOne({ where: { name: 'Electronics' } })
+    categoryId = category?.id
 
-    // creamos la categoria fresh
-    const category = await Category.create({ name: 'Electronics' })
-    categoryId = category.id
-
-    // creamos proveedor fersh
-    const supplier = await Supplier.create({
-      name: 'Proveedor Test',
-      rut: '12345678-9'
-    })
-    supplierId = supplier.id
-  })
-
-  afterAll(async () => {
-    // cerramos la conexion
-    await sequelize.close()
+    const supplier = await Supplier.findOne({ where: { rut: '12345678-9' } })
+    supplierId = supplier?.id
   })
 
   // ------------------ CREATE ------------------

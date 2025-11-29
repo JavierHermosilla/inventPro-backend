@@ -60,7 +60,6 @@ class Order extends Model {
         sequelize,
         modelName: 'Order',
         tableName: 'orders',
-        schema: 'inventpro_user',
 
         // Auditoría y naming
         timestamps: true,

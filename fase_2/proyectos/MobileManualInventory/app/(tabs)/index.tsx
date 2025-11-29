@@ -1,5 +1,6 @@
 import { Link } from 'expo-router';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
 
 import { EmptyState } from '@/components/common/EmptyState';
@@ -24,6 +25,14 @@ export default function DashboardScreen() {
   const bootstrapped = useManualInventoryStore((state) => state.bootstrapped);
   const palette = usePalette();
   const styles = useMemo(() => createStyles(palette), [palette]);
+  const [isFocused, setIsFocused] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      setIsFocused(true);
+      return () => setIsFocused(false);
+    }, [])
+  );
 
   useEffect(() => {
     if (!bootstrapped && !loading) {
@@ -35,7 +44,7 @@ export default function DashboardScreen() {
     void refresh();
   }, [refresh]);
 
-  usePolling(() => refresh(), Config.tasksPollingMs, Boolean(summary));
+  usePolling(() => refresh(), Config.tasksPollingMs, isFocused && Boolean(summary));
 
   const lowStock = summary?.lowStockProducts ?? [];
   const recentMovements = movements.slice(0, 3);

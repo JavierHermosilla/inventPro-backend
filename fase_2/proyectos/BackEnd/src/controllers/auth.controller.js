@@ -9,7 +9,7 @@ import { signAccessToken, signRefreshToken, verifyRefreshToken } from '../libs/j
 import * as cfg from '../config/config.js'
 
 // ───────────────────────────────────────────────────────────────────────────────
-// Config cookie del refresh (de sesión → sin maxAge/expires)
+// Config cookie del refresh
 // ───────────────────────────────────────────────────────────────────────────────
 const refreshCookieOpts = {
   httpOnly: true,
@@ -113,7 +113,7 @@ export const login = async (req, res) => {
 }
 
 // ───────────────────────────────────────────────────────────────────────────────
-// Refresh (silencioso)
+// Refresh
 // ───────────────────────────────────────────────────────────────────────────────
 export const refresh = async (req, res) => {
   try {
@@ -123,11 +123,6 @@ export const refresh = async (req, res) => {
     const decoded = await verifyRefreshToken(rt) // { id, role, iat, exp, jti? }
 
     const access = await signAccessToken({ id: decoded.id, role: decoded.role })
-
-    // (Opcional) Rotación de refresh para mayor seguridad:
-    // const newRt = await signRefreshToken({ id: decoded.id, role: decoded.role })
-    // res.cookie('refresh_token', newRt, refreshCookieOpts)
-    // Revocar jti anterior en whitelist si la usas
 
     return res.json({ token: access })
   } catch {

@@ -1,8 +1,4 @@
 export default {
-  extensionsToTreatAsEsm: ['.js'],
-  transform: {
-    '^.+\\.js$': 'babel-jest'
-  },
   testEnvironment: 'node',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js']
+  setupFilesAfterEnv: ['<rootDir>/src/test/jest.setup.js']
 }

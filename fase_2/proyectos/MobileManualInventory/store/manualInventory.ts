@@ -32,6 +32,7 @@ type ManualInventoryState = {
   refreshing: boolean;
   lastError: string | null;
   bootstrapped: boolean;
+  sessionVersion: number;
   hydrate: () => Promise<void>;
   refresh: () => Promise<void>;
   adjustStock: (payload: ManualAdjustmentPayload) => Promise<void>;
@@ -39,7 +40,10 @@ type ManualInventoryState = {
   reset: () => void;
 };
 
-const createDefaultState = () => ({
+let sessionVersion = 0;
+const nextSessionVersion = () => ++sessionVersion;
+
+const createDefaultState = (session = nextSessionVersion()) => ({
   summary: null as InventorySummary | null,
   products: [] as ProductInventoryItem[],
   movements: [] as ManualInventoryMovement[],
@@ -48,6 +52,7 @@ const createDefaultState = () => ({
   refreshing: false,
   lastError: null as string | null,
   bootstrapped: false,
+  sessionVersion: session,
 });
 
 const buildAlerts = (products: ProductInventoryItem[]): InventoryAlert[] =>
@@ -87,9 +92,10 @@ export const useManualInventoryStore = create<ManualInventoryState>((set, get) =
   reset: () => set(createDefaultState()),
 
   hydrate: async () => {
-    const { loading, refreshing, bootstrapped } = get();
+    const { loading, refreshing, bootstrapped, sessionVersion } = get();
     if (loading || refreshing || bootstrapped) return;
     set({ loading: true, lastError: null });
+    const expectedSession = sessionVersion;
     try {
       const [summary, products, history] = await Promise.all([
         fetchInventorySummary(),
@@ -97,6 +103,7 @@ export const useManualInventoryStore = create<ManualInventoryState>((set, get) =
         fetchManualInventoryHistory({ limit: 50 }),
       ]);
 
+      if (expectedSession !== get().sessionVersion) return;
       set({
         summary,
         products,
@@ -108,6 +115,7 @@ export const useManualInventoryStore = create<ManualInventoryState>((set, get) =
       });
     } catch (error) {
       console.error('[manual-inventory] hydrate error', error);
+      if (expectedSession !== get().sessionVersion) return;
       set({
         loading: false,
         lastError: error instanceof Error ? error.message : 'No se pudo sincronizar el inventario.',
@@ -117,8 +125,10 @@ export const useManualInventoryStore = create<ManualInventoryState>((set, get) =
   },
 
   refresh: async () => {
-    if (get().refreshing) return;
+    const { refreshing, sessionVersion } = get();
+    if (refreshing) return;
     set({ refreshing: true, lastError: null });
+    const expectedSession = sessionVersion;
     try {
       const [summary, products, history] = await Promise.all([
         fetchInventorySummary(),
@@ -126,6 +136,7 @@ export const useManualInventoryStore = create<ManualInventoryState>((set, get) =
         fetchManualInventoryHistory({ limit: 25 }),
       ]);
 
+      if (expectedSession !== get().sessionVersion) return;
       set({
         summary,
         products,
@@ -136,6 +147,7 @@ export const useManualInventoryStore = create<ManualInventoryState>((set, get) =
       });
     } catch (error) {
       console.error('[manual-inventory] refresh error', error);
+      if (expectedSession !== get().sessionVersion) return;
       set({
         refreshing: false,
         lastError: error instanceof Error ? error.message : 'No se pudo actualizar el inventario.',

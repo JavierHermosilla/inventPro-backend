@@ -98,7 +98,6 @@ class Report extends Model {
         sequelize,
         modelName: 'Report',
         tableName: 'reports',
-        schema: 'inventpro_user',
 
         timestamps: true,
         paranoid: false, // suele no ser necesario en “reports”; cámbialo si de verdad usas deleted_at

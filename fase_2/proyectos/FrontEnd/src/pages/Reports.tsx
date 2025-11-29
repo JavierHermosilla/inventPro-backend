@@ -37,14 +37,14 @@ const pdfMakeRuntime = (pdfMakeInstance.default ?? pdfMakeInstance) as PdfMakeIn
 // Asegura que las fuentes Roboto estén disponibles en tiempo de ejecución (build y dev).
 const pdfVfs =
   (pdfMakeFonts as unknown as { pdfMake?: { vfs?: Record<string, string> } }).pdfMake?.vfs ??
-  (pdfMakeFonts as unknown as { vfs?: Record<string, string> }).vfs;
+  (pdfMakeFonts as unknown as { vfs?: Record<string, string> }).vfs ??
+  (pdfMakeRuntime as unknown as { vfs?: Record<string, string> }).vfs;
 
-if (pdfVfs) {
-  if (typeof pdfMakeRuntime.addVirtualFileSystem === "function") {
-    pdfMakeRuntime.addVirtualFileSystem(pdfVfs);
-  } else {
-    pdfMakeRuntime.vfs = pdfVfs;
-  }
+// Registra el VFS incluso si ya existía parcialmente
+if (typeof pdfMakeRuntime.addVirtualFileSystem === "function" && pdfVfs) {
+  pdfMakeRuntime.addVirtualFileSystem(pdfVfs);
+} else if (pdfVfs) {
+  pdfMakeRuntime.vfs = pdfVfs;
 }
 
 // Mapea fuentes por defecto para evitar "Roboto-Medium.ttf not found"

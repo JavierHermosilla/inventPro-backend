@@ -1,9 +1,10 @@
 import type { ConfigContext, ExpoConfig } from "@expo/config";
 
-const APP_NAME = "MobileManualInventory";
-const DEFAULT_API_URL = "http://10.0.2.2:3000/api";
+const APP_NAME = "Invent Pro";
+const DEFAULT_API_URL = "https://inventpro-backend-production.up.railway.app/api";
 const DEFAULT_POLLING_MS = 20000;
-const DEFAULT_EAS_PROJECT_ID = "c87e7ca0-55d5-415c-a8fe-a0918b1482aa";
+const DEFAULT_EAS_PROJECT_ID = "10b160ff-a057-46ff-bb24-a8474fa9cf01";
+const PROJECT_OWNER = "frank9015";
 
 const parseBoolean = (value: string | undefined, fallback: boolean) => {
   if (value === undefined) return fallback;
@@ -20,17 +21,25 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   const apiUrl = process.env.EXPO_PUBLIC_API_URL?.trim() || DEFAULT_API_URL;
   const useMocks = parseBoolean(process.env.EXPO_PUBLIC_USE_API_MOCKS, false);
   const tasksPollingMs = parseNumber(process.env.EXPO_PUBLIC_TASKS_POLLING_MS, DEFAULT_POLLING_MS);
+  const easProjectId = process.env.EXPO_PROJECT_ID ?? DEFAULT_EAS_PROJECT_ID;
 
   return {
     ...config,
     name: APP_NAME,
-    slug: "MobileManualInventory",
-    version: "1.0.0",
+    slug: "manualinventory",
+    version: "1.0.1",
     orientation: "portrait",
     icon: "./assets/images/logo-invent-pro.png",
     scheme: "mobilemanualinventory",
+    owner: PROJECT_OWNER,
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
+    runtimeVersion: {
+      policy: "appVersion",
+    },
+    updates: {
+      url: `https://u.expo.dev/${easProjectId}`,
+    },
     ios: {
       supportsTablet: true,
       bundleIdentifier: process.env.EXPO_IOS_BUNDLE_IDENTIFIER || "com.inventpro.mobilemanualinventory",
@@ -80,7 +89,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       useMocks,
       tasksPollingMs,
       eas: {
-        projectId: process.env.EXPO_PROJECT_ID ?? DEFAULT_EAS_PROJECT_ID,
+        projectId: easProjectId,
       },
     },
   };

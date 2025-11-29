@@ -4,11 +4,13 @@ import {
   Modal,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import type { ManualAdjustmentPayload, ProductInventoryItem } from '@/lib/manualInventoryTasks';
 import { usePalette, type Palette } from '@/hooks/use-palette';
@@ -23,6 +25,7 @@ type AdjustmentSheetProps = {
 export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: AdjustmentSheetProps) => {
   const palette = usePalette();
   const styles = useMemo(() => createStyles(palette), [palette]);
+  const insets = useSafeAreaInsets();
   const [type, setType] = useState<ManualAdjustmentPayload['type']>('increase');
   const [quantity, setQuantity] = useState('1');
   const [reason, setReason] = useState('');
@@ -66,33 +69,49 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
 
   return (
     <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
-      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.wrapper}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={insets.bottom + 24}
+        style={styles.wrapper}
+      >
         <Pressable style={styles.backdrop} onPress={onClose} />
-        <View style={styles.sheet}>
-          <Text style={styles.title}>Ajustar stock</Text>
-          {product ? (
-            <Text style={styles.subtitle}>
-              {product.name} · Stock actual: {product.stock}
-            </Text>
-          ) : null}
+        <View style={[styles.sheet, { paddingBottom: 20 + insets.bottom }]}>
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={styles.sheetContent}
+            showsVerticalScrollIndicator={false}
+          >
+            <Text style={styles.title}>Ajustar stock</Text>
+            {product ? (
+              <Text style={styles.subtitle}>
+                {product.name} · Stock actual: {product.stock}
+              </Text>
+            ) : null}
 
-          <View style={styles.segment}>
-            <Pressable
-              accessibilityRole="button"
-              style={[styles.segmentButton, type === 'increase' ? styles.segmentActive : null]}
-              onPress={() => setType('increase')}
-            >
-              <Text style={[styles.segmentLabel, type === 'increase' ? styles.segmentLabelActive : null]}>Ingreso</Text>
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              style={[styles.segmentButton, type === 'decrease' ? styles.segmentActive : null]}
-              onPress={() => setType('decrease')}
-            >
-              <Text style={[styles.segmentLabel, type === 'decrease' ? styles.segmentLabelActive : null]}>Salida</Text>
-            </Pressable>
-          </View>
+            <View style={styles.segment}>
+              <Pressable
+                accessibilityRole="button"
+                style={[styles.segmentButton, type === 'increase' ? styles.segmentActive : null]}
+                onPress={() => setType('increase')}
+                testID="segment-increase"
+              >
+                <Text style={[styles.segmentLabel, type === 'increase' ? styles.segmentLabelActive : null]}>
+                  Ingreso
+                </Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                style={[styles.segmentButton, type === 'decrease' ? styles.segmentActive : null]}
+                onPress={() => setType('decrease')}
+                testID="segment-decrease"
+              >
+                <Text style={[styles.segmentLabel, type === 'decrease' ? styles.segmentLabelActive : null]}>
+                  Salida
+                </Text>
+              </Pressable>
+            </View>
 
+<<<<<<< HEAD
           <View style={styles.field}>
             <Text style={styles.label}>Cantidad</Text>
             <TextInput
@@ -107,20 +126,37 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
               placeholderTextColor={palette.muted}
             />
           </View>
+=======
+            <View style={styles.field}>
+              <Text style={styles.label}>Cantidad</Text>
+              <TextInput
+                keyboardType="numeric"
+                value={quantity}
+                onChangeText={setQuantity}
+                style={styles.input}
+                placeholder="1"
+                placeholderTextColor={palette.muted}
+                returnKeyType="done"
+                testID="quantity-input"
+              />
+            </View>
+>>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
 
-          <View style={styles.field}>
-            <Text style={styles.label}>Motivo (opcional)</Text>
-            <TextInput
-              multiline
-              numberOfLines={3}
-              value={reason}
-              onChangeText={setReason}
-              style={[styles.input, styles.textarea]}
-              placeholder="Describe el ajuste"
-              placeholderTextColor={palette.muted}
-            />
-          </View>
+            <View style={styles.field}>
+              <Text style={styles.label}>Motivo (opcional)</Text>
+              <TextInput
+                multiline
+                numberOfLines={3}
+                value={reason}
+                onChangeText={setReason}
+                style={[styles.input, styles.textarea]}
+                placeholder="Describe el ajuste"
+                placeholderTextColor={palette.muted}
+                testID="reason-input"
+              />
+            </View>
 
+<<<<<<< HEAD
           {error ? <Text style={styles.error}>{error}</Text> : null}
 
           <View style={styles.actions}>
@@ -131,6 +167,17 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
               <Text style={styles.submitText}>{submitting ? 'Guardando...' : 'Guardar'}</Text>
             </Pressable>
           </View>
+=======
+            <View style={styles.actions}>
+              <Pressable style={styles.cancel} onPress={onClose}>
+                <Text style={styles.cancelText}>Cancelar</Text>
+              </Pressable>
+              <Pressable style={styles.submit} onPress={submit}>
+                <Text style={styles.submitText}>Guardar</Text>
+              </Pressable>
+            </View>
+          </ScrollView>
+>>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
         </View>
       </KeyboardAvoidingView>
     </Modal>
@@ -150,13 +197,17 @@ const createStyles = (palette: Palette) =>
       backgroundColor: 'rgba(0,0,0,0.4)',
     },
     sheet: {
-      padding: 20,
+      paddingHorizontal: 20,
+      paddingTop: 20,
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
-      gap: 16,
       backgroundColor: palette.card,
       borderWidth: 1,
       borderColor: palette.border,
+    },
+    sheetContent: {
+      gap: 16,
+      paddingBottom: 8,
     },
     title: {
       fontSize: 20,

@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 import { Link } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
+=======
+import { Link, useRouter } from 'expo-router';
+import { useCallback, useEffect, useMemo } from 'react';
+import { Alert, RefreshControl, ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+>>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
 
 import { EmptyState } from '@/components/common/EmptyState';
 import { ErrorState } from '@/components/common/ErrorState';
@@ -10,10 +17,12 @@ import { SectionHeader } from '@/components/common/SectionHeader';
 import { InventorySummaryGrid } from '@/components/inventory/InventorySummary';
 import { Config } from '@/lib/config';
 import { usePolling } from '@/hooks/use-polling';
+import { useAuthStore } from '@/store/auth';
 import { useManualInventoryStore } from '@/store/manualInventory';
 import { usePalette, type Palette } from '@/hooks/use-palette';
 
 export default function DashboardScreen() {
+  const router = useRouter();
   const summary = useManualInventoryStore((state) => state.summary);
   const movements = useManualInventoryStore((state) => state.movements);
   const alerts = useManualInventoryStore((state) => state.alerts);
@@ -23,6 +32,8 @@ export default function DashboardScreen() {
   const refreshing = useManualInventoryStore((state) => state.refreshing);
   const lastError = useManualInventoryStore((state) => state.lastError);
   const bootstrapped = useManualInventoryStore((state) => state.bootstrapped);
+  const logout = useAuthStore((state) => state.logout);
+  const insets = useSafeAreaInsets();
   const palette = usePalette();
   const styles = useMemo(() => createStyles(palette), [palette]);
   const [isFocused, setIsFocused] = useState(false);
@@ -44,7 +55,30 @@ export default function DashboardScreen() {
     void refresh();
   }, [refresh]);
 
+<<<<<<< HEAD
   usePolling(() => refresh(), Config.tasksPollingMs, isFocused && Boolean(summary));
+=======
+  const onLogoutPress = useCallback(() => {
+    Alert.alert('Cerrar sesion', 'Estas seguro de salir de ManualInventory?', [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Si, salir',
+        style: 'destructive',
+        onPress: async () => {
+          try {
+            await logout();
+          } catch (error) {
+            Alert.alert('Cerrar sesion', 'No pudimos cerrar tu sesion. Intenta nuevamente.');
+          } finally {
+            router.replace('/login');
+          }
+        },
+      },
+    ]);
+  }, [logout, router]);
+
+  usePolling(() => refresh(), Config.tasksPollingMs, Boolean(summary));
+>>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
 
   const lowStock = summary?.lowStockProducts ?? [];
   const recentMovements = movements.slice(0, 3);
@@ -69,7 +103,7 @@ export default function DashboardScreen() {
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content, { paddingTop: 20 + insets.top }]}
       refreshControl={
         <RefreshControl
           refreshing={refreshing}
@@ -79,7 +113,15 @@ export default function DashboardScreen() {
         />
       }
     >
-      <SectionHeader title="Control diario de bodega" subtitle="KPIs esenciales para ajustes manuales" />
+      <SectionHeader
+        title="Control diario de bodega"
+        subtitle="KPIs esenciales para ajustes manuales"
+        trailing={
+          <Pressable style={styles.logoutButton} onPress={onLogoutPress}>
+            <Text style={styles.logoutText}>Cerrar sesion</Text>
+          </Pressable>
+        }
+      />
       <InventorySummaryGrid summary={summary} alertsCount={activeAlerts} adjustmentsToday={adjustmentsToday} />
 
       {lastError ? <ErrorState message={lastError} onRetry={onRefresh} /> : null}
@@ -181,6 +223,19 @@ const createStyles = (palette: Palette) =>
     },
     section: {
       gap: 12,
+    },
+    logoutButton: {
+      paddingHorizontal: 12,
+      paddingVertical: 8,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: palette.border,
+      backgroundColor: palette.card,
+      alignItems: 'center',
+    },
+    logoutText: {
+      color: palette.danger,
+      fontWeight: '700',
     },
     link: {
       color: palette.tint,

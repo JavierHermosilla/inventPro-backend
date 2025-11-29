@@ -130,7 +130,7 @@ const normalize = (record: ReportApiRecord): ReportItem => ({
 
 export const reportsApi = {
   async list(params?: ReportListParams): Promise<ReportListResult> {
-    const response = await api.get<ReportListDto | ReportApiRecord[]>("/reports", { params });
+    const response = await api.get<ReportListDto | ReportApiRecord[]>("reports", { params });
     const payload = response.data;
 
     const records = Array.isArray(payload)
@@ -152,7 +152,7 @@ export const reportsApi = {
   },
 
   async get(id: string): Promise<ReportItem> {
-    const response = await api.get<ReportApiRecord>(`/reports/${id}`);
+    const response = await api.get<ReportApiRecord>(`reports/${id}`);
     return normalize(response.data);
   },
 
@@ -168,7 +168,7 @@ export const reportsApi = {
       ...(payload.schedule ? { schedule: payload.schedule } : {}),
       ...(Array.isArray(payload.sharedWith) ? { sharedWith: payload.sharedWith } : {}),
     };
-    const response = await api.post<ReportApiRecord>("/reports", body);
+    const response = await api.post<ReportApiRecord>("reports", body);
     return normalize(response.data);
   },
 
@@ -184,12 +184,12 @@ export const reportsApi = {
       ...(payload.schedule ? { schedule: payload.schedule } : {}),
       ...(Array.isArray(payload.sharedWith) ? { sharedWith: payload.sharedWith } : {}),
     };
-    const response = await api.put<ReportApiRecord>(`/reports/${id}`, body);
+    const response = await api.put<ReportApiRecord>(`reports/${id}`, body);
     return normalize(response.data);
   },
 
   async remove(id: string): Promise<void> {
-    await api.delete(`/reports/${id}`);
+    await api.delete(`reports/${id}`);
   },
 };
 

@@ -27,7 +27,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     ...config,
     name: APP_NAME,
     slug: "manualinventory",
-    version: "1.0.1",
+    version: "1.0.2",
     orientation: "portrait",
     icon: "./assets/images/logo-invent-pro.png",
     scheme: "mobilemanualinventory",

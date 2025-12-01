@@ -1,14 +1,8 @@
-<<<<<<< HEAD
-import { Link } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { RefreshControl, ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
-=======
 import { Link, useRouter } from 'expo-router';
-import { useCallback, useEffect, useMemo } from 'react';
-import { Alert, RefreshControl, ScrollView, StyleSheet, Text, View, Pressable } from 'react-native';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
 
 import { EmptyState } from '@/components/common/EmptyState';
 import { ErrorState } from '@/components/common/ErrorState';
@@ -55,9 +49,6 @@ export default function DashboardScreen() {
     void refresh();
   }, [refresh]);
 
-<<<<<<< HEAD
-  usePolling(() => refresh(), Config.tasksPollingMs, isFocused && Boolean(summary));
-=======
   const onLogoutPress = useCallback(() => {
     Alert.alert('Cerrar sesion', 'Estas seguro de salir de ManualInventory?', [
       { text: 'Cancelar', style: 'cancel' },
@@ -77,8 +68,7 @@ export default function DashboardScreen() {
     ]);
   }, [logout, router]);
 
-  usePolling(() => refresh(), Config.tasksPollingMs, Boolean(summary));
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
+  usePolling(() => refresh(), Config.tasksPollingMs, isFocused && Boolean(summary));
 
   const lowStock = summary?.lowStockProducts ?? [];
   const recentMovements = movements.slice(0, 3);
@@ -262,4 +252,3 @@ const createStyles = (palette: Palette) =>
       color: palette.muted,
     },
   });
-

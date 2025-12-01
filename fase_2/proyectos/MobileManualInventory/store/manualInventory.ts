@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { create } from 'zustand';
 
 import {
@@ -54,6 +55,20 @@ const createDefaultState = (session = nextSessionVersion()) => ({
   bootstrapped: false,
   sessionVersion: session,
 });
+
+const extractErrorMessage = (error: unknown, fallback: string) => {
+  if (error instanceof AxiosError) {
+    const data = error.response?.data as { message?: unknown; errors?: Array<{ message?: unknown }> } | undefined;
+    const fromMessage = typeof data?.message === 'string' ? data.message : null;
+    const zodMessage =
+      Array.isArray(data?.errors) && typeof data.errors[0]?.message === 'string'
+        ? (data.errors[0].message as string)
+        : null;
+    return fromMessage || zodMessage || error.message || fallback;
+  }
+  if (error instanceof Error) return error.message;
+  return fallback;
+};
 
 const buildAlerts = (products: ProductInventoryItem[]): InventoryAlert[] =>
   products
@@ -163,10 +178,9 @@ export const useManualInventoryStore = create<ManualInventoryState>((set, get) =
       await get().refresh();
     } catch (error) {
       console.error('[manual-inventory] adjust error', error);
-      set({
-        lastError: error instanceof Error ? error.message : 'No se pudo crear el ajuste.',
-      });
-      throw error;
+      const message = extractErrorMessage(error, 'No se pudo crear el ajuste.');
+      set({ lastError: message });
+      throw new Error(message);
     }
   },
 

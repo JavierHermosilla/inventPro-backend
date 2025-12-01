@@ -133,6 +133,7 @@ describe('useManualInventoryStore', () => {
           productId: depleted.id,
           type: 'decrease',
           quantity: 1,
+          reason: 'Prueba',
         })
       ).rejects.toThrow('No se pudo crear el ajuste.');
     } finally {

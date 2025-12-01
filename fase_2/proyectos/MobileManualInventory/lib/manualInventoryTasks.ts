@@ -250,11 +250,16 @@ export type ManualAdjustmentPayload = {
 };
 
 export const createManualAdjustment = async (payload: ManualAdjustmentPayload) => {
+  const trimmedReason = payload.reason?.trim() ?? '';
+  if (payload.type === 'decrease' && trimmedReason.length === 0) {
+    throw new Error('Debes indicar un motivo para una salida de stock.');
+  }
+
   const body = {
     productId: payload.productId,
     type: payload.type,
     quantity: payload.quantity,
-    reason: payload.reason?.trim() || undefined,
+    reason: trimmedReason.length > 0 ? trimmedReason : undefined,
   };
 
   const response = await api.post('/manual-inventory', body);

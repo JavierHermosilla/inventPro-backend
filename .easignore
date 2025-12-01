@@ -1,13 +1,18 @@
-# Excluir todo por defecto y luego permitir solo la app móvil
-*
-
-!.easignore
-!eas.json
-!fase_2/
-!fase_2/proyectos/
-!fase_2/proyectos/MobileManualInventory/
-!fase_2/proyectos/MobileManualInventory/**
-
-# Ignora dependencias y cachés incluso dentro del allowlist
+# Ignora dependencias y caches comunes
 **/node_modules
 **/.expo
+**/.expo-shared
+**/.turbo
+**/.next
+**/.cache
+**/dist
+**/build
+**/coverage
+**/.DS_Store
+
+# Ignora artefactos nativos generados
+**/android/app/build
+**/ios/build
+**/ios/Pods
+
+# Mantén el resto (no usamos allowlist para no omitir package.json)

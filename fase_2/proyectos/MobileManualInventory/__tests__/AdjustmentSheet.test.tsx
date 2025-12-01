@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
-
-=======
-import { fireEvent, render } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
+
 import { AdjustmentSheet } from '@/components/inventory/AdjustmentSheet';
 import type { ProductInventoryItem } from '@/lib/manualInventoryTasks';
 
@@ -43,29 +39,14 @@ const renderSheet = (props: Partial<React.ComponentProps<typeof AdjustmentSheet>
   );
 
 describe('<AdjustmentSheet />', () => {
-<<<<<<< HEAD
-  it('envía los datos normalizados y cierra el modal', async () => {
-=======
-  it('envia los datos normalizados y cierra el modal', () => {
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
+  it('envia los datos normalizados y cierra el modal', async () => {
     const onSubmit = jest.fn();
     const onClose = jest.fn();
     const { getByText, getByTestId } = renderSheet({ onClose, onSubmit });
 
-<<<<<<< HEAD
-    await act(async () => {
-      fireEvent.changeText(getByPlaceholderText('1'), '4.9');
-      fireEvent.changeText(getByPlaceholderText('Describe el ajuste'), '  stock real  ');
-    });
-=======
-    fireEvent.changeText(getByTestId('quantity-input'), '4.9');
-    fireEvent.changeText(getByTestId('reason-input'), '  stock real  ');
-    fireEvent.press(getByText('Guardar'));
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
-
-    await act(async () => {
-      fireEvent.press(getByText('Guardar'));
-    });
+    await act(async () => fireEvent.changeText(getByTestId('quantity-input'), '4.9'));
+    await act(async () => fireEvent.changeText(getByTestId('reason-input'), '  stock real  '));
+    await act(async () => fireEvent.press(getByText('Guardar')));
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({
@@ -78,66 +59,48 @@ describe('<AdjustmentSheet />', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
-<<<<<<< HEAD
-  it('no permite enviar cantidades inválidas', async () => {
-=======
-  it('no permite enviar cantidades invalidas', () => {
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
+  it('no permite enviar cantidades invalidas', async () => {
     const onSubmit = jest.fn();
     const onClose = jest.fn();
     const { getByText, getByTestId } = renderSheet({ onClose, onSubmit });
 
-<<<<<<< HEAD
-    await act(async () => {
-      fireEvent.changeText(getByPlaceholderText('1'), '0');
-    });
-=======
-    fireEvent.changeText(getByTestId('quantity-input'), '0');
-    fireEvent.press(getByText('Guardar'));
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
-
-    await act(async () => {
-      fireEvent.press(getByText('Guardar'));
-    });
+    await act(async () => fireEvent.changeText(getByTestId('quantity-input'), '0'));
+    await act(async () => fireEvent.press(getByText('Guardar')));
 
     await waitFor(() => expect(onSubmit).not.toHaveBeenCalled());
     expect(onClose).not.toHaveBeenCalled();
   });
 
-  it('permite cambiar a modo salida antes de enviar', async () => {
+  it('exige motivo para una salida de stock', async () => {
     const onSubmit = jest.fn();
     const onClose = jest.fn();
     const { getByText, getByTestId } = renderSheet({ onClose, onSubmit });
 
-<<<<<<< HEAD
-    await act(async () => {
-      fireEvent.press(getByText('Salida'));
-      fireEvent.changeText(getByPlaceholderText('1'), '2');
-    });
+    await act(async () => fireEvent.press(getByText('Salida')));
+    await act(async () => fireEvent.changeText(getByTestId('quantity-input'), '2'));
+    await act(async () => fireEvent.press(getByText('Guardar')));
 
-    await act(async () => {
-      fireEvent.press(getByText('Guardar'));
-    });
+    await waitFor(() => expect(onSubmit).not.toHaveBeenCalled());
+  });
+
+  it('permite enviar una salida cuando incluye motivo', async () => {
+    const onSubmit = jest.fn();
+    const onClose = jest.fn();
+    const { getByText, getByTestId } = renderSheet({ onClose, onSubmit });
+
+    await act(async () => fireEvent.press(getByText('Salida')));
+    await act(async () => fireEvent.changeText(getByTestId('quantity-input'), '2'));
+    await act(async () => fireEvent.changeText(getByTestId('reason-input'), 'Auditoria'));
+    await act(async () => fireEvent.press(getByText('Guardar')));
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({
         productId: product.id,
         type: 'decrease',
         quantity: 2,
-        reason: null,
+        reason: 'Auditoria',
       });
-      expect(onClose).toHaveBeenCalled();
-=======
-    fireEvent.press(getByText('Salida'));
-    fireEvent.changeText(getByTestId('quantity-input'), '2');
-    fireEvent.press(getByText('Guardar'));
-
-    expect(onSubmit).toHaveBeenCalledWith({
-      productId: product.id,
-      type: 'decrease',
-      quantity: 2,
-      reason: null,
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
     });
+    expect(onClose).toHaveBeenCalled();
   });
 });

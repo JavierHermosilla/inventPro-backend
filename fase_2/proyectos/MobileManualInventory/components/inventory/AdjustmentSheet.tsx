@@ -12,8 +12,8 @@ import {
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import type { ManualAdjustmentPayload, ProductInventoryItem } from '@/lib/manualInventoryTasks';
 import { usePalette, type Palette } from '@/hooks/use-palette';
+import type { ManualAdjustmentPayload, ProductInventoryItem } from '@/lib/manualInventoryTasks';
 
 type AdjustmentSheetProps = {
   product: ProductInventoryItem | null;
@@ -49,14 +49,21 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
       setError('Ingresa una cantidad valida.');
       return;
     }
+    const normalizedQuantity = Math.trunc(parsed);
+    const trimmedReason = reason.trim();
+    if (type === 'decrease' && trimmedReason.length === 0) {
+      setError('Debes indicar un motivo para una salida de stock.');
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
     try {
       await onSubmit({
         productId: product.id,
         type,
-        quantity: Math.trunc(parsed),
-        reason: reason.trim() || null,
+        quantity: normalizedQuantity,
+        reason: trimmedReason.length > 0 ? trimmedReason : null,
       });
       onClose();
     } catch (err) {
@@ -66,6 +73,8 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
       setSubmitting(false);
     }
   };
+
+  const submitDisabled = submitting || (type === 'decrease' && reason.trim().length === 0);
 
   return (
     <Modal animationType="slide" transparent visible={visible} onRequestClose={onClose}>
@@ -84,7 +93,7 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
             <Text style={styles.title}>Ajustar stock</Text>
             {product ? (
               <Text style={styles.subtitle}>
-                {product.name} · Stock actual: {product.stock}
+                {product.name} - Stock actual: {product.stock}
               </Text>
             ) : null}
 
@@ -92,7 +101,10 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
               <Pressable
                 accessibilityRole="button"
                 style={[styles.segmentButton, type === 'increase' ? styles.segmentActive : null]}
-                onPress={() => setType('increase')}
+                onPress={() => {
+                  setType('increase');
+                  if (error) setError(null);
+                }}
                 testID="segment-increase"
               >
                 <Text style={[styles.segmentLabel, type === 'increase' ? styles.segmentLabelActive : null]}>
@@ -102,7 +114,10 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
               <Pressable
                 accessibilityRole="button"
                 style={[styles.segmentButton, type === 'decrease' ? styles.segmentActive : null]}
-                onPress={() => setType('decrease')}
+                onPress={() => {
+                  setType('decrease');
+                  if (error) setError(null);
+                }}
                 testID="segment-decrease"
               >
                 <Text style={[styles.segmentLabel, type === 'decrease' ? styles.segmentLabelActive : null]}>
@@ -111,28 +126,15 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
               </Pressable>
             </View>
 
-<<<<<<< HEAD
-          <View style={styles.field}>
-            <Text style={styles.label}>Cantidad</Text>
-            <TextInput
-              keyboardType="numeric"
-              value={quantity}
-              onChangeText={(value) => {
-                setQuantity(value);
-                if (error) setError(null);
-              }}
-              style={styles.input}
-              placeholder="1"
-              placeholderTextColor={palette.muted}
-            />
-          </View>
-=======
             <View style={styles.field}>
               <Text style={styles.label}>Cantidad</Text>
               <TextInput
                 keyboardType="numeric"
                 value={quantity}
-                onChangeText={setQuantity}
+                onChangeText={(value) => {
+                  setQuantity(value);
+                  if (error) setError(null);
+                }}
                 style={styles.input}
                 placeholder="1"
                 placeholderTextColor={palette.muted}
@@ -140,15 +142,19 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
                 testID="quantity-input"
               />
             </View>
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
 
             <View style={styles.field}>
-              <Text style={styles.label}>Motivo (opcional)</Text>
+              <Text style={styles.label}>
+                Motivo {type === 'decrease' ? '(requerido para salidas)' : '(opcional)'}
+              </Text>
               <TextInput
                 multiline
                 numberOfLines={3}
                 value={reason}
-                onChangeText={setReason}
+                onChangeText={(value) => {
+                  setReason(value);
+                  if (error) setError(null);
+                }}
                 style={[styles.input, styles.textarea]}
                 placeholder="Describe el ajuste"
                 placeholderTextColor={palette.muted}
@@ -156,28 +162,22 @@ export const AdjustmentSheet = ({ product, visible, onClose, onSubmit }: Adjustm
               />
             </View>
 
-<<<<<<< HEAD
-          {error ? <Text style={styles.error}>{error}</Text> : null}
+            {error ? <Text style={styles.error}>{error}</Text> : null}
 
-          <View style={styles.actions}>
-            <Pressable style={styles.cancel} onPress={onClose}>
-              <Text style={styles.cancelText}>Cancelar</Text>
-            </Pressable>
-            <Pressable style={[styles.submit, submitting ? styles.submitDisabled : null]} onPress={submit} disabled={submitting}>
-              <Text style={styles.submitText}>{submitting ? 'Guardando...' : 'Guardar'}</Text>
-            </Pressable>
-          </View>
-=======
             <View style={styles.actions}>
-              <Pressable style={styles.cancel} onPress={onClose}>
+              <Pressable style={styles.cancel} onPress={onClose} disabled={submitting}>
                 <Text style={styles.cancelText}>Cancelar</Text>
               </Pressable>
-              <Pressable style={styles.submit} onPress={submit}>
-                <Text style={styles.submitText}>Guardar</Text>
+              <Pressable
+                style={[styles.submit, submitDisabled ? styles.submitDisabled : null]}
+                onPress={submit}
+                disabled={submitDisabled}
+                testID="submit-button"
+              >
+                <Text style={styles.submitText}>{submitting ? 'Guardando...' : 'Guardar'}</Text>
               </Pressable>
             </View>
           </ScrollView>
->>>>>>> db58323 (chore(mobile): ajustes de UX y version 1.0.1)
         </View>
       </KeyboardAvoidingView>
     </Modal>

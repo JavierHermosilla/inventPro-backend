@@ -1,13 +1,10 @@
-import { Fragment, useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { showError, showInfo, showSuccess, showWarning } from "../lib/alerts";
 import {
   useSettingsStore,
   type CompanyProfile,
-  type IntegrationSettings,
   type NotificationItem,
   type NotificationPreferences,
-  type PermissionMatrixRow,
-  type SecuritySettings,
 } from "../store/settings";
 
 type SectionCardProps = {
@@ -86,9 +83,6 @@ const quietHoursLabel = (prefs: NotificationPreferences) => {
   return `Quiet hours ${start} - ${end}`;
 };
 
-const rolesColumns: Array<keyof Omit<PermissionMatrixRow, "module">> = ["admin", "supervisor", "staff"];
-
-const sessionTimeoutOptions = [15, 30, 45, 60, 90];
 const themeButtonBase = "rounded-lg border px-4 py-2 text-sm font-medium shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400";
 const themeButtonActive = "border-blue-500 bg-blue-50 text-blue-700 ring-2 ring-blue-200 ring-offset-1 dark:border-blue-400 dark:bg-blue-500/10 dark:text-blue-200 dark:ring-blue-500/40 dark:ring-offset-slate-900";
 const themeButtonInactive = "border-gray-200 text-gray-700 hover:bg-gray-50 dark:border-slate-600 dark:text-slate-100 dark:hover:bg-slate-800";
@@ -96,13 +90,6 @@ const themeButtonInactive = "border-gray-200 text-gray-700 hover:bg-gray-50 dark
 const SettingsPage = () => {
   const company = useSettingsStore((state) => state.company);
   const updateCompany = useSettingsStore((state) => state.updateCompany);
-  const security = useSettingsStore((state) => state.security);
-  const updateSecurity = useSettingsStore((state) => state.updateSecurity);
-  const permissions = useSettingsStore((state) => state.permissions);
-  const togglePermission = useSettingsStore((state) => state.togglePermission);
-  const resetPermissions = useSettingsStore((state) => state.resetPermissions);
-  const integrations = useSettingsStore((state) => state.integrations);
-  const updateIntegration = useSettingsStore((state) => state.updateIntegration);
   const notifications = useSettingsStore((state) => state.notifications);
   const updateNotificationPreferences = useSettingsStore((state) => state.updateNotificationPreferences);
   const addNotification = useSettingsStore((state) => state.addNotification);
@@ -117,20 +104,8 @@ const SettingsPage = () => {
   }, [company]);
 
   const [isSavingCompany, setIsSavingCompany] = useState(false);
-  const [isSavingSecurity, setIsSavingSecurity] = useState(false);
 
   const latestNotifications = useMemo(() => notifications.items.slice(0, 5), [notifications.items]);
-  const integrationEntries: Array<
-    ["slack", IntegrationSettings["slack"]] |
-    ["whatsapp", IntegrationSettings["whatsapp"]] |
-    ["shopify", IntegrationSettings["shopify"]] |
-    ["quickbooks", IntegrationSettings["quickbooks"]]
-  > = [
-    ["slack", integrations.slack],
-    ["whatsapp", integrations.whatsapp],
-    ["shopify", integrations.shopify],
-    ["quickbooks", integrations.quickbooks],
-  ];
   const isDarkMode = appearance.theme === "dark";
   const heroClass = isDarkMode
     ? "bg-gradient-to-r from-slate-900 via-slate-900/90 to-slate-800"
@@ -153,26 +128,6 @@ const SettingsPage = () => {
       });
     } finally {
       setIsSavingCompany(false);
-    }
-  };
-
-  const handleSecuritySubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setIsSavingSecurity(true);
-    try {
-      updateSecurity(security);
-      await showSuccess({
-        title: "Seguridad actualizada",
-        text: "Se aplicaron los cambios de seguridad para la cuenta.",
-      });
-    } catch (err) {
-      console.error("[settings] security update failed", err);
-      await showError({
-        title: "No se guardaron los cambios",
-        text: "Ocurrio un problema al intentar guardar los ajustes de seguridad.",
-      });
-    } finally {
-      setIsSavingSecurity(false);
     }
   };
 
@@ -218,16 +173,6 @@ const SettingsPage = () => {
     });
   };
 
-  const handleIntegrationToggle = async <K extends keyof IntegrationSettings>(key: K, enabled: boolean) => {
-    updateIntegration(key, { enabled } as Partial<IntegrationSettings[K]>);
-    if (enabled) {
-      await showInfo({
-        title: "Recuerda completar la configuracion",
-        text: "Ingresa las credenciales del servicio para activar el envio de alertas.",
-      });
-    }
-  };
-
   const handleQuietHoursChange = (field: "enabled" | "start" | "end", value: string | boolean) => {
     if (field === "enabled" && typeof value === "boolean") {
       updateNotificationPreferences({
@@ -260,24 +205,6 @@ const SettingsPage = () => {
     updateNotificationPreferences({ lowStockThreshold: Math.max(0, Math.trunc(parsed)) });
   };
 
-  const handleSecurityToggle = (key: keyof SecuritySettings, value: boolean) => {
-    updateSecurity({ ...security, [key]: value });
-  };
-
-  const handlePasswordPolicy = (value: SecuritySettings["passwordPolicy"]) => {
-    updateSecurity({ ...security, passwordPolicy: value });
-  };
-
-  const handleFailedAttempts = (raw: string) => {
-    const parsed = Number(raw);
-    if (!Number.isFinite(parsed) || parsed < 1) return;
-    updateSecurity({ ...security, failedAttemptsLimit: Math.trunc(parsed) });
-  };
-
-  const handleSessionTimeout = (value: number) => {
-    updateSecurity({ ...security, sessionTimeoutMinutes: value });
-  };
-
   const renderNotificationItem = (item: NotificationItem) => (
     <li key={item.id} className="flex flex-col gap-1 rounded-lg border border-gray-100 p-3 dark:border-slate-700">
       <div className="flex items-center justify-between">
@@ -305,7 +232,7 @@ const SettingsPage = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-800 dark:text-slate-100">Configuracion del sistema</h1>
           <p className="text-sm text-gray-600 dark:text-slate-400">
-            Administra los datos de tu compania, las alertas en tiempo real y los accesos del equipo.
+            Administra los datos de tu compania y las alertas en tiempo real.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -346,11 +273,11 @@ const SettingsPage = () => {
         </div>
 
         <div className="rounded-xl border border-gray-100 bg-white p-4 shadow-sm transition-colors dark:border-slate-700 dark:bg-slate-900">
-          <p className="text-xs uppercase text-gray-400 dark:text-slate-400">Integraciones</p>
+          <p className="text-xs uppercase text-gray-400 dark:text-slate-400">Preferencias</p>
           <p className="text-base font-semibold text-gray-700 dark:text-slate-100">
-            {Object.values(integrations).filter((item) => item.enabled).length} servicios activos
+            Tema {isDarkMode ? "oscuro" : "claro"}
           </p>
-          <p className="mt-2 text-xs text-gray-500 dark:text-slate-300">Sincroniza alertas con canales externos</p>
+          <p className="mt-2 text-xs text-gray-500 dark:text-slate-300">Cambialo en Apariencia del sistema.</p>
         </div>
       </div>
 
@@ -657,226 +584,6 @@ const SettingsPage = () => {
               Limpiar historial
             </button>
           </div>
-        </div>
-      </SectionCard>
-      <SectionCard
-        title="Seguridad de la cuenta"
-        description="Controla el doble factor, alertas de acceso y politicas de contrasena."
-      >
-        <form onSubmit={handleSecuritySubmit} className="space-y-5">
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="flex items-start gap-3 rounded-lg border border-gray-100 bg-gray-50 p-3">
-              <Toggle
-                checked={security.twoFactorEnabled}
-                onChange={(value) => handleSecurityToggle("twoFactorEnabled", value)}
-                label="Doble factor"
-              />
-              <div>
-                <p className="text-sm font-semibold text-gray-700">Autenticacion de dos factores</p>
-                <p className="text-xs text-gray-500 dark:text-slate-400">Solicita un codigo adicional al iniciar sesion desde dispositivos nuevos.</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3 rounded-lg border border-gray-100 bg-gray-50 p-3">
-              <Toggle
-                checked={security.loginAlertsEnabled}
-                onChange={(value) => handleSecurityToggle("loginAlertsEnabled", value)}
-                label="Alertas de acceso"
-              />
-              <div>
-                <p className="text-sm font-semibold text-gray-700">Alertas de inicio de sesion</p>
-                <p className="text-xs text-gray-500 dark:text-slate-400">Te enviaremos una notificacion al detectar accesos sospechosos.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            <label className="flex flex-col text-sm text-gray-600 dark:text-slate-300">
-              Politica de contrasena
-              <select
-                value={security.passwordPolicy}
-                onChange={(event) => handlePasswordPolicy(event.target.value as SecuritySettings["passwordPolicy"])}
-                className="mt-1 rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-              >
-                <option value="standard">Estandar (8 caracteres)</option>
-                <option value="strict">Estricta (12 caracteres + simbolos)</option>
-              </select>
-            </label>
-            <label className="flex flex-col text-sm text-gray-600 dark:text-slate-300">
-              Tiempo de sesion (min)
-              <select
-                value={security.sessionTimeoutMinutes}
-                onChange={(event) => handleSessionTimeout(Number(event.target.value))}
-                className="mt-1 rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-              >
-                {sessionTimeoutOptions.map((value) => (
-                  <option key={value} value={value}>
-                    {value} minutos
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="flex flex-col text-sm text-gray-600 dark:text-slate-300">
-              Intentos fallidos antes de bloqueo
-              <input
-                type="number"
-                min={1}
-                value={security.failedAttemptsLimit}
-                onChange={(event) => handleFailedAttempts(event.target.value)}
-                className="mt-1 rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-              />
-            </label>
-          </div>
-
-          <footer className="flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={() => updateSecurity(security)}
-              className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
-              disabled={isSavingSecurity}
-            >
-              Deshacer cambios
-            </button>
-            <button
-              type="submit"
-              disabled={isSavingSecurity}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
-            >
-              {isSavingSecurity ? "Guardando..." : "Guardar seguridad"}
-            </button>
-          </footer>
-        </form>
-      </SectionCard>
-      <SectionCard
-        title="Roles y permisos"
-        description="Define el acceso que tendra cada perfil dentro de la plataforma."
-        action={
-          <button
-            type="button"
-            onClick={resetPermissions}
-            className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
-          >
-            Restaurar valores
-          </button>
-        }
-      >
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200 text-sm dark:divide-slate-700">
-            <thead className="bg-gray-50 dark:bg-slate-800">
-              <tr>
-                <th className="px-4 py-2 text-left font-semibold text-gray-600 dark:text-slate-200">Modulo</th>
-                {rolesColumns.map((col) => (
-                  <th key={col} className="px-4 py-2 text-center font-semibold text-gray-600 capitalize dark:text-slate-200">
-                    {col}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {permissions.map((row, index) => {
-                const isEven = index % 2 === 0;
-                const rowClass = isDarkMode
-                  ? isEven
-                    ? "bg-slate-900"
-                    : "bg-slate-800/80"
-                  : isEven
-                    ? "bg-white"
-                    : "bg-gray-50";
-                return (
-                  <tr key={row.module} className={rowClass}>
-                    <td className={`px-4 py-2 font-medium ${isDarkMode ? "text-slate-100" : "text-gray-700"}`}>{row.module}</td>
-                    {rolesColumns.map((col) => (
-                      <td key={col} className="px-4 py-2 text-center">
-                        <Toggle checked={row[col]} onChange={() => togglePermission(row.module, col)} label={`Permiso ${col}`} />
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </SectionCard>
-
-      <SectionCard
-        title="Conexiones e integraciones"
-        description="Sincroniza Invent Pro con tus canales de comunicacion y comercio electronico."
-      >
-        <div className="grid gap-4 md:grid-cols-2">
-          {integrationEntries.map(([key, config]) => (
-            <div
-              key={key}
-              className={`rounded-lg border p-4 transition-colors ${
-                isDarkMode ? "border-slate-700 bg-slate-900/40" : "border-gray-100 bg-gray-50"
-              }`}
-            >
-              <header className="flex items-center justify-between">
-                <div>
-                  <h3 className={`text-sm font-semibold ${isDarkMode ? "text-slate-100" : "text-gray-700"}`}>{key.toUpperCase()}</h3>
-                  <p className={`text-xs ${isDarkMode ? "text-slate-400" : "text-gray-500"}`}>
-                    {config.enabled ? "Activo" : "Disabled"} {config.enabled ? " - revisar credenciales" : ""}
-                  </p>
-                </div>
-                <Toggle checked={config.enabled} onChange={(value) => handleIntegrationToggle(key, value)} label={`Toggle ${key}`} />
-              </header>
-                <div className="mt-3 space-y-3 text-sm text-gray-600 dark:text-slate-300">
-                  {config.enabled ? (
-                    <Fragment>
-                      {key === "slack" ? (
-                        <label className="flex flex-col gap-1">
-                          Webhook URL
-                          <input
-                            type="url"
-                            value={config.webhookUrl ?? ""}
-                            placeholder="https://hooks.slack.com/..."
-                            onChange={(event) => updateIntegration("slack", { webhookUrl: event.target.value })}
-                            className="rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                          />
-                        </label>
-                      ) : null}
-                      {key === "whatsapp" ? (
-                        <label className="flex flex-col gap-1">
-                          Numero de contacto
-                          <input
-                            type="tel"
-                            value={config.phone ?? ""}
-                            placeholder="+56 9 1234 5678"
-                            onChange={(event) => updateIntegration("whatsapp", { phone: event.target.value })}
-                            className="rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                          />
-                        </label>
-                      ) : null}
-                      {key === "shopify" ? (
-                        <label className="flex flex-col gap-1">
-                          API key
-                          <input
-                            type="text"
-                            value={config.apiKey ?? ""}
-                            placeholder="shpca_..."
-                            onChange={(event) => updateIntegration("shopify", { apiKey: event.target.value })}
-                            className="rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                          />
-                        </label>
-                      ) : null}
-                      {key === "quickbooks" ? (
-                        <label className="flex flex-col gap-1">
-                          Company ID
-                          <input
-                            type="text"
-                            value={config.companyId ?? ""}
-                            placeholder="1234567890"
-                            onChange={(event) => updateIntegration("quickbooks", { companyId: event.target.value })}
-                            className="rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                          />
-                        </label>
-                      ) : null}
-                    </Fragment>
-                  ) : (
-                    <p className="text-xs text-gray-500 dark:text-slate-400">Activa la integracion para configurar credenciales.</p>
-                  )}
-                </div>
-              </div>
-            )
-          )}
         </div>
       </SectionCard>
 

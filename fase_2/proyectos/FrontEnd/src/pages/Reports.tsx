@@ -103,7 +103,6 @@ const REPORT_DEFINITIONS: ReportDefinition[] = [
 const REPORT_FORMAT_OPTIONS: Array<{ value: ReportFormat; label: string }> = [
   { value: "pdf", label: "PDF" },
   { value: "xls", label: "XLS (Excel)" },
-  { value: "dashboard", label: "Dashboard" },
 ];
 
 const REPORT_STATUS_OPTIONS: Array<{ value: ReportStatus; label: string }> = [
@@ -117,6 +116,11 @@ const DELIVERY_OPTIONS: Option[] = [
   { value: "email", label: "Enviar por email" },
   { value: "shared-link", label: "Compartir link" },
 ];
+
+const getFormatLabel = (format: ReportFormat) => {
+  const option = REPORT_FORMAT_OPTIONS.find((item) => item.value === format);
+  return option ? option.label : "Dashboard (no disponible)";
+};
 
 type ReportFormState = {
   name: string;
@@ -144,234 +148,23 @@ const INITIAL_FORM_STATE: ReportFormState = {
   userIds: [],
 };
 
-const buildVirtualReports = (): ReportItem[] => {
-  const now = new Date();
-  const start = new Date(now.getTime() - 29 * 24 * 60 * 60 * 1000);
-  const filters: ReportFilters = {
-    startDate: start.toISOString(),
-    endDate: now.toISOString(),
-    productIds: null,
-    userIds: null,
-  };
-
-  return [
-    {
-      id: "clients-report-pdf",
-      name: "Reporte de clientes (PDF)",
-      description: "Datos de contacto y RUT de clientes registrados.",
-      type: "clients",
-      filters,
-      format: "pdf",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "clients-report-xls",
-      name: "Reporte de clientes (Excel)",
-      description: "Datos de contacto y RUT de clientes registrados.",
-      type: "clients",
-      filters,
-      format: "xls",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "suppliers-report-pdf",
-      name: "Reporte de proveedores (PDF)",
-      description: "Proveedores, contactos y estado comercial.",
-      type: "suppliers",
-      filters,
-      format: "pdf",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "suppliers-report-xls",
-      name: "Reporte de proveedores (Excel)",
-      description: "Proveedores, contactos y estado comercial.",
-      type: "suppliers",
-      filters,
-      format: "xls",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "sales-report-pdf",
-      name: "Reporte de ordenes de ventas (PDF)",
-      description: "Ordenes y ventas generadas en el periodo.",
-      type: "sales",
-      filters,
-      format: "pdf",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "sales-report-xls",
-      name: "Reporte de ordenes de ventas (Excel)",
-      description: "Ordenes y ventas generadas en el periodo.",
-      type: "sales",
-      filters,
-      format: "xls",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "suppliers-report-pdf",
-      name: "Reporte de proveedores (PDF)",
-      description: "Proveedores, contactos y estado comercial.",
-      type: "suppliers",
-      filters,
-      format: "pdf",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "suppliers-report-xls",
-      name: "Reporte de proveedores (Excel)",
-      description: "Proveedores, contactos y estado comercial.",
-      type: "suppliers",
-      filters,
-      format: "xls",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "stock-report-pdf",
-      name: "Reporte de productos con stock (PDF)",
-      description: "Inventario valorizado y unidades disponibles.",
-      type: "stock",
-      filters,
-      format: "pdf",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "stock-report-xls",
-      name: "Reporte de productos con stock (Excel)",
-      description: "Inventario valorizado y unidades disponibles.",
-      type: "stock",
-      filters,
-      format: "xls",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "movements-report-pdf",
-      name: "Reporte de inventario manual con responsable (PDF)",
-      description: "Movimientos manuales con responsable.",
-      type: "movements",
-      filters,
-      format: "pdf",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-    {
-      id: "movements-report-xls",
-      name: "Reporte de inventario manual con responsable (Excel)",
-      description: "Movimientos manuales con responsable.",
-      type: "movements",
-      filters,
-      format: "xls",
-      status: "active",
-      deliveryMethod: "immediate-download",
-      createdAt: null,
-      updatedAt: null,
-      createdById: null,
-      createdByName: "Sistema",
-      createdByEmail: null,
-      lastRunAt: null,
-      executionTimeMs: null,
-      virtual: true,
-    },
-  ];
+const BACKEND_GENERAL_REPORT: ReportItem = {
+  id: "inventory-backend",
+  name: "Reporte general de inventario",
+  description: "Exporta inventario completo directamente desde el backend.",
+  type: "stock",
+  filters: {},
+  format: "pdf",
+  status: "active",
+  deliveryMethod: "immediate-download",
+  createdAt: null,
+  updatedAt: null,
+  createdById: null,
+  createdByName: "Backend",
+  createdByEmail: null,
+  lastRunAt: null,
+  executionTimeMs: null,
+  virtual: true,
 };
 
 type ReportDataset = {
@@ -610,26 +403,21 @@ export default function ReportsPage() {
   const [productOptions, setProductOptions] = useState<Option[]>([]);
   const [userOptions, setUserOptions] = useState<Option[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(false);
-
-  const ensureVirtualReports = useCallback((items: ReportItem[]): ReportItem[] => {
-    const virtuals = buildVirtualReports();
-    const cleanItems = items.filter((item) => !virtuals.some((virtual) => virtual.id === item.id));
-    return [...virtuals, ...cleanItems];
-  }, []);
+  const [activeTab, setActiveTab] = useState<"backend" | "custom">("backend");
 
   const loadReports = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const response = await reportsApi.list();
-      setReports(ensureVirtualReports(response.items));
+      setReports(response.items);
     } catch (err) {
       const message = err instanceof Error ? err.message : "No fue posible cargar los reportes.";
       setError(message);
     } finally {
       setLoading(false);
     }
-  }, [ensureVirtualReports]);
+  }, []);
 
   useEffect(() => {
     loadReports().catch(() => {});
@@ -728,6 +516,7 @@ export default function ReportsPage() {
       await showError({ title: "Nombre requerido", text: "Ingresa un nombre para el reporte." });
       return;
     }
+    const safeFormat: ReportFormat = formState.format === "dashboard" ? "pdf" : formState.format;
     if (currentDefinition.requiresDateRange) {
       if (!formState.startDate || !formState.endDate) {
         await showError({ title: "Rango requerido", text: "Selecciona fecha inicio y termino usando el calendario." });
@@ -743,7 +532,7 @@ export default function ReportsPage() {
       name: trimmedName,
       description: formState.description.trim() || undefined,
       type: formState.type,
-      format: formState.format,
+      format: safeFormat,
       status: formState.status,
       deliveryMethod: formState.deliveryMethod,
       filters: buildFiltersPayload(),
@@ -778,7 +567,7 @@ export default function ReportsPage() {
       name: report.name,
       description: report.description ?? "",
       type: (REPORT_DEFINITIONS.find((item) => item.value === report.type)?.value ?? "sales") as ReportTypeId,
-      format: report.format,
+      format: report.format === "dashboard" ? "pdf" : report.format,
       status: report.status,
       deliveryMethod: report.deliveryMethod ?? "immediate-download",
       startDate: filters.startDate,
@@ -1131,61 +920,113 @@ export default function ReportsPage() {
             Usa el calendario y los filtros exactos que consume el backend para asegurar reportes consistentes.
           </p>
         </div>
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-          <input
-            type="search"
-            value={searchTerm}
-            onChange={(event) => setSearchTerm(event.target.value)}
-            placeholder="Buscar por nombre o creador"
-            className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 sm:w-64"
-          />
-          <button
-            type="button"
-            onClick={handleOpenForm}
-            className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
-          >
-            Nuevo reporte
-          </button>
-        </div>
+        {activeTab === "custom" ? (
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+            <input
+              type="search"
+              value={searchTerm}
+              onChange={(event) => setSearchTerm(event.target.value)}
+              placeholder="Buscar por nombre o creador"
+              className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-600 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 sm:w-64"
+            />
+            <button
+              type="button"
+              onClick={handleOpenForm}
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+            >
+              Nuevo reporte
+            </button>
+          </div>
+        ) : (
+          <div className="text-sm text-slate-500">Exporta reportes completos directamente desde el backend.</div>
+        )}
       </header>
 
-      <section className="grid gap-3 md:grid-cols-3">
-        <label className="flex flex-col gap-1 text-sm text-slate-500">
-          Estado
-          <select
-            value={statusFilter}
-            onChange={(event) => setStatusFilter(event.target.value as ReportStatus | "all")}
-            className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-          >
-            <option value="all">Todos</option>
-            {REPORT_STATUS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => setActiveTab("backend")}
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition ${activeTab === "backend" ? "bg-slate-900 text-white shadow" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
+        >
+          Reportes generales (backend)
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab("custom")}
+          className={`rounded-full px-4 py-2 text-sm font-semibold transition ${activeTab === "custom" ? "bg-slate-900 text-white shadow" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`}
+        >
+          Mis reportes
+        </button>
+      </div>
 
-        <label className="flex flex-col gap-1 text-sm text-slate-500">
-          Tipo de reporte
-          <select
-            value={typeFilter}
-            onChange={(event) => setTypeFilter(event.target.value as ReportTypeId | "all")}
-            className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-          >
-            <option value="all">Todos</option>
-            {REPORT_DEFINITIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
+      {activeTab === "backend" ? (
+        <section className="space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+          <header className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">Disponible</p>
+              <h2 className="text-xl font-bold text-slate-900">{BACKEND_GENERAL_REPORT.name}</h2>
+              <p className="text-sm text-slate-600">{BACKEND_GENERAL_REPORT.description}</p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => handleExecute({ ...BACKEND_GENERAL_REPORT, format: "pdf" })}
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-slate-800"
+              >
+                Descargar PDF
+              </button>
+              <button
+                type="button"
+                onClick={() => handleExecute({ ...BACKEND_GENERAL_REPORT, format: "xls", id: "inventory-backend-xls" })}
+                className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-emerald-700"
+              >
+                Descargar XLSX
+              </button>
+            </div>
+          </header>
+          <div className="rounded-lg border border-dashed border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
+            Exportado 100% en el backend. Usa la sesi&oacute;n activa y los datos completos del inventario para evitar inconsistencias.
+          </div>
+        </section>
+      ) : (
+        <>
+          <section className="grid gap-3 md:grid-cols-3">
+            <label className="flex flex-col gap-1 text-sm text-slate-500">
+              Estado
+              <select
+                value={statusFilter}
+                onChange={(event) => setStatusFilter(event.target.value as ReportStatus | "all")}
+                className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="all">Todos</option>
+                {REPORT_STATUS_OPTIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-        <div className="flex items-end text-sm text-slate-500">
-          {catalogLoading ? "Cargando catalogos..." : `${productOptions.length} productos y ${userOptions.length} usuarios disponibles.`}
-        </div>
-      </section>
+            <label className="flex flex-col gap-1 text-sm text-slate-500">
+              Tipo de reporte
+              <select
+                value={typeFilter}
+                onChange={(event) => setTypeFilter(event.target.value as ReportTypeId | "all")}
+                className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+              >
+                <option value="all">Todos</option>
+                {REPORT_DEFINITIONS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className="flex items-end text-sm text-slate-500">
+              {catalogLoading ? "Cargando catalogos..." : `${productOptions.length} productos y ${userOptions.length} usuarios disponibles.`}
+            </div>
+          </section>
 
       {showForm && (
         <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
@@ -1299,6 +1140,7 @@ export default function ReportsPage() {
                         </option>
                       ))}
                     </select>
+                    <span className="text-xs text-slate-500">Selecciona varios con Ctrl/Cmd o Shift.</span>
                   </label>
                 )}
 
@@ -1447,7 +1289,7 @@ export default function ReportsPage() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="font-semibold text-slate-600">Formato:</span>
-                        <span>{REPORT_FORMAT_OPTIONS.find((option) => option.value === report.format)?.label ?? report.format}</span>
+                        <span>{getFormatLabel(report.format)}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="font-semibold text-slate-600">Creador:</span>
@@ -1513,6 +1355,8 @@ export default function ReportsPage() {
           </div>
         )}
       </section>
+        </>
+      )}
     </div>
   );
 }

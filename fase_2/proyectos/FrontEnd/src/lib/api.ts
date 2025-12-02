@@ -3,8 +3,14 @@ import axios, { AxiosHeaders, type AxiosError, type InternalAxiosRequestConfig }
 const TOKEN_KEY = "inventpro_access_token";
 
 const resolveBaseUrl = () => {
-  const candidate = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_API_URL;
-  return candidate && candidate.trim().length > 0 ? candidate : "/api"; // ✅ fallback seguro
+  const env = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env;
+  const candidate = env?.VITE_API_URL;
+  if (candidate && candidate.trim().length > 0) return candidate;
+
+  if (import.meta.env?.DEV) {
+    console.warn("[api] VITE_API_URL no configurado; usando fallback /api (puede causar 404 en produccion).");
+  }
+  return "/api";
 };
 
 const normalizeToken = (value?: string | null) => {
@@ -63,10 +69,21 @@ const attachAuthToken = (config: InternalAxiosRequestConfig) => {
 
 api.interceptors.request.use(attachAuthToken);
 
+const redirectToLogin = () => {
+  if (typeof window === "undefined") return;
+  const path = window.location.pathname;
+  if (path !== "/" && path !== "/login") {
+    window.location.replace("/");
+  }
+};
+
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
-    if (error.response?.status === 401 || error.response?.status === 403) {
+    const status = error.response?.status;
+    const isAuthEndpoint = typeof error.config?.url === "string" && error.config.url.includes("/auth/");
+
+    if (status === 401 || status === 403 || (status === 404 && isAuthEndpoint)) {
       console.error("Token expirado o invalido. Limpiando sesion localmente.");
       if (typeof window !== "undefined") {
         try {
@@ -76,6 +93,7 @@ api.interceptors.response.use(
         }
       }
       applyDefaultAuthHeader(null);
+      redirectToLogin();
     }
     return Promise.reject(error);
   }

@@ -144,6 +144,69 @@ const getStatusLabel = (status: OrderStatus) => {
   }
 };
 
+type OrderStatusKey = OrderStatus | "other";
+
+type OrderStatusChartItem = {
+  key: OrderStatusKey;
+  label: string;
+  count: number;
+  barClass: string;
+  pillClass: string;
+};
+
+const ORDER_STATUS_META: Record<OrderStatusKey, { label: string; barClass: string; pillClass: string }> = {
+  completed: {
+    label: "Completada",
+    barClass: "bg-emerald-500",
+    pillClass: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-100",
+  },
+  processing: {
+    label: "En proceso",
+    barClass: "bg-blue-500",
+    pillClass: "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-100",
+  },
+  pending: {
+    label: "Pendiente",
+    barClass: "bg-amber-500",
+    pillClass: "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-100",
+  },
+  cancelled: {
+    label: "Cancelada",
+    barClass: "bg-rose-500",
+    pillClass: "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-100",
+  },
+  other: {
+    label: "Otras",
+    barClass: "bg-slate-400",
+    pillClass: "bg-slate-200 text-slate-700 dark:bg-slate-600/40 dark:text-slate-100",
+  },
+};
+
+const buildOrderStatusSummary = (orders: RecentOrder[]): OrderStatusChartItem[] => {
+  const counts: Record<OrderStatusKey, number> = {
+    completed: 0,
+    processing: 0,
+    pending: 0,
+    cancelled: 0,
+    other: 0,
+  };
+
+  orders.forEach((order) => {
+    const key = ORDER_STATUS_META[order.status as OrderStatusKey] ? (order.status as OrderStatusKey) : "other";
+    counts[key] = (counts[key] ?? 0) + 1;
+  });
+
+  return (Object.entries(ORDER_STATUS_META) as Array<[OrderStatusKey, { label: string; barClass: string; pillClass: string }]>).map(
+    ([key, meta]) => ({
+      key,
+      label: meta.label,
+      count: counts[key] ?? 0,
+      barClass: meta.barClass,
+      pillClass: meta.pillClass,
+    })
+  );
+};
+
 const formatDateLabel = (value?: string | null) => {
   if (!value) return "Sin fecha";
   const date = new Date(value);
@@ -566,6 +629,9 @@ const DashboardPage = () => {
   const userDisplayName = currentUser?.name ?? "Usuario";
   const userRoleLabel = currentUser?.role ? USER_ROLE_LABELS[currentUser.role] ?? currentUser.role : "Invitado";
   const lowStockProducts = inventoryProducts.filter((product) => Number(product.stock) < LOW_STOCK_THRESHOLD);
+  const orderStatusSummary = buildOrderStatusSummary(recentOrders);
+  const maxStatusCount = Math.max(...orderStatusSummary.map((item) => item.count), 0);
+  const totalRecentOrders = recentOrders.length;
 
   const cardClass = isDarkMode
     ? "rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-lg"
@@ -742,6 +808,57 @@ const DashboardPage = () => {
         </section>
 
         <div className="space-y-6">
+          <section className={cardClass}>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Estado de ordenes</h2>
+                <p className="text-xs text-slate-500 dark:text-slate-300">Resumen segun ultimas ordenes.</p>
+              </div>
+              <div className="text-right">
+                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{totalRecentOrders}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-300">Ordenes</p>
+              </div>
+            </div>
+            {totalRecentOrders > 0 ? (
+              <div className={`mt-5 rounded-2xl border p-5 ${isDarkMode ? "border-slate-700 bg-slate-800/60" : "border-slate-200 bg-slate-50"}`}>
+                <div className="flex items-end justify-between gap-3">
+                  {orderStatusSummary.map((item) => {
+                    const height = maxStatusCount > 0 ? Math.max(12, Math.round((item.count / maxStatusCount) * 82)) : 12;
+                    return (
+                      <div
+                        key={item.key}
+                        className="flex flex-1 flex-col items-center gap-2"
+                      >
+                        <span className="text-sm font-semibold text-slate-600 dark:text-slate-200">{item.count}</span>
+                        <div className={`flex w-full max-w-[72px] items-end justify-center rounded-xl ${isDarkMode ? "bg-slate-900/60" : "bg-white"} px-3 py-3 shadow-inner`}>
+                          <div className={`w-10 rounded-full ${item.barClass}`} style={{ height: `${height}px` }} />
+                        </div>
+                        <span className="text-center text-[11px] font-semibold text-slate-500 dark:text-slate-300">{item.label}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-5 grid grid-cols-2 gap-3 text-xs text-slate-600 dark:text-slate-300">
+                  {orderStatusSummary.map((item) => (
+                    <div key={`${item.key}-legend`} className="flex items-center gap-2 rounded-lg px-2 py-1">
+                      <span className={`h-2.5 w-2.5 rounded-full ${item.barClass}`} />
+                      <span className="flex-1 font-medium">{item.label}</span>
+                      <span className={`rounded-full px-2 py-1 text-[11px] font-semibold ${item.pillClass}`}>
+                        {item.count} {item.count === 1 ? "orden" : "ordenes"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p
+                className={`mt-6 rounded-xl border border-dashed p-5 text-sm ${isDarkMode ? "border-slate-600 bg-slate-800/40 text-slate-300" : "border-slate-200 bg-slate-50 text-slate-500"}`}
+              >
+                No hay ordenes recientes para graficar.
+              </p>
+            )}
+          </section>
+
           <section className={cardClass}>
             <div className="flex items-center justify-between">
               <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Usuarios del sistema</h2>

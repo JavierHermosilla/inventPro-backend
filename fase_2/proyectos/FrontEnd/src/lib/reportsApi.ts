@@ -1,5 +1,6 @@
 import api from "./api";
 
+// "dashboard" queda solo para compatibilidad con registros antiguos; la UI ya no lo ofrece.
 export type ReportFormat = "pdf" | "xls" | "dashboard";
 export type ReportStatus = "active" | "draft" | "archived";
 

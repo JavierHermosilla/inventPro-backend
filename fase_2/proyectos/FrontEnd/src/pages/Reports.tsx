@@ -167,9 +167,17 @@ const BACKEND_GENERAL_REPORT: ReportItem = {
   virtual: true,
 };
 
+type TableData = {
+  headers: string[];
+  rows: Array<Array<string>>;
+  widths?: Array<string | number>;
+  layout?: Content["layout"];
+  dontBreakRows?: boolean;
+};
+
 type ReportDataset = {
   summary: Array<{ label: string; value: string }>;
-  table: { headers: string[]; rows: Array<Array<string>> };
+  table: TableData;
   periodLabel: string;
   filterDetails: string[];
   legalNotes: string[];
@@ -218,7 +226,7 @@ const inRange = (target: Date | null, start: Date | null, end: Date | null) => {
 
 const buildDatasetResult = (
   report: ReportItem,
-  data: { summary: Array<{ label: string; value: string }>; table: { headers: string[]; rows: Array<Array<string>> }; legalNotes?: string[] }
+  data: { summary: Array<{ label: string; value: string }>; table: TableData; legalNotes?: string[] }
 ): ReportDataset => {
   const startLabel = report.filters.startDate ? formatDate(report.filters.startDate) : "No informado";
   const endLabel = report.filters.endDate ? formatDate(report.filters.endDate) : "No informado";
@@ -293,25 +301,30 @@ const buildPdfDefinition = (report: ReportItem, dataset: ReportDataset): TDocume
         }
       : null;
 
+  const needsLandscape = (dataset.table.widths ?? dataset.table.headers).length >= 6;
+
   const detailSection: Content = {
     table: {
       headerRows: 1,
-      widths: dataset.table.headers.map(() => "*"),
+      widths: dataset.table.widths && dataset.table.widths.length === dataset.table.headers.length ? dataset.table.widths : dataset.table.headers.map(() => "*"),
       body: [
         dataset.table.headers.map((header) => ({ text: header, style: "tableHeader" })),
         ...dataset.table.rows.map((row) => row.map((cell) => ({ text: cell, style: "tableCell" }))),
       ],
     },
-    layout: {
-      fillColor: (rowIndex: number) => {
-        if (rowIndex === 0) return "#1d4ed8";
-        return rowIndex % 2 === 0 ? "#f1f5f9" : null;
+    dontBreakRows: dataset.table.dontBreakRows ?? false,
+    layout:
+      dataset.table.layout ??
+      {
+        fillColor: (rowIndex: number) => {
+          if (rowIndex === 0) return "#1d4ed8";
+          return rowIndex % 2 === 0 ? "#f1f5f9" : null;
+        },
+        hLineColor: () => "#cbd5f5",
+        vLineColor: () => "#cbd5f5",
+        hLineWidth: () => 0.5,
+        vLineWidth: () => 0.5,
       },
-      hLineColor: () => "#cbd5f5",
-      vLineColor: () => "#cbd5f5",
-      hLineWidth: () => 0.5,
-      vLineWidth: () => 0.5,
-    },
   };
 
   const legalSection: Content = {
@@ -358,6 +371,7 @@ const buildPdfDefinition = (report: ReportItem, dataset: ReportDataset): TDocume
     info: { title: report.name, author: report.createdByName ?? "InventPro" },
     content,
     pageMargins: [40, 60, 40, 70],
+    pageOrientation: needsLandscape ? "landscape" : "portrait",
     footer: PDF_PAGE_FOOTER,
     styles: {
       companyName: { fontSize: 11, bold: true, color: "#1f2937" },
@@ -368,8 +382,8 @@ const buildPdfDefinition = (report: ReportItem, dataset: ReportDataset): TDocume
       metaValue: { fontSize: 9, color: "#0f172a", margin: [0, 2, 0, 2] },
       summaryLabel: { fontSize: 9, color: "#475569", margin: [0, 0, 0, 2] },
       summaryValue: { fontSize: 16, bold: true, color: "#0f172a" },
-      tableHeader: { fontSize: 10, bold: true, color: "#ffffff" },
-      tableCell: { fontSize: 9, color: "#0f172a", margin: [0, 4, 0, 4] },
+      tableHeader: { fontSize: 10, bold: true, color: "#ffffff", alignment: "center" },
+      tableCell: { fontSize: 9, color: "#0f172a", margin: [0, 3, 0, 3], alignment: "left" },
       legalTitle: { fontSize: 10, bold: true, color: "#0f172a", margin: [0, 0, 0, 6] },
       legalItem: { fontSize: 9, color: "#0f172a", margin: [0, 2, 0, 2] },
       footer: { fontSize: 8, color: "#475569", alignment: "center" },
@@ -626,6 +640,7 @@ export default function ReportsPage() {
       ],
       table: {
         headers: ["Orden", "Fecha", "Cliente", "Subtotal", "IVA", "Total"],
+        widths: [70, 70, "*", 70, 60, 70],
         rows: filtered.map((order) => [
           order.id,
           formatDate(order.createdAt),
@@ -653,6 +668,7 @@ export default function ReportsPage() {
       ],
       table: {
         headers: ["ID", "Producto", "Categoria", "Stock", "Precio", "Total"],
+        widths: [120, "*", 100, 50, 70, 70],
         rows: filtered.map((product) => [
           String(product.id),
           product.nombre,
@@ -689,6 +705,7 @@ export default function ReportsPage() {
       ],
       table: {
         headers: ["Fecha", "Producto", "Tipo", "Cantidad", "Responsable", "Motivo"],
+        widths: [70, "*", 60, 60, 90, "*"],
         rows: filtered.map((movement) => [
           formatDate(movement.createdAt),
           movement.productName,
@@ -712,6 +729,7 @@ export default function ReportsPage() {
 
     const table = {
       headers: ["Nombre", "RUT", "Correo", "Telefono", "Direccion"],
+      widths: ["*", 90, 140, 100, "*"],
       rows: clientsResult.items.map((client) => [
         client.name,
         client.rut,
@@ -739,6 +757,7 @@ export default function ReportsPage() {
 
     const table = {
       headers: ["Proveedor", "RUT", "Contacto", "Correo", "Telefono", "Estado"],
+      widths: ["*", 90, 110, 130, 100, 70],
       rows: suppliersResult.items.map((supplier) => [
         supplier.name,
         supplier.rut,

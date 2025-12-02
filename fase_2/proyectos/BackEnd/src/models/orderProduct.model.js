@@ -35,11 +35,11 @@ class OrderProduct extends Model {
           type: DataTypes.DECIMAL(10, 2),
           allowNull: false,
           defaultValue: 0, // si tu migración tiene DEFAULT 0, ok
+          field: 'unit_price', // columna real en DB (evita error cuando falta price)
           validate: {
             isDecimal: { msg: 'price debe ser decimal' },
             min: { args: [0], msg: 'price no puede ser negativo' }
           },
-          // opcional: devolver como número en las respuestas
           get () {
             const v = this.getDataValue('price')
             return v == null ? null : Number(v)

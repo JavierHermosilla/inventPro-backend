@@ -10,7 +10,7 @@ type DashboardOrderApiRecord = {
   status?: OrderStatus | string | null;
   createdAt?: string | null;
   updatedAt?: string | null;
-  client?: { id?: string; name?: string | null } | null;
+  client?: { id?: string; name?: string | null; rut?: string | null } | null;
   customer?: { id?: string; name?: string | null } | null;
 };
 
@@ -26,6 +26,7 @@ export type DashboardRecentOrder = {
   id: string;
   clientId: string | null;
   clientName: string | null;
+  clientRut: string | null;
   createdAt: string | null;
   status: OrderStatus;
 };
@@ -51,9 +52,11 @@ const normalizeOrderRecord = (record: DashboardOrderApiRecord): DashboardRecentO
   const statusRaw = record.status ?? "pending";
   const status = (typeof statusRaw === "string" ? statusRaw : "pending") as OrderStatus;
   const clientName = record.client?.name?.trim() || record.customer?.name?.trim() || null;
+  const clientRut = record.client?.rut?.trim() || null;
   return {
     id: record.id,
     clientId: record.clientId ?? record.client?.id ?? record.customer?.id ?? null,
+    clientRut,
     clientName,
     createdAt: record.createdAt ?? record.updatedAt ?? null,
     status,

@@ -1,16 +1,10 @@
 import axios, { AxiosHeaders, type AxiosError, type InternalAxiosRequestConfig } from "axios";
 
-const TOKEN_KEY = "inventpro_access_token";
+const PUBLIC_ENDPOINTS = ["/auth/login", "/auth/refresh"];
 
 const resolveBaseUrl = () => {
-  const env = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env;
-  const candidate = env?.VITE_API_URL;
-  if (candidate && candidate.trim().length > 0) return candidate;
-
-  if (import.meta.env?.DEV) {
-    console.warn("[api] VITE_API_URL no configurado; usando fallback /api (puede causar 404 en produccion).");
-  }
-  return "/api";
+  const candidate = (import.meta as ImportMeta & { env?: Record<string, string | undefined> }).env?.VITE_API_URL;
+  return candidate && candidate.trim().length > 0 ? candidate : "/api"; // fallback seguro
 };
 
 const normalizeToken = (value?: string | null) => {
@@ -19,7 +13,9 @@ const normalizeToken = (value?: string | null) => {
   return trimmed.length > 0 ? trimmed : null;
 };
 
-const readStoredToken = (): string | null => {
+const TOKEN_KEY = "auth_token";
+
+const loadStoredToken = () => {
   if (typeof window === "undefined") return null;
   try {
     return normalizeToken(window.localStorage.getItem(TOKEN_KEY));
@@ -28,9 +24,28 @@ const readStoredToken = (): string | null => {
   }
 };
 
+const persistToken = (token: string | null) => {
+  if (typeof window === "undefined") return;
+  try {
+    if (token) {
+      window.localStorage.setItem(TOKEN_KEY, token);
+    } else {
+      window.localStorage.removeItem(TOKEN_KEY);
+    }
+  } catch {
+    // silenciosamente ignora problemas de storage (modo incógnito, etc.)
+  }
+};
+
 const baseURL = resolveBaseUrl();
 
 const api = axios.create({
+  baseURL,
+  withCredentials: true,
+  headers: { "Content-Type": "application/json" },
+});
+
+const refreshClient = axios.create({
   baseURL,
   withCredentials: true,
   headers: { "Content-Type": "application/json" },
@@ -49,8 +64,53 @@ const applyDefaultAuthHeader = (token: string | null) => {
   }
 };
 
-const attachAuthToken = (config: InternalAxiosRequestConfig) => {
-  const token = readStoredToken();
+let inMemoryToken: string | null = loadStoredToken();
+applyDefaultAuthHeader(inMemoryToken);
+
+let refreshPromise: Promise<string | null> | null = null;
+
+const shouldSkipAuth = (url?: string) => {
+  if (!url) return false;
+  return PUBLIC_ENDPOINTS.some((path) => url.includes(path));
+};
+
+const requestRefreshToken = async (): Promise<string | null> => {
+  try {
+    const response = await refreshClient.post<{ token?: string }>("/auth/refresh");
+    const token = normalizeToken(response.data?.token ?? null);
+    setToken(token);
+    return token;
+  } catch {
+    setToken(null);
+    return null;
+  }
+};
+
+const ensureAccessToken = async (force = false): Promise<string | null> => {
+  if (!force && inMemoryToken) return inMemoryToken;
+  if (force) {
+    inMemoryToken = null;
+    refreshPromise = null;
+  }
+  if (!refreshPromise) {
+    refreshPromise = (async () => {
+      try {
+        return await requestRefreshToken();
+      } finally {
+        refreshPromise = null;
+      }
+    })();
+  }
+  return refreshPromise;
+};
+
+const attachAuthToken = async (config: InternalAxiosRequestConfig) => {
+  if (shouldSkipAuth(config.url)) {
+    return config;
+  }
+
+  const token = await ensureAccessToken();
+
   if (token) {
     if (!config.headers) config.headers = new AxiosHeaders();
 
@@ -64,59 +124,49 @@ const attachAuthToken = (config: InternalAxiosRequestConfig) => {
   } else if (config.headers) {
     delete (config.headers as Record<string, string>)["Authorization"];
   }
+
   return config;
 };
 
 api.interceptors.request.use(attachAuthToken);
 
-const redirectToLogin = () => {
-  if (typeof window === "undefined") return;
-  const path = window.location.pathname;
-  if (path !== "/" && path !== "/login") {
-    window.location.replace("/");
-  }
-};
+type RetriableRequest = InternalAxiosRequestConfig & { _retry?: boolean };
 
 api.interceptors.response.use(
   (response) => response,
-  (error: AxiosError) => {
+  async (error: AxiosError) => {
     const status = error.response?.status;
-    const isAuthEndpoint = typeof error.config?.url === "string" && error.config.url.includes("/auth/");
+    const originalRequest = error.config as RetriableRequest | undefined;
 
-    if (status === 401 || status === 403 || (status === 404 && isAuthEndpoint)) {
-      console.error("Token expirado o invalido. Limpiando sesion localmente.");
-      if (typeof window !== "undefined") {
-        try {
-          window.localStorage.removeItem(TOKEN_KEY);
-        } catch {
-          /* noop: limpiar token es best effort */
+    if ((status === 401 || status === 403) && originalRequest && !shouldSkipAuth(originalRequest.url)) {
+      saveToken(null);
+
+      if (!originalRequest._retry) {
+        originalRequest._retry = true;
+        const newToken = await ensureAccessToken(true);
+        if (newToken) {
+          return api(originalRequest);
         }
       }
-      applyDefaultAuthHeader(null);
-      redirectToLogin();
     }
+
     return Promise.reject(error);
   }
 );
 
-const initialToken = readStoredToken();
-if (initialToken) applyDefaultAuthHeader(initialToken);
+const setToken = (token: string | null) => {
+  inMemoryToken = token;
+  applyDefaultAuthHeader(token);
+  persistToken(token);
+};
 
 export function saveToken(token: string | null) {
   const normalized = normalizeToken(token);
-  if (typeof window !== "undefined") {
-    try {
-      if (normalized) window.localStorage.setItem(TOKEN_KEY, normalized);
-      else window.localStorage.removeItem(TOKEN_KEY);
-    } catch {
-      /* noop: almacenamiento local puede fallar por quota */
-    }
-  }
-  applyDefaultAuthHeader(normalized);
+  setToken(normalized);
 }
 
 export function getToken() {
-  return readStoredToken();
+  return inMemoryToken;
 }
 
 export default api;

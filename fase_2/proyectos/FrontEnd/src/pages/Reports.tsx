@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfMakeFonts from "pdfmake/build/vfs_fonts";
-import type { Content, TDocumentDefinitions } from "pdfmake/interfaces";
+import type { Content, Table, TableLayout, TDocumentDefinitions } from "pdfmake/interfaces";
 import { confirmAction, showError, showInfo, showSuccess } from "../lib/alerts";
 import {
   reportsApi,
@@ -19,22 +19,27 @@ import { usersApi, type UserItem } from "../lib/usersApi";
 import { clientsApi } from "../lib/clientsApi";
 import { suppliersApi } from "../lib/suppliersApi";
 
-type PdfMakeInstance = typeof pdfMake & {
-  default?: typeof pdfMake;
+type PdfDocumentFactory = (documentDefinition: TDocumentDefinitions) => {
+  getBlob: (cb: (blob: Blob) => void) => void;
+};
+
+type PdfMakeInstance = {
+  createPdf: PdfDocumentFactory;
+  default?: PdfMakeInstance;
   addVirtualFileSystem?: (vfs: Record<string, string>) => void;
   vfs?: Record<string, string>;
   fonts?: Record<string, unknown>;
 };
 
 // pdfmake's module namespace is frozen in some bundlers; use the actual instance under .default.
-const pdfMakeInstance = pdfMake as unknown as PdfMakeInstance;
-const pdfMakeRuntime = (pdfMakeInstance.default ?? pdfMakeInstance) as PdfMakeInstance;
+const pdfMakeRuntime: PdfMakeInstance =
+  (pdfMake as unknown as PdfMakeInstance).default ?? (pdfMake as unknown as PdfMakeInstance);
 
 // Asegura que las fuentes Roboto estén disponibles en tiempo de ejecución (build y dev).
 const pdfVfs =
   (pdfMakeFonts as unknown as { pdfMake?: { vfs?: Record<string, string> } }).pdfMake?.vfs ??
   (pdfMakeFonts as unknown as { vfs?: Record<string, string> }).vfs ??
-  (pdfMakeRuntime as unknown as { vfs?: Record<string, string> }).vfs;
+  pdfMakeRuntime.vfs;
 
 // Registra el VFS incluso si ya existía parcialmente
 if (typeof pdfMakeRuntime.addVirtualFileSystem === "function" && pdfVfs) {
@@ -170,9 +175,9 @@ const BACKEND_GENERAL_REPORT: ReportItem = {
 type TableData = {
   headers: string[];
   rows: Array<Array<string>>;
-  widths?: Array<string | number>;
-  layout?: Content["layout"];
-  dontBreakRows?: boolean;
+  widths?: Table["widths"];
+  layout?: TableLayout;
+  dontBreakRows?: Table["dontBreakRows"];
 };
 
 type ReportDataset = {
@@ -306,13 +311,16 @@ const buildPdfDefinition = (report: ReportItem, dataset: ReportDataset): TDocume
   const detailSection: Content = {
     table: {
       headerRows: 1,
-      widths: dataset.table.widths && dataset.table.widths.length === dataset.table.headers.length ? dataset.table.widths : dataset.table.headers.map(() => "*"),
+      widths:
+        dataset.table.widths && dataset.table.widths.length === dataset.table.headers.length
+          ? dataset.table.widths
+          : dataset.table.headers.map(() => "*"),
       body: [
         dataset.table.headers.map((header) => ({ text: header, style: "tableHeader" })),
         ...dataset.table.rows.map((row) => row.map((cell) => ({ text: cell, style: "tableCell" }))),
       ],
+      dontBreakRows: dataset.table.dontBreakRows ?? false,
     },
-    dontBreakRows: dataset.table.dontBreakRows ?? false,
     layout:
       dataset.table.layout ??
       {
@@ -805,8 +813,8 @@ export default function ReportsPage() {
   const downloadPdfFile = (report: ReportItem, dataset: ReportDataset) =>
     new Promise<void>((resolve, reject) => {
       try {
-        const pdfDocument = pdfMake.createPdf(buildPdfDefinition(report, dataset));
-        pdfDocument.getBlob((blob) => {
+        const pdfDocument = pdfMakeRuntime.createPdf(buildPdfDefinition(report, dataset));
+        pdfDocument.getBlob((blob: Blob) => {
           try {
             const filename = `reporte-${report.id}-${dataset.generatedAtIso.slice(0, 10)}.pdf`;
             triggerFileDownload(blob, filename);

@@ -535,15 +535,15 @@ export default function Products() {
                   <div className="relative mt-1">
                     <span className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-sm text-gray-500">$</span>
                     <input
-                      id="precio"
-                      type="number"
-                      min={0}
-                      step={1}
-                      className="w-full rounded-lg border border-gray-200 py-2 pl-8 pr-3 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                      value={form.precio}
-                      onChange={(event) => updateFormField("precio", parseCurrencyInput(event.target.value))}
-                      required
-                    />
+                    id="precio"
+                    type="number"
+                    min={0}
+                    step={1}
+                    className="w-full rounded-lg border border-gray-200 py-2 pl-8 pr-3 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                    value={form.precio ?? ""}
+                    onChange={(event) => updateFormField("precio", parseCurrencyInput(event.target.value))}
+                    required
+                  />
                     <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-xs text-gray-400">CLP</span>
                   </div>
                 </div>
@@ -557,7 +557,7 @@ export default function Products() {
                     type="number"
                     min={0}
                     className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
-                    value={form.stock}
+                    value={form.stock ?? ""}
                     onChange={(event) => updateFormField("stock", parseStockInput(event.target.value))}
                     required
                   />

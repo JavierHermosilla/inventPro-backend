@@ -1,5 +1,5 @@
 ﻿import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/auth";
 import { showError, showSuccess, showWarning } from "../lib/alerts";
 import logoInventPro from "../assets/logo-invent-pro.png";
@@ -125,9 +125,9 @@ const Login = () => {
                 </span>
               </div>
               <div className="flex justify-between items-center text-sm mt-2">
-                <Link to="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
-                  ¿Olvidaste tu contraseña?
-                </Link>
+                <div className="w-full rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                  Recuperacion de acceso y registro son gestionados por el administrador de tu empresa. Si no puedes entrar, contacta a TI para restablecer tu clave.
+                </div>
               </div>
             </div>
 
@@ -140,12 +140,7 @@ const Login = () => {
           </form>
 
           <div className="mt-8 text-center">
-            <p className="text-sm text-gray-600">
-              ¿No tienes una cuenta?{" "}
-              <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500">
-                Regístrate
-              </Link>
-            </p>
+            <p className="text-sm text-gray-500">El registro de usuarios lo gestiona el administrador del sistema.</p>
           </div>
         </div>
 
@@ -172,4 +167,3 @@ const Login = () => {
 };
 
 export default Login;
-

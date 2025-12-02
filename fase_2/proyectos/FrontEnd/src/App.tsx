@@ -6,8 +6,6 @@ import { applyDocumentTheme } from "./lib/theme";
 
 // Páginas
 import LoginPage from "./pages/Login";
-import RegisterPage from "./pages/Register";
-import ForgotPasswordPage from "./pages/ForgotPassword";
 import DashboardPage from "./pages/Dashboard";
 import UsersPage from "./pages/Users";
 import ProductsPage from "./pages/Products";
@@ -58,8 +56,6 @@ const App = () => {
       <Routes>
         {/* Públicas */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Protegidas con Layout */}
         <Route
@@ -150,5 +146,4 @@ const App = () => {
 };
 
 export default App;
-
 

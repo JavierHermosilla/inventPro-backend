@@ -1,6 +1,5 @@
 ﻿
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { easeOut, motion } from "framer-motion";
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfMakeFonts from "pdfmake/build/vfs_fonts";
 import type { Content, TableCell, TableLayout, TDocumentDefinitions } from "pdfmake/interfaces";
@@ -1464,19 +1463,13 @@ export default function OrdersPage() {
     </form>
   );
 
-  const motionProps = {
-    initial: { opacity: 0, y: 8 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.25, ease: easeOut },
-  };
-
   if (mode === "create") {
-    return <motion.div {...motionProps}>{createView}</motion.div>;
+    return createView;
   }
   if (mode === "detail" && selectedOrder) {
-    return <motion.div {...motionProps}>{detailView}</motion.div>;
+    return detailView;
   }
-  return <motion.div {...motionProps}>{listView}</motion.div>;
+  return listView;
 }
 
 

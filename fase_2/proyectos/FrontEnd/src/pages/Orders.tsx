@@ -1,5 +1,8 @@
 ﻿
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import * as pdfMake from "pdfmake/build/pdfmake";
+import * as pdfMakeFonts from "pdfmake/build/vfs_fonts";
+import type { Content, TableCell, TableLayout, TDocumentDefinitions } from "pdfmake/interfaces";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
 import {
   ordersApi,
@@ -20,6 +23,16 @@ type OrderFormLine = {
   id: string;
   productId: string;
   quantity: number;
+};
+
+type PdfDocumentFactory = (documentDefinition: TDocumentDefinitions) => { download: (fileName?: string) => void };
+
+type PdfMakeInstance = {
+  createPdf: PdfDocumentFactory;
+  default?: PdfMakeInstance;
+  addVirtualFileSystem?: (vfs: Record<string, string>) => void;
+  vfs?: Record<string, string>;
+  fonts?: Record<string, unknown>;
 };
 
 const buildTempId = () =>
@@ -73,6 +86,352 @@ const stringLowerIncludes = (haystack: string, needle: string) =>
   haystack.toLowerCase().includes(needle.toLowerCase());
 
 const formatOrderCode = (index: number, total: number) => `OC-${String(total - index).padStart(3, "0")}`;
+
+const pdfMakeRuntime: PdfMakeInstance =
+  (pdfMake as unknown as PdfMakeInstance).default ?? (pdfMake as unknown as PdfMakeInstance);
+
+const pdfVfs =
+  (pdfMakeFonts as unknown as { pdfMake?: { vfs?: Record<string, string> } }).pdfMake?.vfs ??
+  (pdfMakeFonts as unknown as { vfs?: Record<string, string> }).vfs ??
+  pdfMakeRuntime.vfs;
+
+if (typeof pdfMakeRuntime.addVirtualFileSystem === "function" && pdfVfs) {
+  pdfMakeRuntime.addVirtualFileSystem(pdfVfs);
+} else if (pdfVfs) {
+  pdfMakeRuntime.vfs = pdfVfs;
+}
+
+pdfMakeRuntime.fonts = pdfMakeRuntime.fonts ?? {
+  Roboto: {
+    normal: "Roboto-Regular.ttf",
+    bold: "Roboto-Medium.ttf",
+    italics: "Roboto-Italic.ttf",
+    bolditalics: "Roboto-MediumItalic.ttf",
+  },
+};
+
+const ORDER_PDF_COLORS = {
+  primary: "#1d4ed8",
+  dark: "#0f172a",
+  text: "#0f172a",
+  muted: "#475569",
+  border: "#cbd5f5",
+  background: "#f8fafc",
+};
+
+const shortId = (id: string) => id.slice(0, 8).toUpperCase();
+
+const buildBoletaDefinition = (order: OrderSnapshot): TDocumentDefinitions => {
+  const emissionDate = formatDateCL(order.createdAt);
+  const clientName = order.clientName ?? "Cliente no informado";
+  const clientRut = formatRut(order.clientRut ?? null);
+  const docFolio = `BL-${shortId(order.id)}`;
+
+  const linesBody: TableCell[][] = [];
+  linesBody.push([
+    { text: "CODIGO", style: "boletaHeader" },
+    { text: "DESCRIPCION", style: "boletaHeader" },
+    { text: "VALOR", style: "boletaHeader", alignment: "right" },
+    { text: "DESC.", style: "boletaHeader", alignment: "right" },
+  ]);
+  linesBody.push([
+    { text: "CANTIDAD UNIDAD X PRECIO", colSpan: 4, style: "boletaSubHeader", alignment: "center" },
+    { text: "", style: "boletaSubHeader" },
+    { text: "", style: "boletaSubHeader" },
+    { text: "", style: "boletaSubHeader" },
+  ]);
+  order.items.forEach((item, index) => {
+    linesBody.push([
+      { text: String(index + 1).padStart(4, "0"), style: "boletaCell" },
+      { text: `${item.productName}${item.productSku ? `\n${item.productSku}` : ""}`, style: "boletaCell" },
+      { text: formatCurrencyCLP(item.unitPrice), style: "boletaCell", alignment: "right" },
+      { text: "-", style: "boletaCell", alignment: "right" },
+    ]);
+  });
+
+  return {
+    info: { title: `BOLETA ELECTRONICA ${docFolio}`, author: "InventPro" },
+    pageSize: "A4",
+    pageMargins: [36, 36, 36, 54],
+    defaultStyle: { font: "Roboto", fontSize: 10, color: "#111827" },
+    content: [
+      {
+        stack: [
+          { text: "InventPro SpA", style: "boletaTitle" },
+          { text: "RUT: 76.543.210-9", style: "boletaMeta" },
+          { text: "DIRECCION: Av. Apoquindo 1234, Las Condes, Santiago", style: "boletaMeta" },
+          { text: "GIRO: Servicios de software e inventarios", style: "boletaMeta" },
+          { text: "TELEFONO: +56 2 2345 6789", style: "boletaMeta" },
+        ],
+        margin: [0, 0, 0, 12],
+      },
+      {
+        stack: [
+          { text: "BOLETA ELECTRONICA", style: "boletaDocTitle" },
+          { text: docFolio, style: "boletaDocTitle" },
+          { text: "S.I.I. SANTIAGO", style: "boletaMeta" },
+          { text: `FECHA EMISION: ${emissionDate}`, style: "boletaMeta" },
+        ],
+        alignment: "center",
+        margin: [0, 0, 0, 16],
+      },
+      {
+        stack: [
+          { text: "Receptor", style: "boletaSection" },
+          { text: `Nombre: ${clientName}`, style: "boletaMeta" },
+          { text: `RUT: ${clientRut}`, style: "boletaMeta" },
+          { text: `Medio de Pago: Efectivo`, style: "boletaMeta" },
+        ],
+        margin: [0, 0, 0, 12],
+      },
+      { text: "-----------------------------------------------------------------", style: "boletaSeparator" },
+      {
+        table: {
+          headerRows: 2,
+          widths: ["auto", "*", "auto", "auto"],
+          body: linesBody,
+        },
+        layout: {
+          hLineWidth: () => 0,
+          vLineWidth: () => 0,
+          paddingLeft: () => 2,
+          paddingRight: () => 2,
+          paddingTop: () => 4,
+          paddingBottom: () => 4,
+        },
+        margin: [0, 6, 0, 6],
+      },
+      { text: "-----------------------------------------------------------------", style: "boletaSeparator" },
+      {
+        columns: [
+          { width: "*", text: "" },
+          {
+            width: "auto",
+            table: {
+              widths: ["auto", "auto"],
+              body: [
+                [{ text: "SUB TOTAL", style: "boletaTotalsLabel" }, { text: formatCurrencyCLP(order.subtotal), style: "boletaTotalsValue" }],
+                [{ text: "IVA 19%", style: "boletaTotalsLabel" }, { text: formatCurrencyCLP(order.iva), style: "boletaTotalsValue" }],
+                [{ text: "TOTAL", style: "boletaTotalsStrong" }, { text: formatCurrencyCLP(order.totalWithTax), style: "boletaTotalsStrong" }],
+              ],
+            },
+            layout: "noBorders",
+          },
+        ],
+        margin: [0, 8, 0, 12],
+      },
+      { text: "-----------------------------------------------------------------", style: "boletaSeparator" },
+      {
+        stack: [
+          {
+            canvas: [
+              { type: "rect", x: 0, y: 0, w: 300, h: 70, color: "#0f172a20" },
+              { type: "line", x1: 0, y1: 35, x2: 300, y2: 35, lineWidth: 0.5, lineColor: "#0f172a40" },
+            ],
+            margin: [0, 8, 0, 4],
+          },
+          { text: "Timbre Electronico SII", style: "boletaMeta", alignment: "center" },
+        ],
+        alignment: "center",
+      },
+    ],
+    styles: {
+      boletaTitle: { fontSize: 12, bold: true },
+      boletaMeta: { fontSize: 9 },
+      boletaDocTitle: { fontSize: 12, bold: true, margin: [0, 1, 0, 1] },
+      boletaSection: { fontSize: 10, bold: true, margin: [0, 4, 0, 2] },
+      boletaHeader: { fontSize: 9, bold: true, margin: [0, 2, 0, 2] },
+      boletaSubHeader: { fontSize: 8, italics: true, margin: [0, 0, 0, 2] },
+      boletaCell: { fontSize: 9, margin: [0, 2, 0, 2] },
+      boletaSeparator: { fontSize: 10, alignment: "center", margin: [0, 4, 0, 4] },
+      boletaTotalsLabel: { fontSize: 9 },
+      boletaTotalsValue: { fontSize: 9, alignment: "right" },
+      boletaTotalsStrong: { fontSize: 10, bold: true, alignment: "right" },
+    },
+  };
+};
+
+const buildOrderPdfDefinition = (order: OrderSnapshot, docType: "boleta" | "factura"): TDocumentDefinitions => {
+  if (docType === "boleta") {
+    return buildBoletaDefinition(order);
+  }
+  const docLabel = "FACTURA ELECTRONICA";
+  const emissionDate = formatDateCL(order.createdAt);
+  const clientName = order.clientName ?? "Cliente no informado";
+  const clientRut = formatRut(order.clientRut ?? null);
+  const docFolio = `FC-${shortId(order.id)}`;
+
+  const itemsBody: TableCell[][] = [];
+  itemsBody.push([
+    { text: "Item", style: "tableHeader", alignment: "center" },
+    { text: "Codigo", style: "tableHeader", alignment: "center" },
+    { text: "Detalle", style: "tableHeader", alignment: "left" },
+    { text: "Cantidad", style: "tableHeader", alignment: "center" },
+    { text: "P. Unitario", style: "tableHeader", alignment: "right" },
+    { text: "Descuento", style: "tableHeader", alignment: "right" },
+    { text: "Total", style: "tableHeader", alignment: "right" },
+  ]);
+  order.items.forEach((item, index) => {
+    itemsBody.push([
+      { text: String(index + 1), style: "cellSmall", alignment: "center" },
+      { text: item.productSku ?? item.productId ?? "-", style: "cellText", alignment: "center" },
+      { text: item.productName, style: "cellText" },
+      { text: String(item.quantity), style: "cellText", alignment: "center" },
+      { text: formatCurrencyCLP(item.unitPrice), style: "cellText", alignment: "right" },
+      { text: "-", style: "cellText", alignment: "right" },
+      { text: formatCurrencyCLP(item.lineTotal), style: "cellTextBold", alignment: "right" },
+    ]);
+  });
+
+  const itemsLayout: TableLayout = {
+    fillColor: (rowIndex: number) => {
+      if (rowIndex === 0) return ORDER_PDF_COLORS.primary;
+      return rowIndex % 2 === 0 ? "#eef2ff" : null;
+    },
+    hLineColor: () => ORDER_PDF_COLORS.border,
+    vLineColor: () => ORDER_PDF_COLORS.border,
+    hLineWidth: (rowIndex: number) => (rowIndex === 0 ? 0 : 0.5),
+    vLineWidth: () => 0.5,
+  };
+
+  const headerSection: Content = {
+    columns: [
+      {
+        width: "*",
+        stack: [
+          { text: "INVENT PRO SpA", style: "companyName" },
+          { text: "Desarrollo de software y gestion de inventarios", style: "companyMeta" },
+          { text: "Av. Apoquindo 1234, Las Condes, Santiago", style: "companyMeta" },
+          { text: "contacto@inventpro.cl | +56 2 2345 6789", style: "companyMeta" },
+        ],
+      },
+      {
+        width: "auto",
+        table: {
+          widths: ["auto"],
+          body: [
+            [{ text: "R.U.T.: 76.543.210-9", style: "invoiceBox", fillColor: "#dc2626", color: "#ffffff" }],
+            [{ text: docLabel, style: "invoiceBox", fillColor: "#dc2626", color: "#ffffff" }],
+            [{ text: docFolio, style: "invoiceBox", fillColor: "#dc2626", color: "#ffffff" }],
+            [{ text: "S.I.I. SANTIAGO CENTRO", style: "invoiceBox", fillColor: "#dc2626", color: "#ffffff" }],
+          ],
+        },
+        layout: "noBorders",
+      },
+    ],
+    margin: [0, 0, 0, 12],
+  };
+
+  const receptorSection: Content = {
+    table: {
+      widths: ["auto", "*"],
+      body: [
+        [{ text: "Señor(es)", style: "metaLabel" }, { text: clientName, style: "metaValue" }],
+        [{ text: "R.U.T.", style: "metaLabel" }, { text: clientRut, style: "metaValue" }],
+        [{ text: "Direccion", style: "metaLabel" }, { text: order.clientId ? "Cliente registrado" : "No informada", style: "metaValue" }],
+        [{ text: "Comuna", style: "metaLabel" }, { text: "Santiago", style: "metaValue" }],
+        [{ text: "Ciudad", style: "metaLabel" }, { text: "Santiago", style: "metaValue" }],
+        [{ text: "Fecha emision", style: "metaLabel" }, { text: emissionDate, style: "metaValue" }],
+        [{ text: "Referencia", style: "metaLabel" }, { text: `Orden ${order.id}`, style: "metaValue" }],
+      ],
+    },
+    layout: "noBorders",
+    margin: [0, 4, 0, 12],
+  };
+
+  const totalsTable: Content = {
+    table: {
+      widths: ["auto", "auto"],
+      body: [
+        [{ text: "SUBTOTAL", style: "totalLabel" }, { text: formatCurrencyCLP(order.subtotal), style: "grandTotal" }],
+        [{ text: "IVA 19%", style: "totalLabel" }, { text: formatCurrencyCLP(order.iva), style: "grandTotal" }],
+        [{ text: "TOTAL", style: "totalLabel" }, { text: formatCurrencyCLP(order.totalWithTax), style: "grandTotal" }],
+      ],
+    },
+    layout: "lightHorizontalLines",
+    margin: [0, 8, 0, 12],
+  };
+
+  const receiptSection: Content = {
+    columns: [
+      {
+        width: "auto",
+        table: {
+          body: [
+            [{ text: "ACUSE DE RECIBO", style: "sectionTitle", alignment: "center" }],
+            [{ text: "NOMBRE : ____________________", style: "metaValue" }],
+            [{ text: "R.U.T. : ____________________", style: "metaValue" }],
+            [{ text: "FECHA : ____________________", style: "metaValue" }],
+            [{ text: "FIRMA : ____________________", style: "metaValue" }],
+          ],
+        },
+        layout: "noBorders",
+      },
+      {
+        width: "auto",
+        table: {
+          widths: ["auto", "auto"],
+          body: [
+            [{ text: "EXENTO", style: "metaLabel" }, { text: formatCurrencyCLP(0), style: "metaValue", alignment: "right" }],
+            [{ text: "TOTAL", style: "metaLabel" }, { text: formatCurrencyCLP(order.totalWithTax), style: "metaValue", alignment: "right" }],
+          ],
+        },
+        layout: "lightHorizontalLines",
+      },
+      {
+        width: "*",
+        stack: [
+          {
+            canvas: [
+              { type: "rect", x: 0, y: 0, w: 220, h: 60, color: "#dc2626" },
+              { type: "line", x1: 0, y1: 30, x2: 220, y2: 30, lineWidth: 0.5, lineColor: "#ffffff" },
+            ],
+            margin: [0, 0, 0, 4],
+          },
+          { text: "Timbre Electronico SII", style: "metaValue", alignment: "center", color: "#dc2626" },
+        ],
+      },
+    ],
+    columnGap: 12,
+    margin: [0, 12, 0, 0],
+  };
+
+  return {
+    info: { title: `${docLabel} ${docFolio}`, author: "InventPro" },
+    pageMargins: [36, 50, 36, 60],
+    defaultStyle: { font: "Roboto", color: ORDER_PDF_COLORS.text },
+    content: [
+      headerSection,
+      receptorSection,
+      {
+        table: {
+          headerRows: 1,
+          widths: ["auto", "auto", "*", "auto", "auto", "auto", "auto"],
+          body: itemsBody,
+        },
+        layout: itemsLayout,
+      },
+      totalsTable,
+      receiptSection,
+    ],
+    styles: {
+      companyName: { fontSize: 12, bold: true, color: ORDER_PDF_COLORS.dark },
+      companyMeta: { fontSize: 9, color: ORDER_PDF_COLORS.muted },
+      invoiceBox: { fontSize: 10, bold: true, color: ORDER_PDF_COLORS.dark, margin: [0, 2, 0, 2], alignment: "center" },
+      metaLabel: { fontSize: 9, bold: true, color: ORDER_PDF_COLORS.dark, margin: [0, 2, 6, 2] },
+      metaValue: { fontSize: 9, color: ORDER_PDF_COLORS.text, margin: [0, 2, 0, 2] },
+      sectionTitle: { fontSize: 10, bold: true, color: ORDER_PDF_COLORS.dark, margin: [0, 0, 0, 6] },
+      tableHeader: { fontSize: 9, bold: true, color: "#ffffff", margin: [0, 5, 0, 5] },
+      cellText: { fontSize: 9, color: ORDER_PDF_COLORS.text, margin: [0, 4, 0, 4] },
+      cellTextBold: { fontSize: 9, bold: true, color: ORDER_PDF_COLORS.text, margin: [0, 4, 0, 4] },
+      cellSmall: { fontSize: 8, color: ORDER_PDF_COLORS.text, margin: [0, 4, 0, 4] },
+      totalLabel: { fontSize: 10, bold: true, color: ORDER_PDF_COLORS.dark },
+      totalValue: { fontSize: 10, color: ORDER_PDF_COLORS.text, alignment: "right" },
+      grandTotal: { fontSize: 12, bold: true, color: ORDER_PDF_COLORS.dark, alignment: "right" },
+      legalList: { fontSize: 9, color: ORDER_PDF_COLORS.text, margin: [0, 6, 0, 0] },
+    },
+  };
+};
 
 export default function OrdersPage() {
   const [mode, setMode] = useState<ViewMode>("list");
@@ -462,6 +821,21 @@ export default function OrdersPage() {
     );
   };
 
+  const handleDownloadPdf = useCallback(
+    async (docType: "boleta" | "factura") => {
+      if (!selectedOrder) return;
+      try {
+        const docDefinition = buildOrderPdfDefinition(selectedOrder, docType);
+        const fileName = `${docType}-orden-${shortId(selectedOrder.id)}.pdf`;
+        pdfMakeRuntime.createPdf(docDefinition).download(fileName);
+      } catch (err) {
+        const message = extractErrorMessage(err, "No se pudo generar el PDF tributario.");
+        await showError({ title: "Error al generar PDF", text: message });
+      }
+    },
+    [selectedOrder],
+  );
+
   const listView = (
     <div className="space-y-6">
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -644,34 +1018,39 @@ export default function OrdersPage() {
   const detailView = selectedOrder && (
     <div className="space-y-6">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={() => {
               setMode("list");
               setSelectedOrder(null);
             }}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
+            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
           >
             <span aria-hidden="true">←</span>
             Volver a listado
           </button>
           <span className="text-xs text-gray-400">ID: {selectedOrder.id}</span>
         </div>
-        <div className="flex gap-2">
-          <button
-            type="button"
-            onClick={() => {
-              resetForm();
-              ensureCatalogLoaded().catch(() => {});
-              setMode("create");
-            }}
-            className="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50"
-          >
-            Generar nueva orden
-          </button>
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => handleDownloadPdf("boleta")}
+              className="inline-flex items-center gap-2 rounded-lg border border-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50"
+            >
+              Boleta PDF
+            </button>
+            <button
+              type="button"
+              onClick={() => handleDownloadPdf("factura")}
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+            >
+              Factura PDF
+            </button>
+          </div>
           {allowedStatusTransitions[selectedOrder.status].length > 0 && (
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 shadow-sm">
               <select
                 value={statusDraft}
                 onChange={(event) => setStatusDraft(event.target.value)}
@@ -688,12 +1067,23 @@ export default function OrdersPage() {
                 type="button"
                 disabled={statusUpdatingId === selectedOrder.id || statusDraft === selectedOrder.status}
                 onClick={() => handleStatusUpdate()}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow disabled:opacity-60"
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow disabled:opacity-60"
               >
-                {statusUpdatingId === selectedOrder.id ? "Actualizando..." : "Guardar estado"}
+                {statusUpdatingId === selectedOrder.id ? "Guardando..." : "Guardar estado"}
               </button>
             </div>
           )}
+          <button
+            type="button"
+            onClick={() => {
+              resetForm();
+              ensureCatalogLoaded().catch(() => {});
+              setMode("create");
+            }}
+            className="inline-flex items-center gap-2 rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-blue-50"
+          >
+            Generar nueva orden
+          </button>
         </div>
       </div>
 
@@ -705,7 +1095,7 @@ export default function OrdersPage() {
             <div>
               <h2 className="text-xl font-semibold text-gray-900">Detalle de la orden</h2>
               <p className="text-sm text-gray-500">
-                Fecha de emision: {formatDateCL(selectedOrder.createdAt)} · Documento tributario sujeto a IVA del 19%.
+                Fecha de emision: {formatDateCL(selectedOrder.createdAt)} ? Documento tributario sujeto a IVA del 19%.
               </p>
             </div>
             {renderStatusBadge(selectedOrder.status)}
@@ -863,7 +1253,7 @@ export default function OrdersPage() {
                 <option value="">Selecciona un cliente</option>
                 {clients.map((client) => (
                   <option key={client.id} value={client.id}>
-                    {client.name} · RUT {client.rut}
+                    {client.name} ? RUT {client.rut}
                   </option>
                 ))}
               </select>
@@ -920,7 +1310,7 @@ export default function OrdersPage() {
                   <option value="">Selecciona un producto</option>
                   {products.map((product) => (
                     <option key={product.id} value={String(product.id)}>
-                      {product.nombre} · Stock {product.stock} · {formatCurrencyCLP(Number(product.precio ?? 0))}
+                      {product.nombre} ? Stock {product.stock} ? {formatCurrencyCLP(Number(product.precio ?? 0))}
                     </option>
                   ))}
                 </select>
@@ -1005,3 +1395,5 @@ export default function OrdersPage() {
   }
   return listView;
 }
+
+

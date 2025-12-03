@@ -25,6 +25,12 @@ type OrderFormLine = {
   quantity: number;
 };
 
+type ClientInfo = {
+  name: string | null;
+  rut: string | null;
+  address?: string | null;
+};
+
 type PdfDocumentFactory = (documentDefinition: TDocumentDefinitions) => { download: (fileName?: string) => void };
 
 type PdfMakeInstance = {
@@ -121,10 +127,10 @@ const ORDER_PDF_COLORS = {
 
 const shortId = (id: string) => id.slice(0, 8).toUpperCase();
 
-const buildBoletaDefinition = (order: OrderSnapshot): TDocumentDefinitions => {
+const buildBoletaDefinition = (order: OrderSnapshot, clientInfo: ClientInfo): TDocumentDefinitions => {
   const emissionDate = formatDateCL(order.createdAt);
-  const clientName = order.clientName ?? "Cliente no informado";
-  const clientRut = formatRut(order.clientRut ?? null);
+  const clientName = clientInfo.name ?? "Cliente no informado";
+  const clientRut = formatRut(clientInfo.rut ?? null);
   const docFolio = `BL-${shortId(order.id)}`;
 
   const linesBody: TableCell[][] = [];
@@ -251,14 +257,18 @@ const buildBoletaDefinition = (order: OrderSnapshot): TDocumentDefinitions => {
   };
 };
 
-const buildOrderPdfDefinition = (order: OrderSnapshot, docType: "boleta" | "factura"): TDocumentDefinitions => {
+const buildOrderPdfDefinition = (
+  order: OrderSnapshot,
+  docType: "boleta" | "factura",
+  clientInfo: ClientInfo,
+): TDocumentDefinitions => {
   if (docType === "boleta") {
-    return buildBoletaDefinition(order);
+    return buildBoletaDefinition(order, clientInfo);
   }
   const docLabel = "FACTURA ELECTRONICA";
   const emissionDate = formatDateCL(order.createdAt);
-  const clientName = order.clientName ?? "Cliente no informado";
-  const clientRut = formatRut(order.clientRut ?? null);
+  const clientName = clientInfo.name ?? "Cliente no informado";
+  const clientRut = formatRut(clientInfo.rut ?? null);
   const docFolio = `FC-${shortId(order.id)}`;
 
   const itemsBody: TableCell[][] = [];
@@ -328,7 +338,7 @@ const buildOrderPdfDefinition = (order: OrderSnapshot, docType: "boleta" | "fact
       body: [
         [{ text: "Señor(es)", style: "metaLabel" }, { text: clientName, style: "metaValue" }],
         [{ text: "R.U.T.", style: "metaLabel" }, { text: clientRut, style: "metaValue" }],
-        [{ text: "Direccion", style: "metaLabel" }, { text: order.clientId ? "Cliente registrado" : "No informada", style: "metaValue" }],
+        [{ text: "Direccion", style: "metaLabel" }, { text: clientInfo.address ?? (order.clientId ? "Cliente registrado" : "No informada"), style: "metaValue" }],
         [{ text: "Comuna", style: "metaLabel" }, { text: "Santiago", style: "metaValue" }],
         [{ text: "Ciudad", style: "metaLabel" }, { text: "Santiago", style: "metaValue" }],
         [{ text: "Fecha emision", style: "metaLabel" }, { text: emissionDate, style: "metaValue" }],
@@ -591,6 +601,7 @@ export default function OrdersPage() {
       return {
         name: order.clientName ?? fallbackClient?.name ?? null,
         rut: order.clientRut ?? fallbackClient?.rut ?? null,
+        address: fallbackClient?.address ?? null,
       };
     },
     [clientIndex],
@@ -824,8 +835,9 @@ export default function OrdersPage() {
   const handleDownloadPdf = useCallback(
     async (docType: "boleta" | "factura") => {
       if (!selectedOrder) return;
+      const clientInfo = resolveOrderClientInfo(selectedOrder) ?? { name: null, rut: null, address: null };
       try {
-        const docDefinition = buildOrderPdfDefinition(selectedOrder, docType);
+        const docDefinition = buildOrderPdfDefinition(selectedOrder, docType, clientInfo);
         const fileName = `${docType}-orden-${shortId(selectedOrder.id)}.pdf`;
         pdfMakeRuntime.createPdf(docDefinition).download(fileName);
       } catch (err) {
@@ -833,7 +845,7 @@ export default function OrdersPage() {
         await showError({ title: "Error al generar PDF", text: message });
       }
     },
-    [selectedOrder],
+    [resolveOrderClientInfo, selectedOrder],
   );
 
   const listView = (
@@ -1095,7 +1107,7 @@ export default function OrdersPage() {
             <div>
               <h2 className="text-xl font-semibold text-gray-900">Detalle de la orden</h2>
               <p className="text-sm text-gray-500">
-                Fecha de emision: {formatDateCL(selectedOrder.createdAt)} ? Documento tributario sujeto a IVA del 19%.
+                Fecha de emision: {formatDateCL(selectedOrder.createdAt)} · Documento tributario sujeto a IVA del 19%.
               </p>
             </div>
             {renderStatusBadge(selectedOrder.status)}

@@ -49,6 +49,25 @@ const roleStyles: Record<Role, { className: string }> = {
   user: { className: "bg-slate-100 text-slate-700" },
 };
 
+const AVATAR_COLORS = ["#2563eb", "#0ea5e9", "#22c55e", "#f59e0b", "#6366f1", "#10b981", "#f43f5e", "#a855f7"];
+
+const getAvatarColor = (name: string) => {
+  if (!name) return "#94a3b8";
+  const hash = name.trim().split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return AVATAR_COLORS[hash % AVATAR_COLORS.length];
+};
+
+export const getInitials = (nombreCompleto: string): string => {
+  const parts = nombreCompleto
+    .split(/\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  if (parts.length === 0) return "??";
+  const first = parts[0]?.[0] ?? "";
+  const last = (parts[parts.length - 1] ?? parts[0])?.[0] ?? "";
+  return `${first}${last}`.toUpperCase();
+};
+
 const formatDate = (value?: string | null) => {
   if (!value) return "Sin registro";
   const date = new Date(value);
@@ -244,9 +263,18 @@ export default function UsersPage() {
       key: "name",
       header: "Nombre",
       render: (user) => (
-        <div>
-          <p className="font-semibold text-gray-900">{user.name}</p>
-          <p className="text-xs text-gray-500">@{user.username}</p>
+        <div className="flex items-center gap-3">
+          <span
+            className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold text-white"
+            style={{ backgroundColor: getAvatarColor(user.name) }}
+            aria-hidden="true"
+          >
+            {getInitials(user.name)}
+          </span>
+          <div>
+            <p className="font-semibold text-gray-900">{user.name}</p>
+            <p className="text-xs text-gray-500">@{user.username}</p>
+          </div>
         </div>
       ),
     },

@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { AnimatePresence, easeOut, motion } from "framer-motion";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
 import { useAuthStore, type Role } from "../store/auth";
 import NotificationBell from "./NotificationBell";
@@ -355,7 +356,17 @@ const Layout = () => {
         </header>
 
         <main className="flex-1 overflow-y-auto p-4 md:p-6">
-          <Outlet />
+          <AnimatePresence mode="wait">
+            <motion.main
+              key={location.pathname}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25, ease: easeOut }}
+            >
+              <Outlet />
+            </motion.main>
+          </AnimatePresence>
         </main>
       </div>
     </div>

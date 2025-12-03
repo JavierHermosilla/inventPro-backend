@@ -1,5 +1,6 @@
 ﻿
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { easeOut, motion } from "framer-motion";
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfMakeFonts from "pdfmake/build/vfs_fonts";
 import type { Content, TableCell, TableLayout, TDocumentDefinitions } from "pdfmake/interfaces";
@@ -81,6 +82,20 @@ const statusToneClasses: Record<
   success: "border border-emerald-200 bg-emerald-50 text-emerald-700",
   danger: "border border-red-200 bg-red-50 text-red-600",
 };
+
+const skeletonStyles = `
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-cell {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(90deg, #e5e7eb 0%, #f3f4f6 50%, #e5e7eb 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.3s linear infinite;
+}
+`;
 
 const createEmptyLine = (): OrderFormLine => ({
   id: buildTempId(),
@@ -624,6 +639,14 @@ export default function OrdersPage() {
     });
   }, [enrichedOrders, searchTerm, statusFilter, resolveOrderClientInfo]);
 
+  const statusFilterPills: Array<{ value: OrderSnapshot["status"] | "all"; label: string }> = [
+    { value: "all", label: "Todos" },
+    { value: "pending", label: "Pendientes" },
+    { value: "processing", label: "En proceso" },
+    { value: "completed", label: "Completadas" },
+    { value: "cancelled", label: "Anuladas" },
+  ];
+
   const stats = useMemo(() => {
     return orders.reduce(
       (acc, item) => {
@@ -849,7 +872,9 @@ export default function OrdersPage() {
   );
 
   const listView = (
-    <div className="space-y-6">
+    <>
+      <style>{skeletonStyles}</style>
+      <div className="space-y-6">
       <header className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">Ordenes de compra y venta</h1>
@@ -863,7 +888,7 @@ export default function OrdersPage() {
             resetForm();
             setMode("create");
           }}
-          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition-all duration-150 hover:bg-blue-700 hover:shadow-md active:scale-95"
         >
           <span className="text-lg leading-none">+</span>
           Crear orden
@@ -935,11 +960,32 @@ export default function OrdersPage() {
                 setStatusFilter("all");
                 loadOrders().catch(() => {});
               }}
-              className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
+              className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 transition duration-150 hover:bg-gray-100 active:scale-[0.98]"
             >
               Reiniciar
             </button>
           </div>
+        </div>
+
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          {statusFilterPills.map((option) => {
+            const isActive = statusFilter === option.value;
+            return (
+              <button
+                key={option.value}
+                type="button"
+                aria-pressed={isActive}
+                onClick={() => setStatusFilter(option.value)}
+                className={`rounded-full border px-4 py-2 text-sm transition ${
+                  isActive
+                    ? "border-blue-300 bg-blue-50 font-semibold text-blue-800 shadow-sm"
+                    : "border-gray-200 bg-gray-50 text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                {option.label}
+              </button>
+            );
+          })}
         </div>
 
         <div className="mt-4 overflow-x-auto">
@@ -967,54 +1013,72 @@ export default function OrdersPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100 bg-white">
-              {filteredOrders.map(({ order, code }) => {
-                const clientInfo = resolveOrderClientInfo(order);
-                return (
-                  <tr key={order.id} className="hover:bg-gray-50">
-                    <td className="whitespace-nowrap px-4 py-3 font-medium text-blue-600">
-                      <span>#{code}</span>
-                      <span className="ml-2 text-xs text-gray-400">({order.id.slice(0, 8)}...)</span>
-                    </td>
-                    <td className="px-4 py-3">
-                      <p className="font-semibold text-gray-900">{clientInfo.name ?? "Sin asignar"}</p>
-                      <p className="text-xs text-gray-500">RUT: {formatRut(clientInfo.rut)}</p>
-                    </td>
-                    <td className="px-4 py-3 text-gray-600">{formatDateCL(order.createdAt)}</td>
-                    <td className="px-4 py-3 font-semibold text-gray-900">{formatCurrencyCLP(order.totalWithTax)}</td>
-                    <td className="px-4 py-3">{renderStatusBadge(order.status)}</td>
-                    <td className="px-4 py-3 text-right">
-                      <div className="inline-flex items-center gap-3">
-                        <button
-                          type="button"
-                          onClick={() => loadOrderDetail(order.id).catch(() => {})}
-                          className="text-sm font-semibold text-blue-600 hover:text-blue-700"
-                        >
-                          Ver
-                        </button>
-                        <button
-                          type="button"
-                          disabled={deletingId === order.id}
-                          onClick={() => handleDelete(order.id)}
-                          className="text-sm font-semibold text-red-500 hover:text-red-600 disabled:opacity-60"
-                        >
-                          {deletingId === order.id ? "Eliminando..." : "Eliminar"}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+              {loadingList
+                ? Array.from({ length: 5 }).map((_, index) => (
+                    <tr key={`skeleton-${index}`} className="transition-colors duration-150">
+                      <td className="px-4 py-3">
+                        <div className="h-4 w-24 rounded skeleton-cell" />
+                        <div className="mt-2 h-3 w-20 rounded skeleton-cell" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="h-4 w-32 rounded skeleton-cell" />
+                        <div className="mt-2 h-3 w-24 rounded skeleton-cell" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="h-4 w-24 rounded skeleton-cell" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="h-4 w-24 rounded skeleton-cell" />
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="h-5 w-24 rounded-full skeleton-cell" />
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <div className="ml-auto h-4 w-20 rounded skeleton-cell" />
+                      </td>
+                    </tr>
+                  ))
+                : filteredOrders.map(({ order, code }) => {
+                    const clientInfo = resolveOrderClientInfo(order);
+                    return (
+                      <tr key={order.id} className="transition-colors duration-150 hover:bg-gray-50">
+                        <td className="whitespace-nowrap px-4 py-3 font-medium text-blue-600">
+                          <span>#{code}</span>
+                          <span className="ml-2 text-xs text-gray-400">({order.id.slice(0, 8)}...)</span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <p className="font-semibold text-gray-900">{clientInfo.name ?? "Sin asignar"}</p>
+                          <p className="text-xs text-gray-500">RUT: {formatRut(clientInfo.rut)}</p>
+                        </td>
+                        <td className="px-4 py-3 text-gray-600">{formatDateCL(order.createdAt)}</td>
+                        <td className="px-4 py-3 font-semibold text-gray-900">{formatCurrencyCLP(order.totalWithTax)}</td>
+                        <td className="px-4 py-3">{renderStatusBadge(order.status)}</td>
+                        <td className="px-4 py-3 text-right">
+                          <div className="inline-flex items-center gap-3">
+                            <button
+                              type="button"
+                              onClick={() => loadOrderDetail(order.id).catch(() => {})}
+                              className="text-sm font-semibold text-blue-600 transition-colors duration-150 hover:text-blue-700"
+                            >
+                              Ver
+                            </button>
+                            <button
+                              type="button"
+                              disabled={deletingId === order.id}
+                              onClick={() => handleDelete(order.id)}
+                              className="text-sm font-semibold text-red-500 transition-colors duration-150 hover:text-red-600 disabled:opacity-60"
+                            >
+                              {deletingId === order.id ? "Eliminando..." : "Eliminar"}
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
               {!loadingList && filteredOrders.length === 0 && (
                 <tr>
                   <td colSpan={6} className="px-4 py-6 text-center text-sm text-gray-500">
                     No se encontraron ordenes con los filtros seleccionados.
-                  </td>
-                </tr>
-              )}
-              {loadingList && (
-                <tr>
-                  <td colSpan={6} className="px-4 py-6 text-center text-sm text-gray-500">
-                    Cargando ordenes...
                   </td>
                 </tr>
               )}
@@ -1023,6 +1087,7 @@ export default function OrdersPage() {
         </div>
       </section>
     </div>
+    </>
   );
 
   const selectedOrderClientInfo = selectedOrder ? resolveOrderClientInfo(selectedOrder) : null;
@@ -1037,7 +1102,7 @@ export default function OrdersPage() {
               setMode("list");
               setSelectedOrder(null);
             }}
-            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50"
+            className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition duration-150 hover:bg-gray-50 active:scale-[0.98]"
           >
             <span aria-hidden="true">←</span>
             Volver a listado
@@ -1049,14 +1114,14 @@ export default function OrdersPage() {
             <button
               type="button"
               onClick={() => handleDownloadPdf("boleta")}
-              className="inline-flex items-center gap-2 rounded-lg border border-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50"
+              className="inline-flex items-center gap-2 rounded-lg border border-blue-100 px-4 py-2 text-sm font-semibold text-blue-700 transition-all duration-150 hover:bg-blue-50 hover:shadow-sm active:scale-95"
             >
               Boleta PDF
             </button>
             <button
               type="button"
               onClick={() => handleDownloadPdf("factura")}
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow transition-all duration-150 hover:bg-blue-700 hover:shadow-md active:scale-95"
             >
               Factura PDF
             </button>
@@ -1079,7 +1144,7 @@ export default function OrdersPage() {
                 type="button"
                 disabled={statusUpdatingId === selectedOrder.id || statusDraft === selectedOrder.status}
                 onClick={() => handleStatusUpdate()}
-                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow disabled:opacity-60"
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow transition-all duration-150 hover:shadow-md active:scale-95 disabled:opacity-60"
               >
                 {statusUpdatingId === selectedOrder.id ? "Guardando..." : "Guardar estado"}
               </button>
@@ -1092,7 +1157,7 @@ export default function OrdersPage() {
               ensureCatalogLoaded().catch(() => {});
               setMode("create");
             }}
-            className="inline-flex items-center gap-2 rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm hover:bg-blue-50"
+            className="inline-flex items-center gap-2 rounded-lg border border-blue-200 bg-white px-4 py-2 text-sm font-medium text-blue-600 shadow-sm transition duration-150 hover:bg-blue-50 active:scale-[0.98]"
           >
             Generar nueva orden
           </button>
@@ -1164,7 +1229,7 @@ export default function OrdersPage() {
                 </thead>
                 <tbody className="divide-y divide-gray-100 bg-white">
                   {selectedOrder.items.map((item) => (
-                    <tr key={item.id ?? `${item.productId}-${item.productName}`}>
+                    <tr key={item.id ?? `${item.productId}-${item.productName}`} className="transition-colors duration-150 hover:bg-gray-50">
                       <td className="px-4 py-2">
                         <p className="font-medium text-gray-900">{item.productName}</p>
                         {item.productSku && <p className="text-xs text-gray-400">SKU: {item.productSku}</p>}
@@ -1199,7 +1264,7 @@ export default function OrdersPage() {
             setMode("list");
             resetForm();
           }}
-          className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
+          className="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 transition duration-150 hover:bg-gray-100 active:scale-[0.98]"
         >
           <span aria-hidden="true">←</span>
           Volver
@@ -1302,7 +1367,7 @@ export default function OrdersPage() {
           <button
             type="button"
             onClick={addLine}
-            className="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-sm font-medium text-blue-600 hover:bg-blue-50"
+            className="inline-flex items-center gap-2 rounded-lg border border-blue-200 px-3 py-1.5 text-sm font-medium text-blue-600 transition duration-150 hover:bg-blue-50 active:scale-[0.98]"
           >
             Agregar producto
           </button>
@@ -1346,7 +1411,7 @@ export default function OrdersPage() {
                   type="button"
                   onClick={() => removeLine(line.id)}
                   disabled={formLines.length <= 1}
-                  className="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 hover:bg-red-50 disabled:opacity-60"
+                  className="rounded-lg border border-red-200 px-3 py-2 text-sm font-medium text-red-600 transition duration-150 hover:bg-red-50 active:scale-[0.98] disabled:opacity-60"
                 >
                   {formLines.length <= 1 ? "Minimo" : "Eliminar"}
                 </button>
@@ -1384,14 +1449,14 @@ export default function OrdersPage() {
             resetForm();
             setMode("list");
           }}
-          className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
+          className="rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 transition duration-150 hover:bg-gray-100 active:scale-[0.98]"
         >
           Cancelar
         </button>
         <button
           type="submit"
           disabled={creating || catalogLoading}
-          className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-blue-700 disabled:opacity-60"
+          className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow transition-all duration-150 hover:bg-blue-700 hover:shadow-md active:scale-95 disabled:opacity-60"
         >
           {creating ? "Guardando..." : "Guardar orden"}
         </button>
@@ -1399,13 +1464,19 @@ export default function OrdersPage() {
     </form>
   );
 
+  const motionProps = {
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.25, ease: easeOut },
+  };
+
   if (mode === "create") {
-    return createView;
+    return <motion.div {...motionProps}>{createView}</motion.div>;
   }
   if (mode === "detail" && selectedOrder) {
-    return detailView;
+    return <motion.div {...motionProps}>{detailView}</motion.div>;
   }
-  return listView;
+  return <motion.div {...motionProps}>{listView}</motion.div>;
 }
 
 

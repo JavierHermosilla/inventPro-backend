@@ -57,6 +57,30 @@ type ClientListDto = {
   clients?: ClientApiRecord[] | null;
 };
 
+const isClientApiRecord = (value: unknown): value is ClientApiRecord => {
+  if (typeof value !== "object" || value === null) return false;
+  return (
+    "id" in value &&
+    "rut" in value &&
+    "name" in value &&
+    "address" in value &&
+    "phone" in value &&
+    "email" in value
+  );
+};
+
+const extractClientRecord = (
+  payload: ClientApiRecord | { client?: ClientApiRecord | null } | null | undefined,
+): ClientApiRecord | null => {
+  if (!payload) return null;
+  if (isClientApiRecord(payload)) return payload;
+  if (typeof payload === "object" && "client" in payload) {
+    const maybeClient = (payload as { client?: ClientApiRecord | null }).client;
+    return isClientApiRecord(maybeClient) ? maybeClient : null;
+  }
+  return null;
+};
+
 const normalize = (record: ClientApiRecord): ClientItem => ({
   id: record.id,
   rut: record.rut,
@@ -108,6 +132,15 @@ export const clientsApi = {
         pages: Number(metaSource.pages ?? 1),
       },
     };
+  },
+
+  async getOne(id: string): Promise<ClientItem> {
+    const response = await api.get<ClientApiRecord | { client?: ClientApiRecord | null }>(`/clients/${id}`);
+    const record = extractClientRecord(response.data);
+    if (!record) {
+      throw new Error("No se encontro el cliente solicitado.");
+    }
+    return normalize(record);
   },
 
   async create(payload: CreateClientPayload) {

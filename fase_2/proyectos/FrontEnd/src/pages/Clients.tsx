@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import DataTable, { type Column } from "../components/DataTable";
 import { clientsApi, type ClientItem } from "../lib/clientsApi";
 import { confirmAction, showError, showSuccess } from "../lib/alerts";
+import { useAuthStore } from "../store/auth";
 
 const formatDate = (value?: string | null) => {
   if (!value) return "Sin registro";
@@ -46,6 +47,8 @@ export default function ClientsPage() {
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const userRole = useAuthStore((state) => state.user?.role);
+  const isAdmin = userRole === "admin";
 
   const fetchClients = useCallback(async (search?: string) => {
     setLoading(true);
@@ -142,7 +145,14 @@ export default function ClientsPage() {
         header: "Acciones",
         render: (row) => (
           <div className="flex gap-2">
-            <span className="cursor-not-allowed text-blue-600 text-xs">Editar</span>
+            {isAdmin && (
+              <Link
+                to={`/clients/${row.id}/edit`}
+                className="rounded-lg border border-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 hover:bg-blue-50"
+              >
+                Editar
+              </Link>
+            )}
             <button
               type="button"
               onClick={() => handleDelete(row)}
@@ -155,7 +165,7 @@ export default function ClientsPage() {
         ),
       },
     ],
-    [deletingId]
+    [deletingId, isAdmin]
   );
 
   const total = clients.length;

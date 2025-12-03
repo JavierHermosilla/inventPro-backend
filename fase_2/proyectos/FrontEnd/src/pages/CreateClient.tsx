@@ -1,5 +1,5 @@
-import { useCallback, useState, type FormEvent } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import { clientsApi, type CreateClientPayload } from "../lib/clientsApi";
 import { confirmAction, showError, showSuccess, showWarning } from "../lib/alerts";
 
@@ -83,17 +83,53 @@ const extractErrorMessage = (err: unknown, fallback: string): string => {
 
 export default function CreateClientPage() {
   const navigate = useNavigate();
+  const { clientId } = useParams<{ clientId?: string }>();
+  const isEditMode = Boolean(clientId);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoadingClient, setIsLoadingClient] = useState(false);
 
   const updateFormField = useCallback(<K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((prev) => ({ ...prev, [key]: value }));
   }, []);
 
+  useEffect(() => {
+    if (!clientId) {
+      setForm({ ...EMPTY_FORM });
+      setFormError(null);
+      return;
+    }
+
+    const loadClient = async () => {
+      setIsLoadingClient(true);
+      setFormError(null);
+      try {
+        const client = await clientsApi.getOne(clientId);
+        setForm({
+          rut: client.rut ?? "",
+          name: client.name ?? "",
+          email: client.email ?? "",
+          phone: client.phone ?? "",
+          address: client.address ?? "",
+          avatar: client.avatar ?? "",
+        });
+      } catch (err) {
+        const message = extractErrorMessage(err, "No se pudo cargar el cliente.");
+        setFormError(message);
+        await showError({ title: "Error al cargar cliente", text: message });
+      } finally {
+        setIsLoadingClient(false);
+      }
+    };
+
+    loadClient().catch(() => {});
+  }, [clientId]);
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError(null);
+    if (isEditMode && isLoadingClient) return;
 
     const normalizedRut = normalizeRut(form.rut);
     if (!normalizedRut) {
@@ -133,39 +169,62 @@ export default function CreateClientPage() {
       avatar: avatarValue.length > 0 ? avatarValue : null,
     };
 
+    const confirmTitle = isEditMode ? "Actualizar cliente?" : "Guardar cliente?";
+    const confirmText = isEditMode ? "Confirma para guardar los cambios del cliente." : "Confirma para registrar al cliente.";
+    const confirmButtonText = isEditMode ? "Guardar Cambios" : "+ Guardar Cliente";
+
     const confirmed = await confirmAction({
-      title: "Guardar cliente?",
-      text: "Confirma para registrar al cliente.",
-      confirmButtonText: "+ Guardar Cliente",
+      title: confirmTitle,
+      text: confirmText,
+      confirmButtonText,
       confirmButtonColor: "#2563eb",
     });
     if (!confirmed) return;
 
     setIsSubmitting(true);
     try {
-      await clientsApi.create(payload);
-      await showSuccess({ title: "Cliente creado", text: `${payload.name} se registro correctamente.` });
+      if (isEditMode && clientId) {
+        await clientsApi.update(clientId, payload);
+        await showSuccess({ title: "Cliente actualizado", text: `${payload.name} se actualizo correctamente.` });
+      } else {
+        await clientsApi.create(payload);
+        await showSuccess({ title: "Cliente creado", text: `${payload.name} se registro correctamente.` });
+      }
       navigate("/clients", { replace: true });
     } catch (err) {
-      const message = extractErrorMessage(err, "No se pudo crear el cliente.");
+      const fallbackError = isEditMode ? "No se pudo actualizar el cliente." : "No se pudo crear el cliente.";
+      const message = extractErrorMessage(err, fallbackError);
       setFormError(message);
-      await showError({ title: "Error al crear cliente", text: message });
+      await showError({ title: isEditMode ? "Error al actualizar cliente" : "Error al crear cliente", text: message });
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const pageTitle = isEditMode ? "Editar Cliente" : "Crear Cliente";
+  const pageDescription = isEditMode
+    ? "Actualiza la informacion del cliente seleccionado."
+    : "Completa el formulario para registrar un nuevo cliente en el sistema.";
+  const submitLabel = isEditMode ? "Guardar Cambios" : "+ Guardar Cliente";
+  const submitLoadingLabel = isEditMode ? "Actualizando..." : "Guardando...";
+  const submitDisabled = isSubmitting || isLoadingClient;
+  const lockIdentityFields = isEditMode;
+
   return (
     <div className="space-y-6">
       <header>
-        <h1 className="text-3xl font-bold text-gray-900">Crear Cliente</h1>
-        <p className="text-sm text-gray-500">
-          Completa el formulario para registrar un nuevo cliente en el sistema.
-        </p>
+        <h1 className="text-3xl font-bold text-gray-900">{pageTitle}</h1>
+        <p className="text-sm text-gray-500">{pageDescription}</p>
       </header>
 
       <div className="rounded-2xl bg-white shadow p-6">
         <h2 className="text-lg font-semibold text-gray-800">Informacion del Cliente</h2>
+
+        {isEditMode && isLoadingClient && (
+          <p className="mt-3 rounded-lg border border-blue-100 bg-blue-50 px-4 py-2 text-sm text-blue-700">
+            Cargando datos del cliente...
+          </p>
+        )}
 
         <form onSubmit={handleSubmit} className="mt-4 space-y-4" noValidate>
           <div className="grid gap-4 md:grid-cols-2">
@@ -180,8 +239,12 @@ export default function CreateClientPage() {
                 placeholder="Ej: 12345678-9"
                 value={form.rut}
                 onChange={(e) => updateFormField("rut", e.target.value)}
-                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                disabled={submitDisabled || lockIdentityFields}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-gray-100"
               />
+              {lockIdentityFields && (
+                <p className="mt-1 text-xs text-gray-400">El RUT no se puede modificar en edicion.</p>
+              )}
             </div>
             <div>
               <label className="text-sm font-medium text-gray-600" htmlFor="name">
@@ -194,8 +257,12 @@ export default function CreateClientPage() {
                 placeholder="Ej: Juan Perez"
                 value={form.name}
                 onChange={(e) => updateFormField("name", e.target.value)}
-                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                disabled={submitDisabled || lockIdentityFields}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-gray-100"
               />
+              {lockIdentityFields && (
+                <p className="mt-1 text-xs text-gray-400">El nombre queda fijo al editar.</p>
+              )}
             </div>
             <div>
               <label className="text-sm font-medium text-gray-600" htmlFor="email">
@@ -208,7 +275,8 @@ export default function CreateClientPage() {
                 placeholder="ejemplo@correo.com"
                 value={form.email}
                 onChange={(e) => updateFormField("email", e.target.value)}
-                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                disabled={submitDisabled}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-gray-100"
               />
             </div>
             <div>
@@ -222,7 +290,8 @@ export default function CreateClientPage() {
                 placeholder="Ej: +56912345678"
                 value={form.phone}
                 onChange={(e) => updateFormField("phone", e.target.value)}
-                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                disabled={submitDisabled}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-gray-100"
               />
             </div>
             <div className="md:col-span-2">
@@ -236,7 +305,8 @@ export default function CreateClientPage() {
                 placeholder="Ej: Av. Las Condes 1234, Santiago"
                 value={form.address}
                 onChange={(e) => updateFormField("address", e.target.value)}
-                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                disabled={submitDisabled}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-gray-100"
               />
             </div>
             <div className="md:col-span-2">
@@ -249,7 +319,8 @@ export default function CreateClientPage() {
                 placeholder="https://..."
                 value={form.avatar}
                 onChange={(e) => updateFormField("avatar", e.target.value)}
-                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                disabled={submitDisabled}
+                className="mt-1 w-full rounded-lg border border-gray-200 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 disabled:cursor-not-allowed disabled:bg-gray-100"
               />
             </div>
           </div>
@@ -267,10 +338,10 @@ export default function CreateClientPage() {
             </Link>
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-700 disabled:opacity-70"
+              disabled={submitDisabled}
+              className="rounded-lg bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-lg transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              {isSubmitting ? "Guardando..." : "+ Guardar Cliente"}
+              {isSubmitting ? submitLoadingLabel : submitLabel}
             </button>
           </footer>
         </form>

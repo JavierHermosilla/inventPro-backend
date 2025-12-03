@@ -100,6 +100,14 @@ const App = () => {
             }
           />
           <Route
+            path="/clients/:clientId/edit"
+            element={
+              <Protected allowedRoles={["admin"]}>
+                <CreateClientPage />
+              </Protected>
+            }
+          />
+          <Route
             path="/categories"
             element={
               <Protected allowedRoles={["admin"]}>
@@ -146,4 +154,3 @@ const App = () => {
 };
 
 export default App;
-

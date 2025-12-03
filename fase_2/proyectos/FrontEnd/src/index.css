@@ -131,6 +131,30 @@ html[data-theme="dark"] ::selection {
   color: #f8fafc;
 }
 
+.data-table tbody tr {
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.data-table tbody tr:hover,
+.data-table tbody tr:focus-within {
+  background-color: #f8fafc;
+}
+
+.data-table tbody tr:hover td,
+.data-table tbody tr:focus-within td {
+  color: #0f172a;
+}
+
+html[data-theme="dark"] .data-table tbody tr:hover,
+html[data-theme="dark"] .data-table tbody tr:focus-within {
+  background-color: #111827;
+}
+
+html[data-theme="dark"] .data-table tbody tr:hover td,
+html[data-theme="dark"] .data-table tbody tr:focus-within td {
+  color: #e2e8f0;
+}
+
 /* Fallbacks: if alguna clase dark:* queda aplicada durante el modo claro, heredamos los colores base */
 body.theme-light .dark\:bg-slate-900,
 body.theme-light .dark\:bg-slate-800,
@@ -178,4 +202,3 @@ body.theme-light .dark\:text-slate-400 {
 ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 10px; }
 ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-

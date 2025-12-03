@@ -158,27 +158,27 @@ const ORDER_STATUS_META: Record<OrderStatusKey, { label: string; barClass: strin
   completed: {
     label: "Completada",
     barClass: "bg-emerald-500",
-    pillClass: "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-100",
+    pillClass: "bg-emerald-100 text-emerald-800 dark:bg-emerald-500/20 dark:text-emerald-100",
   },
   processing: {
     label: "En proceso",
     barClass: "bg-blue-500",
-    pillClass: "bg-blue-100 text-blue-700 dark:bg-blue-500/20 dark:text-blue-100",
+    pillClass: "bg-blue-100 text-blue-800 dark:bg-blue-500/20 dark:text-blue-100",
   },
   pending: {
     label: "Pendiente",
     barClass: "bg-amber-500",
-    pillClass: "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-100",
+    pillClass: "bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-100",
   },
   cancelled: {
     label: "Cancelada",
     barClass: "bg-rose-500",
-    pillClass: "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-100",
+    pillClass: "bg-rose-100 text-rose-800 dark:bg-rose-500/20 dark:text-rose-100",
   },
   other: {
     label: "Otras",
     barClass: "bg-slate-400",
-    pillClass: "bg-slate-200 text-slate-700 dark:bg-slate-600/40 dark:text-slate-100",
+    pillClass: "bg-slate-200 text-slate-800 dark:bg-slate-600/40 dark:text-slate-100",
   },
 };
 

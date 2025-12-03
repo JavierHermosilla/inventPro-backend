@@ -39,7 +39,7 @@ function DataTable<T extends { id?: string | number }>({
 
   return (
     <div className="bg-white rounded-xl shadow overflow-x-auto dark:bg-slate-900 dark:text-slate-100">
-      <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+      <table className="data-table min-w-full divide-y divide-gray-200 dark:divide-slate-700">
         <thead className="bg-gray-50 dark:bg-slate-800">
           <tr>
             {columns.map((column) => (

@@ -26,11 +26,13 @@ npm install
 1. Copia `.env.example` a los archivos que necesites (`.env.development`, `.env.production` o simplemente `.env`) y ajusta los valores:
 
    ```env
-   EXPO_PUBLIC_API_URL=http://10.0.2.2:3000/api
+   EXPO_PUBLIC_API_URL=http://localhost:3000/api
    EXPO_PUBLIC_USE_API_MOCKS=false
    EXPO_PUBLIC_TASKS_POLLING_MS=20000
+   EXPO_WEB_PORT=5174
    ```
 
+   - Expo web (localhost): `http://localhost:3000/api`.
    - Emulador Android: `http://10.0.2.2:3000/api`.
    - Dispositivo físico: `http://TU_IP_LOCAL:3000/api`.
    - Producción (Railway / dominio público): URL HTTPS correspondiente.
@@ -51,13 +53,13 @@ Ejecuta según plataforma:
 npm run start    # Expo CLI (QR / simuladores nativos)
 npm run android  # Emulador Android
 npm run ios      # Simulator iOS (macOS)
-npm run web      # Expo web en http://localhost:5173 (mismo origen permitido por el backend)
+npm run web      # Expo web en http://localhost:5174 (no choca con el FrontEnd Vite)
 ```
 
-> ℹ️ El backend solo acepta CORS desde `http://localhost:5173` (igual que el FrontEnd).  
-> Por eso el script `npm run web` fija ese puerto automáticamente.  
+> Nota: el backend acepta CORS desde `http://localhost:5173` (FrontEnd Vite) y `http://localhost:5174` (Expo web).  
+> El script `npm run web` fija el puerto 5174 para no colisionar con el FrontEnd.  
 > Si levantaste Expo con `expo start` y presionaste `w`, reinicia la terminal para que los `EXPO_PUBLIC_*` se apliquen o ejecuta `npm run web`.  
-> Si necesitas el FrontEnd web y la app móvil web al mismo tiempo, usa emuladores nativos para la app móvil o cambia temporalmente el puerto del FrontEnd.
+> Puedes tener FrontEnd web y Expo web a la vez: usa 5173 para Vite y 5174 para Expo (o emuladores nativos para la app movil).
 
 ## Estructura relevante
 

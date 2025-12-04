@@ -8,7 +8,7 @@
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web --port 5173",
+    "web": "expo start --web --port 5174",
     "lint": "expo lint",
     "test": "jest"
   },
